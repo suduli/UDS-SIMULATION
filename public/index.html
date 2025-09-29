@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDS Protocol Simulator - Interactive Automotive Diagnostics</title>
+    <meta name="description" content="Interactive web-based platform for testing Unified Diagnostic Services (UDS) protocol according to ISO 14229-1 standard">
+    <meta name="theme-color" content="#0a0f2e">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚗%3C/text%3E%3C/svg%3E">
+    <style>
+        /* Initial loading styles - will be enhanced by CSS modules */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0f2e 0%, #1a1f3e 50%, #2a2f5e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0f2e 0%, #1a1f3e 50%, #2a2f5e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-logo {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00a8cc);
+            border-radius: 2px;
+            animation: loading 3s ease-in-out forwards;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-logo">🚗</div>
+        <div class="loading-text">UDS Protocol Simulator<br><small>Initializing Diagnostic Services...</small></div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app" class="hidden">
+        <!-- Header -->
+        <header id="main-header" class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <span class="logo-icon">🚗</span>
+                    <h1 class="app-title">UDS Protocol Simulator</h1>
+                    <span class="app-subtitle">ISO 14229-1 Diagnostic Services</span>
+                </div>
+                <div class="header-controls">
+                    <div class="protocol-selector">
+                        <button id="can-protocol" class="protocol-btn active" data-protocol="can">
+                            <span class="protocol-icon">🔌</span>
+                            CAN
+                        </button>
+                        <button id="doip-protocol" class="protocol-btn" data-protocol="doip">
+                            <span class="protocol-icon">🌐</span>
+                            DoIP
+                        </button>
+                    </div>
+                    <div class="connection-status">
+                        <span class="status-indicator" id="connection-status"></span>
+                        <span class="status-text">Virtual ECU Ready</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Service Palette -->
+            <aside class="service-palette" id="service-palette">
+                <div class="palette-header">
+                    <h2>UDS Services</h2>
+                    <div class="search-box">
+                        <input type="text" id="service-search" placeholder="Search services..." />
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </div>
+                <div class="service-categories" id="service-categories">
+                    <!-- Service tiles will be dynamically generated -->
+                </div>
+            </aside>
+
+            <!-- Message Builder Canvas -->
+            <section class="message-canvas" id="message-canvas">
+                <div class="canvas-header">
+                    <h2>Message Builder</h2>
+                    <div class="canvas-controls">
+                        <button id="clear-canvas" class="btn btn-secondary">Clear</button>
+                        <button id="send-message" class="btn btn-primary" disabled>Send Message</button>
+                    </div>
+                </div>
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-zone-placeholder">
+                        <div class="placeholder-icon">📋</div>
+                        <div class="placeholder-text">
+                            <h3>Drag UDS Services Here</h3>
+                            <p>Build your diagnostic message by dragging services from the palette</p>
+                        </div>
+                    </div>
+                    <div class="message-builder" id="message-builder">
+                        <!-- Built message components will appear here -->
+                    </div>
+                </div>
+                
+                <!-- Parameter Panel -->
+                <div class="parameter-panel" id="parameter-panel">
+                    <h3>Service Parameters</h3>
+                    <div class="parameter-form" id="parameter-form">
+                        <p>Select a service to configure parameters</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Response Viewer -->
+            <aside class="response-viewer" id="response-viewer">
+                <div class="viewer-header">
+                    <h2>Response Viewer</h2>
+                    <div class="viewer-controls">
+                        <button id="clear-trace" class="btn btn-small">Clear</button>
+                        <button id="export-trace" class="btn btn-small">Export</button>
+                    </div>
+                </div>
+                <div class="trace-container" id="trace-container">
+                    <div class="trace-placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <p>Message traces will appear here</p>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="status-bar">
+            <div class="status-left">
+                <span id="ecu-status">Virtual ECU: Ready</span>
+                <span id="session-status">Session: Default</span>
+            </div>
+            <div class="status-center">
+                <span id="message-count">Messages: 0</span>
+                <span id="error-count">Errors: 0</span>
+            </div>
+            <div class="status-right">
+                <span id="timing-info">Timing: - ms</span>
+                <button id="settings-btn" class="btn btn-icon">⚙️</button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="btn btn-icon">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>ECU Configuration</h3>
+                    <div class="setting-group">
+                        <label for="ecu-address">ECU Address:</label>
+                        <input type="text" id="ecu-address" value="0x7E0" />
+                    </div>
+                    <div class="setting-group">
+                        <label for="response-address">Response Address:</label>
+                        <input type="text" id="response-address" value="0x7E8" />
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Timing Configuration</h3>
+                    <div class="setting-group">
+                        <label for="p2-timeout">P2 Timeout (ms):</label>
+                        <input type="number" id="p2-timeout" value="50" min="10" max="5000" />
+                    </div>
+                    <div class="setting-group">
+                        <label for="p2-star-timeout">P2* Timeout (ms):</label>
+                        <input type="number" id="p2-star-timeout" value="5000" min="100" max="50000" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings" class="btn btn-primary">Save</button>
+                <button id="cancel-settings" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts will be injected by Webpack -->
+</body>
+</html>
