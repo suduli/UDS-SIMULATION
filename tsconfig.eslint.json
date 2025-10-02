@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "."
+  },
+  "include": [
+    "src",
+    "tests",
+    "jest.config.ts",
+    "playwright.config.ts",
+    "webpack.config.ts",
+    "babel.config.cjs"
+  ]
+}
