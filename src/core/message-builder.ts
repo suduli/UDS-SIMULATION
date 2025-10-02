@@ -41,26 +41,22 @@ export class UDSMessageBuilder {
   }
 
   build(): UDSRequest {
-    const messageData: number[] = [];
-    
-    if (this.subFunction !== undefined) {
-      messageData.push(this.subFunction);
-    }
-    
-    messageData.push(...this.dataBytes);
-
     return {
       serviceId: this.serviceId,
       subFunction: this.subFunction,
-      data: new Uint8Array(messageData),
+      data: new Uint8Array(this.dataBytes),
       suppressPositiveResponse: this.suppressPositiveResponse,
     };
   }
 
   toBytes(): Uint8Array {
-    const request = this.build();
     const bytes: number[] = [this.serviceId];
-    bytes.push(...Array.from(request.data));
+    
+    if (this.subFunction !== undefined) {
+      bytes.push(this.subFunction);
+    }
+    
+    bytes.push(...this.dataBytes);
     return new Uint8Array(bytes);
   }
 
