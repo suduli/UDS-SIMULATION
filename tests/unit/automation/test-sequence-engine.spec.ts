@@ -10,9 +10,7 @@ describe('AutomatedTestRun and AutomatedTestStep sequencing', () => {
       log: [],
     };
 
-    expect(['queued', 'running', 'paused', 'passed', 'failed'].includes(testRun.status)).toBe(
-      true
-    );
+    expect(['queued', 'running', 'paused', 'passed', 'failed'].includes(testRun.status)).toBe(true);
     throw new Error('Test run status transition validation not implemented');
   });
 

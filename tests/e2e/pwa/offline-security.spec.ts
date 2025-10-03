@@ -33,11 +33,14 @@ test.describe('PWA offline readiness, advanced editing, and security access', ()
         const cacheNames = await caches.keys();
         const allCached: string[] = [];
 
-        for (const name of cacheNames) {
+        const cachePromises = cacheNames.map(async (name) => {
           const cache = await caches.open(name);
           const requests = await cache.keys();
-          allCached.push(...requests.map((req) => req.url));
-        }
+          return requests.map((req) => req.url);
+        });
+
+        const results = await Promise.all(cachePromises);
+        results.forEach((urls) => allCached.push(...urls));
 
         return allCached;
       }
@@ -105,7 +108,9 @@ test.describe('PWA offline readiness, advanced editing, and security access', ()
     const keyCalculated = await page.evaluate(() => {
       const seed = new Uint8Array([0x12, 0x34, 0x56, 0x78]);
       const key = new Uint8Array(seed.length);
+      // eslint-disable-next-line no-bitwise
       for (let i = 0; i < seed.length; i += 1) {
+        // eslint-disable-next-line no-bitwise
         key[i] = seed[i] ^ 0xff;
       }
       return key.length === seed.length;
@@ -168,7 +173,6 @@ test.describe('PWA offline readiness, advanced editing, and security access', ()
     await context.setOffline(true);
 
     // Verify offline indicator or fallback UI
-    const offlineIndicator = page.locator('[data-testid="offline-indicator"]');
     const bodyVisible = await page.locator('body').isVisible();
 
     expect(bodyVisible).toBe(true);

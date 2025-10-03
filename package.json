@@ -16,7 +16,8 @@
     "lint": "eslint --max-warnings=0 --no-error-on-unmatched-pattern --ext .ts,.tsx,.js,.jsx src tests",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "perf:budget": "node scripts/perf-budget.cjs"
   },
   "dependencies": {
     "react": "^18.3.1",

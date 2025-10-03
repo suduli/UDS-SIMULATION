@@ -127,6 +127,7 @@ describe('SecuritySession lifecycle and seed/key enforcement', () => {
 
   it('validates session can be renewed before expiry', () => {
     const originalExpiry = new Date(Date.now() + 2 * 60 * 1000);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const session = {
       sessionId: 'session-9',
       ecuId: 'ecu-1',
@@ -136,7 +137,6 @@ describe('SecuritySession lifecycle and seed/key enforcement', () => {
     };
 
     const renewedExpiry = new Date(Date.now() + 5 * 60 * 1000);
-    const now = Date.now();
     expect(renewedExpiry.getTime()).toBeGreaterThan(originalExpiry.getTime());
     throw new Error('Session renewal validation not implemented');
   });
@@ -162,7 +162,9 @@ describe('SecuritySession lifecycle and seed/key enforcement', () => {
 
     expect(Array.isArray(defaultSession.allowedServices)).toBe(true);
     expect(Array.isArray(oemSession.allowedServices)).toBe(true);
-    expect(oemSession.allowedServices.length).toBeGreaterThan(defaultSession.allowedServices.length);
+    expect(oemSession.allowedServices.length).toBeGreaterThan(
+      defaultSession.allowedServices.length,
+    );
     throw new Error('Security level service permission validation not implemented');
   });
 });

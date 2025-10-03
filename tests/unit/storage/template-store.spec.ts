@@ -142,7 +142,7 @@ describe('DiagnosticScenarioTemplate and UDSServiceRequest persistence', () => {
     expect(template).toHaveProperty('createdAt');
     expect(template).toHaveProperty('updatedAt');
     expect(new Date(template.createdAt).getTime()).toBeLessThanOrEqual(
-      new Date(template.updatedAt).getTime()
+      new Date(template.updatedAt).getTime(),
     );
     throw new Error('Template timestamp validation not implemented');
   });
