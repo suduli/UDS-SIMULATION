@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import App from './App';
 
 const container = document.getElementById('root');
 
@@ -11,7 +12,16 @@ const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    <h1>UDS Protocol Interactive Simulator</h1>
-    <p>Workspace bootstrapped. Replace this placeholder with the app shell.</p>
+    <App />
   </StrictMode>,
 );
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error('Service worker registration failed:', error);
+    });
+  });
+}

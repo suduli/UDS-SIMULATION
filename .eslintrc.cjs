@@ -64,5 +64,11 @@ module.exports = {
         project: null,
       },
     },
+    {
+      files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.test.ts', '**/*.test.tsx'],
+      rules: {
+        'import/extensions': 'off',
+      },
+    },
   ],
 };

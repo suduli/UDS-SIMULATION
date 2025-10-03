@@ -1,30 +1,108 @@
-# UDS Protocol Interactive Website
+# UDS Protocol Interactive Simulator
 
-## Project Overview
-
-An interactive web-based platform for testing Unified Diagnostic Services (UDS) protocol according to ISO 14229-1 standard, supporting both CAN and Ethernet (DoIP) interfaces.
+An interactive, browser-based simulator for UDS (Unified Diagnostic Services) protocol testing and learning. Built with TypeScript, React, and Web Components for offline-capable diagnostic scenario creation.
 
 ## Features
 
-- Full implementation of all 20 UDS services (0x10, 0x11, 0x14, 0x19, 0x22, 0x23, 0x24, 0x27, 0x28, 0x2A, 0x2C, 0x2E, 0x2F, 0x31, 0x34, 0x35, 0x36, 0x37, 0x38, 0x3D, 0x3E, 0x85)
-- Interactive drag-and-drop message builder
-- Simulated CAN and DoIP network interfaces
-- Virtual ECU responder with configurable behavior
-- Support for extended addressing and functional addressing
-- Security access simulation with seed-key algorithms
-- Network timing and error simulation
-- Test sequence automation
-- Bus load and traffic simulation
-- Data export with timestamping
+- **Hybrid Message Builder**: Visual drag-and-drop and advanced hex editor modes
+- **Multi-Transport Support**: Simulate CAN and DoIP diagnostic sessions
+- **Virtual ECU Profiles**: Pre-configured engine, body, gateway ECU models
+- **Security Access**: Seed/key authentication simulation
+- **Test Automation**: Background execution via Web Workers
+- **Offline PWA**: Service worker caching for offline usage
+- **Audit Logging**: ISO 21434-compliant diagnostic interaction tracking
 
-## Development Status
+## Quick Start
 
-This project is currently in the early development phase. Please refer to [ARCHITECTURE.md](ARCHITECTURE.md) for the complete development plan and project structure.
+```bash
+# Install dependencies
+npm install
 
-## Getting Started
+# Start development server
+npm run dev
 
-Coming soon...
+# Run tests
+npm run test
+
+# Build for production
+npm run build
+```
+
+See [Quick Start Guide](docs/quickstart.md) for detailed instructions.
+
+## Architecture
+
+The application follows a layered architecture:
+
+- **Core Layer**: UDS protocol encoding/decoding, message parsing
+- **Transport Layer**: ISO-TP and DoIP simulators
+- **Simulation Layer**: Virtual ECU engine with configurable profiles
+- **Security Layer**: Session management and audit logging
+- **Storage Layer**: IndexedDB for templates, runs, and metrics
+- **UI Layer**: React components with state management
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for complete details.
+
+## Project Structure
+
+```
+src/
+├── core/uds/              # UDS protocol implementation
+├── transport/             # CAN and DoIP simulators
+├── simulation/            # Virtual ECU engine
+├── security/              # Security and audit
+├── storage/               # IndexedDB stores
+├── automation/            # Test execution engine
+├── ui/                    # React components
+└── pwa/                   # Service worker
+
+tests/
+├── unit/                  # Unit tests
+├── integration/           # Integration tests
+└── e2e/                   # Playwright E2E tests
+```
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm 9+
+
+### Commands
+
+```bash
+npm run dev              # Development server
+npm run build            # Production build
+npm run test             # Jest tests
+npm run test:ui          # Playwright tests
+npm run lint             # ESLint check
+npm run lint:fix         # Fix linting issues
+npm run format           # Prettier check
+npm run format:fix       # Fix formatting
+npm run perf:budget      # Check bundle size
+```
+
+## Testing
+
+The project uses TDD approach with comprehensive test coverage:
+
+- **Unit Tests**: Jest for core logic, stores, and utilities
+- **Integration Tests**: Component interaction and workflow tests
+- **E2E Tests**: Playwright for full user scenarios
+
+Run all tests:
+```bash
+npm run test && npm run test:ui
+```
 
 ## License
 
-[MIT License](LICENSE)
+Apache-2.0 License - See [LICENSE](LICENSE) file for details.
+
+## Documentation
+
+- [Quick Start Guide](docs/quickstart.md)
+- [Feature Specification](specs/001-uds-protocol-interactive/spec.md)
+- [Implementation Plan](specs/001-uds-protocol-interactive/plan.md)
+- [Task List](specs/001-uds-protocol-interactive/tasks.md)
