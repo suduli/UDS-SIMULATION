@@ -3,6 +3,8 @@
  * React context for managing UDS protocol state
  */
 
+/* eslint-disable react-refresh/only-export-components */
+
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
@@ -63,7 +65,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return scenario;
   }, [requestHistory]);
 
-  const loadScenario = useCallback((_scenario: Scenario) => {
+  const loadScenario = useCallback(() => {
     resetSimulator();
     // Could replay requests here if needed
   }, [resetSimulator]);

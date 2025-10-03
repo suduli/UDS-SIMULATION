@@ -201,10 +201,11 @@ export const generateMockVIN = (): string => {
  */
 export const generateAutomotiveData = (type: string): number[] => {
   switch (type) {
-    case 'engineRPM':
+    case 'engineRPM': {
       // Return 2 bytes (0-8000 RPM)
       const rpm = Math.floor(Math.random() * 3000) + 800;
       return [(rpm >> 8) & 0xFF, rpm & 0xFF];
+    }
     
     case 'vehicleSpeed':
       // Return 1 byte (0-255 km/h)
@@ -214,10 +215,11 @@ export const generateAutomotiveData = (type: string): number[] => {
       // Return 1 byte (-40 to 215°C, offset by 40)
       return [Math.floor(Math.random() * 60) + 80];
     
-    case 'batteryVoltage':
+    case 'batteryVoltage': {
       // Return 2 bytes (0-16V, scaled by 100)
       const voltage = Math.floor((Math.random() * 2 + 12) * 100);
       return [(voltage >> 8) & 0xFF, voltage & 0xFF];
+    }
     
     default:
       return [0x00, 0x00];
