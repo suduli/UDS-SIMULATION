@@ -13,6 +13,13 @@ interface HelpModalProps {
 const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
+  const handleRestartTour = () => {
+    onClose();
+    // Clear the tour completed flag and trigger restart
+    localStorage.removeItem('uds-tour-completed');
+    window.dispatchEvent(new Event('restart-tour'));
+  };
+
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
@@ -41,6 +48,22 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="space-y-6">
+          {/* Quick Action Buttons */}
+          <section className="bg-cyber-blue/10 border border-cyber-blue/30 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-cyber-blue mb-1">🎓 Interactive Onboarding Tour</h3>
+                <p className="text-sm text-gray-400">Take a guided tour of the simulator's features</p>
+              </div>
+              <button
+                onClick={handleRestartTour}
+                className="cyber-button px-6 py-2 font-semibold hover:bg-cyber-blue hover:text-black transition-colors"
+              >
+                Start Tour
+              </button>
+            </div>
+          </section>
+
           {/* Introduction */}
           <section>
             <h3 className="text-xl font-bold text-cyber-green mb-3">What is UDS?</h3>

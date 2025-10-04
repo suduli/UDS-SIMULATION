@@ -11,10 +11,18 @@ import { UDSSimulator } from '../services/UDSSimulator';
 import { mockECUConfig } from '../services/mockECU';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario } from '../types/uds';
 
+interface UDSMetrics {
+  requestsSent: number;
+  successRate: number;
+  servicesUsed: number;
+  activeDTCs: number;
+}
+
 interface UDSContextType {
   simulator: UDSSimulator;
   protocolState: ProtocolState;
   requestHistory: Array<{ request: UDSRequest; response: UDSResponse }>;
+  metrics: UDSMetrics;
   sendRequest: (request: UDSRequest) => Promise<UDSResponse>;
   clearHistory: () => void;
   resetSimulator: () => void;
@@ -52,6 +60,38 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
   
   const [requestHistory, setRequestHistory] = useState<Array<{ request: UDSRequest; response: UDSResponse }>>(getInitialHistory);
+
+  // Calculate metrics from request history
+  const [metrics, setMetrics] = useState<UDSMetrics>({
+    requestsSent: 0,
+    successRate: 0,
+    servicesUsed: 0,
+    activeDTCs: 0,
+  });
+
+  // Update metrics whenever request history changes
+  React.useEffect(() => {
+    const totalRequests = requestHistory.length;
+    const positiveResponses = requestHistory.filter(
+      item => !item.response.isNegative
+    ).length;
+    const successRate = totalRequests > 0 
+      ? Math.round((positiveResponses / totalRequests) * 100) 
+      : 0;
+    const uniqueServices = new Set(
+      requestHistory.map(item => item.request.sid)
+    ).size;
+    
+    // Get active DTCs from simulator (you can enhance this later)
+    const activeDTCs = 5; // TODO: Get from mockECU state
+    
+    setMetrics({
+      requestsSent: totalRequests,
+      successRate,
+      servicesUsed: uniqueServices,
+      activeDTCs,
+    });
+  }, [requestHistory]);
 
   const sendRequest = useCallback(async (request: UDSRequest): Promise<UDSResponse> => {
     const response = await simulator.processRequest(request);
@@ -100,6 +140,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         simulator,
         protocolState,
         requestHistory,
+        metrics,
         sendRequest,
         clearHistory,
         resetSimulator,

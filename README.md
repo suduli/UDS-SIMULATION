@@ -23,6 +23,14 @@ A futuristic, interactive web application for learning and practicing Unified Di
 
 ### UI/UX Features
 
+- **🎓 Interactive Onboarding Tour**: 5-step guided tour for new users (auto-starts on first visit)
+- **🔍 Service Tooltips**: Hover over any service to see detailed documentation, use cases, parameters, and examples (all 16 services documented)
+- **📊 Real-time Response Timing**: Bar chart visualization showing last 10 response times with color-coded metrics
+- **🎯 Icon-Based Service Grid**: Visual service selector with unique icons, colors, and descriptions
+- **🔍 Service Search**: Instant filter by service ID, name, or description
+- **✨ Animated Byte Streaming**: Live byte-by-byte response visualization with 50ms delay
+- **📈 Live Statistics**: Real success rate, average response time, and session duration
+- **🎨 Enhanced Focus Indicators**: WCAG 2.1 AA compliant keyboard navigation
 - **Real-time Request/Response Visualization**: See requests and responses with detailed breakdowns
 - **Interactive Request Builder**: Build UDS requests with guided or manual mode
 - **Protocol State Dashboard**: Live monitoring of session, security, communication status

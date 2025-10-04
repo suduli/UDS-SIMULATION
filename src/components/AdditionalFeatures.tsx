@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { useUDS } from '../context/UDSContext';
 
 interface DTCEntry {
   code: string;
@@ -19,6 +20,8 @@ interface LessonProgress {
 }
 
 const AdditionalFeatures: React.FC = () => {
+  const { metrics } = useUDS();
+
   // Mock DTC data
   const dtcs: DTCEntry[] = [
     { code: 'P0420', status: 'Confirmed', description: 'Catalyst System Efficiency' },
@@ -31,14 +34,6 @@ const AdditionalFeatures: React.FC = () => {
     { title: 'Security Access', completed: false, progress: '3/7' },
     { title: 'DTC Management', completed: false, progress: '1/4' },
   ];
-
-  // Mock statistics
-  const stats = {
-    requestsSent: 247,
-    successRate: 98,
-    servicesUsed: 12,
-    activeDTCs: 5,
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
@@ -120,19 +115,19 @@ const AdditionalFeatures: React.FC = () => {
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-2xl font-bold text-cyan-400">{stats.requestsSent}</div>
+            <div className="text-2xl font-bold text-cyan-400">{metrics.requestsSent}</div>
             <div className="text-xs text-slate-500">Requests Sent</div>
           </div>
           <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-2xl font-bold text-green-400">{stats.successRate}%</div>
+            <div className="text-2xl font-bold text-green-400">{metrics.successRate}%</div>
             <div className="text-xs text-slate-500">Success Rate</div>
           </div>
           <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-2xl font-bold text-purple-400">{stats.servicesUsed}</div>
+            <div className="text-2xl font-bold text-purple-400">{metrics.servicesUsed}</div>
             <div className="text-xs text-slate-500">Services Used</div>
           </div>
           <div className="bg-slate-900/50 rounded-lg p-3 border border-slate-700">
-            <div className="text-2xl font-bold text-orange-400">{stats.activeDTCs}</div>
+            <div className="text-2xl font-bold text-orange-400">{metrics.activeDTCs}</div>
             <div className="text-xs text-slate-500">Active DTCs</div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { useUDS } from '../context/UDSContext';
 import { ServiceId } from '../types/uds';
 import { fromHex } from '../utils/udsHelpers';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import ServiceCard from './ServiceCard';
 
 const RequestBuilder: React.FC = () => {
   const { sendRequest } = useUDS();
@@ -18,6 +19,8 @@ const RequestBuilder: React.FC = () => {
   const [manualHex, setManualHex] = useState<string>('');
   const [sending, setSending] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>('grid');
 
   // Validate hex input
   const validateHexInput = (input: string): { valid: boolean; error: string } => {
@@ -71,6 +74,101 @@ const RequestBuilder: React.FC = () => {
     { id: ServiceId.REQUEST_TRANSFER_EXIT, name: '0x37 - Transfer Exit' },
     { id: ServiceId.WRITE_MEMORY_BY_ADDRESS, name: '0x3D - Write Memory' },
   ];
+
+  // Service metadata: icons, colors, and descriptions
+  const serviceMetadata: Record<ServiceId, { icon: string; color: string; description: string }> = {
+    [ServiceId.DIAGNOSTIC_SESSION_CONTROL]: { 
+      icon: '🎯', 
+      color: 'text-cyan-400',
+      description: 'Control diagnostic session types (default, extended, programming)' 
+    },
+    [ServiceId.ECU_RESET]: { 
+      icon: '🔄', 
+      color: 'text-purple-400',
+      description: 'Reset ECU (hard reset, key off/on, soft reset)' 
+    },
+    [ServiceId.CLEAR_DIAGNOSTIC_INFORMATION]: { 
+      icon: '🗑️', 
+      color: 'text-red-400',
+      description: 'Clear diagnostic trouble codes and freeze frame data' 
+    },
+    [ServiceId.READ_DTC_INFORMATION]: { 
+      icon: '📊', 
+      color: 'text-orange-400',
+      description: 'Read diagnostic trouble codes with status information' 
+    },
+    [ServiceId.READ_DATA_BY_IDENTIFIER]: { 
+      icon: '📖', 
+      color: 'text-green-400',
+      description: 'Read data like VIN, ECU info, sensor values by identifier' 
+    },
+    [ServiceId.READ_MEMORY_BY_ADDRESS]: { 
+      icon: '💾', 
+      color: 'text-blue-400',
+      description: 'Read ECU memory at specific addresses' 
+    },
+    [ServiceId.SECURITY_ACCESS]: { 
+      icon: '🔐', 
+      color: 'text-yellow-400',
+      description: 'Request seed and send key for security unlock' 
+    },
+    [ServiceId.COMMUNICATION_CONTROL]: { 
+      icon: '📡', 
+      color: 'text-indigo-400',
+      description: 'Enable/disable transmission and reception of messages' 
+    },
+    [ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER]: { 
+      icon: '⏱️', 
+      color: 'text-pink-400',
+      description: 'Start/stop periodic transmission of data identifiers' 
+    },
+    [ServiceId.WRITE_DATA_BY_IDENTIFIER]: { 
+      icon: '✏️', 
+      color: 'text-lime-400',
+      description: 'Write data to ECU using identifier (configuration, calibration)' 
+    },
+    [ServiceId.ROUTINE_CONTROL]: { 
+      icon: '⚙️', 
+      color: 'text-teal-400',
+      description: 'Start, stop, or request results of ECU routines' 
+    },
+    [ServiceId.REQUEST_DOWNLOAD]: { 
+      icon: '⬇️', 
+      color: 'text-violet-400',
+      description: 'Initiate data transfer from tester to ECU (flashing)' 
+    },
+    [ServiceId.REQUEST_UPLOAD]: { 
+      icon: '⬆️', 
+      color: 'text-sky-400',
+      description: 'Initiate data transfer from ECU to tester (reading)' 
+    },
+    [ServiceId.TRANSFER_DATA]: { 
+      icon: '📦', 
+      color: 'text-fuchsia-400',
+      description: 'Transfer data blocks during download/upload sequence' 
+    },
+    [ServiceId.REQUEST_TRANSFER_EXIT]: { 
+      icon: '✅', 
+      color: 'text-emerald-400',
+      description: 'Terminate data transfer and verify integrity' 
+    },
+    [ServiceId.WRITE_MEMORY_BY_ADDRESS]: { 
+      icon: '💿', 
+      color: 'text-rose-400',
+      description: 'Write data directly to ECU memory addresses' 
+    },
+  };
+
+  // Filter services based on search query
+  const filteredServices = services.filter(service => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      service.name.toLowerCase().includes(query) ||
+      service.id.toString(16).toLowerCase().includes(query) ||
+      `0x${service.id.toString(16)}`.toLowerCase().includes(query)
+    );
+  });
 
   const handleSend = useCallback(async () => {
     if ((!selectedService && !isManualMode) || validationError) return;
@@ -173,23 +271,132 @@ const RequestBuilder: React.FC = () => {
 
       {!isManualMode ? (
         <div className="space-y-4">
+          {/* Service Search */}
+          <div>
+            <label htmlFor="service-search" className="block text-sm text-gray-400 mb-2">Search Services</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                id="service-search"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by ID (0x22), name (Read), or description..."
+                className="w-full cyber-input pl-10 pr-10"
+                aria-label="Search for UDS services"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-cyber-blue transition-colors"
+                  aria-label="Clear search"
+                >
+                  <svg className="w-5 h-5 text-gray-400 hover:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          </div>
+
           {/* Service Selection */}
           <div>
-            <label htmlFor="service-select" className="block text-sm text-gray-400 mb-2">Service (SID)</label>
-            <select
-              id="service-select"
-              value={selectedService}
-              onChange={(e) => setSelectedService(e.target.value ? Number(e.target.value) as ServiceId : '')}
-              className="w-full cyber-input"
-              aria-label="Select UDS service"
-            >
-              <option value="">Select a service...</option>
-              {services.map((service) => (
-                <option key={service.id} value={service.id}>
-                  {service.name}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm text-gray-400">
+                Service (SID)
+                {filteredServices.length < services.length && searchQuery && (
+                  <span className="ml-2 text-cyber-blue">
+                    {filteredServices.length} {filteredServices.length === 1 ? 'result' : 'results'}
+                  </span>
+                )}
+              </label>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-1.5 rounded transition-colors ${
+                    viewMode === 'grid' 
+                      ? 'bg-cyber-blue/20 text-cyber-blue' 
+                      : 'text-gray-400 hover:text-gray-200'
+                  }`}
+                  aria-label="Grid view"
+                  title="Grid view"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setViewMode('dropdown')}
+                  className={`p-1.5 rounded transition-colors ${
+                    viewMode === 'dropdown' 
+                      ? 'bg-cyber-blue/20 text-cyber-blue' 
+                      : 'text-gray-400 hover:text-gray-200'
+                  }`}
+                  aria-label="List view"
+                  title="List view"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {viewMode === 'grid' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto custom-scrollbar p-1">
+                {filteredServices.map(service => {
+                  const metadata = serviceMetadata[service.id] || { 
+                    icon: '⚙️', 
+                    color: 'text-gray-400', 
+                    description: 'UDS diagnostic service' 
+                  };
+                  return (
+                    <ServiceCard
+                      key={service.id}
+                      id={service.id}
+                      name={service.name}
+                      icon={metadata.icon}
+                      description={metadata.description}
+                      color={metadata.color}
+                      isSelected={selectedService === service.id}
+                      onClick={() => setSelectedService(service.id)}
+                    />
+                  );
+                })}
+                {filteredServices.length === 0 && (
+                  <div className="col-span-full text-center py-8 text-gray-500">
+                    <svg className="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p>No services found</p>
+                    <p className="text-xs mt-1">Try a different search term</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <select
+                id="service-select"
+                value={selectedService}
+                onChange={(e) => setSelectedService(e.target.value ? Number(e.target.value) as ServiceId : '')}
+                className="w-full cyber-input"
+                aria-label="Select UDS service"
+              >
+                <option value="">Select a service...</option>
+                {filteredServices.length > 0 ? (
+                  filteredServices.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.name}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No services found</option>
+                )}
+              </select>
+            )}
           </div>
 
           {/* Sub-Function */}

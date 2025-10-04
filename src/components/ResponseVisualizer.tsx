@@ -126,17 +126,20 @@ const ResponseVisualizer: React.FC = () => {
                     {toHex(item.response.data)}
                   </div>
                   
-                  {/* Enhanced Visual Byte Blocks */}
+                  {/* Enhanced Visual Byte Blocks with Animated Typing Effect */}
                   <div className="flex gap-2 mb-4 flex-wrap">
                     {item.response.data.map((byte, byteIdx) => (
                       <div 
                         key={byteIdx} 
-                        className={`flex-shrink-0 rounded-lg p-2 text-center border transition-all hover:scale-110 ${
+                        className={`flex-shrink-0 rounded-lg p-2 text-center border transition-all hover:scale-110 animate-byte-appear ${
                           item.response.isNegative 
                             ? 'bg-cyber-pink/20 border-cyber-pink/50' 
                             : 'bg-cyber-green/20 border-cyber-green/50'
                         }`}
-                        style={{ animationDelay: `${byteIdx * 0.1}s` }}
+                        style={{ 
+                          animationDelay: `${byteIdx * 50}ms`,
+                          animationFillMode: 'backwards'
+                        }}
                       >
                         <div className={`font-mono text-sm font-bold ${
                           item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'

@@ -99,7 +99,7 @@ const Header: React.FC = () => {
             <div className="flex items-center space-x-3">
               <button 
                 onClick={handleOpenHelp}
-                className="cyber-button text-sm"
+                className="cyber-button text-sm help-button"
                 aria-label="Open tutorials and help (F1)"
                 title="F1"
               >
