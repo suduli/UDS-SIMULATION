@@ -92,10 +92,10 @@ const Header: React.FC = () => {
               </div>
               
               <div>
-                <h1 className="text-base sm:text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple animate-glow">
+                <h1 className="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 dark:from-cyber-blue dark:via-cyan-400 dark:to-cyber-purple bg-clip-text text-transparent animate-gradient-shift">
                   UDS Simulator
                 </h1>
-                <p className="hidden sm:block text-xs lg:text-sm text-gray-400">Unified Diagnostic Services</p>
+                <p className="hidden sm:block text-xs lg:text-sm text-gray-400 dark:text-gray-500">Unified Diagnostic Services</p>
               </div>
             </div>
             

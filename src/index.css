@@ -582,7 +582,8 @@
   /* Disable pulse/glow animations */
   .animate-pulse-slow,
   .animate-glow,
-  .animate-gradient {
+  .animate-gradient,
+  .animate-gradient-shift {
     animation: none !important;
   }
 

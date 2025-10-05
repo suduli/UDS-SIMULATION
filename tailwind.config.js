@@ -29,6 +29,7 @@ export default {
         'slide-down': 'slideDown 0.3s ease-out',
         'fade-in': 'fadeIn 0.5s ease-out',
         'shimmer': 'shimmer 2s linear infinite',
+        'gradient-shift': 'gradientShift 3s ease-in-out infinite',
       },
       keyframes: {
         glow: {
@@ -50,6 +51,10 @@ export default {
         shimmer: {
           'from': { backgroundPosition: '0 0' },
           'to': { backgroundPosition: '-200% 0' }
+        },
+        gradientShift: {
+          '0%, 100%': { backgroundSize: '200% 200%', backgroundPosition: 'left center' },
+          '50%': { backgroundSize: '200% 200%', backgroundPosition: 'right center' }
         }
       },
       backdropBlur: {
