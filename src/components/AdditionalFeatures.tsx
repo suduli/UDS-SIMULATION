@@ -4,7 +4,7 @@
  * IMPROVEMENT: New feature panels to extend functionality per user review
  */
 
-import React from 'react';
+import type { CSSProperties, FC } from 'react';
 import { useUDS } from '../context/UDSContext';
 
 interface DTCEntry {
@@ -19,7 +19,23 @@ interface LessonProgress {
   progress?: string;
 }
 
-const AdditionalFeatures: React.FC = () => {
+interface GlassCardStyle extends CSSProperties {
+  '--card-border-start'?: string;
+  '--card-border-end'?: string;
+  '--card-border-glow'?: string;
+}
+
+const createGlassCardStyle = (
+  start: string,
+  end: string,
+  glow?: string
+): GlassCardStyle => ({
+  '--card-border-start': start,
+  '--card-border-end': end,
+  '--card-border-glow': glow ?? start,
+});
+
+const AdditionalFeatures: FC = () => {
   const { metrics } = useUDS();
 
   // Mock DTC data
@@ -38,7 +54,10 @@ const AdditionalFeatures: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 mb-20">
       {/* DTC Management Panel */}
-      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(249, 115, 22, 0.8), rgba(251, 146, 60, 0.4)) border-box' }}>
+      <div
+        className="glass-card p-6 hover-lift animate-fade-in"
+        style={createGlassCardStyle('rgba(249, 115, 22, 0.95)', 'rgba(251, 146, 60, 0.55)', 'rgba(249, 115, 22, 0.35)')}
+      >
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
             <span className="text-xl">🔍</span>
@@ -68,7 +87,13 @@ const AdditionalFeatures: React.FC = () => {
       </div>
 
       {/* Learning Center Panel */}
-      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(192, 132, 252, 0.4)) border-box', animationDelay: '0.1s' }}>
+      <div
+        className="glass-card p-6 hover-lift animate-fade-in"
+        style={{
+          ...createGlassCardStyle('rgba(168, 85, 247, 0.92)', 'rgba(192, 132, 252, 0.55)', 'rgba(168, 85, 247, 0.32)'),
+          animationDelay: '0.1s',
+        }}
+      >
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +128,13 @@ const AdditionalFeatures: React.FC = () => {
       </div>
 
       {/* Statistics Panel */}
-      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(6, 182, 212, 0.8), rgba(34, 211, 238, 0.4)) border-box', animationDelay: '0.2s' }}>
+      <div
+        className="glass-card p-6 hover-lift animate-fade-in"
+        style={{
+          ...createGlassCardStyle('rgba(6, 182, 212, 0.9)', 'rgba(34, 211, 238, 0.5)', 'rgba(14, 165, 233, 0.32)'),
+          animationDelay: '0.2s',
+        }}
+      >
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
             <span className="text-xl">📊</span>

@@ -6,7 +6,7 @@ import RequestBuilder from './components/RequestBuilder';
 import ResponseVisualizer from './components/ResponseVisualizer';
 import ProtocolStateDashboard from './components/ProtocolStateDashboard';
 import BackgroundEffect from './components/BackgroundEffect';
-import AdditionalFeatures from './components/AdditionalFeatures';
+import AdditionalFeaturesRedesigned from './components/AdditionalFeaturesRedesigned';
 import TimingMetrics from './components/TimingMetrics';
 import { OnboardingTour } from './components/OnboardingTour';
 
@@ -59,7 +59,7 @@ function App() {
                     <RequestBuilder />
                   </div>
                   <div className="quick-examples">
-                    <AdditionalFeatures />
+                    <AdditionalFeaturesRedesigned />
                   </div>
                 </div>
                 
