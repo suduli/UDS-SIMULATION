@@ -36,9 +36,9 @@ const AdditionalFeatures: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 mb-20">
       {/* DTC Management Panel */}
-      <div className="glass-card border-orange-500/30 p-6 hover-lift animate-fade-in">
+      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(249, 115, 22, 0.8), rgba(251, 146, 60, 0.4)) border-box' }}>
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
             <span className="text-xl">🔍</span>
@@ -68,7 +68,7 @@ const AdditionalFeatures: React.FC = () => {
       </div>
 
       {/* Learning Center Panel */}
-      <div className="glass-card border-purple-500/30 p-6 hover-lift animate-fade-in" style={{ animationDelay: '0.1s' }}>
+      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(192, 132, 252, 0.4)) border-box', animationDelay: '0.1s' }}>
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ const AdditionalFeatures: React.FC = () => {
       </div>
 
       {/* Statistics Panel */}
-      <div className="glass-card border-cyan-500/30 p-6 hover-lift animate-fade-in" style={{ animationDelay: '0.2s' }}>
+      <div className="glass-card p-6 hover-lift animate-fade-in relative overflow-hidden" style={{ borderRadius: '1.5rem', border: '3px solid transparent', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)) padding-box, linear-gradient(135deg, rgba(6, 182, 212, 0.8), rgba(34, 211, 238, 0.4)) border-box', animationDelay: '0.2s' }}>
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
             <span className="text-xl">📊</span>
