@@ -11,12 +11,14 @@ import HelpModal from './HelpModal';
 
 const Header: React.FC = () => {
   const { requestHistory, clearHistory } = useUDS();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, highContrast, toggleHighContrast } = useTheme();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [showExportSuccess, setShowExportSuccess] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleOpenHelp = useCallback(() => {
     setIsHelpOpen(true);
+    setMobileMenuOpen(false);
   }, []);
 
   // Setup keyboard shortcuts
@@ -76,27 +78,29 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="glass-panel border-b border-cyber-blue/20 sticky top-0 z-50 backdrop-blur-lg">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            {/* Logo and Title */}
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-cyber-blue blur-xl opacity-50 animate-pulse-slow"></div>
-                <div className="relative w-12 h-12 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="relative w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                   </svg>
                 </div>
               </div>
               
               <div>
-                <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple animate-glow">
-                  UDS Protocol Simulator
+                <h1 className="text-base sm:text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue to-cyber-purple animate-glow">
+                  UDS Simulator
                 </h1>
-                <p className="text-sm text-gray-400">Unified Diagnostic Services Training Platform</p>
+                <p className="hidden sm:block text-xs lg:text-sm text-gray-400">Unified Diagnostic Services</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-3">
               <button 
                 onClick={handleOpenHelp}
                 className="cyber-button text-sm help-button"
@@ -155,8 +159,104 @@ const Header: React.FC = () => {
                 )}
                 {theme === 'dark' ? 'Light' : 'Dark'}
               </button>
+
+              <button 
+                onClick={toggleHighContrast}
+                className="cyber-button text-sm"
+                aria-label={`${highContrast ? 'Disable' : 'Enable'} high contrast mode (WCAG AAA)`}
+                title="Toggle high contrast mode for better accessibility"
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343 5.657l-.707-.707m9.9 0l.708.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.5" />
+                </svg>
+                {highContrast ? 'High' : 'Normal'}
+              </button>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden cyber-button p-2"
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden mt-4 pt-4 border-t border-cyber-blue/20 space-y-2 animate-fade-in">
+              <button 
+                onClick={handleOpenHelp}
+                className="w-full cyber-button text-sm justify-start"
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Help (F1)
+              </button>
+              
+              <button 
+                onClick={() => { handleExport(); setMobileMenuOpen(false); }}
+                className="w-full cyber-button text-sm justify-start"
+                disabled={requestHistory.length === 0}
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export Session
+              </button>
+              
+              <button 
+                onClick={() => { handleImport(); setMobileMenuOpen(false); }}
+                className="w-full cyber-button text-sm justify-start"
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Import Session
+              </button>
+
+              <button 
+                onClick={() => { toggleTheme(); setMobileMenuOpen(false); }}
+                className="w-full cyber-button text-sm justify-start"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    Dark Mode
+                  </>
+                )}
+              </button>
+
+              <button 
+                onClick={() => { toggleHighContrast(); setMobileMenuOpen(false); }}
+                className="w-full cyber-button text-sm justify-start"
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343 5.657l-.707-.707m9.9 0l.708.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                {highContrast ? 'Normal Contrast' : 'High Contrast'}
+              </button>
+            </div>
+          )}
         </div>
       </header>
 

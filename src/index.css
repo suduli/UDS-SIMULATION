@@ -216,7 +216,408 @@
       box-shadow: 0 0 0 8px rgba(0, 243, 255, 0), 0 0 50px rgba(0, 243, 255, 0.5);
     }
   }
+
+  /* Tooltip animations */
+  .tooltip-content {
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes tooltipFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
 }
+
+/* ========================================
+   HIGH CONTRAST MODE (WCAG AAA - 7:1)
+   ======================================== */
+[data-contrast="high"] {
+  /* Pure colors - no transparency */
+  --bg-pure-black: #000000;
+  --text-pure-white: #ffffff;
+  --cyber-blue-bright: #00ffff;
+  --cyber-green-bright: #00ff00;
+  --cyber-pink-bright: #ff00ff;
+  --cyber-purple-bright: #9d00ff;
+  --border-width: 2px;
+}
+
+[data-contrast="high"] body {
+  background-color: var(--bg-pure-black) !important;
+  color: var(--text-pure-white) !important;
+}
+
+/* Remove all transparency/blur effects */
+[data-contrast="high"] .glass-panel,
+[data-contrast="high"] .glass-card {
+  background: var(--bg-pure-black) !important;
+  backdrop-filter: none !important;
+  border-width: var(--border-width) !important;
+  border-color: var(--cyber-blue-bright) !important;
+}
+
+/* Boost text contrast */
+[data-contrast="high"] .text-gray-100,
+[data-contrast="high"] .text-gray-200,
+[data-contrast="high"] .text-gray-300 {
+  color: var(--text-pure-white) !important;
+}
+
+[data-contrast="high"] .text-gray-400,
+[data-contrast="high"] .text-gray-500 {
+  color: #cccccc !important;
+}
+
+/* Enhance cyber colors */
+[data-contrast="high"] .text-cyber-blue,
+[data-contrast="high"] .border-cyber-blue {
+  color: var(--cyber-blue-bright) !important;
+  border-color: var(--cyber-blue-bright) !important;
+}
+
+[data-contrast="high"] .text-cyber-green,
+[data-contrast="high"] .border-cyber-green {
+  color: var(--cyber-green-bright) !important;
+  border-color: var(--cyber-green-bright) !important;
+}
+
+[data-contrast="high"] .text-cyber-pink,
+[data-contrast="high"] .border-cyber-pink {
+  color: var(--cyber-pink-bright) !important;
+  border-color: var(--cyber-pink-bright) !important;
+}
+
+[data-contrast="high"] .text-cyber-purple,
+[data-contrast="high"] .border-cyber-purple {
+  color: var(--cyber-purple-bright) !important;
+  border-color: var(--cyber-purple-bright) !important;
+}
+
+/* Remove subtle background colors */
+[data-contrast="high"] .bg-dark-800,
+[data-contrast="high"] .bg-dark-700,
+[data-contrast="high"] .bg-dark-900 {
+  background-color: var(--bg-pure-black) !important;
+}
+
+/* Solid backgrounds for colored elements */
+[data-contrast="high"] .bg-cyber-blue\/10,
+[data-contrast="high"] .bg-cyber-blue\/20 {
+  background-color: rgba(0, 255, 255, 0.3) !important;
+}
+
+[data-contrast="high"] .bg-cyber-green\/10,
+[data-contrast="high"] .bg-cyber-green\/20 {
+  background-color: rgba(0, 255, 0, 0.3) !important;
+}
+
+[data-contrast="high"] .bg-cyber-pink\/10,
+[data-contrast="high"] .bg-cyber-pink\/20 {
+  background-color: rgba(255, 0, 255, 0.3) !important;
+}
+
+/* Enhanced borders */
+[data-contrast="high"] .border,
+[data-contrast="high"] .border-2 {
+  border-width: var(--border-width) !important;
+}
+
+[data-contrast="high"] .border-dark-600 {
+  border-color: var(--cyber-blue-bright) !important;
+}
+
+/* Enhanced focus indicators - 4px for WCAG AAA */
+[data-contrast="high"] *:focus-visible {
+  outline-width: 4px !important;
+  outline-offset: 4px !important;
+  outline-color: var(--cyber-blue-bright) !important;
+}
+
+[data-contrast="high"] button:focus-visible,
+[data-contrast="high"] a:focus-visible,
+[data-contrast="high"] [role="button"]:focus-visible {
+  outline-width: 4px !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px rgba(0, 255, 255, 0.4) !important;
+}
+
+/* Remove gradients */
+[data-contrast="high"] .bg-gradient-to-r,
+[data-contrast="high"] .bg-gradient-to-br,
+[data-contrast="high"] .bg-gradient-to-b {
+  background: var(--bg-pure-black) !important;
+}
+
+/* Solid button backgrounds */
+[data-contrast="high"] .cyber-button {
+  background-color: var(--bg-pure-black) !important;
+  border-color: var(--cyber-blue-bright) !important;
+  border-width: 2px !important;
+  color: var(--cyber-blue-bright) !important;
+}
+
+[data-contrast="high"] .cyber-button:hover {
+  background-color: var(--cyber-blue-bright) !important;
+  color: var(--bg-pure-black) !important;
+}
+
+/* Input fields */
+[data-contrast="high"] .cyber-input {
+  background-color: var(--bg-pure-black) !important;
+  border-color: var(--cyber-blue-bright) !important;
+  border-width: 2px !important;
+  color: var(--text-pure-white) !important;
+}
+
+/* Remove shadows */
+[data-contrast="high"] .shadow-neon,
+[data-contrast="high"] .shadow-xl,
+[data-contrast="high"] .shadow-2xl {
+  box-shadow: none !important;
+}
+
+/* Tooltip backgrounds */
+[data-contrast="high"] .tooltip-content {
+  background-color: var(--bg-pure-black) !important;
+  border-color: var(--cyber-blue-bright) !important;
+  border-width: 3px !important;
+}
+
+
+/* ========================================
+   MOBILE RESPONSIVE STYLES
+   Touch-friendly interface (WCAG 2.5.5)
+   ======================================== */
+@media (max-width: 768px) {
+  /* Ensure all touch targets are minimum 44x44px */
+  .cyber-button,
+  button,
+  a[role="button"],
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Form inputs - 44px minimum height + 16px font prevents iOS zoom */
+  input,
+  select,
+  textarea,
+  .cyber-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevents automatic zoom on iOS Safari */
+    padding: 12px;
+  }
+
+  /* Increase tap target spacing */
+  .flex.items-center.space-x-2,
+  .flex.items-center.space-x-3 {
+    gap: 0.75rem; /* 12px */
+  }
+
+  /* Make cards more touch-friendly with larger padding */
+  .glass-card,
+  .glass-panel {
+    padding: 1rem; /* 16px minimum */
+  }
+
+  /* Ensure readable text on small screens */
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  h2 {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  h3 {
+    font-size: 1rem; /* 16px */
+  }
+
+  /* Increase spacing between sections on mobile */
+  .space-y-4 > * + * {
+    margin-top: 1rem; /* 16px */
+  }
+
+  /* Make scrollbars thicker for touch */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Ensure dropdown menus are touch-friendly */
+  select option {
+    padding: 12px;
+    min-height: 44px;
+  }
+
+  /* Prevent text selection on buttons for better touch UX */
+  button,
+  a[role="button"],
+  .cyber-button {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Modal/overlay adjustments for mobile */
+  .modal-content,
+  .dialog-content {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 4rem);
+    margin: 2rem 1rem;
+  }
+
+  /* Increase focus indicator size on mobile for better visibility */
+  *:focus-visible {
+    outline-width: 3px !important;
+    outline-offset: 3px !important;
+  }
+
+  /* Better spacing for byte visualizations on small screens */
+  .byte-container {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Ensure tooltips don't overflow on mobile */
+  .tooltip-content {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* Extra small devices (phones in portrait, < 375px) */
+@media (max-width: 374px) {
+  .container {
+    padding-left: 0.75rem; /* 12px */
+    padding-right: 0.75rem;
+  }
+
+  /* Smaller font sizes for very small screens while maintaining readability */
+  body {
+    font-size: 14px;
+  }
+
+  /* Ensure critical text stays readable */
+  .font-mono,
+  code {
+    font-size: 12px;
+  }
+
+  /* Compact button text on very small screens */
+  .cyber-button {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+}
+
+/* Tablet landscape and small desktop (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Optimize for tablet viewing */
+  .grid-cols-1.lg\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  /* Slightly larger touch targets for tablets */
+  button,
+  .cyber-button {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Reduce vertical padding in landscape mode */
+  main {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .glass-panel,
+  .glass-card {
+    padding: 0.75rem;
+  }
+
+  /* Compact header in landscape */
+  header {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* High DPI displays (Retina, etc.) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders on high-DPI screens */
+  .glass-card,
+  .glass-panel,
+  .cyber-button {
+    border-width: 1.5px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable pulse/glow animations */
+  .animate-pulse-slow,
+  .animate-glow,
+  .animate-gradient {
+    animation: none !important;
+  }
+
+  /* Keep fade-in but make it instant */
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Screen reader only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
 
 /* Keyframe Animations */
 @keyframes fadeIn {

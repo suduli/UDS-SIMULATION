@@ -28,7 +28,7 @@ export const ServiceTooltip: React.FC<ServiceTooltipProps> = ({
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className="tooltip-content z-50 max-w-md rounded-lg border border-cyber-blue/30 bg-black/95 p-4 shadow-2xl backdrop-blur-sm"
+            className="tooltip-content z-50 max-w-md rounded-lg border border-cyber-blue/30 bg-black/95 p-4 shadow-2xl backdrop-blur-sm animate-fade-in"
             sideOffset={5}
           >
             <div className="space-y-3">

@@ -13,6 +13,8 @@ type Theme = 'dark' | 'light';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  highContrast: boolean;
+  toggleHighContrast: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -23,17 +25,31 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return (saved as Theme) || 'dark';
   });
 
+  const [highContrast, setHighContrast] = useState<boolean>(() => {
+    const saved = localStorage.getItem('uds_high_contrast');
+    return saved === 'true';
+  });
+
   useEffect(() => {
     localStorage.setItem('uds_theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    localStorage.setItem('uds_high_contrast', String(highContrast));
+    document.documentElement.setAttribute('data-contrast', highContrast ? 'high' : 'normal');
+  }, [highContrast]);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
+  const toggleHighContrast = () => {
+    setHighContrast(prev => !prev);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, highContrast, toggleHighContrast }}>
       {children}
     </ThemeContext.Provider>
   );
