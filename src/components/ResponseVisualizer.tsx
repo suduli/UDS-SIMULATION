@@ -6,6 +6,129 @@
 import React, { useEffect, useRef } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { toHex, toASCII, getNRCDescription } from '../utils/udsHelpers';
+import type { UDSRequest, UDSResponse } from '../types/uds';
+
+interface HistoryItem {
+  request: UDSRequest;
+  response: UDSResponse;
+}
+
+/**
+ * Get detailed interpretation for each byte in the response
+ */
+const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number): string => {
+  const { request, response } = item;
+  
+  // Negative Response interpretations
+  if (response.isNegative) {
+    if (byteIdx === 0) return 'Negative Response Code (NRC)';
+    if (byteIdx === 1) return 'Service ID that failed';
+    if (byteIdx === 2 && response.nrc) {
+      return `${getNRCDescription(response.nrc)}`;
+    }
+    return 'Additional NRC data';
+  }
+  
+  // Positive Response interpretations based on service
+  if (byteIdx === 0) {
+    return `Positive Response (SID + 0x40)`;
+  }
+  
+  // Service-specific interpretations
+  switch (request.sid) {
+    case 0x10: // Diagnostic Session Control
+      if (byteIdx === 1) {
+        const sessionNames: Record<number, string> = {
+          0x01: 'Default Session',
+          0x02: 'Programming Session',
+          0x03: 'Extended Session',
+        };
+        return sessionNames[byte] || 'Session Type';
+      }
+      if (byteIdx === 2) return 'Session Parameter / P2 Server Max High Byte';
+      if (byteIdx === 3) return `P2 Server Max Low Byte (${((response.data[2] << 8) | byte) / 10}ms)`;
+      if (byteIdx === 4) return 'P2* High Byte';
+      if (byteIdx === 5) return `P2* Low Byte (${((response.data[4] << 8) | byte) * 10}ms)`;
+      break;
+      
+    case 0x11: // ECU Reset
+      if (byteIdx === 1) {
+        const resetNames: Record<number, string> = {
+          0x01: 'Hard Reset',
+          0x02: 'Key Off/On Reset',
+          0x03: 'Soft Reset',
+        };
+        return resetNames[byte] || 'Reset Type';
+      }
+      if (byteIdx === 2) return 'Power Down Time (seconds)';
+      break;
+      
+    case 0x22: // Read Data By Identifier
+      if (byteIdx === 1) return 'Data Identifier High Byte';
+      if (byteIdx === 2) return 'Data Identifier Low Byte';
+      if (byteIdx >= 3) return `Data Byte ${byteIdx - 2}`;
+      break;
+      
+    case 0x27: // Security Access
+      if (byteIdx === 1) {
+        return byte % 2 === 1 ? 'Request Seed' : 'Send Key';
+      }
+      if (byteIdx >= 2 && request.subFunction && request.subFunction % 2 === 1) {
+        return `Seed Byte ${byteIdx - 1}`;
+      }
+      if (byteIdx >= 2) return `Security Access Response`;
+      break;
+      
+    case 0x2E: // Write Data By Identifier
+      if (byteIdx === 1) return 'Data Identifier High Byte';
+      if (byteIdx === 2) return 'Data Identifier Low Byte';
+      break;
+      
+    case 0x31: // Routine Control
+      if (byteIdx === 1) {
+        const routineNames: Record<number, string> = {
+          0x01: 'Start Routine',
+          0x02: 'Stop Routine',
+          0x03: 'Request Routine Results',
+        };
+        return routineNames[byte] || 'Routine Control Type';
+      }
+      if (byteIdx === 2) return 'Routine Identifier High Byte';
+      if (byteIdx === 3) return 'Routine Identifier Low Byte';
+      if (byteIdx >= 4) return `Routine Status Info ${byteIdx - 3}`;
+      break;
+      
+    case 0x14: // Clear DTC
+      if (byteIdx === 1) return 'DTC Group High Byte';
+      if (byteIdx === 2) return 'DTC Group Mid Byte';
+      if (byteIdx === 3) return 'DTC Group Low Byte';
+      break;
+      
+    case 0x19: // Read DTC Information
+      if (byteIdx === 1) return 'Sub-function';
+      if (byteIdx === 2) return 'DTC Status Availability Mask';
+      if (byteIdx === 3) return 'DTC Format Identifier';
+      if (byteIdx >= 4) return `DTC Data Byte ${byteIdx - 3}`;
+      break;
+      
+    case 0x34: // Request Download
+      if (byteIdx === 1) return 'Length Format Identifier';
+      if (byteIdx === 2) return 'Max Block Length High Byte';
+      if (byteIdx === 3) return 'Max Block Length Low Byte';
+      break;
+      
+    case 0x36: // Transfer Data
+      if (byteIdx === 1) return 'Block Sequence Counter';
+      break;
+      
+    case 0x37: // Transfer Exit
+      return 'Transfer Exit Response';
+  }
+  
+  // Default interpretation
+  if (byteIdx === 1) return 'Sub-function / Parameter';
+  return `Data Byte ${byteIdx - 1}`;
+};
 
 const ResponseVisualizer: React.FC = () => {
   const { requestHistory, clearHistory } = useUDS();
@@ -101,7 +224,7 @@ const ResponseVisualizer: React.FC = () => {
                 </div>
               </div>
 
-              {/* Response - ENHANCED with visual byte blocks and timeline */}
+              {/* Response - REDESIGNED to match screenshot */}
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
@@ -117,31 +240,33 @@ const ResponseVisualizer: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className={`rounded-xl p-4 ${
+                <div className={`rounded-lg p-5 ${
                   item.response.isNegative 
-                    ? 'bg-cyber-pink/10 border border-cyber-pink/30' 
-                    : 'bg-cyber-green/10 border border-cyber-green/30'
+                    ? 'bg-dark-900/80 border border-cyber-pink/30' 
+                    : 'bg-dark-900/80 border border-cyber-green/30'
                 }`}>
-                  <div className={`font-mono text-lg mb-3 ${item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'}`}>
-                    {toHex(item.response.data)}
+                  {/* Hex String Display */}
+                  <div className={`font-mono text-xl font-bold mb-4 tracking-wider ${
+                    item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
+                  }`}>
+                    {item.response.data.map(byte => byte.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
                   </div>
                   
-                  {/* Enhanced Visual Byte Blocks with Animated Typing Effect */}
-                  <div className="flex gap-2 mb-4 flex-wrap">
+                  {/* Visual Byte Blocks - Matching Screenshot Style */}
+                  <div className="flex gap-2 mb-5 flex-wrap">
                     {item.response.data.map((byte, byteIdx) => (
                       <div 
                         key={byteIdx} 
-                        className={`flex-shrink-0 rounded-lg p-2 text-center border transition-all hover:scale-110 animate-byte-appear ${
+                        className={`flex-shrink-0 rounded-md px-3 py-2 text-center border-2 transition-all hover:scale-105 ${
                           item.response.isNegative 
-                            ? 'bg-cyber-pink/20 border-cyber-pink/50' 
-                            : 'bg-cyber-green/20 border-cyber-green/50'
+                            ? 'bg-cyber-pink/10 border-cyber-pink/60 hover:bg-cyber-pink/20' 
+                            : 'bg-cyber-green/10 border-cyber-green/60 hover:bg-cyber-green/20'
                         }`}
                         style={{ 
                           animationDelay: `${byteIdx * 50}ms`,
-                          animationFillMode: 'backwards'
                         }}
                       >
-                        <div className={`font-mono text-sm font-bold ${
+                        <div className={`font-mono text-lg font-bold ${
                           item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
                         }`}>
                           {byte.toString(16).toUpperCase().padStart(2, '0')}
@@ -150,39 +275,39 @@ const ResponseVisualizer: React.FC = () => {
                     ))}
                   </div>
                   
-                  {/* Enhanced Byte breakdown with emoji icons */}
-                  <div className="mt-3 space-y-2 text-sm">
-                    {item.response.data.map((byte, byteIdx) => (
-                      <div key={byteIdx} className="flex items-start gap-2 text-gray-300">
-                        <span className="text-slate-500 font-mono text-xs">[{byteIdx}]:</span>
-                        <span className={`font-mono font-bold ${
-                          item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
-                        }`}>
-                          0x{byte.toString(16).toUpperCase().padStart(2, '0')}
-                        </span>
-                        {byteIdx === 0 && item.response.isNegative && <span className="text-slate-400">→ NRC Response</span>}
-                        {byteIdx === 0 && !item.response.isNegative && <span className="text-slate-400">✓ Positive Response</span>}
-                        {byteIdx === 1 && item.response.isNegative && <span className="text-slate-400">→ Service ID</span>}
-                        {byteIdx === 1 && !item.response.isNegative && <span className="text-slate-400">→ Sub-Function</span>}
-                        {byteIdx === 2 && item.response.isNegative && item.response.nrc && (
-                          <span className="text-slate-400">→ {getNRCDescription(item.response.nrc)}</span>
-                        )}
-                      </div>
-                    ))}
+                  {/* Detailed Byte Breakdown - Enhanced interpretations */}
+                  <div className="mt-4 space-y-2.5 text-sm bg-dark-800/50 rounded-lg p-4 border border-dark-600">
+                    {item.response.data.map((byte, byteIdx) => {
+                      const interpretation = getByteInterpretation(item, byteIdx, byte);
+                      return (
+                        <div key={byteIdx} className="flex items-center gap-3 group">
+                          <span className="text-slate-500 font-mono text-xs font-semibold min-w-[32px]">[{byteIdx}]:</span>
+                          <span className={`font-mono font-bold text-base min-w-[56px] ${
+                            item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
+                          }`}>
+                            0x{byte.toString(16).toUpperCase().padStart(2, '0')}
+                          </span>
+                          <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-gray-300 font-medium">{interpretation}</span>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* ASCII representation */}
                   {item.response.data.length > 3 && !item.response.isNegative && (
-                    <div className="mt-3 pt-3 border-t border-gray-700">
-                      <div className="text-xs text-gray-400 mb-1">ASCII Representation:</div>
-                      <div className="font-mono text-sm text-gray-300 bg-slate-900/50 p-2 rounded">
+                    <div className="mt-4 pt-4 border-t border-dark-600">
+                      <div className="text-xs text-gray-400 mb-2 uppercase tracking-wide font-semibold">ASCII Representation:</div>
+                      <div className="font-mono text-sm text-gray-300 bg-dark-900/60 p-3 rounded-md border border-dark-600">
                         {toASCII(item.response.data.slice(item.response.data[1] ? 2 : 1))}
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* NRC Explanation - ENHANCED with emoji */}
+                {/* NRC Explanation */}
                 {item.response.isNegative && item.response.nrc && (
                   <div className="mt-3 p-3 bg-cyber-pink/10 border border-cyber-pink/30 rounded-lg animate-fade-in">
                     <div className="flex items-start space-x-2">
@@ -195,22 +320,6 @@ const ResponseVisualizer: React.FC = () => {
                           {getNRCDescription(item.response.nrc)}
                         </div>
                       </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Protocol Trace Timeline - NEW FEATURE */}
-                {!item.response.isNegative && (
-                  <div className="mt-4">
-                    <div className="text-xs text-slate-400 mb-2 uppercase tracking-wider">Protocol Trace Timeline</div>
-                    <div className="flex gap-0.5 h-12 items-end bg-slate-900/50 rounded-lg p-2">
-                      {[1,1,3,8,9,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((h, i) => (
-                        <div 
-                          key={i} 
-                          className="flex-1 bg-gradient-to-t from-green-500 to-cyan-500 rounded-t transition-all hover:opacity-70" 
-                          style={{height: `${h*10}%`}} 
-                        />
-                      ))}
                     </div>
                   </div>
                 )}
