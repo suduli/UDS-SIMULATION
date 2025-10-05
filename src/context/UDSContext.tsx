@@ -9,10 +9,13 @@ import React, { createContext, useContext, useState, useCallback, useRef } from 
 import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
 import { mockECUConfig } from '../services/mockECU';
-import type { UDSRequest, UDSResponse, ProtocolState, Scenario } from '../types/uds';
+import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
+import type { LearningProgress } from '../types/learning';
 import { scenarioManager } from '../services/ScenarioManager';
 import { delay } from '../utils/udsHelpers';
+import { LEARNING_BADGES } from '../data/nrcLessons';
+import { serializeLearningProgress, deserializeLearningProgress } from '../types/learning';
 
 interface UDSMetrics {
   requestsSent: number;
@@ -45,6 +48,11 @@ interface UDSContextType {
   setReplaySpeed: (speed: number) => void;
   stepForward: () => void;
   stepBackward: () => void;
+  
+  // Learning progress support
+  learningProgress: LearningProgress;
+  recordNRCEncounter: (nrc: NegativeResponseCode) => void;
+  recordNRCResolution: (nrc: NegativeResponseCode) => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -97,6 +105,35 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     servicesUsed: 0,
     activeDTCs: 0,
   });
+
+  // Learning progress state
+  const getInitialLearningProgress = (): LearningProgress => {
+    const stored = localStorage.getItem('uds_learning_progress');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        return deserializeLearningProgress(parsed);
+      } catch {
+        // If parsing fails, return empty progress
+      }
+    }
+    return {
+      encounteredNRCs: new Set(),
+      resolvedNRCs: new Set(),
+      totalErrors: 0,
+      totalResolutions: 0,
+      badges: LEARNING_BADGES.map(b => ({ ...b })),
+      lastUpdated: Date.now(),
+    };
+  };
+
+  const [learningProgress, setLearningProgress] = useState<LearningProgress>(getInitialLearningProgress);
+
+  // Save learning progress to localStorage whenever it changes
+  React.useEffect(() => {
+    const serialized = serializeLearningProgress(learningProgress);
+    localStorage.setItem('uds_learning_progress', JSON.stringify(serialized));
+  }, [learningProgress]);
 
   // Update metrics whenever request history changes
   React.useEffect(() => {
@@ -348,6 +385,80 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [replayState]);
 
+  // Learning progress methods
+  const recordNRCEncounter = useCallback((nrc: NegativeResponseCode) => {
+    setLearningProgress(prev => {
+      const updated = {
+        ...prev,
+        encounteredNRCs: new Set(prev.encounteredNRCs).add(nrc),
+        totalErrors: prev.totalErrors + 1,
+        lastUpdated: Date.now(),
+      };
+
+      // Check and award badges
+      const updatedBadges = prev.badges.map(badge => {
+        if (badge.earnedAt) return badge; // Already earned
+
+        let shouldEarn = false;
+        switch (badge.condition.type) {
+          case 'encounter':
+            shouldEarn = updated.totalErrors >= badge.condition.threshold;
+            break;
+          case 'variety':
+            shouldEarn = updated.encounteredNRCs.size >= badge.condition.threshold;
+            break;
+        }
+
+        if (shouldEarn) {
+          return { ...badge, earnedAt: Date.now() };
+        }
+        return badge;
+      });
+
+      return { ...updated, badges: updatedBadges };
+    });
+  }, []);
+
+  const recordNRCResolution = useCallback((nrc: NegativeResponseCode) => {
+    setLearningProgress(prev => {
+      const updated = {
+        ...prev,
+        resolvedNRCs: new Set(prev.resolvedNRCs).add(nrc),
+        totalResolutions: prev.totalResolutions + 1,
+        lastUpdated: Date.now(),
+      };
+
+      // Check and award badges
+      const updatedBadges = prev.badges.map(badge => {
+        if (badge.earnedAt) return badge; // Already earned
+
+        let shouldEarn = false;
+        switch (badge.condition.type) {
+          case 'resolve':
+            shouldEarn = updated.totalResolutions >= badge.condition.threshold;
+            break;
+        }
+
+        if (shouldEarn) {
+          return { ...badge, earnedAt: Date.now() };
+        }
+        return badge;
+      });
+
+      return { ...updated, badges: updatedBadges };
+    });
+  }, []);
+
+  // Auto-track NRC encounters from responses
+  React.useEffect(() => {
+    if (requestHistory.length === 0) return;
+    
+    const lastItem = requestHistory[requestHistory.length - 1];
+    if (lastItem.response.isNegative && lastItem.response.nrc) {
+      recordNRCEncounter(lastItem.response.nrc);
+    }
+  }, [requestHistory, recordNRCEncounter]);
+
   // Load scenarios on mount
   React.useEffect(() => {
     const loadInitialScenarios = async () => {
@@ -391,6 +502,10 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setReplaySpeed,
         stepForward,
         stepBackward,
+        // Learning progress support
+        learningProgress,
+        recordNRCEncounter,
+        recordNRCResolution,
       }}
     >
       {children}

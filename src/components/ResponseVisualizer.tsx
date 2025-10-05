@@ -3,10 +3,11 @@
  * Displays UDS responses with detailed breakdown
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { toHex, toASCII, getNRCDescription } from '../utils/udsHelpers';
-import type { UDSRequest, UDSResponse } from '../types/uds';
+import type { UDSRequest, UDSResponse, NegativeResponseCode } from '../types/uds';
+import { NRCLearningModal } from './NRCLearningModal';
 
 interface HistoryItem {
   request: UDSRequest;
@@ -131,8 +132,29 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 };
 
 const ResponseVisualizer: React.FC = () => {
-  const { requestHistory, clearHistory } = useUDS();
+  const { requestHistory, clearHistory, recordNRCResolution } = useUDS();
   const bottomRef = useRef<HTMLDivElement>(null);
+  
+  // NRC Learning Modal state
+  const [learningModalOpen, setLearningModalOpen] = useState(false);
+  const [selectedNRC, setSelectedNRC] = useState<{ nrc: NegativeResponseCode; request: UDSRequest; response: UDSResponse } | null>(null);
+
+  const handleOpenLearning = (nrc: NegativeResponseCode, request: UDSRequest, response: UDSResponse) => {
+    setSelectedNRC({ nrc, request, response });
+    setLearningModalOpen(true);
+  };
+
+  const handleTryCorrection = (correctedRequest: UDSRequest) => {
+    // This will be handled by copying to the request builder
+    console.log('Try correction:', correctedRequest);
+    setLearningModalOpen(false);
+  };
+
+  const handleMarkResolved = () => {
+    if (selectedNRC) {
+      recordNRCResolution(selectedNRC.nrc);
+    }
+  };
 
   // Auto-scroll disabled to prevent page jumping
   // useEffect(() => {
@@ -314,13 +336,22 @@ const ResponseVisualizer: React.FC = () => {
                   <div className="mt-3 p-3 bg-cyber-pink/10 border border-cyber-pink/30 rounded-lg animate-fade-in">
                     <div className="flex items-start space-x-2">
                       <span className="text-2xl">⚠️</span>
-                      <div>
+                      <div className="flex-1">
                         <div className="font-bold text-cyber-pink text-sm">
                           NRC 0x{item.response.nrc.toString(16).toUpperCase().padStart(2, '0')}
                         </div>
                         <div className="text-xs text-gray-400 mt-1">
                           {getNRCDescription(item.response.nrc)}
                         </div>
+                        <button
+                          onClick={() => handleOpenLearning(item.response.nrc!, item.request, item.response)}
+                          className="mt-3 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                          </svg>
+                          Learn More About This Error
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -331,6 +362,19 @@ const ResponseVisualizer: React.FC = () => {
         )}
         <div ref={bottomRef} />
       </div>
+
+      {/* NRC Learning Modal */}
+      {selectedNRC && (
+        <NRCLearningModal
+          nrc={selectedNRC.nrc}
+          request={selectedNRC.request}
+          response={selectedNRC.response}
+          isOpen={learningModalOpen}
+          onClose={() => setLearningModalOpen(false)}
+          onTryCorrection={handleTryCorrection}
+          onMarkResolved={handleMarkResolved}
+        />
+      )}
     </div>
   );
 };
