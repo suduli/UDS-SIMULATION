@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docs:organize": "node organize-docs.js",
+    "docs:preview": "node organize-docs.js --dry-run --verbose",
+    "docs:restore": "node organize-docs.js --restore"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8",

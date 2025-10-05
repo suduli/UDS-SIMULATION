@@ -55,35 +55,46 @@ A futuristic, interactive web application for learning and practicing Unified Di
 - **Performance**: Optimized re-renders and smooth 60fps animations
 - **Code Quality**: Clean architecture with separation of concerns
 
-## � Documentation
+## 📚 Documentation
 
-### Quick Start
-- **[QUICKSTART.md](./QUICKSTART.md)** - Get up and running in 5 minutes
-- **[QUICK_VISUAL_DEMO.md](./QUICK_VISUAL_DEMO.md)** - 30-second visual feature demo
+> **📖 [Complete Documentation Index](./docs/)** - All documentation organized by topic
 
-### Implementation Guides
-- **[VISUAL_GUIDE_WEEK3-4.md](./VISUAL_GUIDE_WEEK3-4.md)** - Feature design specifications
-- **[VISUAL_GUIDE_IMPLEMENTATION_STATUS.md](./VISUAL_GUIDE_IMPLEMENTATION_STATUS.md)** - Complete implementation verification
-- **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** - What's implemented and how to verify
+### Quick Links
 
-### Testing & Quality
-- **[TESTING_GUIDE_TOOLTIPS_TOUR.md](./TESTING_GUIDE_TOOLTIPS_TOUR.md)** - Comprehensive testing guide (28 test cases)
-- **[TESTING_CHECKLIST_WEEK3-4.md](./TESTING_CHECKLIST_WEEK3-4.md)** - Weekly testing checklist
-- **[ACCESSIBILITY_GUIDE.md](./ACCESSIBILITY_GUIDE.md)** - WCAG 2.1 AA/AAA compliance guide
+#### 🚀 Getting Started
+- **[Quickstart Guide](./docs/getting-started/QUICKSTART.md)** - Get up and running in 5 minutes
+- **[Visual Demo](./docs/getting-started/QUICK_VISUAL_DEMO.md)** - 30-second feature showcase
+- **[Quick Reference](./docs/getting-started/QUICK_REFERENCE_CARD.md)** - Command cheat sheet
+- **[Start Testing](./docs/getting-started/START_TESTING_HERE.md)** - Begin testing immediately
 
-### Development Guides
-- **[IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md)** - Component architecture guide
-- **[IMPLEMENTATION_PROGRESS.md](./IMPLEMENTATION_PROGRESS.md)** - Feature implementation tracking
-- **[IMPLEMENTATION_REVIEW.md](./IMPLEMENTATION_REVIEW.md)** - Code quality review
+#### 📖 Implementation Guides
+- **[Implementation Guide](./docs/guides/IMPLEMENTATION_GUIDE.md)** - Comprehensive development guide
+- **[Implementation Summary](./docs/guides/IMPLEMENTATION_SUMMARY.md)** - What's implemented
+- **[Implementation Review](./docs/guides/IMPLEMENTATION_REVIEW.md)** - Code quality review
+- **[More guides →](./docs/guides/)**
 
-### Weekly Summaries
-- **[WEEK1_COMPLETE.md](./WEEK1_COMPLETE.md)** - Week 1 achievements
-- **[WEEK1_QUICKWINS_COMPLETED.md](./WEEK1_QUICKWINS_COMPLETED.md)** - Quick wins
-- **[WEEK2_VISUAL_ENHANCEMENTS_COMPLETED.md](./WEEK2_VISUAL_ENHANCEMENTS_COMPLETED.md)** - Visual improvements
-- **[WEEK3-4_SUMMARY.md](./WEEK3-4_SUMMARY.md)** - Weeks 3-4 overview
-- **[WEEK3-4_UX_FEATURES_COMPLETED.md](./WEEK3-4_UX_FEATURES_COMPLETED.md)** - UX features
+#### 🧪 Testing & Quality
+- **[Testing Guide](./docs/testing/TESTING_GUIDE_TOOLTIPS_TOUR.md)** - Complete testing procedures (28 test cases)
+- **[Testing Checklist](./docs/testing/TESTING_CHECKLIST_WEEK3-4.md)** - Week 3-4 testing checklist
+- **[More testing docs →](./docs/testing/)**
 
-## �📦 Installation
+#### ♿ Accessibility
+- **[Accessibility Guide](./docs/accessibility/ACCESSIBILITY_GUIDE.md)** - WCAG 2.1 AA/AAA compliance
+- **[Mobile Quick Guide](./docs/accessibility/ACCESSIBILITY_MOBILE_QUICK_GUIDE.md)** - Mobile accessibility
+- **[More accessibility docs →](./docs/accessibility/)**
+
+#### 🎨 Design & Visual Guides
+- **[Design Specifications](./docs/design/DESIGN_SPECIFICATION_SHEET.md)** - Design system details
+- **[Visual Guide Week 3-4](./docs/design/VISUAL_GUIDE_WEEK3-4.md)** - Feature specifications
+- **[Card Redesign Proposal](./docs/design/CARD_REDESIGN_PROPOSAL.md)** - UI component redesigns
+- **[More design docs →](./docs/design/)**
+
+#### 📊 Progress Reports
+- **[Weekly Reports](./docs/reports/weekly/)** - All weekly progress summaries
+- **[Latest: Week 5 Summary](./docs/reports/weekly/WEEK5_SUMMARY.md)** - Most recent progress
+- **[Planning & Next Steps](./docs/planning/)** - Future roadmap
+
+## 📦 Installation
 
 ```bash
 # Clone the repository
@@ -248,11 +259,12 @@ The simulator is designed for:
 - QA teams testing ECU implementations
 - Accessibility advocates (WCAG AAA compliant)
 
-### Documentation Files
-- **[WEEK1_COMPLETE.md](./WEEK1_COMPLETE.md)**: Week 1 implementation details (5/5 tasks complete)
-- **[ACCESSIBILITY_GUIDE.md](./ACCESSIBILITY_GUIDE.md)**: Comprehensive accessibility documentation
-- **[IMPLEMENTATION_REVIEW.md](./IMPLEMENTATION_REVIEW.md)**: Code review and best practices
-- **[QUICKSTART.md](./QUICKSTART.md)**: Quick setup and usage guide
+### Featured Documentation
+- **[📚 Complete Documentation](./docs/)**: Organized index of all documentation
+- **[🚀 Quickstart Guide](./docs/getting-started/QUICKSTART.md)**: Quick setup and usage guide
+- **[♿ Accessibility Guide](./docs/accessibility/ACCESSIBILITY_GUIDE.md)**: Comprehensive accessibility documentation
+- **[📊 Weekly Reports](./docs/reports/weekly/)**: Week-by-week implementation progress
+- **[🧪 Testing Guide](./docs/testing/TESTING_GUIDE_TOOLTIPS_TOUR.md)**: Complete testing procedures
 
 ## 🤝 Contributing
 

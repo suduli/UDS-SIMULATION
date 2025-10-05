@@ -6,9 +6,11 @@ import RequestBuilder from './components/RequestBuilder';
 import ResponseVisualizer from './components/ResponseVisualizer';
 import ProtocolStateDashboard from './components/ProtocolStateDashboard';
 import BackgroundEffect from './components/BackgroundEffect';
-import AdditionalFeaturesRedesigned from './components/AdditionalFeaturesRedesigned';
 import TimingMetrics from './components/TimingMetrics';
 import { OnboardingTour } from './components/OnboardingTour';
+import SessionStatsCardRedesigned from './components/SessionStatsCardRedesigned';
+import LearningCenterCardRedesigned from './components/LearningCenterCardRedesigned';
+import DTCManagementCardRedesigned from './components/DTCManagementCardRedesigned';
 
 function App() {
   const [showTour, setShowTour] = useState(false);
@@ -58,9 +60,6 @@ function App() {
                   <div className="request-builder">
                     <RequestBuilder />
                   </div>
-                  <div className="quick-examples">
-                    <AdditionalFeaturesRedesigned />
-                  </div>
                 </div>
                 
                 {/* Right Column - Response Visualizer first on mobile for immediate feedback */}
@@ -70,6 +69,13 @@ function App() {
                   </div>
                   <TimingMetrics />
                 </div>
+              </div>
+              
+              {/* Feature Cards - Redesigned */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                <SessionStatsCardRedesigned />
+                <LearningCenterCardRedesigned />
+                <DTCManagementCardRedesigned />
               </div>
             </main>
           </div>

@@ -1,0 +1,231 @@
+import React, { useState } from 'react';
+import FeatureCardWrapper from './FeatureCardWrapper';
+
+interface LearningModule {
+  id: string;
+  title: string;
+  completed: number;
+  total: number;
+  progress: number;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  estimatedMinutes: number;
+  status: 'in-progress' | 'completed' | 'available' | 'locked';
+  completedTopics: string[];
+}
+
+const LearningCenterCardRedesigned: React.FC = () => {
+  const [modules] = useState<LearningModule[]>([
+    {
+      id: '1',
+      title: 'Session Control',
+      completed: 3,
+      total: 5,
+      progress: 60,
+      difficulty: 'beginner',
+      estimatedMinutes: 25,
+      status: 'in-progress',
+      completedTopics: ['Types', 'Control', 'Transitions']
+    },
+    {
+      id: '2',
+      title: 'Security Access',
+      completed: 3,
+      total: 7,
+      progress: 43,
+      difficulty: 'intermediate',
+      estimatedMinutes: 42,
+      status: 'in-progress',
+      completedTopics: ['Overview', 'Authentication', 'Seed & Key']
+    }
+  ]);
+
+  const totalModules = 19;
+  const completedModules = 8;
+  const overallProgress = Math.round((completedModules / totalModules) * 100);
+  const streak = 12;
+
+  const getDifficultyConfig = (difficulty: string) => {
+    switch(difficulty) {
+      case 'beginner': 
+        return {
+          badge: 'bg-green-500/20 text-green-400 border-green-500/50',
+          label: 'Beginner'
+        };
+      case 'intermediate': 
+        return {
+          badge: 'bg-amber-500/20 text-amber-400 border-amber-500/50',
+          label: 'Intermediate'
+        };
+      case 'advanced': 
+        return {
+          badge: 'bg-red-500/20 text-red-400 border-red-500/50',
+          label: 'Advanced'
+        };
+      default: 
+        return {
+          badge: 'bg-slate-500/20 text-slate-400 border-slate-500/50',
+          label: 'Unknown'
+        };
+    }
+  };
+
+  const handleResume = (moduleId: string) => {
+    console.log('Resuming module:', moduleId);
+    // Implement resume logic
+  };
+
+  const handleContinueLearning = () => {
+    const inProgress = modules.find(m => m.status === 'in-progress');
+    if (inProgress) {
+      handleResume(inProgress.id);
+    }
+  };
+
+  const icon = (
+    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+    </svg>
+  );
+
+  const headerAction = (
+    <button className="px-3 py-1.5 text-xs font-medium text-purple-400 border border-purple-500/50 rounded-lg hover:bg-purple-500/10 transition-colors">
+      Explore
+    </button>
+  );
+
+  return (
+    <FeatureCardWrapper
+      icon={icon}
+      title="Learning Center"
+      subtitle="Interactive Tutorials"
+      accentColor="purple"
+      headerAction={headerAction}
+      actions={
+        <button 
+          onClick={handleContinueLearning}
+          className="w-full px-4 py-2.5 bg-purple-500/20 border border-purple-500/50 rounded-lg text-purple-400 font-medium hover:bg-purple-500/30 transition-colors flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Continue Learning
+        </button>
+      }
+    >
+      {/* Progress Overview */}
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-700/30">
+        <div className="flex items-center gap-3">
+          {/* Circular Progress */}
+          <div className="relative w-12 h-12">
+            <svg className="w-12 h-12 transform -rotate-90">
+              <circle
+                cx="24"
+                cy="24"
+                r="20"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+                className="text-slate-700"
+              />
+              <circle
+                cx="24"
+                cy="24"
+                r="20"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 20}`}
+                strokeDashoffset={`${2 * Math.PI * 20 * (1 - overallProgress / 100)}`}
+                className="text-purple-400 transition-all duration-1000"
+                strokeLinecap="round"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xs font-bold text-purple-400">{overallProgress}%</span>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-sm font-semibold text-slate-200">{completedModules}/{totalModules} Modules</p>
+            <p className="text-xs text-slate-400">Overall Progress</p>
+          </div>
+        </div>
+
+        {/* Streak */}
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+          <span className="text-lg">🔥</span>
+          <span className="text-sm font-bold text-orange-400">{streak} Day</span>
+        </div>
+      </div>
+
+      {/* Module List */}
+      <div className="space-y-4">
+        {modules.map((module, index) => {
+          const difficultyConfig = getDifficultyConfig(module.difficulty);
+          
+          return (
+            <div 
+              key={module.id}
+              className="bg-dark-800/60 rounded-xl p-4 border border-slate-700/30 hover:border-purple-500/30 transition-all duration-200 animate-fade-in"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* Title and Action */}
+              <div className="flex items-start justify-between mb-3">
+                <h4 className="text-base font-semibold text-slate-100">{module.title}</h4>
+                <button 
+                  onClick={() => handleResume(module.id)}
+                  className="flex items-center gap-1 px-3 py-1 bg-purple-500/20 border border-purple-500/50 rounded-md text-xs font-medium text-purple-400 hover:bg-purple-500/30 transition-colors"
+                  aria-label={`Resume ${module.title}`}
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Resume
+                </button>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="mb-3">
+                <div className="flex items-center justify-between text-xs mb-1.5">
+                  <span className="text-slate-400">{module.completed}/{module.total} lessons</span>
+                  <span className="text-purple-400 font-semibold">{module.progress}%</span>
+                </div>
+                <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full transition-all duration-1000"
+                    style={{ width: `${module.progress}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Metadata */}
+              <div className="flex items-center gap-3 text-xs text-slate-400 mb-2">
+                <span>{module.estimatedMinutes} min left</span>
+                <span>•</span>
+                <span className={`px-2 py-0.5 rounded border ${difficultyConfig.badge}`}>
+                  {difficultyConfig.label}
+                </span>
+              </div>
+
+              {/* Completed Topics */}
+              <div className="flex flex-wrap gap-1.5">
+                {module.completedTopics.map(topic => (
+                  <span key={topic} className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-500/10 border border-green-500/30 rounded text-xs text-green-400">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </FeatureCardWrapper>
+  );
+};
+
+export default LearningCenterCardRedesigned;
