@@ -8,13 +8,32 @@ import { useUDS } from '../context/UDSContext';
 import { useTheme } from '../context/ThemeContext';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import HelpModal from './HelpModal';
+import { ScenarioLibrary } from './ScenarioLibrary';
+import { ReplayControls } from './ReplayControls';
+import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
+import { scenarioManager } from '../services/ScenarioManager';
+import { isFeatureEnabled } from '../config/featureFlags';
 
 const Header: React.FC = () => {
-  const { requestHistory, clearHistory } = useUDS();
+  const { 
+    requestHistory, 
+    clearHistory, 
+    replayState,
+    startReplay,
+    pauseReplay,
+    resumeReplay,
+    stopReplay,
+    setReplaySpeed,
+    stepForward,
+    stepBackward,
+    saveEnhancedScenario,
+  } = useUDS();
   const { theme, toggleTheme, highContrast, toggleHighContrast } = useTheme();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [showExportSuccess, setShowExportSuccess] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScenarioLibraryOpen, setIsScenarioLibraryOpen] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   const handleOpenHelp = useCallback(() => {
     setIsHelpOpen(true);
@@ -54,26 +73,53 @@ const Header: React.FC = () => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'application/json';
-    input.onchange = (e) => {
+    input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          try {
-            const data = JSON.parse(event.target?.result as string);
-            // TODO: Implement import logic in UDSContext
-            console.log('Imported data:', data);
-            alert('Import functionality coming soon!');
-          } catch (error) {
-            console.error('Error importing file:', error);
-            alert('Error importing file. Please check the file format.');
-          }
-        };
-        reader.readAsText(file);
+        try {
+          const scenario = await scenarioManager.importScenario(file);
+          // Load the imported scenario
+          startReplay(scenario);
+          alert(`Scenario "${scenario.name}" imported successfully!`);
+        } catch (error) {
+          console.error('Error importing file:', error);
+          alert(`Error importing file: ${error}`);
+        }
       }
     };
     input.click();
   };
+
+  const handleSaveScenario = async () => {
+    if (requestHistory.length === 0) {
+      alert('No requests to save. Please send some requests first.');
+      return;
+    }
+    setShowSaveDialog(true);
+  };
+
+  const handleSaveScenarioSubmit = async (metadata: ScenarioMetadata) => {
+    try {
+      await saveEnhancedScenario(metadata);
+      setShowSaveDialog(false);
+      alert(`Scenario "${metadata.name}" saved successfully!`);
+    } catch (error) {
+      console.error('Error saving scenario:', error);
+      alert(`Error saving scenario: ${error}`);
+    }
+  };
+
+  const handleLoadScenario = (scenario: EnhancedScenario) => {
+    startReplay(scenario);
+    setIsScenarioLibraryOpen(false);
+  };
+
+  const handlePlayReplay = () => {
+    if (replayState.isPaused) {
+      resumeReplay();
+    }
+  };
+
 
   return (
     <>
@@ -112,6 +158,33 @@ const Header: React.FC = () => {
                 </svg>
                 Help
               </button>
+
+              {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
+                <button 
+                  onClick={() => setIsScenarioLibraryOpen(true)}
+                  className="cyber-button text-sm"
+                  aria-label="Open scenario library"
+                >
+                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+                  </svg>
+                  Scenarios
+                </button>
+              )}
+
+              {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && (
+                <button 
+                  onClick={handleSaveScenario}
+                  className="cyber-button text-sm"
+                  disabled={requestHistory.length === 0}
+                  aria-label="Save current session as scenario"
+                >
+                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                  </svg>
+                  Save
+                </button>
+              )}
               
               <div className="relative">
                 <button 
@@ -261,7 +334,146 @@ const Header: React.FC = () => {
       </header>
 
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      
+      {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
+        <ScenarioLibrary
+          isOpen={isScenarioLibraryOpen}
+          onClose={() => setIsScenarioLibraryOpen(false)}
+          onLoadScenario={handleLoadScenario}
+        />
+      )}
+
+      {isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
+        <div className="container mx-auto px-4 py-2">
+          <ReplayControls
+            replayState={replayState}
+            onPlay={handlePlayReplay}
+            onPause={pauseReplay}
+            onStop={stopReplay}
+            onSpeedChange={setReplaySpeed}
+            onStepForward={stepForward}
+            onStepBackward={stepBackward}
+          />
+        </div>
+      )}
+
+      {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && showSaveDialog && (
+        <SaveScenarioDialog
+          onSave={handleSaveScenarioSubmit}
+          onCancel={() => setShowSaveDialog(false)}
+        />
+      )}
     </>
+  );
+};
+
+// Save Scenario Dialog Component
+const SaveScenarioDialog: React.FC<{
+  onSave: (metadata: ScenarioMetadata) => void;
+  onCancel: () => void;
+}> = ({ onSave, onCancel }) => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
+  const [tags, setTags] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      alert('Please enter a scenario name');
+      return;
+    }
+    
+    onSave({
+      name: name.trim(),
+      description: description.trim() || 'No description provided',
+      author: author.trim() || undefined,
+      tags: tags.split(',').map(t => t.trim()).filter(t => t),
+      notes: notes.trim() || undefined,
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900 border-2 border-cyan-500/30 rounded-xl max-w-md w-full p-6 shadow-2xl shadow-cyan-500/20">
+        <h2 className="text-2xl font-bold text-cyan-400 mb-4">Save Scenario</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Scenario Name *</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="e.g., DTC Read Test"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="Describe what this scenario tests..."
+              rows={3}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Author</label>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Tags (comma-separated)</label>
+            <input
+              type="text"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="e.g., dtc, diagnostic, test"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">Notes</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              placeholder="Additional notes..."
+              rows={2}
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              className="flex-1 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all"
+            >
+              Save Scenario
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-4 py-2 bg-gray-700/50 border border-cyan-500/30 text-gray-400 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

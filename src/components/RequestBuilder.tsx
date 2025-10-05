@@ -195,7 +195,7 @@ const RequestBuilder: React.FC = () => {
       const request = {
         sid: requestData[0] as ServiceId,
         subFunction: requestData.length > 1 ? requestData[1] : undefined,
-        data: requestData.slice(requestData.length > 1 && subFunction ? 2 : 1),
+        data: requestData.slice(2), // Always start from index 2 (after SID and sub-function)
         timestamp: Date.now(),
       };
 

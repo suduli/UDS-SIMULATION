@@ -3,7 +3,7 @@
  * Displays UDS responses with detailed breakdown
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { toHex, toASCII, getNRCDescription } from '../utils/udsHelpers';
 import type { UDSRequest, UDSResponse } from '../types/uds';
@@ -134,9 +134,10 @@ const ResponseVisualizer: React.FC = () => {
   const { requestHistory, clearHistory } = useUDS();
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [requestHistory]);
+  // Auto-scroll disabled to prevent page jumping
+  // useEffect(() => {
+  //   bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // }, [requestHistory]);
 
   const getServiceName = (sid: number): string => {
     const serviceNames: Record<number, string> = {
@@ -197,8 +198,9 @@ const ResponseVisualizer: React.FC = () => {
             <p className="text-xs text-gray-600">💡 Try the "Read VIN" quick example to get started!</p>
           </div>
         ) : (
-          requestHistory.map((item, index) => (
-            <div key={index} className="bg-dark-800/50 rounded-lg border border-dark-600 overflow-hidden animate-fade-in">
+          // LIFO: Display newest requests first (reverse order)
+          [...requestHistory].reverse().map((item, index) => (
+            <div key={requestHistory.length - 1 - index} className="bg-dark-800/50 rounded-lg border border-dark-600 overflow-hidden animate-fade-in">
               {/* Request */}
               <div className="p-4 border-b border-dark-600">
                 <div className="flex items-center justify-between mb-2">

@@ -104,6 +104,31 @@ export const dtcStatusToByte = (status: DTCStatusMask): number => {
 };
 
 /**
+ * Get service name from SID
+ */
+export const getServiceName = (sid: number): string => {
+  const services: Record<number, string> = {
+    0x10: 'Diagnostic Session Control',
+    0x11: 'ECU Reset',
+    0x14: 'Clear Diagnostic Information',
+    0x19: 'Read DTC Information',
+    0x22: 'Read Data By Identifier',
+    0x23: 'Read Memory By Address',
+    0x27: 'Security Access',
+    0x28: 'Communication Control',
+    0x2A: 'Read Data By Periodic Identifier',
+    0x2E: 'Write Data By Identifier',
+    0x31: 'Routine Control',
+    0x34: 'Request Download',
+    0x35: 'Request Upload',
+    0x36: 'Transfer Data',
+    0x37: 'Request Transfer Exit',
+    0x3D: 'Write Memory By Address',
+  };
+  return services[sid] || `Unknown Service (0x${sid.toString(16).toUpperCase()})`;
+};
+
+/**
  * Get NRC description
  */
 export const getNRCDescription = (nrc: NegativeResponseCode): string => {
