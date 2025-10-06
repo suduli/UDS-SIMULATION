@@ -12,7 +12,9 @@ import { mockECUConfig } from '../services/mockECU';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
+import type { Sequence, SequenceExecutionState, SequenceExecutionOptions } from '../types/sequence';
 import { scenarioManager } from '../services/ScenarioManager';
+import { sequenceEngine } from '../services/SequenceEngine';
 import { delay } from '../utils/udsHelpers';
 import { LEARNING_BADGES } from '../data/nrcLessons';
 import { serializeLearningProgress, deserializeLearningProgress } from '../types/learning';
@@ -53,6 +55,18 @@ interface UDSContextType {
   learningProgress: LearningProgress;
   recordNRCEncounter: (nrc: NegativeResponseCode) => void;
   recordNRCResolution: (nrc: NegativeResponseCode) => void;
+  
+  // Sequence support (P2-03)
+  sequences: Sequence[];
+  currentSequence?: SequenceExecutionState;
+  createSequence: (name: string, description: string) => Sequence;
+  updateSequence: (id: string, updates: Partial<Sequence>) => void;
+  deleteSequenceById: (id: string) => void;
+  executeSequence: (sequence: Sequence, options?: SequenceExecutionOptions) => Promise<void>;
+  pauseSequence: () => void;
+  resumeSequence: () => void;
+  stopSequence: () => void;
+  clearSequenceExecution: () => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -128,6 +142,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const [learningProgress, setLearningProgress] = useState<LearningProgress>(getInitialLearningProgress);
+
+  // Sequence state (P2-03)
+  const [sequences, setSequences] = useState<Sequence[]>([]);
+  const [currentSequence, setCurrentSequence] = useState<SequenceExecutionState | undefined>();
+  const sequenceAbortController = useRef<AbortController | null>(null);
 
   // Save learning progress to localStorage whenever it changes
   React.useEffect(() => {
@@ -459,6 +478,153 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [requestHistory, recordNRCEncounter]);
 
+  // Sequence methods (P2-03)
+  const createSequence = useCallback((name: string, description: string): Sequence => {
+    const newSequence: Sequence = {
+      id: `seq_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name,
+      description,
+      steps: [],
+      variables: {},
+      createdAt: Date.now(),
+      modifiedAt: Date.now(),
+    };
+
+    setSequences(prev => [...prev, newSequence]);
+    
+    // Save to localStorage
+    const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
+    savedSequences.push(newSequence);
+    localStorage.setItem('uds_sequences', JSON.stringify(savedSequences));
+    
+    return newSequence;
+  }, []);
+
+  const updateSequence = useCallback((id: string, updates: Partial<Sequence>) => {
+    setSequences(prev => prev.map(seq => 
+      seq.id === id 
+        ? { ...seq, ...updates, modifiedAt: Date.now() }
+        : seq
+    ));
+    
+    // Update in localStorage
+    const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
+    const updatedSequences = savedSequences.map((seq: Sequence) =>
+      seq.id === id ? { ...seq, ...updates, modifiedAt: Date.now() } : seq
+    );
+    localStorage.setItem('uds_sequences', JSON.stringify(updatedSequences));
+  }, []);
+
+  const deleteSequenceById = useCallback((id: string) => {
+    setSequences(prev => prev.filter(seq => seq.id !== id));
+    
+    // Remove from localStorage
+    const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
+    const filtered = savedSequences.filter((seq: Sequence) => seq.id !== id);
+    localStorage.setItem('uds_sequences', JSON.stringify(filtered));
+  }, []);
+
+  const executeSequence = useCallback(async (
+    sequence: Sequence, 
+    options?: SequenceExecutionOptions
+  ): Promise<void> => {
+    sequenceAbortController.current = new AbortController();
+
+    try {
+      // Clear history for fresh execution
+      setRequestHistory([]);
+
+      // Create initial execution state
+      const executionState: SequenceExecutionState = {
+        sequence,
+        currentStep: 0,
+        isRunning: true,
+        isPaused: false,
+        results: [],
+        variables: { ...sequence.variables },
+        startedAt: Date.now(),
+      };
+
+      setCurrentSequence(executionState);
+
+      // Execute sequence using engine
+      const finalState = await sequenceEngine.executeSequence(
+        sequence,
+        sendRequest,
+        options
+      );
+
+      // Update history with results
+      finalState.results.forEach(result => {
+        if (result.response) {
+          setRequestHistory(prev => [...prev, {
+            request: result.step.request,
+            response: result.response
+          }]);
+        }
+      });
+
+      setCurrentSequence(finalState);
+    } catch (error) {
+      console.error('Sequence execution error:', error);
+      setCurrentSequence(prev => prev ? {
+        ...prev,
+        isRunning: false,
+        completedAt: Date.now(),
+      } : undefined);
+    }
+  }, [sendRequest]);
+
+  const pauseSequence = useCallback(() => {
+    setCurrentSequence(prev => prev ? {
+      ...prev,
+      isPaused: true,
+      pausedAt: Date.now(),
+    } : undefined);
+  }, []);
+
+  const resumeSequence = useCallback(() => {
+    setCurrentSequence(prev => prev ? {
+      ...prev,
+      isPaused: false,
+      pausedAt: undefined,
+    } : undefined);
+    
+    // Resume execution logic would go here
+    // This is a simplified implementation
+  }, []);
+
+  const stopSequence = useCallback(() => {
+    sequenceAbortController.current?.abort();
+    setCurrentSequence(prev => prev ? {
+      ...prev,
+      isRunning: false,
+      isPaused: false,
+      completedAt: Date.now(),
+    } : undefined);
+  }, []);
+
+  const clearSequenceExecution = useCallback(() => {
+    sequenceAbortController.current?.abort();
+    setCurrentSequence(undefined);
+  }, []);
+
+  // Load sequences from localStorage on mount
+  React.useEffect(() => {
+    const loadSavedSequences = () => {
+      try {
+        const saved = localStorage.getItem('uds_sequences');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          setSequences(parsed);
+        }
+      } catch (error) {
+        console.error('Failed to load sequences:', error);
+      }
+    };
+    loadSavedSequences();
+  }, []);
+
   // Load scenarios on mount
   React.useEffect(() => {
     const loadInitialScenarios = async () => {
@@ -506,6 +672,17 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         learningProgress,
         recordNRCEncounter,
         recordNRCResolution,
+        // Sequence support (P2-03)
+        sequences,
+        currentSequence,
+        createSequence,
+        updateSequence,
+        deleteSequenceById,
+        executeSequence,
+        pauseSequence,
+        resumeSequence,
+        stopSequence,
+        clearSequenceExecution,
       }}
     >
       {children}

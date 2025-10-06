@@ -10,6 +10,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import HelpModal from './HelpModal';
 import { ScenarioLibrary } from './ScenarioLibrary';
 import { ReplayControls } from './ReplayControls';
+import { SequenceBuilder } from './SequenceBuilder';
 import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
@@ -34,6 +35,7 @@ const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScenarioLibraryOpen, setIsScenarioLibraryOpen] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [isSequenceBuilderOpen, setIsSequenceBuilderOpen] = useState(false);
 
   const handleOpenHelp = useCallback(() => {
     setIsHelpOpen(true);
@@ -171,6 +173,17 @@ const Header: React.FC = () => {
                   Scenarios
                 </button>
               )}
+
+              <button 
+                onClick={() => setIsSequenceBuilderOpen(true)}
+                className="cyber-button text-sm"
+                aria-label="Open sequence builder"
+              >
+                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+                </svg>
+                Sequences
+              </button>
 
               {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && (
                 <button 
@@ -342,6 +355,11 @@ const Header: React.FC = () => {
           onLoadScenario={handleLoadScenario}
         />
       )}
+
+      <SequenceBuilder
+        isOpen={isSequenceBuilderOpen}
+        onClose={() => setIsSequenceBuilderOpen(false)}
+      />
 
       {isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
         <div className="container mx-auto px-4 py-2">
