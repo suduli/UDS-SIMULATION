@@ -9,6 +9,7 @@ import { ServiceId } from '../types/uds';
 import { fromHex } from '../utils/udsHelpers';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import ServiceCard from './ServiceCard';
+import { AdvancedHexEditor } from './AdvancedHexEditor';
 
 const RequestBuilder: React.FC = () => {
   const { sendRequest } = useUDS();
@@ -21,6 +22,7 @@ const RequestBuilder: React.FC = () => {
   const [validationError, setValidationError] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>('grid');
+  const [showAdvancedHexEditor, setShowAdvancedHexEditor] = useState(false);
 
   // Validate hex input
   const validateHexInput = (input: string): { valid: boolean; error: string } => {
@@ -463,9 +465,21 @@ const RequestBuilder: React.FC = () => {
         <div className="space-y-4">
           {/* Manual Hex Input */}
           <div>
-            <label className="block text-sm text-gray-400 mb-2">
-              Manual Hex Frame (space-separated bytes)
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm text-gray-400">
+                Manual Hex Frame (space-separated bytes)
+              </label>
+              <button
+                onClick={() => setShowAdvancedHexEditor(true)}
+                className="cyber-button text-xs px-3 py-1.5 flex items-center gap-1"
+                title="Open Advanced Hex Editor"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                </svg>
+                Visual Editor
+              </button>
+            </div>
             <textarea
               value={manualHex}
               onChange={(e) => handleManualHexChange(e.target.value)}
@@ -529,6 +543,20 @@ const RequestBuilder: React.FC = () => {
           'Send Request'
         )}
       </button>
+
+      {/* Advanced Hex Editor Modal */}
+      <AdvancedHexEditor
+        isOpen={showAdvancedHexEditor}
+        onClose={() => setShowAdvancedHexEditor(false)}
+        onApply={(bytes) => {
+          // Convert bytes array to hex string
+          const hexString = bytes.map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ');
+          setManualHex(hexString);
+          handleManualHexChange(hexString);
+          setShowAdvancedHexEditor(false);
+        }}
+        initialBytes={manualHex.trim() ? fromHex(manualHex) : []}
+      />
     </div>
   );
 };
