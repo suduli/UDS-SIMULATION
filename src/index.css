@@ -744,7 +744,11 @@
     opacity: 0;
     transform: translateY(-50%) scale(0.8);
   }
-  20% {
+  15% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  85% {
     opacity: 1;
     transform: translateY(-50%) scale(1);
   }
@@ -761,7 +765,11 @@
     opacity: 0;
     transform: translateY(-50%) scale(0.8);
   }
-  20% {
+  15% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  85% {
     opacity: 1;
     transform: translateY(-50%) scale(1);
   }

@@ -184,7 +184,7 @@ const ResponseVisualizer: React.FC = () => {
       setActivePackets(prev => [...prev, requestPacket]);
       setFlowStats(prev => ({ ...prev, totalRequests: prev.totalRequests + 1, activeFlow: true }));
 
-      // Add response packet after delay
+      // Add response packet after delay (wait for request to reach ECU)
       setTimeout(() => {
         const responseBytes = latestItem.response.data.map(b => byteToHex(b));
         const responsePacket: PacketAnimation = {
@@ -202,8 +202,8 @@ const ResponseVisualizer: React.FC = () => {
         setTimeout(() => {
           setActivePackets(prev => prev.filter(p => p.id !== requestPacket.id && p.id !== responsePacket.id));
           setFlowStats(prev => ({ ...prev, activeFlow: false }));
-        }, 2000);
-      }, 600);
+        }, 3000);
+      }, 1200);
 
       lastHistoryLengthRef.current = requestHistory.length;
     }

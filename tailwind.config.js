@@ -30,8 +30,8 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-out',
         'shimmer': 'shimmer 2s linear infinite',
         'gradient-shift': 'gradientShift 3s ease-in-out infinite',
-        'packet-request': 'packet-request 800ms ease-out forwards',
-        'packet-response': 'packet-response 800ms ease-out forwards',
+        'packet-request': 'packet-request 2500ms ease-in-out forwards',
+        'packet-response': 'packet-response 2500ms ease-in-out forwards',
       },
       keyframes: {
         glow: {
@@ -64,12 +64,14 @@ export default {
         },
         'packet-request': {
           '0%': { left: '0%', opacity: '0', transform: 'translateY(-50%) scale(0.8)' },
-          '20%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
+          '15%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
+          '85%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
           '100%': { left: '100%', opacity: '0', transform: 'translateY(-50%) scale(0.8)' }
         },
         'packet-response': {
           '0%': { right: '0%', opacity: '0', transform: 'translateY(-50%) scale(0.8)' },
-          '20%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
+          '15%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
+          '85%': { opacity: '1', transform: 'translateY(-50%) scale(1)' },
           '100%': { right: '100%', opacity: '0', transform: 'translateY(-50%) scale(0.8)' }
         }
       },
