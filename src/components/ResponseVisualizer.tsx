@@ -1,9 +1,9 @@
 /**
  * Response Visualizer Component
- * Displays UDS responses with detailed breakdown
+ * Displays UDS responses with detailed breakdown and real-time packet flow
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { toHex, toASCII, getNRCDescription } from '../utils/udsHelpers';
 import type { UDSRequest, UDSResponse, NegativeResponseCode } from '../types/uds';
@@ -13,6 +13,19 @@ interface HistoryItem {
   request: UDSRequest;
   response: UDSResponse;
 }
+
+interface PacketAnimation {
+  id: string;
+  direction: 'request' | 'response';
+  bytes: string[];
+  timestamp: number;
+  isAnimating: boolean;
+}
+
+// Helper to convert single byte to hex string
+const byteToHex = (byte: number): string => {
+  return byte.toString(16).toUpperCase().padStart(2, '0');
+};
 
 /**
  * Get detailed interpretation for each byte in the response
@@ -134,10 +147,67 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 const ResponseVisualizer: React.FC = () => {
   const { requestHistory, clearHistory, recordNRCResolution } = useUDS();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const lastHistoryLengthRef = useRef(0);
   
   // NRC Learning Modal state
   const [learningModalOpen, setLearningModalOpen] = useState(false);
   const [selectedNRC, setSelectedNRC] = useState<{ nrc: NegativeResponseCode; request: UDSRequest; response: UDSResponse } | null>(null);
+
+  // Packet Flow Animation state
+  const [activePackets, setActivePackets] = useState<PacketAnimation[]>([]);
+  const [flowStats, setFlowStats] = useState({
+    totalRequests: 0,
+    totalResponses: 0,
+    activeFlow: false
+  });
+
+  // Monitor request history for new packets
+  useEffect(() => {
+    if (requestHistory.length > lastHistoryLengthRef.current) {
+      const latestItem = requestHistory[requestHistory.length - 1];
+      
+      // Create request packet animation
+      const requestBytes = [
+        byteToHex(latestItem.request.sid),
+        ...(latestItem.request.subFunction !== undefined ? [byteToHex(latestItem.request.subFunction)] : []),
+        ...(latestItem.request.data?.map(b => byteToHex(b)) || [])
+      ];
+
+      const requestPacket: PacketAnimation = {
+        id: `req-${latestItem.request.timestamp}`,
+        direction: 'request',
+        bytes: requestBytes,
+        timestamp: latestItem.request.timestamp,
+        isAnimating: true
+      };
+
+      setActivePackets(prev => [...prev, requestPacket]);
+      setFlowStats(prev => ({ ...prev, totalRequests: prev.totalRequests + 1, activeFlow: true }));
+
+      // Add response packet after delay
+      setTimeout(() => {
+        const responseBytes = latestItem.response.data.map(b => byteToHex(b));
+        const responsePacket: PacketAnimation = {
+          id: `res-${latestItem.response.timestamp}`,
+          direction: 'response',
+          bytes: responseBytes,
+          timestamp: latestItem.response.timestamp,
+          isAnimating: true
+        };
+
+        setActivePackets(prev => [...prev, responsePacket]);
+        setFlowStats(prev => ({ ...prev, totalResponses: prev.totalResponses + 1 }));
+
+        // Clear packets after animation completes
+        setTimeout(() => {
+          setActivePackets(prev => prev.filter(p => p.id !== requestPacket.id && p.id !== responsePacket.id));
+          setFlowStats(prev => ({ ...prev, activeFlow: false }));
+        }, 2000);
+      }, 600);
+
+      lastHistoryLengthRef.current = requestHistory.length;
+    }
+  }, [requestHistory]);
 
   const handleOpenLearning = (nrc: NegativeResponseCode, request: UDSRequest, response: UDSResponse) => {
     setSelectedNRC({ nrc, request, response });
@@ -209,6 +279,132 @@ const ResponseVisualizer: React.FC = () => {
           Clear
         </button>
       </div>
+
+      {/* Real-time Packet Flow Visualization */}
+      {requestHistory.length > 0 && (
+        <div className="mb-6 bg-gradient-to-br from-slate-900/60 to-slate-800/60 rounded-xl p-6 border border-purple-500/20 relative overflow-hidden">
+          {/* Grid Background */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="w-full h-full" style={{
+              backgroundImage: `linear-gradient(rgba(168, 85, 247, 0.2) 1px, transparent 1px),
+                               linear-gradient(90deg, rgba(168, 85, 247, 0.2) 1px, transparent 1px)`,
+              backgroundSize: '20px 20px'
+            }} />
+          </div>
+
+          {/* Header */}
+          <div className="relative flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+              <h3 className="text-sm font-bold text-purple-400">Real-time Packet Flow</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${flowStats.activeFlow ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />
+              <span className="text-xs text-slate-400">
+                {flowStats.activeFlow ? 'Active' : 'Idle'}
+              </span>
+            </div>
+          </div>
+
+          {/* Communication Flow */}
+          <div className="relative flex items-center justify-between min-h-[120px]">
+            {/* Client Node */}
+            <div className="flex flex-col items-center gap-2 z-10">
+              <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/30 animate-pulse-slow">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="text-center">
+                <div className="text-xs font-bold text-cyan-400">Client</div>
+              </div>
+            </div>
+
+            {/* Communication Channel */}
+            <div className="flex-1 relative px-6">
+              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2">
+                {/* Request Line (top) */}
+                <div className="relative mb-6">
+                  <div className="h-0.5 bg-gradient-to-r from-cyan-500/30 to-purple-500/30" />
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs text-slate-400 whitespace-nowrap">
+                    Request →
+                  </div>
+                  
+                  {/* Animated Request Packets */}
+                  {activePackets
+                    .filter(p => p.direction === 'request')
+                    .map(packet => (
+                      <div
+                        key={packet.id}
+                        className="absolute top-1/2 -translate-y-1/2 left-0 animate-packet-request"
+                      >
+                        <div className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-2 py-1 rounded-lg shadow-lg shadow-cyan-500/50 text-xs font-mono whitespace-nowrap">
+                          {packet.bytes.slice(0, 4).join(' ')}
+                          {packet.bytes.length > 4 && '...'}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Response Line (bottom) */}
+                <div className="relative mt-6">
+                  <div className="h-0.5 bg-gradient-to-r from-purple-500/30 to-cyan-500/30" />
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-xs text-slate-400 whitespace-nowrap">
+                    ← Response
+                  </div>
+
+                  {/* Animated Response Packets */}
+                  {activePackets
+                    .filter(p => p.direction === 'response')
+                    .map(packet => (
+                      <div
+                        key={packet.id}
+                        className="absolute top-1/2 -translate-y-1/2 right-0 animate-packet-response"
+                      >
+                        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1 rounded-lg shadow-lg shadow-purple-500/50 text-xs font-mono whitespace-nowrap">
+                          {packet.bytes.slice(0, 4).join(' ')}
+                          {packet.bytes.length > 4 && '...'}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ECU Node */}
+            <div className="flex flex-col items-center gap-2 z-10">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-slow">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+              </div>
+              <div className="text-center">
+                <div className="text-xs font-bold text-purple-400">ECU</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Compact Statistics */}
+          <div className="relative grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-purple-500/20">
+            <div className="text-center">
+              <div className="text-lg font-bold text-cyan-400">{flowStats.totalRequests}</div>
+              <div className="text-xs text-slate-400">Requests</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-purple-400">{flowStats.totalResponses}</div>
+              <div className="text-xs text-slate-400">Responses</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-green-400">
+                {flowStats.totalResponses > 0 ? Math.round((flowStats.totalResponses / flowStats.totalRequests) * 100) : 0}%
+              </div>
+              <div className="text-xs text-slate-400">Success</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
         {requestHistory.length === 0 ? (

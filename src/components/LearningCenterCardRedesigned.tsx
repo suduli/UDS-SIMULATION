@@ -64,9 +64,6 @@ const LearningCenterCardRedesigned: React.FC = () => {
     
     return { totalLessons, completed, inProgress, percentage, nextLesson };
   }, [tutorialProgress]);
-
-  const totalModules = 19;
-  const completedModules = 8;
   const streak = tutorialProgress.currentStreak || 0;
 
   const getDifficultyConfig = (difficulty: string) => {

@@ -24,7 +24,8 @@ A futuristic, interactive web application for learning and practicing Unified Di
 ### UI/UX Features
 
 - **🎓 Interactive Onboarding Tour**: 7-step guided tour for new users (auto-starts on first visit, localStorage persistence)
-- **🔍 Service Tooltips**: Hover over any service to see detailed documentation, use cases, parameters, and examples (all 16 services documented with Radix UI)
+- **� Real-time Packet Flow Visualization**: Animated bidirectional packet flow showing Client ↔ ECU communication with live statistics
+- **�🔍 Service Tooltips**: Hover over any service to see detailed documentation, use cases, parameters, and examples (all 16 services documented with Radix UI)
 - **📊 Real-time Response Timing**: Bar chart visualization showing last 10 response times with color-coded metrics
 - **🎯 Icon-Based Service Grid**: Visual service selector with unique icons, colors, and descriptions
 - **🔍 Service Search**: Instant filter by service ID, name, or description with `Ctrl+K` shortcut
