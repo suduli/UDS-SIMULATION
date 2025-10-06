@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useUDS } from '../context/UDSContext';
 import FeatureCardWrapper from './FeatureCardWrapper';
 import { LearningProgressDisplay } from './LearningProgress';
+import { TutorialLibrary } from './TutorialLibrary';
+import { TutorialModal } from './TutorialModal';
+import { LESSONS, getNextRecommendedLesson, calculateCompletionPercentage } from '../data/lessons';
+import type { Lesson } from '../types/tutorial';
 
 interface LearningModule {
   id: string;
@@ -16,8 +20,10 @@ interface LearningModule {
 }
 
 const LearningCenterCardRedesigned: React.FC = () => {
-  const { learningProgress } = useUDS();
+  const { learningProgress, tutorialProgress, completeLesson, updateLessonProgress } = useUDS();
   const [activeTab, setActiveTab] = useState<'modules' | 'nrc'>('modules');
+  const [showTutorialLibrary, setShowTutorialLibrary] = useState(false);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [modules] = useState<LearningModule[]>([
     {
       id: '1',
@@ -43,10 +49,25 @@ const LearningCenterCardRedesigned: React.FC = () => {
     }
   ]);
 
+  // Calculate tutorial stats
+  const tutorialStats = useMemo(() => {
+    const totalLessons = LESSONS.length;
+    const completed = tutorialProgress.completedLessons;
+    const inProgress = tutorialProgress.inProgressLessons;
+    
+    // Get completed lesson IDs
+    const completedIds = Object.keys(tutorialProgress.lessons)
+      .filter(id => tutorialProgress.lessons[id].status === 'completed');
+    
+    const percentage = calculateCompletionPercentage(completedIds);
+    const nextLesson = getNextRecommendedLesson(completedIds);
+    
+    return { totalLessons, completed, inProgress, percentage, nextLesson };
+  }, [tutorialProgress]);
+
   const totalModules = 19;
   const completedModules = 8;
-  const overallProgress = Math.round((completedModules / totalModules) * 100);
-  const streak = 12;
+  const streak = tutorialProgress.currentStreak || 0;
 
   const getDifficultyConfig = (difficulty: string) => {
     switch(difficulty) {
@@ -79,10 +100,30 @@ const LearningCenterCardRedesigned: React.FC = () => {
   };
 
   const handleContinueLearning = () => {
+    // First check for tutorial in progress
+    if (tutorialStats.nextLesson) {
+      setSelectedLesson(tutorialStats.nextLesson);
+      return;
+    }
+    
+    // Fall back to old module system
     const inProgress = modules.find(m => m.status === 'in-progress');
     if (inProgress) {
       handleResume(inProgress.id);
+    } else {
+      // If nothing in progress, open library
+      setShowTutorialLibrary(true);
     }
+  };
+
+  const handleStartLesson = (lesson: Lesson) => {
+    setShowTutorialLibrary(false);
+    setSelectedLesson(lesson);
+  };
+
+  const handleLessonComplete = () => {
+    setSelectedLesson(null);
+    // Progress is already tracked in context
   };
 
   const icon = (
@@ -92,8 +133,11 @@ const LearningCenterCardRedesigned: React.FC = () => {
   );
 
   const headerAction = (
-    <button className="px-3 py-1.5 text-xs font-medium text-purple-400 border border-purple-500/50 rounded-lg hover:bg-purple-500/10 transition-colors">
-      Explore
+    <button 
+      onClick={() => setShowTutorialLibrary(true)}
+      className="px-3 py-1.5 text-xs font-medium text-purple-400 border border-purple-500/50 rounded-lg hover:bg-purple-500/10 transition-colors"
+    >
+      📚 Browse Lessons
     </button>
   );
 
@@ -140,28 +184,68 @@ const LearningCenterCardRedesigned: React.FC = () => {
                 strokeWidth="4"
                 fill="none"
                 strokeDasharray={`${2 * Math.PI * 20}`}
-                strokeDashoffset={`${2 * Math.PI * 20 * (1 - overallProgress / 100)}`}
+                strokeDashoffset={`${2 * Math.PI * 20 * (1 - tutorialStats.percentage / 100)}`}
                 className="text-purple-400 transition-all duration-1000"
                 strokeLinecap="round"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-xs font-bold text-purple-400">{overallProgress}%</span>
+              <span className="text-xs font-bold text-purple-400">{tutorialStats.percentage}%</span>
             </div>
           </div>
           
           <div>
-            <p className="text-sm font-semibold text-slate-200">{completedModules}/{totalModules} Modules</p>
-            <p className="text-xs text-slate-400">Overall Progress</p>
+            <p className="text-sm font-semibold text-slate-200">{tutorialStats.completed}/{tutorialStats.totalLessons} Lessons</p>
+            <p className="text-xs text-slate-400">Tutorial Progress</p>
           </div>
         </div>
 
-        {/* Streak */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-lg">
-          <span className="text-lg">🔥</span>
-          <span className="text-sm font-bold text-orange-400">{streak} Day</span>
+        {/* Streak & Badges */}
+        <div className="flex items-center gap-2">
+          {streak > 0 && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+              <span className="text-lg">🔥</span>
+              <span className="text-sm font-bold text-orange-400">{streak}d</span>
+            </div>
+          )}
+          {tutorialProgress.badges.length > 0 && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+              <span className="text-lg">🏆</span>
+              <span className="text-sm font-bold text-yellow-400">{tutorialProgress.badges.length}</span>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Recommended Next Lesson */}
+      {tutorialStats.nextLesson && (
+        <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1">
+              <p className="text-xs text-purple-300 mb-1">📖 Recommended Next:</p>
+              <h4 className="text-sm font-semibold text-white mb-1">{tutorialStats.nextLesson.title}</h4>
+              <p className="text-xs text-gray-400">{tutorialStats.nextLesson.subtitle}</p>
+              <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                <span>⏱️ {tutorialStats.nextLesson.estimatedTime}min</span>
+                <span>•</span>
+                <span className={`px-2 py-0.5 rounded border ${
+                  tutorialStats.nextLesson.difficulty === 'beginner' ? 'bg-green-500/20 text-green-400 border-green-500/50' :
+                  tutorialStats.nextLesson.difficulty === 'intermediate' ? 'bg-amber-500/20 text-amber-400 border-amber-500/50' :
+                  'bg-red-500/20 text-red-400 border-red-500/50'
+                }`}>
+                  {tutorialStats.nextLesson.difficulty}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => tutorialStats.nextLesson && setSelectedLesson(tutorialStats.nextLesson)}
+              className="px-3 py-1.5 bg-purple-500/20 border border-purple-500/50 rounded-md text-xs font-medium text-purple-400 hover:bg-purple-500/30 transition-colors whitespace-nowrap"
+            >
+              Start →
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Tab Navigation */}
       <div className="flex gap-2 mb-6 p-1 bg-dark-800/60 rounded-lg border border-slate-700/30">
@@ -270,6 +354,38 @@ const LearningCenterCardRedesigned: React.FC = () => {
         <div className="animate-fade-in">
           <LearningProgressDisplay progress={learningProgress} />
         </div>
+      )}
+
+      {/* Tutorial Library Modal */}
+      <TutorialLibrary
+        isOpen={showTutorialLibrary}
+        onClose={() => setShowTutorialLibrary(false)}
+        progress={tutorialProgress}
+        onStartLesson={handleStartLesson}
+      />
+
+      {/* Tutorial Modal */}
+      {selectedLesson && (
+        <TutorialModal
+          isOpen={true}
+          onClose={handleLessonComplete}
+          lesson={selectedLesson}
+          progress={tutorialProgress.lessons[selectedLesson.id] || {
+            lessonId: selectedLesson.id,
+            status: 'not-started',
+            theoryCompleted: false,
+            exerciseCompleted: false,
+            quizCompleted: false,
+            quizAttempts: 0,
+            quizBestScore: 0,
+            hintsUsed: 0,
+            timeSpent: 0,
+            startedAt: Date.now(),
+            lastAccessedAt: Date.now(),
+          }}
+          onComplete={completeLesson}
+          onUpdateProgress={updateLessonProgress}
+        />
       )}
     </FeatureCardWrapper>
   );

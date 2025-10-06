@@ -13,6 +13,7 @@ import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponse
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
 import type { Sequence, SequenceExecutionState, SequenceExecutionOptions } from '../types/sequence';
+import type { TutorialProgress, LessonProgress } from '../types/tutorial';
 import { scenarioManager } from '../services/ScenarioManager';
 import { sequenceEngine } from '../services/SequenceEngine';
 import { delay } from '../utils/udsHelpers';
@@ -55,6 +56,12 @@ interface UDSContextType {
   learningProgress: LearningProgress;
   recordNRCEncounter: (nrc: NegativeResponseCode) => void;
   recordNRCResolution: (nrc: NegativeResponseCode) => void;
+  
+  // Tutorial System (P2-05)
+  tutorialProgress: TutorialProgress;
+  startLesson: (lessonId: string) => void;
+  completeLesson: (lessonId: string, score: number) => void;
+  updateLessonProgress: (lessonId: string, updates: Partial<LessonProgress>) => void;
   
   // Sequence support (P2-03)
   sequences: Sequence[];
@@ -478,6 +485,136 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   }, [requestHistory, recordNRCEncounter]);
 
+  // Tutorial System (P2-05)
+  const getInitialTutorialProgress = (): TutorialProgress => {
+    const saved = localStorage.getItem('uds_tutorial_progress');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse tutorial progress:', e);
+      }
+    }
+    
+    // Return default
+    return {
+      lessons: {},
+      totalLessons: 0,
+      completedLessons: 0,
+      inProgressLessons: 0,
+      totalTimeSpent: 0,
+      currentStreak: 0,
+      longestStreak: 0,
+      lastActivityDate: new Date().toISOString().split('T')[0],
+      badges: [],
+      totalBadges: 0,
+      earnedBadges: 0,
+      serviceMastery: {} as Record<number, {
+        lessonsCompleted: number;
+        totalLessons: number;
+        averageScore: number;
+        masteryLevel: 'novice' | 'intermediate' | 'expert' | 'master';
+      }>,
+      preferences: {
+        autoStartNextLesson: true,
+        showHintsAutomatically: true,
+        difficultyPreference: 'beginner' as const,
+      },
+    };
+  };
+
+  const [tutorialProgress, setTutorialProgress] = useState<TutorialProgress>(getInitialTutorialProgress);
+
+  // Save tutorial progress to localStorage
+  React.useEffect(() => {
+    localStorage.setItem('uds_tutorial_progress', JSON.stringify(tutorialProgress));
+  }, [tutorialProgress]);
+
+  const startLesson = useCallback((lessonId: string) => {
+    setTutorialProgress(prev => {
+      const lessonProgress: LessonProgress = prev.lessons[lessonId] || {
+        lessonId,
+        status: 'not-started',
+        theoryCompleted: false,
+        exerciseCompleted: false,
+        quizCompleted: false,
+        quizAttempts: 0,
+        quizBestScore: 0,
+        hintsUsed: 0,
+        timeSpent: 0,
+        startedAt: Date.now(),
+        lastAccessedAt: Date.now(),
+      };
+
+      const isNew = prev.lessons[lessonId]?.status === 'not-started' || !prev.lessons[lessonId];
+      
+      return {
+        ...prev,
+        lessons: {
+          ...prev.lessons,
+          [lessonId]: {
+            ...lessonProgress,
+            status: 'in-progress',
+            lastAccessedAt: Date.now(),
+          },
+        },
+        inProgressLessons: isNew ? prev.inProgressLessons + 1 : prev.inProgressLessons,
+      };
+    });
+  }, []);
+
+  const completeLesson = useCallback((lessonId: string, score: number) => {
+    setTutorialProgress(prev => {
+      const lessonProgress = prev.lessons[lessonId];
+      if (!lessonProgress) return prev;
+
+      const wasInProgress = lessonProgress.status === 'in-progress';
+      const wasNotCompleted = lessonProgress.status !== 'completed';
+
+      return {
+        ...prev,
+        lessons: {
+          ...prev.lessons,
+          [lessonId]: {
+            ...lessonProgress,
+            status: 'completed',
+            completedAt: Date.now(),
+            quizBestScore: Math.max(lessonProgress.quizBestScore, score),
+          },
+        },
+        completedLessons: wasNotCompleted ? prev.completedLessons + 1 : prev.completedLessons,
+        inProgressLessons: wasInProgress ? prev.inProgressLessons - 1 : prev.inProgressLessons,
+      };
+    });
+  }, []);
+
+  const updateLessonProgress = useCallback((lessonId: string, updates: Partial<LessonProgress>) => {
+    setTutorialProgress(prev => ({
+      ...prev,
+      lessons: {
+        ...prev.lessons,
+        [lessonId]: {
+          ...(prev.lessons[lessonId] || {
+            lessonId,
+            status: 'not-started',
+            theoryCompleted: false,
+            exerciseCompleted: false,
+            quizCompleted: false,
+            quizAttempts: 0,
+            quizBestScore: 0,
+            hintsUsed: 0,
+            timeSpent: 0,
+            startedAt: Date.now(),
+            lastAccessedAt: Date.now(),
+          }),
+          ...updates,
+          lastAccessedAt: Date.now(),
+        },
+      },
+      totalTimeSpent: prev.totalTimeSpent + (updates.timeSpent || 0),
+    }));
+  }, []);
+
   // Sequence methods (P2-03)
   const createSequence = useCallback((name: string, description: string): Sequence => {
     const newSequence: Sequence = {
@@ -672,6 +809,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         learningProgress,
         recordNRCEncounter,
         recordNRCResolution,
+        // Tutorial System (P2-05)
+        tutorialProgress,
+        startLesson,
+        completeLesson,
+        updateLessonProgress,
         // Sequence support (P2-03)
         sequences,
         currentSequence,
