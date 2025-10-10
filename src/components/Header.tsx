@@ -11,6 +11,7 @@ import HelpModal from './HelpModal';
 import { ScenarioLibrary } from './ScenarioLibrary';
 import { ReplayControls } from './ReplayControls';
 import { SequenceBuilder } from './SequenceBuilder';
+import { SparklesCore } from '@/components/ui/sparkles';
 import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
@@ -132,6 +133,18 @@ const Header: React.FC = () => {
             <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-cyber-blue blur-xl opacity-50 animate-pulse-slow"></div>
+                {/* Sparkles effect behind logo - adapts to theme */}
+                <div className="absolute inset-0 -m-4 pointer-events-none">
+                  <SparklesCore
+                    background="transparent"
+                    minSize={0.3}
+                    maxSize={0.8}
+                    particleDensity={50}
+                    className="w-full h-full"
+                    particleColor={theme === 'dark' ? '#38BDF8' : '#0EA5E9'}
+                    speed={1.5}
+                  />
+                </div>
                 <div className="relative w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center">
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />

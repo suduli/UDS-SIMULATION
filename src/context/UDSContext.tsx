@@ -9,6 +9,7 @@ import React, { createContext, useContext, useState, useCallback, useRef } from 
 import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
 import { mockECUConfig } from '../services/mockECU';
+import { NegativeResponseCode as NegativeResponseCodeMap } from '../types/uds';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
@@ -26,6 +27,30 @@ interface UDSMetrics {
   servicesUsed: number;
   activeDTCs: number;
 }
+
+type ToastPayload = {
+  type: 'success' | 'error' | 'warning' | 'info';
+  message: string;
+  description?: string;
+  duration?: number;
+};
+
+const formatHexByte = (value: number) => `0x${value.toString(16).toUpperCase().padStart(2, '0')}`;
+
+const toTitleCase = (label: string) =>
+  label
+    .toLowerCase()
+    .split(' ')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+
+const getFriendlyNRCName = (code?: NegativeResponseCode) => {
+  if (code === undefined) return undefined;
+  const match = Object.entries(NegativeResponseCodeMap).find(([, value]) => value === code);
+  if (!match) return undefined;
+  const rawLabel = match[0].replace(/_/g, ' ');
+  return toTitleCase(rawLabel);
+};
 
 interface UDSContextType {
   simulator: UDSSimulator;
@@ -127,6 +152,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     activeDTCs: 0,
   });
 
+  const emitToast = useCallback((toast: ToastPayload) => {
+    if (typeof window === 'undefined') return;
+    const api = window as Window & { addToast?: (toast: ToastPayload) => void };
+    api.addToast?.(toast);
+  }, []);
+
   // Learning progress state
   const getInitialLearningProgress = (): LearningProgress => {
     const stored = localStorage.getItem('uds_learning_progress');
@@ -186,13 +217,45 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, [requestHistory]);
 
   const sendRequest = useCallback(async (request: UDSRequest): Promise<UDSResponse> => {
-    const response = await simulator.processRequest(request);
-    
-    setRequestHistory(prev => [...prev, { request, response }]);
-    setProtocolState(simulator.getState());
-    
-    return response;
-  }, [simulator]);
+    try {
+      const response = await simulator.processRequest(request);
+
+      setRequestHistory(prev => [...prev, { request, response }]);
+      setProtocolState(simulator.getState());
+
+      if (response.isNegative) {
+        const nrcHex = response.nrc !== undefined ? formatHexByte(response.nrc) : undefined;
+        const friendlyName = getFriendlyNRCName(response.nrc);
+
+        emitToast({
+          type: 'error',
+          message: nrcHex ? `Negative response ${nrcHex}` : 'Negative response received',
+          description: friendlyName
+            ? `${friendlyName} for service ${formatHexByte(request.sid)}`
+            : `Service ${formatHexByte(request.sid)} returned a negative response.`,
+          duration: 7000,
+        });
+      } else {
+        emitToast({
+          type: 'success',
+          message: `Response for service ${formatHexByte(request.sid)}`,
+          description: `Received ${response.data.length} byte${response.data.length === 1 ? '' : 's'} from ECU.`,
+          duration: 4500,
+        });
+      }
+
+      return response;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unexpected error while sending request.';
+      emitToast({
+        type: 'error',
+        message: 'Request failed',
+        description: message,
+        duration: 7000,
+      });
+      throw error;
+    }
+  }, [simulator, emitToast]);
 
   const clearHistory = useCallback(() => {
     setRequestHistory([]);

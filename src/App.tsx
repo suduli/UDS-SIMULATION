@@ -6,14 +6,18 @@ import RequestBuilder from './components/RequestBuilder';
 import ResponseVisualizer from './components/ResponseVisualizer';
 import ProtocolStateDashboard from './components/ProtocolStateDashboard';
 import BackgroundEffect from './components/BackgroundEffect';
+import EnhancedBackground from './components/EnhancedBackground';
 import TimingMetrics from './components/TimingMetrics';
 import { OnboardingTour } from './components/OnboardingTour';
 import SessionStatsCardRedesigned from './components/SessionStatsCardRedesigned';
 import LearningCenterCardRedesigned from './components/LearningCenterCardRedesigned';
 import DTCManagementCardRedesigned from './components/DTCManagementCardRedesigned';
+import ToastContainer from './components/ToastContainer';
+import type { ToastMessage } from './components/ToastContainer';
 
 function App() {
   const [showTour, setShowTour] = useState(false);
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   useEffect(() => {
     // Check if user has completed the tour
@@ -30,11 +34,33 @@ function App() {
     return () => window.removeEventListener('restart-tour', handleRestartTour);
   }, []);
 
+  // Toast management functions
+  const addToast = (toast: Omit<ToastMessage, 'id'>) => {
+    const id = `toast-${Date.now()}-${Math.random()}`;
+    setToasts(prev => [...prev, { ...toast, id }]);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  // Expose addToast globally for UDS context to use
+  useEffect(() => {
+    interface WindowWithToast extends Window {
+      addToast?: (toast: Omit<ToastMessage, 'id'>) => void;
+    }
+    (window as WindowWithToast).addToast = addToast;
+    return () => {
+      delete (window as WindowWithToast).addToast;
+    };
+  }, []);
+
   return (
     <ThemeProvider>
       <UDSProvider>
-        <div className="min-h-screen bg-dark-900 text-gray-100 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-gray-100 relative overflow-hidden transition-colors duration-300">
           <BackgroundEffect />
+          <EnhancedBackground />
           
           <div className="relative z-10">
             {/* Skip to main content link for accessibility */}
@@ -82,6 +108,9 @@ function App() {
 
           {/* Onboarding Tour */}
           <OnboardingTour isOpen={showTour} onClose={() => setShowTour(false)} />
+          
+          {/* Toast Notifications */}
+          <ToastContainer toasts={toasts} onClose={removeToast} />
         </div>
       </UDSProvider>
     </ThemeProvider>

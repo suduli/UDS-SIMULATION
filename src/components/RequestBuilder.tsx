@@ -443,19 +443,19 @@ const RequestBuilder: React.FC = () => {
           <div>
             <label className="block text-sm text-gray-400 mb-2">Quick Examples</label>
             <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick example requests">
-              <button onClick={() => loadExample('session-extended')} className="cyber-button text-xs py-2" aria-label="Load extended session example">
+              <button onClick={() => loadExample('session-extended')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load extended session example">
                 Extended Session
               </button>
-              <button onClick={() => loadExample('security-seed')} className="cyber-button text-xs py-2" aria-label="Load security seed example">
+              <button onClick={() => loadExample('security-seed')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load security seed example">
                 Security Seed
               </button>
-              <button onClick={() => loadExample('read-vin')} className="cyber-button text-xs py-2" aria-label="Load read VIN example">
+              <button onClick={() => loadExample('read-vin')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load read VIN example">
                 Read VIN
               </button>
-              <button onClick={() => loadExample('read-dtc')} className="cyber-button text-xs py-2" aria-label="Load read DTCs example">
+              <button onClick={() => loadExample('read-dtc')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load read DTCs example">
                 Read DTCs
               </button>
-              <button onClick={() => loadExample('ecu-reset')} className="cyber-button text-xs py-2" aria-label="Load ECU reset example">
+              <button onClick={() => loadExample('ecu-reset')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load ECU reset example">
                 ECU Reset
               </button>
             </div>
@@ -524,11 +524,14 @@ const RequestBuilder: React.FC = () => {
       <button
         onClick={handleSend}
         disabled={(!selectedService && !isManualMode) || sending || !!validationError}
-        className={`w-full mt-6 py-3 rounded font-bold transition-all ${
-          (!selectedService && !isManualMode) || sending || !!validationError
+        className={`
+          w-full mt-6 py-3 rounded-lg font-bold 
+          transition-all duration-300
+          ${(!selectedService && !isManualMode) || sending || !!validationError
             ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
-            : 'bg-gradient-to-r from-cyber-blue to-cyber-purple text-white hover:shadow-neon active:scale-95'
-        }`}
+            : 'bg-gradient-to-r from-cyber-blue via-purple-500 to-cyber-purple text-white hover:shadow-neon hover:scale-105 bg-size-200 animate-gradient-shift active:scale-95'
+          }
+        `}
         aria-label="Send UDS request"
       >
         {sending ? (
@@ -540,7 +543,12 @@ const RequestBuilder: React.FC = () => {
             Sending...
           </span>
         ) : (
-          'Send Request'
+          <span className="flex items-center justify-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Send Request
+          </span>
         )}
       </button>
 

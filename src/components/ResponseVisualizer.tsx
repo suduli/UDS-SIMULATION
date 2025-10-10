@@ -477,13 +477,16 @@ const ResponseVisualizer: React.FC = () => {
                     {item.response.data.map((byte, byteIdx) => (
                       <div 
                         key={byteIdx} 
-                        className={`flex-shrink-0 rounded-md px-3 py-2 text-center border-2 transition-all hover:scale-105 ${
-                          item.response.isNegative 
-                            ? 'bg-cyber-pink/10 border-cyber-pink/60 hover:bg-cyber-pink/20' 
-                            : 'bg-cyber-green/10 border-cyber-green/60 hover:bg-cyber-green/20'
-                        }`}
+                        className={`
+                          flex-shrink-0 rounded-md px-3 py-2 text-center border-2 
+                          transition-all hover:scale-110 animate-byte-appear
+                          ${item.response.isNegative 
+                            ? 'bg-cyber-pink/10 border-cyber-pink/60 hover:bg-cyber-pink/20 hover:shadow-lg hover:shadow-cyber-pink/30' 
+                            : 'bg-cyber-green/10 border-cyber-green/60 hover:bg-cyber-green/20 hover:shadow-lg hover:shadow-cyber-green/30'
+                          }
+                        `}
                         style={{ 
-                          animationDelay: `${byteIdx * 50}ms`,
+                          animationDelay: `${byteIdx * 100}ms`,
                         }}
                       >
                         <div className={`font-mono text-lg font-bold ${
