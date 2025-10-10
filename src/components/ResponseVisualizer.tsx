@@ -22,6 +22,12 @@ interface PacketAnimation {
   isAnimating: boolean;
 }
 
+interface CompletedPacket {
+  requestBytes: string[];
+  responseBytes: string[];
+  timestamp: number;
+}
+
 // Helper to convert single byte to hex string
 const byteToHex = (byte: number): string => {
   return byte.toString(16).toUpperCase().padStart(2, '0');
@@ -155,6 +161,7 @@ const ResponseVisualizer: React.FC = () => {
 
   // Packet Flow Animation state
   const [activePackets, setActivePackets] = useState<PacketAnimation[]>([]);
+  const [completedPacket, setCompletedPacket] = useState<CompletedPacket | null>(null);
   const [flowStats, setFlowStats] = useState({
     totalRequests: 0,
     totalResponses: 0,
@@ -184,7 +191,7 @@ const ResponseVisualizer: React.FC = () => {
       setActivePackets(prev => [...prev, requestPacket]);
       setFlowStats(prev => ({ ...prev, totalRequests: prev.totalRequests + 1, activeFlow: true }));
 
-      // Add response packet after delay (wait for request to reach ECU)
+      // Wait for request animation to complete (2500ms), then show response
       setTimeout(() => {
         const responseBytes = latestItem.response.data.map(b => byteToHex(b));
         const responsePacket: PacketAnimation = {
@@ -198,12 +205,21 @@ const ResponseVisualizer: React.FC = () => {
         setActivePackets(prev => [...prev, responsePacket]);
         setFlowStats(prev => ({ ...prev, totalResponses: prev.totalResponses + 1 }));
 
-        // Clear packets after animation completes
+        // After response animation completes (2500ms), show static data at destinations
         setTimeout(() => {
+          // Remove animating packets
           setActivePackets(prev => prev.filter(p => p.id !== requestPacket.id && p.id !== responsePacket.id));
+          
+          // Show completed packet data at destination nodes
+          setCompletedPacket({
+            requestBytes,
+            responseBytes,
+            timestamp: Date.now()
+          });
+          
           setFlowStats(prev => ({ ...prev, activeFlow: false }));
-        }, 3000);
-      }, 1200);
+        }, 2500);
+      }, 2500);
 
       lastHistoryLengthRef.current = requestHistory.length;
     }
@@ -282,7 +298,7 @@ const ResponseVisualizer: React.FC = () => {
 
       {/* Real-time Packet Flow Visualization */}
       {requestHistory.length > 0 && (
-        <div className="mb-6 bg-gradient-to-br from-slate-900/60 to-slate-800/60 rounded-xl p-6 border border-purple-500/20 relative overflow-hidden">
+        <div className="mb-6 bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-xl p-6 border border-purple-500/30 relative overflow-hidden packet-flow-container">
           {/* Grid Background */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="w-full h-full" style={{
@@ -312,13 +328,21 @@ const ResponseVisualizer: React.FC = () => {
           <div className="relative flex items-center justify-between min-h-[120px]">
             {/* Client Node */}
             <div className="flex flex-col items-center gap-2 z-10">
-              <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/30 animate-pulse-slow">
-                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/50 border-2 border-cyan-400/30">
+                <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div className="text-center">
-                <div className="text-xs font-bold text-cyan-400">Client</div>
+                <div className="text-sm font-bold text-cyan-400 drop-shadow-md">Client</div>
+                {/* Show received response data */}
+                {completedPacket && (
+                  <div className="mt-2 bg-purple-500/20 border border-purple-400/30 rounded px-2 py-1 animate-fade-in">
+                    <div className="text-[10px] text-purple-300 font-mono whitespace-nowrap">
+                      {completedPacket.responseBytes.join(' ')}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -361,7 +385,7 @@ const ResponseVisualizer: React.FC = () => {
                     .map(packet => (
                       <div
                         key={packet.id}
-                        className="absolute top-1/2 -translate-y-1/2 right-0 animate-packet-response"
+                        className="absolute top-1/2 -translate-y-1/2 left-full animate-packet-response"
                       >
                         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1 rounded-lg shadow-lg shadow-purple-500/50 text-xs font-mono whitespace-nowrap">
                           {packet.bytes.slice(0, 4).join(' ')}
@@ -375,13 +399,21 @@ const ResponseVisualizer: React.FC = () => {
 
             {/* ECU Node */}
             <div className="flex flex-col items-center gap-2 z-10">
-              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-slow">
-                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/50 border-2 border-purple-400/30">
+                <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
                 </svg>
               </div>
               <div className="text-center">
-                <div className="text-xs font-bold text-purple-400">ECU</div>
+                <div className="text-sm font-bold text-purple-400 drop-shadow-md">ECU</div>
+                {/* Show received request data */}
+                {completedPacket && (
+                  <div className="mt-2 bg-cyan-500/20 border border-cyan-400/30 rounded px-2 py-1 animate-fade-in">
+                    <div className="text-[10px] text-cyan-300 font-mono whitespace-nowrap">
+                      {completedPacket.requestBytes.join(' ')}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
