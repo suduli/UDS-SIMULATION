@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Send, Zap, Shield, Radio, Database, Play, Trash2, Download, BookOpen, Settings } from 'lucide-react';
 
+interface ResponseExplanation {
+  byte: string;
+  desc: string;
+  icon: string;
+}
+
+interface UDSResponse {
+  bytes: string[];
+  explanations: ResponseExplanation[];
+  status: string;
+  time: string;
+}
+
 const UDSSimulator = () => {
-  const [session, setSession] = useState('Extended Session');
-  const [response, setResponse] = useState(null);
+  const [session] = useState('Extended Session');
+  const [response, setResponse] = useState<UDSResponse | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [selectedService, setSelectedService] = useState('0x10');
   const [subFunction, setSubFunction] = useState('03');
@@ -36,6 +49,9 @@ const UDSSimulator = () => {
       setIsAnimating(false);
     }, 800);
   };
+
+  const headerBytes = response?.bytes.slice(0, 2) ?? [];
+  const payloadBytes = response?.bytes.slice(2) ?? [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-6">
@@ -273,8 +289,16 @@ const UDSSimulator = () => {
                   </div>
 
                   <div className="bg-slate-900/80 border border-green-500/30 rounded-xl p-4 mb-3">
-                    <div className="font-mono text-green-400 text-lg mb-3">
-                      {response.bytes.join(' ')}
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="inline-flex items-center gap-3 rounded-lg border border-green-500/40 bg-gradient-to-r from-green-500/20 via-green-500/10 to-emerald-500/20 px-4 py-3">
+                        <div className="h-10 w-1 rounded-full bg-green-400 shadow-[0_0_12px_rgba(74,222,128,0.45)]" aria-hidden="true" />
+                        <div className="font-mono text-green-100 text-lg tracking-wide">[{headerBytes.join(' ')}]</div>
+                      </div>
+                      {payloadBytes.length > 0 && (
+                        <div className="font-mono text-green-300 text-lg tracking-wide">
+                          {payloadBytes.join(' ')}
+                        </div>
+                      )}
                     </div>
                     <div className="flex gap-2 mb-4">
                       {response.bytes.map((byte, i) => (

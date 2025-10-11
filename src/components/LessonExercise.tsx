@@ -342,7 +342,7 @@ export const LessonExercise: React.FC<LessonExerciseProps> = ({
         <h3 className="text-green-400 font-bold mb-2">✅ Expected Response</h3>
         <p className="text-gray-300 text-sm">{exercise.expectedResponse.description}</p>
         {exercise.expectedResponse.data && exercise.expectedResponse.data.length > 0 && (
-          <code className="block mt-2 bg-gray-800 p-2 rounded font-mono text-green-300 text-sm">
+          <code className="response-data-container block mt-2 bg-gray-800 p-2 rounded font-mono text-green-300 text-sm">
             {exercise.expectedResponse.data.map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
           </code>
         )}

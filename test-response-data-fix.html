@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Response Data CSS Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #1e293b;
+      border: 2px solid #8b5cf6;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    h1 {
+      color: #8b5cf6;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    h2 {
+      color: #06b6d4;
+      margin: 30px 0 15px;
+      font-size: 18px;
+    }
+
+    .test-section {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* THE FIX - Response Data Container */
+    .response-data-container {
+      white-space: pre-wrap !important;
+      word-break: break-all !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      overflow-x: auto !important;
+      overflow-wrap: break-word !important;
+      line-height: 1.6 !important;
+      display: block !important;
+    }
+
+    .correct {
+      color: #10b981;
+      font-weight: bold;
+      border: 2px solid #10b981;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    .broken {
+      color: #ef4444;
+      font-weight: bold;
+      border: 2px solid #ef4444;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(239, 68, 68, 0.1);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .status-pass {
+      background: #10b981;
+      color: white;
+    }
+
+    .status-fail {
+      background: #ef4444;
+      color: white;
+    }
+
+    .info {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid #8b5cf6;
+      border-radius: 6px;
+      padding: 12px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    code {
+      background: #334155;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #22d3ee;
+    }
+
+    .min-w-0 {
+      min-width: 0;
+    }
+
+    .max-w-full {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Response Data CSS Fix Test</h1>
+    
+    <div class="info">
+      <strong>Purpose:</strong> Verify that long hex strings wrap correctly and don't cause horizontal stretching.
+    </div>
+
+    <h2>Test 1: Short Response (Should be 1-2 lines)</h2>
+    <div class="test-section">
+      <div class="label">✅ With Fix - Short Data</div>
+      <div class="response-data-container correct">
+        62 F1 86 41 55 44 49
+      </div>
+    </div>
+
+    <h2>Test 2: Medium Response (Should wrap to 2-4 lines)</h2>
+    <div class="test-section">
+      <div class="label">✅ With Fix - Medium Data</div>
+      <div class="response-data-container correct">
+        62 F1 90 56 41 55 44 49 20 20 20 20 20 20 20 20 20 20 20 20 00 00 00 00
+      </div>
+    </div>
+
+    <h2>Test 3: Long Response (Should wrap to 4+ lines)</h2>
+    <div class="test-section">
+      <div class="label">✅ With Fix - Long Data</div>
+      <div class="response-data-container correct">
+        62 F1 90 56 41 55 44 49 20 20 20 20 20 20 20 20 20 20 20 20 00 00 00 00 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A
+      </div>
+    </div>
+
+    <h2>Test 4: Without Fix (BROKEN - Shows the problem)</h2>
+    <div class="test-section">
+      <div class="label">❌ Without Fix - Causes Stretching</div>
+      <div class="broken">
+        62 F1 90 56 41 55 44 49 20 20 20 20 20 20 20 20 20 20 20 20 00 00 00 00 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A
+      </div>
+      <div class="info" style="margin-top: 10px;">
+        <strong>Notice:</strong> This one has a horizontal scrollbar because it uses <code>white-space: nowrap</code>
+      </div>
+    </div>
+
+    <h2>Test 5: Nested Containers (Parent min-w-0 test)</h2>
+    <div class="test-section min-w-0 max-w-full">
+      <div class="label">✅ With min-w-0 on parents</div>
+      <div class="min-w-0">
+        <div class="response-data-container correct">
+          62 F1 90 56 41 55 44 49 20 20 20 20 20 20 20 20 20 20 20 20 00 00 00 00 31 32 33 34 35 36 37 38 39 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F
+        </div>
+      </div>
+    </div>
+
+    <h2>Checklist - What to Look For:</h2>
+    <div class="info">
+      <ul style="list-style-position: inside; line-height: 2;">
+        <li>✅ Green boxes should wrap text within the container</li>
+        <li>✅ No horizontal scrollbar on the entire page</li>
+        <li>✅ Text breaks onto multiple lines naturally</li>
+        <li>❌ Red box will have a scrollbar (this is expected - it shows the problem)</li>
+        <li>✅ Resize your browser window - text should reflow</li>
+      </ul>
+    </div>
+
+    <h2>Browser DevTools Test:</h2>
+    <div class="info">
+      <ol style="list-style-position: inside; line-height: 2;">
+        <li>Right-click on any green box → Inspect</li>
+        <li>Look at Computed tab in DevTools</li>
+        <li>Verify: <code>white-space: pre-wrap</code></li>
+        <li>Verify: <code>word-break: break-all</code></li>
+        <li>Verify: <code>max-width: 100%</code></li>
+      </ol>
+    </div>
+
+    <div class="info" style="margin-top: 30px; background: rgba(16, 185, 129, 0.1); border-color: #10b981;">
+      <strong>✅ If all green boxes wrap correctly:</strong> The CSS fix is working!<br>
+      <strong>❌ If green boxes scroll horizontally:</strong> Something is overriding the CSS.
+    </div>
+  </div>
+
+  <script>
+    // Log computed styles for debugging
+    console.group('🧪 CSS Test Results');
+    const containers = document.querySelectorAll('.response-data-container');
+    containers.forEach((el, i) => {
+      const styles = window.getComputedStyle(el);
+      console.log(`Container ${i + 1}:`, {
+        whiteSpace: styles.whiteSpace,
+        wordBreak: styles.wordBreak,
+        maxWidth: styles.maxWidth,
+        width: styles.width,
+        display: styles.display,
+        overflowX: styles.overflowX
+      });
+    });
+    console.groupEnd();
+
+    // Check if any container is causing page overflow
+    const pageWidth = document.documentElement.scrollWidth;
+    const viewportWidth = document.documentElement.clientWidth;
+    if (pageWidth > viewportWidth) {
+      console.warn('⚠️ Page has horizontal scroll! Width:', pageWidth, 'Viewport:', viewportWidth);
+    } else {
+      console.log('✅ No horizontal page scroll detected');
+    }
+  </script>
+</body>
+</html>
