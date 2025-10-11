@@ -682,8 +682,23 @@
   --cyber-green-bright: #00ff00;
   --cyber-pink-bright: #ff00ff;
   --cyber-purple-bright: #9d00ff;
+  --cyber-yellow-bright: #ffff00;
   --border-width: 2px;
+  
+  /* Sparkle Colourful Theme - vibrant multi-color palette */
+  --sparkle-cyan: #00ffff;
+  --sparkle-pink: #ff00ff;
+  --sparkle-purple: #9d00ff;
+  --sparkle-green: #00ff00;
+  --sparkle-yellow: #ffff00;
+  --sparkle-orange: #ff6600;
 }
+
+/* High Contrast Mode - Sparkle Colourful Theme
+ * Enhanced with vibrant multi-color sparkles inspired by Aceternity UI
+ * Features: Cyan, Pink, Purple, Green, Yellow sparkles on pure black background
+ * Source: https://21st.dev/aceternity/sparkles/default
+ */
 
 [data-contrast="high"] body {
   background-color: var(--bg-pure-black) !important;
@@ -794,6 +809,23 @@
 [data-contrast="high"] .bg-gradient-to-br,
 [data-contrast="high"] .bg-gradient-to-b {
   background: var(--bg-pure-black) !important;
+}
+
+/* Fix gradient text - restore visibility in high contrast mode */
+[data-contrast="high"] .bg-clip-text,
+[data-contrast="high"] .text-transparent {
+  -webkit-text-fill-color: var(--text-pure-white) !important;
+  color: var(--text-pure-white) !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+}
+
+/* Specifically target gradient text elements */
+[data-contrast="high"] .gradient-text,
+[data-contrast="high"] .animate-gradient-shift {
+  -webkit-text-fill-color: var(--text-pure-white) !important;
+  color: var(--text-pure-white) !important;
+  background: none !important;
 }
 
 /* Solid button backgrounds */

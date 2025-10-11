@@ -10,6 +10,12 @@ Quick guides to get up and running with the simulator
 - Visual demos
 - Testing entry points
 
+### [🎓 Learning Materials](./learning/)
+**NEW!** Comprehensive learning documentation for UDS protocol
+- SID 10 Complete Learning Guide (sessions, subfunctions, NRCs)
+- Practical Implementation Guide (code examples, state machines)
+- Service Interaction Matrix (how SIDs work together)
+
 ### [📖 Implementation Guides](./guides/)
 Detailed guides for implementing and understanding the codebase
 - Implementation guides
@@ -55,6 +61,7 @@ Historical documents and legacy content
 
 - [Main README](../README.md)
 - [Quickstart Guide](./getting-started/QUICKSTART.md)
+- [**Learning: SID 10 Complete Guide**](./learning/SID_10_DIAGNOSTIC_SESSION_CONTROL.md) ⭐ NEW
 - [Testing Guide](./testing/START_TESTING_HERE.md)
 - [Accessibility Guide](./accessibility/ACCESSIBILITY_GUIDE.md)
 
@@ -69,4 +76,4 @@ When adding new documentation:
 
 ---
 
-**Last Updated:** October 5, 2025
+**Last Updated:** October 11, 2025
