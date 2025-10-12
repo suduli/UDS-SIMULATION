@@ -1,12 +1,14 @@
 ---
 id: task-002
 title: Test the SID
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2025-10-12 13:32'
+updated_date: '2025-10-12 14:48'
 labels: []
 dependencies: []
 priority: medium
+ordinal: 1000
 ---
 
 ## Description
