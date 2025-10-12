@@ -1,0 +1,394 @@
+{
+  "version": "1.0.0",
+  "exportDate": "2025-10-12T13:48:40.096Z",
+  "requestHistory": [
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 1,
+        "data": [],
+        "timestamp": 1760276452321
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          1
+        ],
+        "timestamp": 1760276452422,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 2,
+        "data": [],
+        "timestamp": 1760276469204
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          2
+        ],
+        "timestamp": 1760276469335,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 3,
+        "data": [],
+        "timestamp": 1760276486517
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          3
+        ],
+        "timestamp": 1760276486634,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 4,
+        "data": [],
+        "timestamp": 1760276505149
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          4
+        ],
+        "timestamp": 1760276505280,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 5,
+        "data": [],
+        "timestamp": 1760276523883
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          5
+        ],
+        "timestamp": 1760276524000,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 0,
+        "data": [],
+        "timestamp": 1760276554872
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          127,
+          17,
+          19
+        ],
+        "timestamp": 1760276554872,
+        "isNegative": true,
+        "nrc": 19
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 127,
+        "data": [],
+        "timestamp": 1760276575312
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          127
+        ],
+        "timestamp": 1760276575429,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 128,
+        "data": [],
+        "timestamp": 1760276596113
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          128
+        ],
+        "timestamp": 1760276596231,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 255,
+        "data": [],
+        "timestamp": 1760276617496
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          255
+        ],
+        "timestamp": 1760276617611,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 129,
+        "data": [],
+        "timestamp": 1760276641699
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          129
+        ],
+        "timestamp": 1760276641812,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 130,
+        "data": [],
+        "timestamp": 1760276663485
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          130
+        ],
+        "timestamp": 1760276663617,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 131,
+        "data": [],
+        "timestamp": 1760276681466
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          131
+        ],
+        "timestamp": 1760276681593,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 1,
+        "data": [
+          255
+        ],
+        "timestamp": 1760276705511
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          1
+        ],
+        "timestamp": 1760276705619,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 2,
+        "data": [
+          170,
+          187
+        ],
+        "timestamp": 1760276721972
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          2
+        ],
+        "timestamp": 1760276722074,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "data": [],
+        "timestamp": 1760276739141
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          127,
+          17,
+          19
+        ],
+        "timestamp": 1760276739142,
+        "isNegative": true,
+        "nrc": 19
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 6,
+        "data": [],
+        "timestamp": 1760276756420
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          6
+        ],
+        "timestamp": 1760276756525,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 63,
+        "data": [],
+        "timestamp": 1760276773663
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          63
+        ],
+        "timestamp": 1760276773775,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 1,
+        "data": [],
+        "timestamp": 1760276791410
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          1
+        ],
+        "timestamp": 1760276791517,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 1,
+        "data": [],
+        "timestamp": 1760276800550
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          1
+        ],
+        "timestamp": 1760276800652,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 64,
+        "data": [],
+        "timestamp": 1760276817128
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          64
+        ],
+        "timestamp": 1760276817237,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 95,
+        "data": [],
+        "timestamp": 1760276837162
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          95
+        ],
+        "timestamp": 1760276837267,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 17,
+        "subFunction": 1,
+        "data": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "timestamp": 1760276856418
+      },
+      "response": {
+        "sid": 17,
+        "data": [
+          81,
+          1
+        ],
+        "timestamp": 1760276856521,
+        "isNegative": false
+      }
+    }
+  ],
+  "totalRequests": 22
+}

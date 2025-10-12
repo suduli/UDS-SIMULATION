@@ -906,6 +906,107 @@ A comprehensive three-part guide to understanding SID 0x28 (Communication Contro
 
 ---
 
+### ✍️ SID 0x3D (61): Write Memory By Address Series
+
+A comprehensive three-part guide to understanding SID 0x3D (Write Memory By Address):
+
+#### 1. [SID 0x3D: Write Memory By Address - Main Theoretical Guide](./SID_61_WRITE_MEMORY_BY_ADDRESS.md)
+
+**Purpose**: Complete theoretical understanding of writing raw data to ECU memory
+
+**What you'll learn**:
+- What SID 0x3D is and when to use it
+- Address and Length Format Identifier (ALFID) encoding
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements (EXTENDED or PROGRAMMING)
+- Memory region access control (RAM, EEPROM, Flash, OTP)
+- Write operation types and timing considerations
+- Write verification best practices
+- ISO 14229-1:2020 compliance (Section 11.4)
+
+**Best for**: 
+- Learning raw memory write fundamentals
+- Understanding ALFID byte structure
+- NRC troubleshooting for write operations (0x13, 0x22, 0x31, 0x33, 0x72, 0x7F)
+- Reference for automotive developers and calibration engineers
+
+**Key Sections**:
+- ALFID Format and Calculation
+- Message Format Visualizations
+- Memory Region Map and Access Levels
+- Write Operation Types (RAM, EEPROM, Flash, OTP)
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security Requirements Matrix
+- Write Verification Patterns
+
+---
+
+#### 2. [SID 0x3D: Practical Implementation Guide](./SID_61_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- ALFID parsing and validation logic
+- Memory address range validation
+- Security check decision trees
+- Write operation state machine (IDLE → VALIDATING → WRITING → VERIFYING)
+- NRC decision trees (when to return which error)
+- Memory write workflows (RAM, EEPROM, Flash)
+- Write verification and retry logic
+- Complete testing scenarios (5 test cases)
+- Debugging flowcharts and troubleshooting
+
+**Best for**:
+- Developers implementing memory write handlers
+- Understanding write validation algorithms
+- Writing comprehensive write tests
+- Debugging memory write issues
+
+**Key Sections**:
+- Complete Write Request Processing Flow
+- ALFID Parsing Flowchart
+- Memory Address Validation
+- Security Decision Tree
+- Write Operation State Machine
+- NRC Decision Trees
+- Testing Scenarios (basic write, EEPROM, Flash, security, validation errors)
+- Debugging Flowcharts
+- Implementation Best Practices Checklist
+
+---
+
+#### 3. [SID 0x3D: Service Interactions](./SID_61_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding memory writes in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Write → Verify)
+- Session requirements matrix by memory region
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Integration with SID 0x10, 0x23, 0x27, 0x2E, 0x3E, 0x31, 0x11
+- Troubleshooting scenarios with solutions
+- Common interaction patterns (write-verify, TesterPresent, routine activation)
+
+**Best for**:
+- Planning diagnostic sequences with memory writes
+- Understanding calibration and configuration workflows
+- Troubleshooting write failures (session timeout, security issues)
+- Building diagnostic and manufacturing tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Compatibility Table
+- Complete Workflow Examples (RAM calibration, EEPROM config, OTP programming, flash patching, multi-region updates)
+- Multi-Service Interaction Patterns (session+security+write+verify, TesterPresent integration, write+routine+reset)
+- Integration with Specific Services (0x10, 0x23, 0x27, 0x2E, 0x3E, 0x31, 0x11)
+- Troubleshooting Multi-Service Scenarios (security works but write fails, verification fails, session timeout, security lost after session change)
+- Quick Reference Tables (memory regions, ALFID, NRCs, related services)
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -1215,6 +1316,9 @@ Have suggestions for improving these learning materials?
 | SID_28_COMMUNICATION_CONTROL.md | 2.0 | 2025-10-12 |
 | SID_28_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
 | SID_28_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_61_WRITE_MEMORY_BY_ADDRESS.md | 2.0 | 2025-10-12 |
+| SID_61_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_61_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 
