@@ -532,6 +532,187 @@ A comprehensive three-part guide to understanding SID 23 (Read Memory By Address
 
 ---
 
+### 🔄 SID 0x2A (42): Read Data By Periodic Identifier Series
+
+A comprehensive three-part guide to understanding SID 0x2A (ReadDataByPeriodicIdentifier):
+
+#### 1. [SID 0x2A: Read Data By Periodic Identifier - Main Theoretical Guide](./SID_42_READ_DATA_BY_PERIODIC_IDENTIFIER.md)
+
+**Purpose**: Complete theoretical understanding of periodic data transmission
+
+**What you'll learn**:
+- What SID 0x2A is and when to use it
+- Transmission modes (Slow, Medium, Fast, Stop)
+- Periodic Data Identifier (PDID) concept vs DID
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements
+- Scheduler behavior and capacity management
+- ISO 14229-1:2020 compliance (Section 11.2)
+
+**Best for**: 
+- Learning periodic data monitoring fundamentals
+- Understanding transmission rate selection
+- NRC troubleshooting for periodic operations
+- Reference for automotive developers
+
+**Key Sections**:
+- Transmission Modes Overview (0x01-0x04)
+- PDID vs DID Relationship
+- NRC Visual Explanations (0x12, 0x13, 0x22, 0x31, 0x33, 0x72)
+- Session/Security Requirements
+- Auto-Stop Conditions
+
+---
+
+#### 2. [SID 0x2A: Practical Implementation Guide](./SID_42_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and scheduler logic
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- Scheduler implementation patterns
+- State machine diagrams for periodic transmission
+- NRC decision trees (when to return which error)
+- Timer management and priority handling
+- Complete testing scenarios (5 test cases)
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing periodic data handlers
+- Understanding scheduler state machines
+- Writing comprehensive periodic transmission tests
+- Debugging periodic data issues
+
+**Key Sections**:
+- Request Processing Flowchart
+- Scheduler State Machine
+- Timer Processing Flow
+- NRC Decision Trees
+- Testing Scenarios (basic, multiple PDIDs, session change, security, capacity)
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 0x2A: Service Interactions](./SID_42_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding periodic data transmission in context of other services
+
+**What you'll learn**:
+- Service dependency hierarchy
+- Session requirements matrix
+- Complete multi-service workflows (3 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios with solutions
+- Quick reference tables (transmission modes, NRCs, related services)
+
+**Best for**:
+- Planning diagnostic sequences with periodic monitoring
+- Understanding TesterPresent integration
+- Troubleshooting periodic transmission failures
+- Building real-time monitoring tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Transition Impact Matrix
+- Complete Workflow Examples (basic monitoring, security-protected, mixed-rate)
+- 3 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios (responses stopped, wrong rate)
+- Quick Reference Tables
+
+---
+
+### ✍️ SID 0x2E (46): Write Data By Identifier Series
+
+A comprehensive three-part guide to understanding SID 0x2E (WriteDataByIdentifier):
+
+#### 1. [SID 0x2E: Write Data By Identifier - Main Theoretical Guide](./SID_46_WRITE_DATA_BY_IDENTIFIER.md)
+
+**Purpose**: Complete theoretical understanding of writing data to ECU using DIDs
+
+**What you'll learn**:
+- What SID 0x2E is and when to use it
+- Data Identifier (DID) categories and write permissions
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements (EXTENDED or PROGRAMMING required)
+- Write operation types (RAM, EEPROM, Flash)
+- Write verification best practices
+- ISO 14229-1:2020 compliance (Section 11.5)
+
+**Best for**: 
+- Learning DID-based data writing fundamentals
+- Understanding security-protected write operations
+- NRC troubleshooting for write failures
+- Reference for automotive developers and technicians
+
+**Key Sections**:
+- DID Categories (Public, Protected, High-Security, OTP)
+- Write Permission Levels
+- NRC Visual Explanations (0x13, 0x22, 0x31, 0x33, 0x72, 0x7F)
+- Memory Write Types (RAM, EEPROM, Flash)
+- Write Verification Patterns
+
+---
+
+#### 2. [SID 0x2E: Practical Implementation Guide](./SID_46_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and validation logic
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- Write validation logic and data checks
+- NRC decision trees (when to return which error)
+- State machine diagrams for write operations
+- Complete testing scenarios (5 test cases)
+- EEPROM write queueing patterns
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing DID write handlers
+- Understanding write validation algorithms
+- Writing comprehensive write tests
+- Debugging write-related issues
+
+**Key Sections**:
+- Complete Write Request Flow
+- DID Validation Flowchart
+- Data Validation Process
+- Write Operation State Machine
+- Testing Scenarios (basic write, security write, invalid DID, wrong session, out of range)
+- Implementation Best Practices Checklist
+
+---
+
+#### 3. [SID 0x2E: Service Interactions](./SID_46_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding DID writing in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid
+- Session requirements matrix by DID security level
+- Complete multi-service workflows (3 patterns)
+- Tester ↔ ECU sequence diagrams
+- Integration with SID 0x10, 0x22, 0x27, 0x3E, 0x11
+- Troubleshooting scenarios with solutions
+- Common interaction patterns (batch updates, write-verify-retry, conditional writes)
+
+**Best for**:
+- Planning diagnostic sequences with DID writes
+- Understanding configuration and calibration workflows
+- Troubleshooting write failures (session timeout, security issues)
+- Building diagnostic tools with write capabilities
+
+**Key Sections**:
+- Service Dependency Overview
+- Session Requirements Matrix
+- Complete Workflow Examples (basic config, security-protected, VIN write)
+- SID 0x2E ↔ SID 0x22 Integration (Write-Verify pattern)
+- TesterPresent Pattern (prevent timeout during writes)
+- Troubleshooting Multi-Service Scenarios
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -829,6 +1010,12 @@ Have suggestions for improving these learning materials?
 | SID_23_READ_MEMORY_BY_ADDRESS.md | 2.0 | 2025-10-12 |
 | SID_23_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
 | SID_23_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_42_READ_DATA_BY_PERIODIC_IDENTIFIER.md | 2.0 | 2025-10-12 |
+| SID_42_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_42_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_46_WRITE_DATA_BY_IDENTIFIER.md | 2.0 | 2025-10-12 |
+| SID_46_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_46_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 
