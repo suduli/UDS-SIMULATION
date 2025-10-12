@@ -2,7 +2,31 @@
 
 A futuristic, interactive web application for learning and practicing Unified Diagnostic Services (UDS) protocol used in automotive diagnostics.
 
-![UDS Protocol Simulator](https://img.shields.io/badge/React-19.1-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue) ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.x-blue)
+![UDS Protocol Simulator](https://img.shields.io/badge/React-19.1-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue) ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-blue) ![Vite](https://img.shields.io/badge/Vite-7.1-purple) ![WCAG](https://img.shields.io/badge/WCAG-2.1%20AAA-green)
+
+## 📑 Table of Contents
+
+- [What's New](#-whats-new)
+- [Features](#-features)
+- [Documentation](#-documentation)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Architecture](#️-architecture)
+- [Design System](#-design-system)
+- [Development](#-development)
+- [Project Management](#-project-management)
+- [UDS Protocol Reference](#-uds-protocol-reference)
+- [Learning Resources](#-learning-resources)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+## ✨ What's New
+
+- **🎓 Learning Materials**: Comprehensive guides added for SID 10 (Diagnostic Session Control) with practical examples
+- **📚 Documentation Reorganization**: All docs now organized in structured categories (Getting Started, Learning, Guides, Testing, etc.)
+- **🧪 Enhanced Testing**: Complete testing guide with 28+ test cases for tooltips and onboarding tour
+- **♿ WCAG AAA Compliance**: High contrast mode and enhanced accessibility features
+- **📊 Weekly Progress Reports**: Transparent development tracking with weekly summaries
 
 ## 🚀 Features
 
@@ -51,15 +75,17 @@ A futuristic, interactive web application for learning and practicing Unified Di
 
 ### Technical Highlights
 
-- **Framework**: React 19.1 with TypeScript
+- **Framework**: React 19.1 with TypeScript 5.9
 - **State Management**: React Context API (UDSContext, ThemeContext)
 - **Styling**: Tailwind CSS 3.4 with custom cyber theme
 - **UI Components**: Radix UI (Tooltip primitives)
+- **Animations**: Framer Motion 12.23 for smooth interactions
 - **Accessibility**: WCAG 2.1 AA/AAA compliant (high contrast mode, focus indicators, ARIA labels)
 - **Persistence**: localStorage for user preferences (theme, high contrast, onboarding status)
 - **Type Safety**: Comprehensive TypeScript interfaces for all protocol messages
 - **Performance**: Optimized re-renders and smooth 60fps animations
 - **Code Quality**: Clean architecture with separation of concerns
+- **Build Tool**: Vite 7.1 for fast development and optimized builds
 
 ## 📚 Documentation
 
@@ -72,6 +98,12 @@ A futuristic, interactive web application for learning and practicing Unified Di
 - **[Visual Demo](./docs/getting-started/QUICK_VISUAL_DEMO.md)** - 30-second feature showcase
 - **[Quick Reference](./docs/getting-started/QUICK_REFERENCE_CARD.md)** - Command cheat sheet
 - **[Start Testing](./docs/getting-started/START_TESTING_HERE.md)** - Begin testing immediately
+
+#### 🎓 Learning Materials ⭐ NEW
+- **[SID 10 Complete Learning Guide](./docs/learning/SID_10_DIAGNOSTIC_SESSION_CONTROL.md)** - Deep dive into diagnostic sessions
+- **[Practical Implementation Guide](./docs/learning/PRACTICAL_IMPLEMENTATION_GUIDE.md)** - Code examples and state machines
+- **[Service Interaction Matrix](./docs/learning/SERVICE_INTERACTION_MATRIX.md)** - How services work together
+- **[More learning materials →](./docs/learning/)**
 
 #### 📖 Implementation Guides
 - **[Implementation Guide](./docs/guides/IMPLEMENTATION_GUIDE.md)** - Comprehensive development guide
@@ -118,6 +150,9 @@ npm run build
 
 # Preview production build
 npm run preview
+
+# Organize documentation
+npm run docs:organize
 ```
 
 ## 🎯 Usage
@@ -220,10 +255,13 @@ src/
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run dev` - Start development server (Vite)
+- `npm run build` - Build for production (TypeScript + Vite)
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run docs:organize` - Organize documentation files
+- `npm run docs:preview` - Preview documentation changes (dry-run)
+- `npm run docs:restore` - Restore documentation to previous state
 
 ### Project Structure
 
@@ -234,7 +272,36 @@ The project follows a modular architecture:
 - **Utils**: Helper functions and utilities
 - **Context**: Global state management
 
-## 📚 UDS Protocol Reference
+## � Project Management
+
+This project uses [Backlog.md](https://github.com/ckreiling/backlog.md) for task management and project organization.
+
+### Task Management
+
+All project tasks are managed through the Backlog CLI:
+
+```bash
+# View all tasks
+backlog task list --plain
+
+# View specific task
+backlog task <id> --plain
+
+# View in browser
+backlog browser
+```
+
+### Current Status
+
+Tasks are organized in the `backlog/` directory:
+- **Tasks**: Active and planned work items
+- **Completed**: Finished tasks archive
+- **Docs**: Project documentation
+- **Decisions**: Architectural decision records
+
+For contributors: All task operations must use the Backlog CLI. See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed guidelines.
+
+## �📚 UDS Protocol Reference
 
 This simulator implements the ISO 14229 (UDS) standard for automotive diagnostics:
 
@@ -259,15 +326,16 @@ Response: 67 02              // Positive, Unlocked
 ## 🎓 Learning Resources
 
 The simulator is designed for:
-- Automotive engineers learning UDS protocol
-- Students studying automotive diagnostics
-- Developers building diagnostic tools
-- QA teams testing ECU implementations
-- Accessibility advocates (WCAG AAA compliant)
+- **Automotive engineers** learning UDS protocol
+- **Students** studying automotive diagnostics
+- **Developers** building diagnostic tools
+- **QA teams** testing ECU implementations
+- **Accessibility advocates** (WCAG AAA compliant)
 
 ### Featured Documentation
 - **[📚 Complete Documentation](./docs/)**: Organized index of all documentation
 - **[🚀 Quickstart Guide](./docs/getting-started/QUICKSTART.md)**: Quick setup and usage guide
+- **[🎓 SID 10 Learning Guide](./docs/learning/SID_10_DIAGNOSTIC_SESSION_CONTROL.md)**: Complete diagnostic session control guide ⭐ NEW
 - **[♿ Accessibility Guide](./docs/accessibility/ACCESSIBILITY_GUIDE.md)**: Comprehensive accessibility documentation
 - **[📊 Weekly Reports](./docs/reports/weekly/)**: Week-by-week implementation progress
 - **[🧪 Testing Guide](./docs/testing/TESTING_GUIDE_TOOLTIPS_TOUR.md)**: Complete testing procedures
