@@ -352,7 +352,103 @@ A comprehensive three-part guide to understanding SID 22 (Read Data By Identifie
 
 ---
 
-### 📊 SID 19: Read DTC Information Series
+### � SID 0x35 (53): Request Upload Series
+
+A comprehensive three-part guide to understanding SID 0x35 (Request Upload):
+
+#### 1. [SID 0x35: Request Upload - Main Theoretical Guide](./SID_35_REQUEST_UPLOAD.md)
+
+**Purpose**: Complete theoretical understanding of initiating data uploads from ECU to tester
+
+**What you'll learn**:
+- What SID 0x35 is and when to use it (firmware backup, calibration extraction, log retrieval)
+- Upload vs Download (0x35 vs 0x34) differences - **data flows FROM ECU TO tester**
+- Data Format Identifier (DFI) - compression and encryption
+- Address and Length Format Identifier (ALFID) encoding
+- Request and response message formats (visual hex diagrams)
+- Negative Response Codes (NRCs) with visual comparisons (0x13, 0x22, 0x31, 0x33, 0x70, 0x72)
+- Session and security requirements (PROGRAMMING + UNLOCKED)
+- Upload sequence overview (0x35 → 0x36 → 0x37)
+- ISO 14229-1:2020 compliance (Section 11.6)
+
+**Best for**: 
+- Learning firmware backup fundamentals
+- Understanding ALFID and DFI structures for uploads
+- NRC troubleshooting for upload operations
+- Reference for automotive developers and data extraction tools
+
+**Key Sections**:
+- Message Format Structure (request/response)
+- Data Format Identifier (compression/encryption methods)
+- ALFID Calculation Examples
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security State Requirements
+- Upload Service Chain Overview
+
+---
+
+#### 2. [SID 0x35: Practical Implementation Guide](./SID_35_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- State machine diagrams (IDLE → UPLOAD_ACTIVE → TRANSFER_ACTIVE → FINALIZING)
+- NRC decision trees (when to return which error)
+- Memory validation flowcharts (address/size checking)
+- Session timeout handling during uploads
+- Complete testing scenarios (5 test cases)
+- Integration patterns (firmware backup, calibration extraction, log retrieval)
+- Performance optimization techniques
+- Debugging flowcharts and troubleshooting
+
+**Best for**:
+- Developers implementing upload handlers
+- Understanding upload state machines
+- Writing comprehensive upload tests
+- Debugging upload-related issues (timeouts, memory errors)
+
+**Key Sections**:
+- Complete Request Processing Flow
+- Upload State Machine (with transitions)
+- Memory Validation Process
+- NRC Decision Trees
+- Testing Scenarios (successful, wrong session, security, invalid address, active upload)
+- Performance Optimization (transfer speed calculation)
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 0x35: Service Interactions](./SID_35_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding upload initiation in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Upload → Transfer → Exit)
+- Session requirements matrix and compatibility
+- Complete multi-service workflows (7 patterns)
+- Tester ↔ ECU sequence diagrams (firmware backup, multi-region backup, compressed upload, encrypted upload, keep-alive, diagnostic logs, upload vs download comparison)
+- Integration with SID 0x10, 0x27, 0x3E, 0x36, 0x37, 0x11
+- Troubleshooting scenarios with solutions
+- Common interaction patterns (TesterPresent usage, progress monitoring)
+
+**Best for**:
+- Planning diagnostic sequences with uploads
+- Understanding firmware backup workflows
+- Troubleshooting upload failures (NRC 0x70, 0x22, hangs, corruption)
+- Building data extraction and backup tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (basic firmware backup, multi-region, compression, encryption, keep-alive, diagnostics, upload vs download)
+- Multi-Service Interaction Patterns (progress monitoring, TesterPresent integration)
+- Troubleshooting Scenarios (NRC 0x70, hangs, corruption resolution)
+- Quick Reference Tables (timing, ALFID, DFI, NRCs, service sequences)
+
+---
+
+### �📊 SID 19: Read DTC Information Series
 
 A comprehensive three-part guide to understanding SID 19 (Read DTC Information):
 
@@ -1103,6 +1199,294 @@ A comprehensive three-part guide to understanding SID 0x31 (Routine Control):
 
 ---
 
+### 📥 SID 0x34 (52): Request Download Series
+
+A comprehensive three-part guide to understanding SID 0x34 (Request Download):
+
+#### 1. [SID 0x34: Request Download - Main Theoretical Guide](./SID_34_REQUEST_DOWNLOAD.md)
+
+**Purpose**: Complete theoretical understanding of initiating data downloads from tester to ECU
+
+**What you'll learn**:
+- What SID 0x34 is and when to use it (firmware/config downloads)
+- Download vs Upload (0x34 vs 0x35) differences
+- Data Format Identifier (DFI) - compression and encryption
+- Address and Length Format Identifier (ALFID) encoding
+- Request and response message formats (visual hex diagrams)
+- Negative Response Codes (NRCs) with visual comparisons (0x13, 0x22, 0x31, 0x33, 0x70, 0x72)
+- Session and security requirements (PROGRAMMING + UNLOCKED)
+- Download sequence overview (0x34 → 0x36 → 0x37)
+- ISO 14229-1:2020 compliance (Section 11.5)
+
+**Best for**: 
+- Learning firmware download fundamentals
+- Understanding ALFID and DFI structures
+- NRC troubleshooting for download operations
+- Reference for automotive developers and flash programmers
+
+**Key Sections**:
+- Message Format Structure (request/response)
+- Data Format Identifier (compression/encryption methods)
+- ALFID Calculation Examples
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security State Requirements
+- Download Service Chain Overview
+
+---
+
+#### 2. [SID 0x34: Practical Implementation Guide](./SID_34_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- State machine diagrams (IDLE → DOWNLOAD_ACTIVE → TRANSFER_ACTIVE → FINALIZING)
+- NRC decision trees (when to return which error)
+- Memory validation flowcharts (address/size checking)
+- Session timeout handling during downloads
+- Complete testing scenarios (5 test cases)
+- Integration patterns (firmware update, multi-region, compression, encryption)
+- Performance optimization techniques
+- Debugging flowcharts and troubleshooting
+
+**Best for**:
+- Developers implementing download handlers
+- Understanding download state machines
+- Writing comprehensive download tests
+- Debugging download-related issues (timeouts, memory errors)
+
+**Key Sections**:
+- Complete Request Processing Flow
+- Download State Machine (with transitions)
+- Memory Validation Process
+- NRC Decision Trees
+- Testing Scenarios (successful, wrong session, security, invalid address, active download)
+- Performance Optimization (transfer speed calculation)
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 0x34: Service Interactions](./SID_34_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding download initiation in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Download → Transfer → Exit)
+- Session requirements matrix and compatibility
+- Complete multi-service workflows (7 patterns)
+- Tester ↔ ECU sequence diagrams (firmware download, multi-region, checksum verification, compression, encryption, resume, bootloader update)
+- Integration with SID 0x10, 0x27, 0x3E, 0x36, 0x37, 0x11
+- Troubleshooting scenarios with solutions
+- Common interaction patterns (TesterPresent usage, delta updates, progress monitoring)
+
+**Best for**:
+- Planning diagnostic sequences with downloads
+- Understanding firmware update workflows
+- Troubleshooting download failures (NRC 0x70, 0x22, hangs, 0x72)
+- Building flash programming tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (basic firmware, multi-region, checksum, compression, encryption, recovery, bootloader)
+- Multi-Service Interaction Patterns (delta updates, progress monitoring)
+- Troubleshooting Scenarios (NRC 0x70, hangs, NRC 0x72 resolution)
+- Quick Reference Tables (timing, ALFID, DFI, NRCs, service sequences)
+
+---
+
+### 📦 SID 0x36 (54): Transfer Data Series
+
+A comprehensive three-part guide to understanding SID 0x36 (Transfer Data):
+
+#### 1. [SID 0x36: Transfer Data - Main Theoretical Guide](./SID_36_TRANSFER_DATA.md)
+
+**Purpose**: Complete theoretical understanding of transferring data blocks between tester and ECU
+
+**What you'll learn**:
+- What SID 0x36 is and when to use it (data transfer after 0x34/0x35)
+- Block Sequence Counter (BSC) mechanism and wrap-around behavior (0x01-0xFF)
+- Request and response message formats (visual hex diagrams)
+- Negative Response Codes (NRCs) with visual comparisons (0x13, 0x22, 0x24, 0x31, 0x33, 0x71, 0x72, 0x92, 0x93)
+- Session and security requirements (PROGRAMMING session + unlocked)
+- Transfer workflow (must follow 0x34/0x35, must precede 0x37)
+- Error recovery patterns (voltage drops, temporary failures)
+- ISO 14229-1:2020 compliance (Section 10.5)
+
+**Best for**: 
+- Learning data transfer fundamentals
+- Understanding BSC sequencing and error detection
+- NRC troubleshooting for transfer operations
+- Reference for automotive developers and flash programmers
+
+**Key Sections**:
+- Message Format Structure (request/response with BSC)
+- Block Sequence Counter (BSC) explained
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security State Requirements
+- Transfer Service Chain (0x34/0x35 → 0x36 → 0x37)
+- Error Recovery Scenarios
+
+---
+
+#### 2. [SID 0x36: Practical Implementation Guide](./SID_36_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- BSC validation and incrementing algorithms (visual pseudocode)
+- State machine diagrams (IDLE → TRANSFER_READY → TRANSFERRING → COMPLETED/SUSPENDED/FAILED)
+- NRC decision trees (when to return which error)
+- Complete testing scenarios (5 test cases: normal, sequence error, wrap-around, voltage drop, length error)
+- Integration patterns (flash download with checksum, multi-region, upload)
+- Debugging flowcharts (transfer fails to start, stops mid-way, BSC errors)
+- Performance optimization (transfer speed calculation)
+
+**Best for**:
+- Developers implementing transfer data handlers
+- Understanding BSC state machines and validation logic
+- Writing comprehensive transfer tests
+- Debugging transfer-related issues (sequence errors, timeouts, voltage drops)
+
+**Key Sections**:
+- Complete Request Processing Flow
+- BSC Validation and Increment Logic
+- Transfer State Machine (with state transitions)
+- NRC Decision Trees (comprehensive error handling)
+- Testing Scenarios (normal operation, error cases, edge cases)
+- Integration Patterns (checksum verification, multi-region transfers)
+- Debugging Flowcharts
+- Best Practices Checklist (pre/during/post-transfer, error handling)
+
+---
+
+#### 3. [SID 0x36: Service Interactions](./SID_36_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding data transfer in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Download/Upload → Transfer → Exit)
+- Session requirements matrix and timing constraints
+- Complete multi-service workflows (7 patterns)
+- Tester ↔ ECU sequence diagrams (simple flash 64KB, multi-region, upload, voltage recovery, programming failure, long transfer with TesterPresent, BSC wrap-around)
+- Integration with SID 0x10, 0x27, 0x34, 0x35, 0x37, 0x3E, 0x11
+- Troubleshooting scenarios with solutions (transfer stuck, NRC 0x24 every block, checksum fails)
+- Common interaction patterns (progress monitoring, keep-alive with 0x3E, error recovery)
+
+**Best for**:
+- Planning diagnostic sequences with data transfers
+- Understanding complete firmware/calibration workflows
+- Troubleshooting transfer failures (sequence errors, voltage issues, checksum failures)
+- Building flash programming and data extraction tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (simple flash, multi-region, upload, voltage recovery, failure handling, long transfer, BSC wrap-around)
+- 5 Multi-Service Interaction Patterns (full ECU reprogramming, calibration update, flash backup, failed programming recovery, partial region verification)
+- Troubleshooting Scenarios (transfer stuck after first block, NRC 0x24 repeated, checksum mismatch)
+- Quick Reference Tables (transfer facts, NRC reference, service interaction summary)
+
+---
+
+### 🏁 SID 0x37 (55): Request Transfer Exit Series
+
+A comprehensive three-part guide to understanding SID 0x37 (Request Transfer Exit):
+
+#### 1. [SID 0x37: Request Transfer Exit - Main Theoretical Guide](./SID_37_REQUEST_TRANSFER_EXIT.md)
+
+**Purpose**: Complete theoretical understanding of finalizing data transfer operations
+
+**What you'll learn**:
+- What SID 0x37 is and when to use it (finalize data transfers after 0x36)
+- Transfer completion workflow (0x34/0x35 → 0x36 → 0x37)
+- Request and response message formats (visual hex diagrams)
+- Transfer Parameter Record (TPR) - optional checksum/verification data
+- Negative Response Codes (NRCs) with visual comparisons (0x13, 0x22, 0x24, 0x31, 0x33, 0x72, 0x92)
+- Session and security requirements (PROGRAMMING session + unlocked)
+- Transfer state finalization and memory commit behavior
+- Error recovery patterns (incomplete transfers, checksum failures)
+- ISO 14229-1:2020 compliance (Section 10.6)
+
+**Best for**: 
+- Learning transfer exit fundamentals
+- Understanding when and why to finalize transfers
+- NRC troubleshooting for exit operations
+- Reference for automotive developers and flash programmers
+
+**Key Sections**:
+- Message Format Structure (with optional TPR)
+- Transfer Parameter Record (checksum, signature verification)
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security State Requirements
+- Complete Transfer Service Chain (0x34/0x35 → 0x36 → 0x37)
+- Memory Finalization Behavior
+
+---
+
+#### 2. [SID 0x37: Practical Implementation Guide](./SID_37_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- Parameter validation logic (TPR parsing and checksum verification)
+- State machine diagrams (TRANSFERRING → VALIDATING → FINALIZING → IDLE/FAILED)
+- NRC decision trees (when to return which error)
+- Checksum verification algorithms (visual pseudocode)
+- Complete testing scenarios (5 test cases: successful exit, no transfer active, checksum failure, session timeout, incomplete transfer)
+- Integration patterns (firmware finalization, multi-region completion, upload finalization)
+- Debugging flowcharts (exit fails, checksum mismatch, memory commit errors)
+- Performance considerations (finalization timing)
+
+**Best for**:
+- Developers implementing transfer exit handlers
+- Understanding finalization state machines
+- Writing comprehensive exit tests
+- Debugging transfer completion issues (checksum failures, commit errors)
+
+**Key Sections**:
+- Complete Request Processing Flow
+- Parameter Validation Flowchart
+- Checksum Verification Algorithm
+- Transfer Exit State Machine (with transitions)
+- NRC Decision Trees (comprehensive error handling)
+- Testing Scenarios (normal operation, error cases)
+- Debugging Flowcharts
+- Best Practices Checklist (pre/during/post-exit)
+
+---
+
+#### 3. [SID 0x37: Service Interactions](./SID_37_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding transfer exit in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Download/Upload → Transfer → Exit → Reset)
+- Session requirements matrix and timing constraints
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams (basic firmware download, multi-region flash, calibration upload, checksum verification, failed transfer recovery)
+- Integration with SID 0x10, 0x27, 0x34, 0x35, 0x36, 0x3E, 0x11
+- Troubleshooting scenarios with solutions (exit fails after successful transfer, checksum mismatch, ECU doesn't commit to flash)
+- Common interaction patterns (full ECU reprogramming, partial update recovery, multi-file flash sequences)
+
+**Best for**:
+- Planning diagnostic sequences with transfer exits
+- Understanding complete firmware/calibration workflows
+- Troubleshooting exit failures (checksum errors, memory commit issues, session timeouts)
+- Building flash programming and data extraction tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (basic 64KB firmware, multi-region 304KB flash, calibration upload, checksum verification, recovery from failed transfer)
+- 5 Multi-Service Interaction Patterns (full ECU reprogramming, partial region update, multi-file flash, error recovery, upload finalization)
+- Troubleshooting Multi-Service Scenarios (exit fails after successful transfer, checksum mismatch, memory commit failure)
+- Quick Reference Tables (transfer facts, NRC reference, timing constraints, service sequences)
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -1418,6 +1802,18 @@ Have suggestions for improving these learning materials?
 | SID_31_ROUTINE_CONTROL.md | 2.0 | 2025-10-12 |
 | SID_31_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
 | SID_31_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_34_REQUEST_DOWNLOAD.md | 2.0 | 2025-10-12 |
+| SID_34_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_34_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_35_REQUEST_UPLOAD.md | 2.0 | 2025-10-12 |
+| SID_35_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_35_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_36_TRANSFER_DATA.md | 2.0 | 2025-10-12 |
+| SID_36_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_36_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_37_REQUEST_TRANSFER_EXIT.md | 2.0 | 2025-10-12 |
+| SID_37_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_37_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 

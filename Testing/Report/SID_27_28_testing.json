@@ -1,0 +1,221 @@
+{
+  "version": "1.0.0",
+  "exportDate": "2025-10-12T16:34:22.067Z",
+  "requestHistory": [
+    {
+      "request": {
+        "sid": 39,
+        "subFunction": 3,
+        "data": [],
+        "timestamp": 1760284850201
+      },
+      "response": {
+        "sid": 39,
+        "data": [
+          127,
+          39,
+          54
+        ],
+        "timestamp": 1760284850202,
+        "isNegative": true,
+        "nrc": 54
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "subFunction": 1,
+        "data": [
+          1
+        ],
+        "timestamp": 1760284883314
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          104,
+          1
+        ],
+        "timestamp": 1760284883315,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "subFunction": 0,
+        "data": [
+          1
+        ],
+        "timestamp": 1760284914148
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          127,
+          40,
+          19
+        ],
+        "timestamp": 1760284914148,
+        "isNegative": true,
+        "nrc": 19
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "subFunction": 2,
+        "data": [
+          1
+        ],
+        "timestamp": 1760284947980
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          104,
+          2
+        ],
+        "timestamp": 1760284947980,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "subFunction": 3,
+        "data": [
+          3
+        ],
+        "timestamp": 1760284977327
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          104,
+          3
+        ],
+        "timestamp": 1760284977327,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 39,
+        "subFunction": 5,
+        "data": [],
+        "timestamp": 1760285009027
+      },
+      "response": {
+        "sid": 39,
+        "data": [
+          127,
+          39,
+          54
+        ],
+        "timestamp": 1760285009028,
+        "isNegative": true,
+        "nrc": 54
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "data": [],
+        "timestamp": 1760285041749
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          127,
+          40,
+          19
+        ],
+        "timestamp": 1760285041750,
+        "isNegative": true,
+        "nrc": 19
+      }
+    },
+    {
+      "request": {
+        "sid": 16,
+        "subFunction": 3,
+        "data": [],
+        "timestamp": 1760285072680
+      },
+      "response": {
+        "sid": 16,
+        "data": [
+          80,
+          3,
+          0,
+          50,
+          1,
+          244
+        ],
+        "timestamp": 1760285072681,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 39,
+        "subFunction": 1,
+        "data": [],
+        "timestamp": 1760285106773
+      },
+      "response": {
+        "sid": 39,
+        "data": [
+          127,
+          39,
+          54
+        ],
+        "timestamp": 1760285106773,
+        "isNegative": true,
+        "nrc": 54
+      }
+    },
+    {
+      "request": {
+        "sid": 16,
+        "subFunction": 1,
+        "data": [],
+        "timestamp": 1760285141783
+      },
+      "response": {
+        "sid": 16,
+        "data": [
+          80,
+          1,
+          0,
+          50,
+          1,
+          244
+        ],
+        "timestamp": 1760285141784,
+        "isNegative": false
+      }
+    },
+    {
+      "request": {
+        "sid": 40,
+        "subFunction": 1,
+        "data": [
+          3
+        ],
+        "timestamp": 1760285175565
+      },
+      "response": {
+        "sid": 40,
+        "data": [
+          104,
+          1
+        ],
+        "timestamp": 1760285175566,
+        "isNegative": false
+      }
+    }
+  ],
+  "totalRequests": 11
+}
