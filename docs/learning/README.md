@@ -1007,6 +1007,102 @@ A comprehensive three-part guide to understanding SID 0x3D (Write Memory By Addr
 
 ---
 
+### 🔧 SID 0x31 (49): Routine Control Series
+
+A comprehensive three-part guide to understanding SID 0x31 (Routine Control):
+
+#### 1. [SID 0x31: Routine Control - Main Theoretical Guide](./SID_31_ROUTINE_CONTROL.md)
+
+**Purpose**: Complete theoretical understanding of executing ECU-side routines
+
+**What you'll learn**:
+- What SID 0x31 is and when to use it
+- Three subfunctions (0x01 Start, 0x02 Stop, 0x03 Request Results)
+- Routine Identifier (RID) concept and ranges
+- Request and response message formats (visual hex diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session requirements (often EXTENDED or PROGRAMMING)
+- Security requirements for protected routines
+- Routine lifecycle and state management
+- ISO 14229-1:2020 compliance (Section 9.5)
+
+**Best for**: 
+- Learning routine execution fundamentals
+- Understanding RID structure and categories
+- NRC troubleshooting for routine operations (0x12, 0x13, 0x22, 0x24, 0x31, 0x33, 0x72)
+- Reference for automotive developers and test engineers
+
+**Key Sections**:
+- Subfunction Overview (Start, Stop, Request Results)
+- RID Structure and Common Ranges
+- Message Format Visualizations
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session/Security Requirements Matrix
+- Routine Lifecycle States
+
+---
+
+#### 2. [SID 0x31: Practical Implementation Guide](./SID_31_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art) for each subfunction
+- Routine state machine (IDLE → RUNNING → DONE/FAILED/STOPPED)
+- NRC decision trees (when to return which error)
+- Session timeout management during long routines
+- TesterPresent integration patterns
+- Complete testing scenarios (4 test cases)
+- Integration patterns with other services
+- Debugging flowcharts and troubleshooting
+
+**Best for**:
+- Developers implementing routine control handlers
+- Understanding routine execution state machines
+- Writing comprehensive routine tests
+- Debugging routine-related issues (timeouts, failures, sequence errors)
+
+**Key Sections**:
+- Request Processing Flowcharts (Start, Stop, Request Results)
+- Routine Lifecycle State Machine
+- NRC Decision Trees
+- Session Timeout Management
+- Testing Scenarios (actuator test, long calibration, cancellation, failure handling)
+- Debugging Flowcharts
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 0x31: Service Interactions](./SID_31_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding routine control in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Routine)
+- Session requirements matrix by routine type
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Integration with SID 0x10, 0x27, 0x3E, 0x19, 0x14, 0x22
+- Troubleshooting scenarios with solutions
+- Common interaction patterns (diagnostic test, programming, EOL testing)
+
+**Best for**:
+- Planning diagnostic sequences with routines
+- Understanding test execution workflows
+- Troubleshooting routine failures (session timeout, conditions not met)
+- Building diagnostic and manufacturing test tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (actuator test, secured calibration, programming session, cancellation, DTC failure)
+- 7 Multi-Service Interaction Patterns
+- Integration with Specific Services
+- Troubleshooting Multi-Service Scenarios (session timeout, wrong session, conditions not met)
+- Quick Reference Tables (timing, RID categories, NRC priority)
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -1319,6 +1415,9 @@ Have suggestions for improving these learning materials?
 | SID_61_WRITE_MEMORY_BY_ADDRESS.md | 2.0 | 2025-10-12 |
 | SID_61_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
 | SID_61_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_31_ROUTINE_CONTROL.md | 2.0 | 2025-10-12 |
+| SID_31_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_31_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 
