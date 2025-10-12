@@ -60,3 +60,5 @@ Here is a **comprehensive in-depth test report** for your UDS Service ID 10 (Dia
 Your simulator covers many requirements well and has excellent UI feedback and input validation, but fails in some critical protocol areas, especially message length checking, suppress response, and session timeout handling.  
 **Addressing these issues will improve protocol compliance and robustness.**[1]
 
+[1](http://localhost:5173/UDS-SIMULATION/)
+[2](http://localhost:5173/UDS-SIMULATION/)

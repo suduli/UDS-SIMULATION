@@ -713,6 +713,199 @@ A comprehensive three-part guide to understanding SID 0x2E (WriteDataByIdentifie
 
 ---
 
+### 🔐 SID 0x27 (39): Security Access Series
+
+A comprehensive three-part guide to understanding SID 0x27 (Security Access):
+
+#### 1. [SID 0x27: Security Access - Main Theoretical Guide](./SID_27_SECURITY_ACCESS.md)
+
+**Purpose**: Complete theoretical understanding of cryptographic security access
+
+**What you'll learn**:
+- What SID 0x27 is and when to use it
+- Seed/Key mechanism (challenge-response authentication)
+- Security levels (0x01-0x7F) and their purposes
+- Request and response message formats (visual hex diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session requirements (Extended/Programming sessions required)
+- Timing constraints (seed timeout, delay after invalid key, S3 timeout)
+- ISO 14229-1:2020 compliance (Section 9.3)
+
+**Best for**: 
+- Learning security access fundamentals
+- Understanding seed/key exchange mechanism
+- NRC troubleshooting for security operations (0x12, 0x13, 0x22, 0x24, 0x31, 0x35, 0x36, 0x37)
+- Reference for automotive developers and security engineers
+
+**Key Sections**:
+- Seed/Key Mechanism Complete Exchange Flow
+- Security Levels Table (Level 1-64)
+- Security Level Hierarchy
+- Message Format Diagrams (Request Seed, Send Key)
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session Requirements Matrix
+- Timing Constraints (P2, S3, Delay Timers)
+
+---
+
+#### 2. [SID 0x27: Practical Implementation Guide](./SID_27_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Seed generation flowcharts (ASCII art)
+- Key validation logic and decision trees
+- Security state machine (LOCKED ↔ SEED_REQUESTED ↔ UNLOCKED)
+- NRC decision trees (when to return which error)
+- Timeout handling diagrams (seed timeout, S3 timeout, delay timer)
+- Attempt counter logic (lockout mechanism)
+- Complete testing scenarios (7 test cases)
+- Debugging flowcharts and troubleshooting
+
+**Best for**:
+- Developers implementing security access handlers
+- Understanding cryptographic validation algorithms
+- Writing comprehensive security tests
+- Debugging security-related issues (invalid key, lockout, timeout)
+
+**Key Sections**:
+- Seed Generation Flowchart (random seed requirements)
+- Key Validation Decision Tree
+- Security State Machine (complete state diagram)
+- Timeout Handling (seed, S3, delay timers)
+- Attempt Counter State Machine
+- Testing Scenarios (successful unlock, invalid key, timeout, attempt limit, wrong session, S3 timeout, zero seed)
+- Debugging Flowcharts (NRC 0x35, 0x36, session/security loss)
+
+---
+
+#### 3. [SID 0x27: Service Interactions](./SID_27_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding security access in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Protected Services)
+- Protected services overview (SID 0x2E, 0x31, 0x34, 0x35, 0x14, 0x85)
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Integration with SID 0x10 (session control), 0x3E (TesterPresent)
+- Troubleshooting scenarios with solutions
+- Common integration patterns (multi-level security, TesterPresent usage)
+
+**Best for**:
+- Planning diagnostic sequences requiring security
+- Understanding protected operation workflows (VIN write, software download, memory erase, DTC clear)
+- Troubleshooting security failures (wrong level, timeout, lockout)
+- Building secure diagnostic tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Protected Services Overview (which services need which security levels)
+- Complete Workflow Examples (basic config write, protected routine execution, software download, DTC management, VIN programming)
+- Integration Patterns (session+security+operation, multi-level security, TesterPresent integration)
+- Troubleshooting Multi-Service Scenarios (security works but service fails, download interrupted, routine fails, session lost)
+
+---
+
+### 📡 SID 0x28 (40): Communication Control Series
+
+A comprehensive three-part guide to understanding SID 0x28 (Communication Control):
+
+#### 1. [SID 0x28: Communication Control - Main Theoretical Guide](./SID_28_COMMUNICATION_CONTROL.md)
+
+**Purpose**: Complete theoretical understanding of network communication control
+
+**What you'll learn**:
+- What SID 0x28 is and when to use it
+- Control types (0x00-0x05) - RX/TX enable/disable combinations
+- Communication types (0x01-0x03) - Normal, Network Management, Both
+- Subnet and node targeting (enhanced addressing)
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session requirements (Extended/Programming sessions required)
+- Communication state behavior and restoration
+- ISO 14229-1:2020 compliance (Section 9.5)
+
+**Best for**: 
+- Learning communication isolation fundamentals
+- Understanding when to disable/enable network messages
+- NRC troubleshooting for communication control (0x12, 0x13, 0x22, 0x31, 0x33, 0x7F)
+- Reference for automotive developers and test engineers
+
+**Key Sections**:
+- Control Type Overview (0x00-0x05)
+- Communication Type Matrix
+- Subnet/Node Identification
+- NRC Visual Explanations with Wrong vs Correct patterns
+- Session Requirements Matrix
+- Communication State Behavior
+- Common Use Cases (flash isolation, network diagnostics)
+
+---
+
+#### 2. [SID 0x28: Practical Implementation Guide](./SID_28_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- Control type decision trees
+- Communication type validation logic
+- State machine diagrams for communication control
+- NRC decision trees (when to return which error)
+- Subnet targeting logic with examples
+- Session/security validation flows
+- Complete testing scenarios (5 test cases)
+- Integration patterns and debugging flowcharts
+
+**Best for**:
+- Developers implementing communication control handlers
+- Understanding communication state machines
+- Writing comprehensive communication control tests
+- Debugging network isolation issues
+
+**Key Sections**:
+- Request Processing Flowchart
+- Control Type Decision Tree
+- Communication Type Validation
+- State Machine Diagrams
+- NRC Decision Trees (0x12, 0x13, 0x22, 0x31, 0x33, 0x7F)
+- Testing Scenarios (basic control, subnet targeting, session validation, security, state management)
+- Debugging Flowcharts
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 0x28: Service Interactions](./SID_28_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding communication control in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid (Session → Security → Comm Control → Protected Operations)
+- Session requirements matrix and transition impact
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams (flash programming, config write, subnet testing, EOL testing, routine execution)
+- Integration with SID 0x10, 0x27, 0x3E, 0x2E, 0x31, 0x34/36/37, 0x11
+- Troubleshooting scenarios with solutions
+- Common integration patterns (TesterPresent during isolation, progressive isolation)
+
+**Best for**:
+- Planning diagnostic sequences with network isolation
+- Understanding flash programming workflows
+- Troubleshooting communication control failures
+- Building diagnostic and production test tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (flash programming with isolation, protected config write, subnet testing, EOL production, network-quiet routines)
+- Multi-Service Interaction Patterns (session→security→comm→operation, TesterPresent integration, multi-level isolation)
+- Integration with Specific Services (0x10, 0x27, 0x3E, 0x34/36/37, 0x2E, 0x31)
+- Troubleshooting Multi-Service Scenarios (flash fails, security works but operation fails, communication won't restore, routine interrupted)
+- Quick Reference Tables
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -1016,6 +1209,12 @@ Have suggestions for improving these learning materials?
 | SID_46_WRITE_DATA_BY_IDENTIFIER.md | 2.0 | 2025-10-12 |
 | SID_46_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
 | SID_46_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_27_SECURITY_ACCESS.md | 2.0 | 2025-10-12 |
+| SID_27_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_27_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_28_COMMUNICATION_CONTROL.md | 2.0 | 2025-10-12 |
+| SID_28_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_28_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 
