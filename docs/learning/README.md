@@ -90,6 +90,448 @@ A three-part comprehensive guide to understanding SID 10 (Diagnostic Session Con
 
 ---
 
+### 🔄 SID 11: ECU Reset Series
+
+A comprehensive three-part guide to understanding SID 11 (ECU Reset):
+
+#### 1. [SID 11: ECU Reset - Main Theoretical Guide](./SID_11_ECU_RESET.md)
+
+**Purpose**: Complete theoretical understanding of ECU reset service
+
+**What you'll learn**:
+- What SID 11 is and when to use it
+- All reset types (Hard, Key Off/On, Soft, Rapid Power Shutdown)
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual examples
+- Session and security requirements
+- Reset behavior and memory state
+- ISO 14229-1:2020 compliance
+
+**Best for**: 
+- Learning ECU reset fundamentals
+- Understanding reset types and their differences
+- NRC troubleshooting for reset operations
+- Reference for automotive technicians
+
+**Key Sections**:
+- Subfunction Overview (0x01-0x05)
+- NRC Visual Explanations (0x12, 0x13, 0x22, 0x33, 0x7F)
+- Reset Behavior Comparison
+- Session/Security Requirements
+
+---
+
+#### 2. [SID 11: Practical Implementation Guide](./SID_11_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- State machine diagrams for reset execution
+- NRC decision trees (when to return which error)
+- Reset execution workflows (step-by-step)
+- Complete testing scenarios
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing ECU reset handlers
+- Understanding reset state machines
+- Writing comprehensive reset tests
+- Debugging reset-related issues
+
+**Key Sections**:
+- Request Processing Flowchart
+- State Machine Diagrams
+- NRC Decision Trees
+- Reset Execution Workflows
+- Testing Scenarios
+- Debugging Guide
+
+---
+
+#### 3. [SID 11: Service Interactions](./SID_11_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding ECU reset in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid
+- Session requirements matrix
+- Complete multi-service workflows (7 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios
+- Quick reference tables
+
+**Best for**:
+- Planning diagnostic sequences with reset
+- Understanding software update workflows
+- Troubleshooting reset failures
+- Building diagnostic tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (Software Update, Parameter Config, Fault Clearing)
+- 7 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios
+
+---
+
+### 🧹 SID 14: Clear Diagnostic Information Series
+
+A comprehensive three-part guide to understanding SID 14 (Clear Diagnostic Information):
+
+#### 1. [SID 14: Clear Diagnostic Information - Main Theoretical Guide](./SID_14_CLEAR_DIAGNOSTIC_INFORMATION.md)
+
+**Purpose**: Complete theoretical understanding of DTC clearing service
+
+**What you'll learn**:
+- What SID 14 is and when to use it
+- GroupOfDTC parameter (3-byte structure)
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements
+- What gets cleared vs. what's preserved
+- ISO 14229-1:2020 compliance
+
+**Best for**: 
+- Learning DTC clearing fundamentals
+- Understanding GroupOfDTC values
+- NRC troubleshooting for clear operations
+- Reference for automotive technicians
+
+**Key Sections**:
+- GroupOfDTC Parameter Explained
+- NRC Visual Explanations (0x13, 0x22, 0x31, 0x33, 0x72, 0x78)
+- Before/After Memory Comparison
+- Session/Security Requirements
+
+---
+
+#### 2. [SID 14: Practical Implementation Guide](./SID_14_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- State machine diagrams for clear execution
+- NRC decision trees (when to return which error)
+- Memory management workflows (EEPROM operations)
+- Complete testing scenarios
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing DTC clear handlers
+- Understanding memory clear state machines
+- Writing comprehensive clear tests
+- Debugging clear-related issues
+
+**Key Sections**:
+- Request Processing Flowchart
+- State Machine Diagrams
+- NRC Decision Trees
+- Memory Management Workflows
+- Testing Scenarios (5 complete scenarios)
+- Debugging Guide
+
+---
+
+#### 3. [SID 14: Service Interactions](./SID_14_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding DTC clearing in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid
+- Session requirements matrix
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios
+- Quick reference tables
+
+**Best for**:
+- Planning diagnostic sequences with DTC clear
+- Understanding repair verification workflows
+- Troubleshooting clear failures
+- Building diagnostic tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix
+- Complete Workflow Examples (Basic Clear, Security Clear, Selective Clear, EOL Testing)
+- 5 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios
+
+---
+
+### 📖 SID 22: Read Data By Identifier Series
+
+A comprehensive three-part guide to understanding SID 22 (Read Data By Identifier):
+
+#### 1. [SID 22: Read Data By Identifier - Main Theoretical Guide](./SID_22_READ_DATA_BY_IDENTIFIER.md)
+
+**Purpose**: Complete theoretical understanding of reading ECU data using DIDs
+
+**What you'll learn**:
+- What SID 22 is and when to use it
+- Data Identifier (DID) concept and structure
+- DID range categories (standard DIDs 0xF190-0xF19F, manufacturer-specific, etc.)
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements for different DIDs
+- Common standard DIDs (VIN, Serial Number, SW Version)
+- ISO 14229-1:2020 compliance
+
+**Best for**: 
+- Learning DID-based data reading fundamentals
+- Understanding DID categories and ranges
+- NRC troubleshooting for read operations
+- Reference for automotive technicians and developers
+
+**Key Sections**:
+- DID Concepts and Categories
+- Message Structure (single and multiple DIDs)
+- Common Standard DIDs Reference
+- NRC Visual Explanations (0x13, 0x14, 0x22, 0x31, 0x33, 0x7F)
+- Session/Security Requirements Matrix
+
+---
+
+#### 2. [SID 22: Practical Implementation Guide](./SID_22_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- DID lookup and validation logic
+- NRC decision trees (when to return which error)
+- State machine diagrams for session/security checks
+- Complete testing scenarios (5 test cases)
+- Integration patterns with other services
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing DID read handlers
+- Understanding DID lookup algorithms
+- Writing comprehensive read tests
+- Debugging read-related issues
+
+**Key Sections**:
+- Request Processing Flow
+- DID Lookup Logic
+- NRC Decision Trees
+- State Machine Diagrams
+- Testing Scenarios (VIN read, multiple DIDs, invalid DID, wrong session, security)
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 22: Service Interactions](./SID_22_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding DID reading in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid
+- Session requirements matrix by DID category
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios with solutions
+- Quick reference tables for common DIDs
+
+**Best for**:
+- Planning diagnostic sequences with DID reads
+- Understanding identification and calibration workflows
+- Troubleshooting read failures
+- Building diagnostic tools
+
+**Key Sections**:
+- Service Dependency Overview
+- Session Requirements Matrix
+- Complete Workflow Examples (VIN read, sensor data, secured calibration, multi-DID)
+- 3 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios (NRC 0x7F, 0x14 resolution)
+- Quick Reference Tables
+
+---
+
+### 📊 SID 19: Read DTC Information Series
+
+A comprehensive three-part guide to understanding SID 19 (Read DTC Information):
+
+#### 1. [SID 19: Read DTC Information - Main Theoretical Guide](./SID_19_READ_DTC_INFORMATION.md)
+
+**Purpose**: Complete theoretical understanding of reading DTC information from ECUs
+
+**What you'll learn**:
+- What SID 19 is and when to use it
+- All 25+ subfunctions (0x01-0x19, 0x42, 0x55)
+- DTC status byte structure (8-bit definition)
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements
+- Snapshot (freeze frame) and extended data concepts
+- ISO 14229-1:2020 compliance
+
+**Best for**: 
+- Learning DTC reading fundamentals
+- Understanding DTC status bits and lifecycle
+- NRC troubleshooting for DTC operations
+- Reference for automotive technicians and developers
+
+**Key Sections**:
+- 25+ Subfunction Overview (most common: 0x01, 0x02, 0x04, 0x06, 0x0A)
+- DTC Status Byte Breakdown (8 bits explained)
+- Message Format Visualizations
+- NRC Visual Explanations (0x12, 0x13, 0x22, 0x31, 0x33)
+- Session Requirements
+- DTC Format and Numbering
+
+---
+
+#### 2. [SID 19: Practical Implementation Guide](./SID_19_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and state machines
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art) for key subfunctions
+- DTC lifecycle state machine (pending → confirmed → cleared)
+- NRC decision trees (when to return which error)
+- State machine diagrams for session management
+- Complete testing scenarios (5 test cases)
+- Integration patterns with other services
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing DTC read handlers
+- Understanding DTC state machines
+- Writing comprehensive DTC tests
+- Debugging DTC-related issues
+
+**Key Sections**:
+- Request Processing Flowcharts (0x01, 0x02, 0x04, 0x06)
+- NRC Decision Trees
+- DTC Lifecycle State Machine
+- Testing Scenarios (count, snapshot, extended data, clear verification, NRC testing)
+- Debugging Flowcharts
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 19: Service Interactions](./SID_19_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding DTC reading in context of other services
+
+**What you'll learn**:
+- Service dependency pyramid
+- Session requirements matrix (by subfunction)
+- Complete multi-service workflows (7 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios with solutions
+- Quick reference tables
+
+**Best for**:
+- Planning diagnostic sequences with DTC operations
+- Understanding DTC clearing and verification workflows
+- Troubleshooting DTC read failures
+- Building diagnostic tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Requirements Matrix (all 25+ subfunctions)
+- Complete Workflow Examples (scan, investigation, clear, protected access, monitoring, snapshot comparison)
+- 5 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios (session timeout, empty response, corrupted snapshot, NRC 0x31, inconsistent count)
+- Quick Reference Tables
+
+---
+
+### 💾 SID 23: Read Memory By Address Series
+
+A comprehensive three-part guide to understanding SID 23 (Read Memory By Address):
+
+#### 1. [SID 23: Read Memory By Address - Main Theoretical Guide](./SID_23_READ_MEMORY_BY_ADDRESS.md)
+
+**Purpose**: Complete theoretical understanding of reading raw ECU memory
+
+**What you'll learn**:
+- What SID 23 is and when to use it
+- Address and Length Format Identifier (ALFID) encoding
+- Request and response message formats (visual diagrams)
+- Negative Response Codes (NRCs) with visual comparisons
+- Session and security requirements
+- Memory region access control
+- ISO 14229-1:2020 compliance (Section 11.3)
+
+**Best for**: 
+- Learning raw memory access fundamentals
+- Understanding ALFID byte structure
+- NRC troubleshooting for memory operations
+- Reference for automotive developers
+
+**Key Sections**:
+- ALFID Format and Calculation
+- Message Format Visualizations
+- NRC Visual Explanations (0x13, 0x22, 0x31, 0x33, 0x72)
+- Session/Security Behavior
+- Memory Map Examples
+
+---
+
+#### 2. [SID 23: Practical Implementation Guide](./SID_23_PRACTICAL_IMPLEMENTATION.md)
+
+**Purpose**: Hands-on implementation details with flowcharts and validation logic
+
+**What you'll learn**:
+- Request processing flowcharts (ASCII art)
+- ALFID parsing and validation logic
+- Memory address range validation
+- NRC decision trees (when to return which error)
+- Security check state machines
+- Complete testing scenarios (5 test cases)
+- Debugging techniques and troubleshooting
+
+**Best for**:
+- Developers implementing memory read handlers
+- Understanding address validation algorithms
+- Writing comprehensive memory access tests
+- Debugging memory-related issues
+
+**Key Sections**:
+- Request Processing Flowchart
+- ALFID Validation Logic
+- Memory Address Validation
+- Security Check Decision Tree
+- Testing Scenarios (basic read, security, invalid address, ALFID errors, timeouts)
+- Best Practices Checklist
+
+---
+
+#### 3. [SID 23: Service Interactions](./SID_23_SERVICE_INTERACTIONS.md)
+
+**Purpose**: Understanding memory reading in context of other services
+
+**What you'll learn**:
+- Service dependency hierarchy
+- Session requirements matrix
+- Complete multi-service workflows (5 patterns)
+- Tester ↔ ECU sequence diagrams
+- Troubleshooting scenarios with solutions
+- Quick reference tables (ALFID values, memory regions, NRCs)
+
+**Best for**:
+- Planning diagnostic sequences with memory operations
+- Understanding calibration and firmware workflows
+- Troubleshooting memory access failures
+- Building diagnostic tools
+
+**Key Sections**:
+- Service Dependency Pyramid
+- Session Compatibility Table
+- Complete Workflow Examples (public memory, protected memory, large reads, read-modify-write, multi-region)
+- 5 Multi-Service Interaction Patterns
+- Troubleshooting Scenarios (NRC 0x22, 0x31, 0x33 resolution)
+- Quick Reference Tables
+
+---
+
 ## Learning Path
 
 ### For Complete Beginners
@@ -372,6 +814,21 @@ Have suggestions for improving these learning materials?
 | SID_10_DIAGNOSTIC_SESSION_CONTROL.md | 1.0 | 2025-10-11 |
 | SID_10_PRACTICAL_IMPLEMENTATION.md | 1.0 | 2025-10-11 |
 | SID_10_SERVICE_INTERACTIONS.md | 1.0 | 2025-10-11 |
+| SID_11_ECU_RESET.md | 2.0 | 2025-10-11 |
+| SID_11_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-11 |
+| SID_11_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-11 |
+| SID_14_CLEAR_DIAGNOSTIC_INFORMATION.md | 2.0 | 2025-10-11 |
+| SID_14_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-11 |
+| SID_14_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-11 |
+| SID_22_READ_DATA_BY_IDENTIFIER.md | 2.0 | 2025-10-12 |
+| SID_22_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_22_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_19_READ_DTC_INFORMATION.md | 2.0 | 2025-10-12 |
+| SID_19_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_19_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
+| SID_23_READ_MEMORY_BY_ADDRESS.md | 2.0 | 2025-10-12 |
+| SID_23_PRACTICAL_IMPLEMENTATION.md | 2.0 | 2025-10-12 |
+| SID_23_SERVICE_INTERACTIONS.md | 2.0 | 2025-10-12 |
 
 ---
 
