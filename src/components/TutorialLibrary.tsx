@@ -121,35 +121,35 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="cyber-panel w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-start justify-between p-6 border-b border-cyan-500/30">
           <div className="flex-1">
-            <h2 className="text-3xl font-bold text-cyan-400 mb-2">📚 Tutorial Library</h2>
-            <p className="text-gray-400 text-sm mb-4">
+            <h2 className="text-3xl font-bold text-cyan-600 dark:text-cyan-400 mb-2">📚 Tutorial Library</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
               Interactive lessons to master UDS Protocol
             </p>
 
             {/* Progress Stats */}
             <div className="flex gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <span className="text-gray-400">Progress:</span>
-                <span className="text-cyan-400 font-bold">{stats.percentage}%</span>
+                <span className="text-gray-600 dark:text-gray-400">Progress:</span>
+                <span className="text-cyan-600 dark:text-cyan-400 font-bold">{stats.percentage}%</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-gray-400">Completed:</span>
+                <span className="text-gray-600 dark:text-gray-400">Completed:</span>
                 <span className="text-green-400 font-bold">{stats.completed}/{stats.total}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-gray-400">In Progress:</span>
+                <span className="text-gray-600 dark:text-gray-400">In Progress:</span>
                 <span className="text-yellow-400 font-bold">{stats.inProgress}</span>
               </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="mt-3 h-2 bg-gray-800 rounded-full overflow-hidden">
-              <div 
+            <div className="mt-3 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+              <div
                 className="h-full bg-gradient-to-r from-cyan-500 to-green-400 transition-all duration-500"
                 style={{ width: `${stats.percentage}%` }}
               />
@@ -165,7 +165,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
         </div>
 
         {/* Filters */}
-        <div className="p-6 border-b border-cyan-500/30 space-y-4">
+        <div className="p-6 border-b border-cyan-600/30 dark:border-cyan-500/30 space-y-4">
           {/* Search */}
           <div>
             <input
@@ -181,7 +181,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
           <div className="flex flex-wrap gap-3">
             {/* Difficulty */}
             <div className="flex gap-2">
-              <span className="text-sm text-gray-400 self-center">Difficulty:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400 self-center">Difficulty:</span>
               {(['beginner', 'intermediate', 'advanced'] as LessonDifficulty[]).map((diff) => {
                 const isActive = filters.difficulty?.includes(diff);
                 return (
@@ -196,11 +196,10 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                           : [...current, diff],
                       });
                     }}
-                    className={`text-xs px-3 py-1 rounded border transition-colors ${
-                      isActive
+                    className={`text-xs px-3 py-1 rounded border transition-colors ${isActive
                         ? getDifficultyColor(diff)
-                        : 'text-gray-400 bg-gray-800/50 border-gray-700 hover:border-cyan-500/50'
-                    }`}
+                        : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800/50 border-gray-300 dark:border-gray-700 hover:border-cyan-600/50 dark:hover:border-cyan-500/50'
+                      }`}
                   >
                     {diff}
                   </button>
@@ -210,7 +209,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
 
             {/* Status */}
             <div className="flex gap-2">
-              <span className="text-sm text-gray-400 self-center">Status:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400 self-center">Status:</span>
               {(['not-started', 'in-progress', 'completed'] as const).map((stat) => {
                 const isActive = filters.status?.includes(stat);
                 return (
@@ -225,11 +224,10 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                           : [...current, stat],
                       });
                     }}
-                    className={`text-xs px-3 py-1 rounded border transition-colors ${
-                      isActive
-                        ? 'bg-cyan-500/20 border-cyan-500/30 text-cyan-400'
-                        : 'text-gray-400 bg-gray-800/50 border-gray-700 hover:border-cyan-500/50'
-                    }`}
+                    className={`text-xs px-3 py-1 rounded border transition-colors ${isActive
+                        ? 'bg-cyan-600/20 dark:bg-cyan-500/20 border-cyan-600/30 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400'
+                        : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800/50 border-gray-300 dark:border-gray-700 hover:border-cyan-600/50 dark:hover:border-cyan-500/50'
+                      }`}
                   >
                     {stat.replace('-', ' ')}
                   </button>
@@ -239,7 +237,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
 
             {/* Sort */}
             <div className="flex gap-2 ml-auto">
-              <span className="text-sm text-gray-400 self-center">Sort:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400 self-center">Sort:</span>
               <select
                 value={filters.sortBy}
                 onChange={(e) => setFilters({ ...filters, sortBy: e.target.value as 'recommended' | 'difficulty' | 'duration' | 'progress' })}
@@ -256,7 +254,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
             {(filters.searchQuery || (filters.difficulty && filters.difficulty.length > 0) || (filters.status && filters.status.length > 0)) && (
               <button
                 onClick={() => setFilters({ searchQuery: '', difficulty: [], status: [], sortBy: 'recommended' })}
-                className="text-xs text-cyan-400 hover:underline"
+                className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline"
               >
                 Clear All
               </button>
@@ -268,7 +266,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
         <div className="flex-1 overflow-y-auto p-6">
           {filteredLessons.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-400 text-lg mb-2">No lessons found</p>
+              <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">No lessons found</p>
               <p className="text-gray-500 text-sm">Try adjusting your filters</p>
             </div>
           ) : (
@@ -277,15 +275,15 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                 const lessonProgress = progress.lessons[lesson.id];
                 const status = lessonProgress?.status || 'not-started';
                 const completionPercent = lessonProgress
-                  ? Math.round(((lessonProgress.theoryCompleted ? 1 : 0) + 
-                                 (lessonProgress.exerciseCompleted ? 1 : 0) + 
-                                 (lessonProgress.quizCompleted ? 1 : 0)) / 3 * 100)
+                  ? Math.round(((lessonProgress.theoryCompleted ? 1 : 0) +
+                    (lessonProgress.exerciseCompleted ? 1 : 0) +
+                    (lessonProgress.quizCompleted ? 1 : 0)) / 3 * 100)
                   : 0;
 
                 return (
                   <div
                     key={lesson.id}
-                    className="cyber-panel p-5 hover:border-cyan-500/50 transition-all cursor-pointer group"
+                    className="cyber-panel p-5 hover:border-cyan-600/50 dark:hover:border-cyan-500/50 transition-all cursor-pointer group"
                     onClick={() => onStartLesson(lesson)}
                   >
                     {/* Header */}
@@ -295,12 +293,12 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                           <span className={`text-lg ${getStatusColor(status)}`}>
                             {getStatusIcon(status)}
                           </span>
-                          <h3 className="text-lg font-bold text-cyan-400 group-hover:text-cyan-300">
+                          <h3 className="text-lg font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500 dark:group-hover:text-cyan-300">
                             {lesson.title}
                           </h3>
                         </div>
                         {lesson.subtitle && (
-                          <p className="text-sm text-gray-400">{lesson.subtitle}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{lesson.subtitle}</p>
                         )}
                       </div>
                       <span className={`text-xs px-2 py-1 rounded border ${getDifficultyColor(lesson.difficulty)}`}>
@@ -309,11 +307,11 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                     </div>
 
                     {/* Meta Info */}
-                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                    <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400 mb-3">
                       <span>📚 0x{lesson.serviceId.toString(16).toUpperCase().padStart(2, '0')}</span>
                       <span>⏱️ {lesson.estimatedTime}min</span>
                       {lessonProgress && (
-                        <span className="text-cyan-400">
+                        <span className="text-cyan-600 dark:text-cyan-400">
                           {completionPercent}% complete
                         </span>
                       )}
@@ -321,8 +319,8 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
 
                     {/* Progress Bar (if started) */}
                     {lessonProgress && completionPercent > 0 && (
-                      <div className="h-1 bg-gray-800 rounded-full overflow-hidden mb-3">
-                        <div 
+                      <div className="h-1 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden mb-3">
+                        <div
                           className="h-full bg-gradient-to-r from-cyan-500 to-green-400"
                           style={{ width: `${completionPercent}%` }}
                         />
@@ -334,7 +332,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                       {lesson.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-0.5 bg-gray-800 text-gray-400 rounded"
+                          className="text-xs px-2 py-0.5 bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
                         >
                           {tag}
                         </span>
@@ -344,7 +342,7 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
                     {/* Best Score (if completed) */}
                     {lessonProgress && lessonProgress.quizBestScore > 0 && (
                       <div className="mt-3 pt-3 border-t border-gray-800 flex items-center justify-between text-xs">
-                        <span className="text-gray-400">Best Quiz Score:</span>
+                        <span className="text-gray-600 dark:text-gray-400">Best Quiz Score:</span>
                         <span className={lessonProgress.quizBestScore >= 90 ? 'text-green-400' : 'text-yellow-400'}>
                           {lessonProgress.quizBestScore}%
                         </span>
@@ -358,8 +356,8 @@ export const TutorialLibrary: React.FC<TutorialLibraryProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-cyan-500/30 bg-gray-900/50">
-          <p className="text-xs text-gray-400 text-center">
+        <div className="p-4 border-t border-cyan-600/30 dark:border-cyan-500/30 bg-gray-100 dark:bg-gray-900/50">
+          <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
             Showing {filteredLessons.length} of {LESSONS.length} lessons
           </p>
         </div>

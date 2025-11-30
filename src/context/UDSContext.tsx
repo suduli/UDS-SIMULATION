@@ -62,7 +62,7 @@ interface UDSContextType {
   resetSimulator: () => void;
   saveScenario: (name: string, description: string) => Scenario;
   loadScenario: (scenario: Scenario) => void;
-  
+
   // Enhanced scenario support
   scenarios: EnhancedScenario[];
   replayState: ReplayState;
@@ -76,18 +76,18 @@ interface UDSContextType {
   setReplaySpeed: (speed: number) => void;
   stepForward: () => void;
   stepBackward: () => void;
-  
+
   // Learning progress support
   learningProgress: LearningProgress;
   recordNRCEncounter: (nrc: NegativeResponseCode) => void;
   recordNRCResolution: (nrc: NegativeResponseCode) => void;
-  
+
   // Tutorial System (P2-05)
   tutorialProgress: TutorialProgress;
   startLesson: (lessonId: string) => void;
   completeLesson: (lessonId: string, score: number) => void;
   updateLessonProgress: (lessonId: string, updates: Partial<LessonProgress>) => void;
-  
+
   // Sequence support (P2-03)
   sequences: Sequence[];
   currentSequence?: SequenceExecutionState;
@@ -99,6 +99,12 @@ interface UDSContextType {
   resumeSequence: () => void;
   stopSequence: () => void;
   clearSequenceExecution: () => void;
+
+  // Power Management
+  voltage: number;
+  current: number;
+  ecuPower: boolean;
+  toggleEcuPower: () => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -106,7 +112,7 @@ const UDSContext = createContext<UDSContextType | undefined>(undefined);
 export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [simulator] = useState(() => new UDSSimulator(mockECUConfig));
   const [protocolState, setProtocolState] = useState<ProtocolState>(simulator.getState());
-  
+
   // Initialize with demo data for first-time users
   const getInitialHistory = (): Array<{ request: UDSRequest; response: UDSResponse }> => {
     const hasSeenDemo = localStorage.getItem('uds_demo_seen');
@@ -129,7 +135,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
     return [];
   };
-  
+
   const [requestHistory, setRequestHistory] = useState<Array<{ request: UDSRequest; response: UDSResponse }>>(getInitialHistory);
 
   // Enhanced scenario state
@@ -186,6 +192,42 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [currentSequence, setCurrentSequence] = useState<SequenceExecutionState | undefined>();
   const sequenceAbortController = useRef<AbortController | null>(null);
 
+  // Power Management State
+  const [voltage, setVoltage] = useState(12.4);
+  const [current, setCurrent] = useState(0.5);
+  const [ecuPower, setEcuPower] = useState(true);
+
+  // Simulate power fluctuations
+  React.useEffect(() => {
+    if (!ecuPower) {
+      setVoltage(0);
+      setCurrent(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      // Fluctuate voltage between 11.8 and 14.4
+      setVoltage(prev => {
+        const change = (Math.random() - 0.5) * 0.1;
+        const newVal = prev + change;
+        return Math.max(11.8, Math.min(14.4, newVal));
+      });
+
+      // Fluctuate current between 0.3 and 0.8
+      setCurrent(prev => {
+        const change = (Math.random() - 0.5) * 0.05;
+        const newVal = prev + change;
+        return Math.max(0.3, Math.min(0.8, newVal));
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [ecuPower]);
+
+  const toggleEcuPower = useCallback(() => {
+    setEcuPower(prev => !prev);
+  }, []);
+
   // Save learning progress to localStorage whenever it changes
   React.useEffect(() => {
     const serialized = serializeLearningProgress(learningProgress);
@@ -198,16 +240,16 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const positiveResponses = requestHistory.filter(
       item => !item.response.isNegative
     ).length;
-    const successRate = totalRequests > 0 
-      ? Math.round((positiveResponses / totalRequests) * 100) 
+    const successRate = totalRequests > 0
+      ? Math.round((positiveResponses / totalRequests) * 100)
       : 0;
     const uniqueServices = new Set(
       requestHistory.map(item => item.request.sid)
     ).size;
-    
+
     // Get active DTCs from simulator (you can enhance this later)
     const activeDTCs = 5; // TODO: Get from mockECU state
-    
+
     setMetrics({
       requestsSent: totalRequests,
       successRate,
@@ -275,12 +317,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       requests: requestHistory.map(h => h.request),
       createdAt: Date.now(),
     };
-    
+
     // Save to localStorage
     const savedScenarios = JSON.parse(localStorage.getItem('uds_scenarios') || '[]');
     savedScenarios.push(scenario);
     localStorage.setItem('uds_scenarios', JSON.stringify(savedScenarios));
-    
+
     return scenario;
   }, [requestHistory]);
 
@@ -308,29 +350,29 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
     const request = scenario.requests[stepIndex];
     const timing = scenario.timings[stepIndex] || 100;
-    
+
     // Apply speed multiplier to timing
     const adjustedTiming = timing / speed;
-    
+
     // Wait for the timing delay
     await delay(Math.max(10, adjustedTiming));
-    
+
     // Check if paused
     if (isPaused) {
       return;
     }
-    
+
     // Send the request
     const response = await simulator.processRequest(request);
     setRequestHistory(prev => [...prev, { request, response }]);
     setProtocolState(simulator.getState());
-    
+
     // Update replay state
     setReplayState(prev => ({
       ...prev,
       currentStep: stepIndex + 1,
     }));
-    
+
     // Schedule next step
     if (stepIndex + 1 < scenario.requests.length && !isPaused) {
       replayTimerRef.current = window.setTimeout(() => {
@@ -347,19 +389,19 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const saveEnhancedScenario = useCallback(async (metadata: ScenarioMetadata): Promise<EnhancedScenario> => {
     const requests = requestHistory.map(h => h.request);
     const responses = requestHistory.map(h => h.response);
-    
+
     const enhancedScenario = scenarioManager.createEnhancedScenario(
       requests,
       responses,
       metadata
     );
-    
+
     await scenarioManager.saveScenario(enhancedScenario);
-    
+
     // Reload scenarios list
     const updatedScenarios = await scenarioManager.listScenarios();
     setScenarios(updatedScenarios);
-    
+
     return enhancedScenario;
   }, [requestHistory]);
 
@@ -367,7 +409,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // Clear existing history and reset
     setRequestHistory([]);
     resetSimulator();
-    
+
     // Set up replay state
     currentReplayScenario.current = scenario;
     setReplayState({
@@ -378,7 +420,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       isPaused: false,
       scenarioId: scenario.id,
     });
-    
+
     // Start replay
     executeReplayStep(scenario, 0, 1, false);
   }, [resetSimulator, executeReplayStep]);
@@ -413,7 +455,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...prev,
         isPaused: false,
       }));
-      
+
       // Continue from current step
       executeReplayStep(
         currentReplayScenario.current,
@@ -450,11 +492,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (currentReplayScenario.current && replayState.currentStep < replayState.totalSteps) {
       const scenario = currentReplayScenario.current;
       const request = scenario.requests[replayState.currentStep];
-      
+
       const response = await simulator.processRequest(request);
       setRequestHistory(prev => [...prev, { request, response }]);
       setProtocolState(simulator.getState());
-      
+
       setReplayState(prev => ({
         ...prev,
         currentStep: prev.currentStep + 1,
@@ -466,7 +508,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (replayState.currentStep > 0) {
       // Remove last request from history
       setRequestHistory(prev => prev.slice(0, -1));
-      
+
       setReplayState(prev => ({
         ...prev,
         currentStep: prev.currentStep - 1,
@@ -541,7 +583,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Auto-track NRC encounters from responses
   React.useEffect(() => {
     if (requestHistory.length === 0) return;
-    
+
     const lastItem = requestHistory[requestHistory.length - 1];
     if (lastItem.response.isNegative && lastItem.response.nrc) {
       recordNRCEncounter(lastItem.response.nrc);
@@ -558,7 +600,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         console.error('Failed to parse tutorial progress:', e);
       }
     }
-    
+
     // Return default
     return {
       lessons: {},
@@ -610,7 +652,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       const isNew = prev.lessons[lessonId]?.status === 'not-started' || !prev.lessons[lessonId];
-      
+
       return {
         ...prev,
         lessons: {
@@ -691,22 +733,22 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     };
 
     setSequences(prev => [...prev, newSequence]);
-    
+
     // Save to localStorage
     const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
     savedSequences.push(newSequence);
     localStorage.setItem('uds_sequences', JSON.stringify(savedSequences));
-    
+
     return newSequence;
   }, []);
 
   const updateSequence = useCallback((id: string, updates: Partial<Sequence>) => {
-    setSequences(prev => prev.map(seq => 
-      seq.id === id 
+    setSequences(prev => prev.map(seq =>
+      seq.id === id
         ? { ...seq, ...updates, modifiedAt: Date.now() }
         : seq
     ));
-    
+
     // Update in localStorage
     const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
     const updatedSequences = savedSequences.map((seq: Sequence) =>
@@ -717,7 +759,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const deleteSequenceById = useCallback((id: string) => {
     setSequences(prev => prev.filter(seq => seq.id !== id));
-    
+
     // Remove from localStorage
     const savedSequences = JSON.parse(localStorage.getItem('uds_sequences') || '[]');
     const filtered = savedSequences.filter((seq: Sequence) => seq.id !== id);
@@ -725,7 +767,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, []);
 
   const executeSequence = useCallback(async (
-    sequence: Sequence, 
+    sequence: Sequence,
     options?: SequenceExecutionOptions
   ): Promise<void> => {
     sequenceAbortController.current = new AbortController();
@@ -789,7 +831,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       isPaused: false,
       pausedAt: undefined,
     } : undefined);
-    
+
     // Resume execution logic would go here
     // This is a simplified implementation
   }, []);
@@ -888,6 +930,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         resumeSequence,
         stopSequence,
         clearSequenceExecution,
+        // Power Management
+        voltage,
+        current,
+        ecuPower,
+        toggleEcuPower,
       }}
     >
       {children}

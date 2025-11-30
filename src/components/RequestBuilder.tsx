@@ -29,19 +29,19 @@ const RequestBuilder: React.FC = () => {
     if (!input.trim()) {
       return { valid: true, error: '' };
     }
-    
+
     const cleaned = input.replace(/\s+/g, '');
-    
+
     // Check if it contains only valid hex characters
     if (!/^[0-9A-Fa-f]+$/.test(cleaned)) {
       return { valid: false, error: 'Invalid hex format. Use only 0-9, A-F characters.' };
     }
-    
+
     // Check if length is even (pairs of hex digits)
     if (cleaned.length % 2 !== 0) {
       return { valid: false, error: 'Incomplete hex byte. Each byte needs 2 hex digits.' };
     }
-    
+
     return { valid: true, error: '' };
   };
 
@@ -79,85 +79,85 @@ const RequestBuilder: React.FC = () => {
 
   // Service metadata: icons, colors, and descriptions
   const serviceMetadata: Record<ServiceId, { icon: string; color: string; description: string }> = {
-    [ServiceId.DIAGNOSTIC_SESSION_CONTROL]: { 
-      icon: '🎯', 
+    [ServiceId.DIAGNOSTIC_SESSION_CONTROL]: {
+      icon: '🎯',
       color: 'text-cyan-400',
-      description: 'Control diagnostic session types (default, extended, programming)' 
+      description: 'Control diagnostic session types (default, extended, programming)'
     },
-    [ServiceId.ECU_RESET]: { 
-      icon: '🔄', 
+    [ServiceId.ECU_RESET]: {
+      icon: '🔄',
       color: 'text-purple-400',
-      description: 'Reset ECU (hard reset, key off/on, soft reset)' 
+      description: 'Reset ECU (hard reset, key off/on, soft reset)'
     },
-    [ServiceId.CLEAR_DIAGNOSTIC_INFORMATION]: { 
-      icon: '🗑️', 
+    [ServiceId.CLEAR_DIAGNOSTIC_INFORMATION]: {
+      icon: '🗑️',
       color: 'text-red-400',
-      description: 'Clear diagnostic trouble codes and freeze frame data' 
+      description: 'Clear diagnostic trouble codes and freeze frame data'
     },
-    [ServiceId.READ_DTC_INFORMATION]: { 
-      icon: '📊', 
+    [ServiceId.READ_DTC_INFORMATION]: {
+      icon: '📊',
       color: 'text-orange-400',
-      description: 'Read diagnostic trouble codes with status information' 
+      description: 'Read diagnostic trouble codes with status information'
     },
-    [ServiceId.READ_DATA_BY_IDENTIFIER]: { 
-      icon: '📖', 
+    [ServiceId.READ_DATA_BY_IDENTIFIER]: {
+      icon: '📖',
       color: 'text-green-400',
-      description: 'Read data like VIN, ECU info, sensor values by identifier' 
+      description: 'Read data like VIN, ECU info, sensor values by identifier'
     },
-    [ServiceId.READ_MEMORY_BY_ADDRESS]: { 
-      icon: '💾', 
+    [ServiceId.READ_MEMORY_BY_ADDRESS]: {
+      icon: '💾',
       color: 'text-blue-400',
-      description: 'Read ECU memory at specific addresses' 
+      description: 'Read ECU memory at specific addresses'
     },
-    [ServiceId.SECURITY_ACCESS]: { 
-      icon: '🔐', 
+    [ServiceId.SECURITY_ACCESS]: {
+      icon: '🔐',
       color: 'text-yellow-400',
-      description: 'Request seed and send key for security unlock' 
+      description: 'Request seed and send key for security unlock'
     },
-    [ServiceId.COMMUNICATION_CONTROL]: { 
-      icon: '📡', 
+    [ServiceId.COMMUNICATION_CONTROL]: {
+      icon: '📡',
       color: 'text-indigo-400',
-      description: 'Enable/disable transmission and reception of messages' 
+      description: 'Enable/disable transmission and reception of messages'
     },
-    [ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER]: { 
-      icon: '⏱️', 
+    [ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER]: {
+      icon: '⏱️',
       color: 'text-pink-400',
-      description: 'Start/stop periodic transmission of data identifiers' 
+      description: 'Start/stop periodic transmission of data identifiers'
     },
-    [ServiceId.WRITE_DATA_BY_IDENTIFIER]: { 
-      icon: '✏️', 
+    [ServiceId.WRITE_DATA_BY_IDENTIFIER]: {
+      icon: '✏️',
       color: 'text-lime-400',
-      description: 'Write data to ECU using identifier (configuration, calibration)' 
+      description: 'Write data to ECU using identifier (configuration, calibration)'
     },
-    [ServiceId.ROUTINE_CONTROL]: { 
-      icon: '⚙️', 
+    [ServiceId.ROUTINE_CONTROL]: {
+      icon: '⚙️',
       color: 'text-teal-400',
-      description: 'Start, stop, or request results of ECU routines' 
+      description: 'Start, stop, or request results of ECU routines'
     },
-    [ServiceId.REQUEST_DOWNLOAD]: { 
-      icon: '⬇️', 
+    [ServiceId.REQUEST_DOWNLOAD]: {
+      icon: '⬇️',
       color: 'text-violet-400',
-      description: 'Initiate data transfer from tester to ECU (flashing)' 
+      description: 'Initiate data transfer from tester to ECU (flashing)'
     },
-    [ServiceId.REQUEST_UPLOAD]: { 
-      icon: '⬆️', 
+    [ServiceId.REQUEST_UPLOAD]: {
+      icon: '⬆️',
       color: 'text-sky-400',
-      description: 'Initiate data transfer from ECU to tester (reading)' 
+      description: 'Initiate data transfer from ECU to tester (reading)'
     },
-    [ServiceId.TRANSFER_DATA]: { 
-      icon: '📦', 
+    [ServiceId.TRANSFER_DATA]: {
+      icon: '📦',
       color: 'text-fuchsia-400',
-      description: 'Transfer data blocks during download/upload sequence' 
+      description: 'Transfer data blocks during download/upload sequence'
     },
-    [ServiceId.REQUEST_TRANSFER_EXIT]: { 
-      icon: '✅', 
+    [ServiceId.REQUEST_TRANSFER_EXIT]: {
+      icon: '✅',
       color: 'text-emerald-400',
-      description: 'Terminate data transfer and verify integrity' 
+      description: 'Terminate data transfer and verify integrity'
     },
-    [ServiceId.WRITE_MEMORY_BY_ADDRESS]: { 
-      icon: '💿', 
+    [ServiceId.WRITE_MEMORY_BY_ADDRESS]: {
+      icon: '💿',
       color: 'text-rose-400',
-      description: 'Write data directly to ECU memory addresses' 
+      description: 'Write data directly to ECU memory addresses'
     },
   };
 
@@ -183,11 +183,11 @@ const RequestBuilder: React.FC = () => {
         requestData = fromHex(manualHex);
       } else {
         requestData = [selectedService as number];
-        
+
         if (subFunction) {
           requestData.push(parseInt(subFunction, 16));
         }
-        
+
         if (dataInput) {
           const dataBytes = fromHex(dataInput);
           requestData.push(...dataBytes);
@@ -252,17 +252,16 @@ const RequestBuilder: React.FC = () => {
   };
 
   return (
-    <div className="glass-panel p-6 animate-slide-up">
+    <div className="glass-panel cyber-shape p-6 animate-slide-up">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-cyber-blue">Request Builder</h2>
         <div className="flex items-center space-x-2">
           <button
             onClick={handleToggleManualMode}
-            className={`px-3 py-1 text-sm rounded transition-all ${
-              isManualMode
-                ? 'bg-cyber-blue text-dark-900'
-                : 'bg-dark-700 text-gray-400 hover:text-gray-200'
-            }`}
+            className={`px-3 py-1 text-sm rounded transition-all ${isManualMode
+              ? 'bg-cyber-blue text-dark-900'
+              : 'bg-gray-200 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+              }`}
             aria-label="Toggle manual mode (Ctrl+M)"
             title="Ctrl+M"
           >
@@ -275,7 +274,7 @@ const RequestBuilder: React.FC = () => {
         <div className="space-y-4">
           {/* Service Search */}
           <div>
-            <label htmlFor="service-search" className="block text-sm text-gray-400 mb-2">Search Services</label>
+            <label htmlFor="service-search" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Search Services</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,7 +296,7 @@ const RequestBuilder: React.FC = () => {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-cyber-blue transition-colors"
                   aria-label="Clear search"
                 >
-                  <svg className="w-5 h-5 text-gray-400 hover:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -308,7 +307,7 @@ const RequestBuilder: React.FC = () => {
           {/* Service Selection */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-sm text-gray-400">
+              <label className="text-sm text-gray-600 dark:text-gray-400">
                 Service (SID)
                 {filteredServices.length < services.length && searchQuery && (
                   <span className="ml-2 text-cyber-blue">
@@ -319,11 +318,10 @@ const RequestBuilder: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-1.5 rounded transition-colors ${
-                    viewMode === 'grid' 
-                      ? 'bg-cyber-blue/20 text-cyber-blue' 
-                      : 'text-gray-400 hover:text-gray-200'
-                  }`}
+                  className={`p-1.5 rounded transition-colors ${viewMode === 'grid'
+                    ? 'bg-cyber-blue/20 text-cyber-blue'
+                    : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
                   aria-label="Grid view"
                   title="Grid view"
                 >
@@ -333,11 +331,10 @@ const RequestBuilder: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setViewMode('dropdown')}
-                  className={`p-1.5 rounded transition-colors ${
-                    viewMode === 'dropdown' 
-                      ? 'bg-cyber-blue/20 text-cyber-blue' 
-                      : 'text-gray-400 hover:text-gray-200'
-                  }`}
+                  className={`p-1.5 rounded transition-colors ${viewMode === 'dropdown'
+                    ? 'bg-cyber-blue/20 text-cyber-blue'
+                    : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    }`}
                   aria-label="List view"
                   title="List view"
                 >
@@ -351,10 +348,10 @@ const RequestBuilder: React.FC = () => {
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto custom-scrollbar p-1">
                 {filteredServices.map(service => {
-                  const metadata = serviceMetadata[service.id] || { 
-                    icon: '⚙️', 
-                    color: 'text-gray-400', 
-                    description: 'UDS diagnostic service' 
+                  const metadata = serviceMetadata[service.id] || {
+                    icon: '⚙️',
+                    color: 'text-gray-400',
+                    description: 'UDS diagnostic service'
                   };
                   return (
                     <ServiceCard
@@ -404,7 +401,7 @@ const RequestBuilder: React.FC = () => {
           {/* Sub-Function */}
           {selectedService && (
             <div>
-              <label htmlFor="subfunction-input" className="block text-sm text-gray-400 mb-2">Sub-Function (Optional)</label>
+              <label htmlFor="subfunction-input" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Sub-Function (Optional)</label>
               <input
                 id="subfunction-input"
                 type="text"
@@ -419,7 +416,7 @@ const RequestBuilder: React.FC = () => {
 
           {/* Data Input */}
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Data (Hex bytes, space-separated)</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Data (Hex bytes, space-separated)</label>
             <input
               type="text"
               value={dataInput}
@@ -441,7 +438,7 @@ const RequestBuilder: React.FC = () => {
 
           {/* Example Requests */}
           <div>
-            <label className="block text-sm text-gray-400 mb-2">Quick Examples</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Quick Examples</label>
             <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick example requests">
               <button onClick={() => loadExample('session-extended')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load extended session example">
                 Extended Session
@@ -466,7 +463,7 @@ const RequestBuilder: React.FC = () => {
           {/* Manual Hex Input */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-sm text-gray-400">
+              <label className="text-sm text-gray-600 dark:text-gray-400">
                 Manual Hex Frame (space-separated bytes)
               </label>
               <button
@@ -505,8 +502,8 @@ const RequestBuilder: React.FC = () => {
       )}
 
       {/* Preview */}
-      <div className="mt-4 bg-dark-800/50 rounded-lg p-4 border border-dark-600">
-        <h3 className="text-sm text-gray-400 mb-2">Preview</h3>
+      <div className="mt-4 preview-box rounded-lg p-4 border">
+        <h3 className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview</h3>
         <div className="font-mono text-cyber-green text-sm">
           {isManualMode ? (
             manualHex || 'Enter hex data...'
@@ -525,10 +522,10 @@ const RequestBuilder: React.FC = () => {
         onClick={handleSend}
         disabled={(!selectedService && !isManualMode) || sending || !!validationError}
         className={`
-          w-full mt-6 py-3 rounded-lg font-bold 
+          w-full mt-6 py-3 rounded-lg font-bold cyber-shape
           transition-all duration-300
           ${(!selectedService && !isManualMode) || sending || !!validationError
-            ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
+            ? 'bg-gray-200 dark:bg-dark-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : 'bg-gradient-to-r from-cyber-blue via-purple-500 to-cyber-purple text-white hover:shadow-neon hover:scale-105 bg-size-200 animate-gradient-shift active:scale-95'
           }
         `}

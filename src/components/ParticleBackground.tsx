@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface Particle {
   id: string;
@@ -34,23 +35,29 @@ interface Streak {
   gradient: string;
 }
 
-const createRadialGradient = (rgba: string) =>
-  `radial-gradient(circle, ${rgba} 0%, rgba(15, 23, 42, 0) 70%)`;
-
-const accentGradients = [
-  'linear-gradient(180deg, rgba(14, 165, 233, 0.35) 0%, rgba(14, 165, 233, 0.0) 100%)',
-  'linear-gradient(180deg, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0.0) 100%)',
-  'linear-gradient(180deg, rgba(59, 130, 246, 0.35) 0%, rgba(59, 130, 246, 0.0) 100%)',
-];
+const createRadialGradient = (rgba: string, theme: 'dark' | 'light') =>
+  theme === 'dark'
+    ? `radial-gradient(circle, ${rgba} 0%, rgba(15, 23, 42, 0) 70%)`
+    : `radial-gradient(circle, ${rgba} 0%, rgba(255, 255, 255, 0) 70%)`;
 
 const ParticleBackground: React.FC = () => {
+  const { theme } = useTheme();
+
   const particles = useMemo(() => {
-    const baseColors = [
-      'rgba(56, 189, 248, 0.35)',
-      'rgba(59, 130, 246, 0.3)',
-      'rgba(168, 85, 247, 0.32)',
-      'rgba(16, 185, 129, 0.28)',
-      'rgba(236, 72, 153, 0.28)',
+    const isDark = theme === 'dark';
+
+    const baseColors = isDark ? [
+      'rgba(56, 189, 248, 0.35)',   // Light Blue
+      'rgba(59, 130, 246, 0.3)',    // Blue
+      'rgba(168, 85, 247, 0.32)',   // Purple
+      'rgba(16, 185, 129, 0.28)',   // Green
+      'rgba(236, 72, 153, 0.28)',   // Pink
+    ] : [
+      'rgba(2, 132, 199, 0.25)',    // Darker Blue
+      'rgba(37, 99, 235, 0.2)',     // Darker Blue
+      'rgba(147, 51, 234, 0.22)',   // Darker Purple
+      'rgba(5, 150, 105, 0.18)',    // Darker Green
+      'rgba(219, 39, 119, 0.18)',   // Darker Pink
     ];
 
     const totalPrimary = 60;
@@ -74,7 +81,7 @@ const ParticleBackground: React.FC = () => {
         animationClass,
         twinkleClass,
         glowClass: Math.random() > 0.6 ? 'particle-glow' : '',
-        gradient: createRadialGradient(color),
+        gradient: createRadialGradient(color, theme),
       };
     });
 
@@ -92,14 +99,26 @@ const ParticleBackground: React.FC = () => {
         animationClass: 'animate-float-slow',
         twinkleClass: 'animate-twinkle-slow',
         glowClass: 'particle-glow-strong',
-        gradient: createRadialGradient(color),
+        gradient: createRadialGradient(color, theme),
       };
     });
 
     return [...primaryParticles, ...accentParticles];
-  }, []);
+  }, [theme]);
 
   const streaks = useMemo<Streak[]>(() => {
+    const isDark = theme === 'dark';
+
+    const accentGradients = isDark ? [
+      'linear-gradient(180deg, rgba(14, 165, 233, 0.35) 0%, rgba(14, 165, 233, 0.0) 100%)',
+      'linear-gradient(180deg, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0.0) 100%)',
+      'linear-gradient(180deg, rgba(59, 130, 246, 0.35) 0%, rgba(59, 130, 246, 0.0) 100%)',
+    ] : [
+      'linear-gradient(180deg, rgba(2, 132, 199, 0.25) 0%, rgba(2, 132, 199, 0.0) 100%)',
+      'linear-gradient(180deg, rgba(147, 51, 234, 0.25) 0%, rgba(147, 51, 234, 0.0) 100%)',
+      'linear-gradient(180deg, rgba(37, 99, 235, 0.25) 0%, rgba(37, 99, 235, 0.0) 100%)',
+    ];
+
     const count = 12;
     return Array.from({ length: count }, (_, i) => {
       const gradient = accentGradients[Math.floor(Math.random() * accentGradients.length)];
@@ -116,7 +135,7 @@ const ParticleBackground: React.FC = () => {
         gradient,
       };
     });
-  }, []);
+  }, [theme]);
 
   return (
     <div
@@ -127,7 +146,7 @@ const ParticleBackground: React.FC = () => {
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className={`absolute rounded-full mix-blend-screen ${particle.blurClass} ${particle.animationClass} ${particle.twinkleClass} ${particle.glowClass}`}
+          className={`absolute rounded-full ${theme === 'dark' ? 'mix-blend-screen' : 'mix-blend-multiply'} ${particle.blurClass} ${particle.animationClass} ${particle.twinkleClass} ${particle.glowClass}`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -144,7 +163,7 @@ const ParticleBackground: React.FC = () => {
       {streaks.map((streak) => (
         <div
           key={streak.id}
-          className="absolute animate-streak mix-blend-screen"
+          className={`absolute animate-streak ${theme === 'dark' ? 'mix-blend-screen' : 'mix-blend-multiply'}`}
           style={{
             left: `${streak.x}%`,
             top: `${streak.y}%`,

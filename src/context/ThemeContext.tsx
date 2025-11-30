@@ -22,7 +22,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('uds_theme');
-    return (saved as Theme) || 'dark';
+    if (saved) {
+      console.log('ThemeContext: Loaded from localStorage:', saved);
+      return saved as Theme;
+    }
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    if (prefersLight) {
+      return 'light';
+    }
+    return 'dark';
   });
 
   const [highContrast, setHighContrast] = useState<boolean>(() => {

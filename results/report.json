@@ -1,0 +1,395 @@
+{
+  "url": "http://localhost:5173",
+  "timestamp": "2025-11-30T09:36:38.583Z",
+  "light": {
+    "colors": {
+      "pageBackground": {
+        "found": true,
+        "color": "#0f172a",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "header": {
+        "found": true,
+        "color": "#0f172a",
+        "background": "#000000",
+        "borderColor": "#0f172a"
+      },
+      "nav": {
+        "found": true,
+        "color": "#0f172a",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "mainText": {
+        "found": true,
+        "color": "#9ca3af",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "primaryButton": {
+        "found": true,
+        "color": "#0f172a",
+        "background": "#00ff9f",
+        "borderColor": "#000000"
+      },
+      "disabledButton": {
+        "found": true,
+        "color": "#6b7280",
+        "background": "#1a1a24",
+        "borderColor": "#e5e7eb"
+      },
+      "input": {
+        "found": true,
+        "color": "#0f172a",
+        "background": "#ffffff",
+        "borderColor": "#e5e7eb"
+      },
+      "footer": {
+        "found": false
+      },
+      "codeBlock": {
+        "found": false
+      },
+      "modal": {
+        "found": false
+      },
+      "card": {
+        "found": false
+      }
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "outline": "rgb(13, 39, 55) auto 1px",
+      "outlineColor": "rgb(13, 39, 55)",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(25, 118, 210, 0.15) 0px 2px 8px 0px"
+    },
+    "persistence": {
+      "localStorage": [
+        "uds_theme"
+      ],
+      "cookies": ""
+    },
+    "cssVars": {
+      "--input-border": "rgba(56, 189, 248, 0.3)",
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-contain-size": "",
+      "--bg-primary": "#020617",
+      "--tw-contrast": "",
+      "--text-secondary": "#94a3b8",
+      "--tw-backdrop-sepia": "",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--bg-tertiary": "#1e293b",
+      "--tw-sepia": "",
+      "--tw-skew-x": "0",
+      "--tw-ordinal": "",
+      "--tw-backdrop-saturate": "",
+      "--tw-backdrop-blur": "",
+      "--tw-contain-style": "",
+      "--text-primary": "#f8fafc",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-inset": "",
+      "--tw-ring-offset-width": "0px",
+      "--input-bg": "rgba(15, 23, 42, 0.6)",
+      "--text-muted": "#64748b",
+      "--tw-gradient-via-position": "",
+      "--tw-backdrop-invert": "",
+      "--tw-saturate": "",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-numeric-spacing": "",
+      "--tw-grayscale": "",
+      "--tw-border-spacing-x": "0",
+      "--tw-scale-x": "1",
+      "--tw-backdrop-hue-rotate": "",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-gradient-to-position": "",
+      "--tw-border-spacing-y": "0",
+      "--tw-brightness": "",
+      "--tw-numeric-fraction": "",
+      "--tw-backdrop-grayscale": "",
+      "--tw-hue-rotate": "",
+      "--tw-scale-y": "1",
+      "--border-color": "rgba(148, 163, 184, 0.15)",
+      "--tw-pan-y": "",
+      "--tw-backdrop-contrast": "",
+      "--tw-drop-shadow": "",
+      "--input-text": "#f8fafc",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-backdrop-brightness": "",
+      "--bg-secondary": "#0f172a",
+      "--tw-slashed-zero": "",
+      "--tw-blur": "",
+      "--tw-invert": "",
+      "--tw-pan-x": "",
+      "--tw-translate-y": "0",
+      "--tw-backdrop-opacity": "",
+      "--tw-gradient-from-position": "",
+      "--tw-numeric-figure": "",
+      "--tw-rotate": "0",
+      "--tw-pinch-zoom": "",
+      "--tw-contain-paint": "",
+      "--tw-contain-layout": "",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "toggleFound": false,
+    "screenshots": {
+      "desktop": "E:\\spec-kit-main\\UDS-SIMULATION\\results\\light-desktop.png",
+      "mobile": "E:\\spec-kit-main\\UDS-SIMULATION\\results\\light-mobile.png"
+    }
+  },
+  "dark": {
+    "colors": {
+      "pageBackground": {
+        "found": true,
+        "color": "#f3f4f6",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "header": {
+        "found": true,
+        "color": "#f3f4f6",
+        "background": "#000000",
+        "borderColor": "#f3f4f6"
+      },
+      "nav": {
+        "found": true,
+        "color": "#f3f4f6",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "mainText": {
+        "found": true,
+        "color": "#9ca3af",
+        "background": "#000000",
+        "borderColor": "#e5e7eb"
+      },
+      "primaryButton": {
+        "found": true,
+        "color": "#f3f4f6",
+        "background": "#00ff9f",
+        "borderColor": "#000000"
+      },
+      "disabledButton": {
+        "found": true,
+        "color": "#6b7280",
+        "background": "#1a1a24",
+        "borderColor": "#e5e7eb"
+      },
+      "input": {
+        "found": true,
+        "color": "#f3f4f6",
+        "background": "#ffffff",
+        "borderColor": "#e5e7eb"
+      },
+      "footer": {
+        "found": false
+      },
+      "codeBlock": {
+        "found": false
+      },
+      "modal": {
+        "found": false
+      },
+      "card": {
+        "found": false
+      }
+    },
+    "focus": {
+      "tag": "BUTTON",
+      "outline": "rgb(12, 67, 70) auto 1px",
+      "outlineColor": "rgb(12, 67, 70)",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(0, 243, 255, 0.1) 0px 0px 10px 0px"
+    },
+    "persistence": {
+      "localStorage": [
+        "uds_theme"
+      ],
+      "cookies": ""
+    },
+    "cssVars": {
+      "--input-border": "rgba(56, 189, 248, 0.3)",
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-contain-size": "",
+      "--bg-primary": "#020617",
+      "--tw-contrast": "",
+      "--text-secondary": "#94a3b8",
+      "--tw-backdrop-sepia": "",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--bg-tertiary": "#1e293b",
+      "--tw-sepia": "",
+      "--tw-skew-x": "0",
+      "--tw-ordinal": "",
+      "--tw-backdrop-saturate": "",
+      "--tw-backdrop-blur": "",
+      "--tw-contain-style": "",
+      "--text-primary": "#f8fafc",
+      "--tw-shadow": "0 0 #0000",
+      "--input-bg": "rgba(15, 23, 42, 0.6)",
+      "--tw-ring-inset": "",
+      "--tw-ring-offset-width": "0px",
+      "--tw-translate-x": "0",
+      "--text-muted": "#64748b",
+      "--tw-gradient-via-position": "",
+      "--tw-backdrop-invert": "",
+      "--tw-saturate": "",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-numeric-spacing": "",
+      "--tw-grayscale": "",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-backdrop-hue-rotate": "",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-gradient-to-position": "",
+      "--tw-border-spacing-y": "0",
+      "--tw-brightness": "",
+      "--tw-numeric-fraction": "",
+      "--tw-backdrop-grayscale": "",
+      "--tw-hue-rotate": "",
+      "--tw-scale-y": "1",
+      "--border-color": "rgba(148, 163, 184, 0.15)",
+      "--tw-pan-y": "",
+      "--tw-backdrop-contrast": "",
+      "--tw-drop-shadow": "",
+      "--input-text": "#f8fafc",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-backdrop-brightness": "",
+      "--bg-secondary": "#0f172a",
+      "--tw-slashed-zero": "",
+      "--tw-blur": "",
+      "--tw-invert": "",
+      "--tw-pan-x": "",
+      "--tw-translate-y": "0",
+      "--tw-backdrop-opacity": "",
+      "--tw-gradient-from-position": "",
+      "--tw-numeric-figure": "",
+      "--tw-rotate": "0",
+      "--tw-pinch-zoom": "",
+      "--tw-contain-paint": "",
+      "--tw-contain-layout": "",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "toggleFound": false,
+    "screenshots": {
+      "desktop": "E:\\spec-kit-main\\UDS-SIMULATION\\results\\dark-desktop.png",
+      "mobile": "E:\\spec-kit-main\\UDS-SIMULATION\\results\\dark-mobile.png"
+    }
+  },
+  "checks": [
+    {
+      "theme": "light",
+      "selector": "mainText",
+      "fg": "#9ca3af",
+      "bg": "#000000",
+      "ratio": 8.27,
+      "wcagAA": true,
+      "wcagAAA": true,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "selector": "mainText",
+      "fg": "#9ca3af",
+      "bg": "#000000",
+      "ratio": 8.27,
+      "wcagAA": true,
+      "wcagAAA": true,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "selector": "primaryButton",
+      "fg": "#0f172a",
+      "bg": "#00ff9f",
+      "ratio": 13.44,
+      "wcagAA": true,
+      "wcagAAA": true,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "selector": "primaryButton",
+      "fg": "#f3f4f6",
+      "bg": "#00ff9f",
+      "ratio": 1.21,
+      "wcagAA": false,
+      "wcagAAA": false,
+      "pass": false
+    },
+    {
+      "theme": "light",
+      "selector": "input",
+      "fg": "#0f172a",
+      "bg": "#ffffff",
+      "ratio": 17.85,
+      "wcagAA": true,
+      "wcagAAA": true,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "selector": "input",
+      "fg": "#f3f4f6",
+      "bg": "#ffffff",
+      "ratio": 1.1,
+      "wcagAA": false,
+      "wcagAAA": false,
+      "pass": false
+    },
+    {
+      "theme": "light",
+      "selector": "header",
+      "fg": "#0f172a",
+      "bg": "#000000",
+      "ratio": 1.18,
+      "wcagAA": false,
+      "wcagAAA": false,
+      "pass": false
+    },
+    {
+      "theme": "dark",
+      "selector": "header",
+      "fg": "#f3f4f6",
+      "bg": "#000000",
+      "ratio": 19.08,
+      "wcagAA": true,
+      "wcagAAA": true,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "pass": false,
+    "totalChecks": 8,
+    "failures": [
+      {
+        "theme": "dark",
+        "selector": "primaryButton",
+        "ratio": 1.21,
+        "expected": 4.5,
+        "recommendation": "Increase contrast between #f3f4f6 and #00ff9f. Current: 1.21:1, Required: 4.5:1"
+      },
+      {
+        "theme": "dark",
+        "selector": "input",
+        "ratio": 1.1,
+        "expected": 4.5,
+        "recommendation": "Increase contrast between #f3f4f6 and #ffffff. Current: 1.1:1, Required: 4.5:1"
+      },
+      {
+        "theme": "light",
+        "selector": "header",
+        "ratio": 1.18,
+        "expected": 4.5,
+        "recommendation": "Increase contrast between #0f172a and #000000. Current: 1.18:1, Required: 4.5:1"
+      }
+    ],
+    "warnings": [],
+    "suggestions": [
+      "Add a visible theme toggle button with proper aria-label"
+    ]
+  }
+}

@@ -23,7 +23,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   name,
   icon,
   description,
-  color,
   isSelected,
   onClick
 }) => {
@@ -33,32 +32,34 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   const cardContent = (
     <button
       onClick={onClick}
-      className={`group relative p-4 rounded-lg border-2 transition-all text-left hover:scale-105 ${
-        isSelected 
-          ? 'border-cyber-blue bg-cyber-blue/10 shadow-neon' 
-          : 'border-dark-600 hover:border-cyber-blue/50 bg-dark-800/50'
-      }`}
+      className={`group relative p-4 transition-all text-left overflow-hidden ${isSelected
+        ? 'bg-cyber-blue/20 border-2 border-cyber-blue shadow-neon-cyan'
+        : 'bg-dark-800/50 border border-dark-600 hover:border-cyber-blue/50 hover:bg-dark-800'
+        } cyber-shape`}
       aria-pressed={isSelected}
       aria-label={`Select ${name.replace(/^0x\w+ - /, '')}`}
     >
-      <div className="flex items-center gap-3 mb-2">
-        <span className="text-3xl" aria-hidden="true">{icon}</span>
-        <span className={`font-mono text-sm font-bold ${isSelected ? 'text-cyber-blue' : color}`}>
+      {/* Scan effect on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyber-blue/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
+
+      <div className="flex items-center gap-3 mb-2 relative z-10">
+        <span className="text-2xl filter drop-shadow-lg" aria-hidden="true">{icon}</span>
+        <span className={`font-mono text-sm font-bold px-2 py-0.5 rounded ${isSelected
+          ? 'bg-cyber-blue text-dark-900'
+          : 'bg-dark-900 text-cyber-blue border border-cyber-blue/30'
+          }`}>
           {serviceIdHex}
         </span>
       </div>
-      <h3 className={`font-bold text-sm mb-1 transition-colors ${
-        isSelected ? 'text-cyber-blue' : 'text-gray-200 group-hover:text-cyber-blue'
-      }`}>
+      <h3 className={`font-bold text-sm mb-1 transition-colors relative z-10 ${isSelected ? 'text-cyber-blue text-glow' : 'text-gray-200 group-hover:text-cyber-blue'
+        }`}>
         {name.replace(/^0x\w+ - /, '')}
       </h3>
-      <p className="text-xs text-gray-500 line-clamp-2">{description}</p>
-      
+      <p className="text-xs text-gray-500 line-clamp-2 relative z-10">{description}</p>
+
       {isSelected && (
-        <div className="absolute top-2 right-2 animate-fade-in">
-          <svg className="w-5 h-5 text-cyber-blue" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-          </svg>
+        <div className="absolute top-2 right-2 animate-fade-in z-10">
+          <div className="w-2 h-2 bg-cyber-blue rounded-full shadow-neon-cyan animate-pulse" />
         </div>
       )}
     </button>

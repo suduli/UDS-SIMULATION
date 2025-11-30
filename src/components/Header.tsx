@@ -15,11 +15,12 @@ import { SparklesCore } from '@/components/ui/sparkles';
 import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
+import { SystemStatus } from './SystemStatus';
 
 const Header: React.FC = () => {
-  const { 
-    requestHistory, 
-    clearHistory, 
+  const {
+    requestHistory,
+    clearHistory,
     replayState,
     startReplay,
     pauseReplay,
@@ -151,18 +152,23 @@ const Header: React.FC = () => {
                   </svg>
                 </div>
               </div>
-              
+
               <div>
-                <h1 className="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 dark:from-cyber-blue dark:via-cyan-400 dark:to-cyber-purple bg-clip-text text-transparent animate-gradient-shift">
+                <h1 className="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-700 via-blue-700 to-purple-800 dark:from-cyber-blue dark:via-cyan-400 dark:to-cyber-purple bg-clip-text text-transparent animate-gradient-shift">
                   UDS Simulator
                 </h1>
-                <p className="hidden sm:block text-xs lg:text-sm text-gray-400 dark:text-gray-500">Unified Diagnostic Services</p>
+                <p className="hidden sm:block text-xs lg:text-sm text-gray-600 dark:text-gray-500">Unified Diagnostic Services</p>
+              </div>
+
+              {/* System Status Indicator - Desktop only */}
+              <div className="hidden xl:block ml-8">
+                <SystemStatus />
               </div>
             </div>
-            
+
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-3">
-              <button 
+            <nav className="hidden lg:flex items-center space-x-3">
+              <button
                 onClick={handleOpenHelp}
                 className="cyber-button text-sm help-button"
                 aria-label="Open tutorials and help (F1)"
@@ -175,7 +181,7 @@ const Header: React.FC = () => {
               </button>
 
               {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
-                <button 
+                <button
                   onClick={() => setIsScenarioLibraryOpen(true)}
                   className="cyber-button text-sm"
                   aria-label="Open scenario library"
@@ -187,7 +193,7 @@ const Header: React.FC = () => {
                 </button>
               )}
 
-              <button 
+              <button
                 onClick={() => setIsSequenceBuilderOpen(true)}
                 className="cyber-button text-sm"
                 aria-label="Open sequence builder"
@@ -199,7 +205,7 @@ const Header: React.FC = () => {
               </button>
 
               {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && (
-                <button 
+                <button
                   onClick={handleSaveScenario}
                   className="cyber-button text-sm"
                   disabled={requestHistory.length === 0}
@@ -211,9 +217,9 @@ const Header: React.FC = () => {
                   Save
                 </button>
               )}
-              
+
               <div className="relative">
-                <button 
+                <button
                   onClick={handleExport}
                   className="cyber-button text-sm"
                   disabled={requestHistory.length === 0}
@@ -230,8 +236,8 @@ const Header: React.FC = () => {
                   </div>
                 )}
               </div>
-              
-              <button 
+
+              <button
                 onClick={handleImport}
                 className="cyber-button text-sm"
                 aria-label="Import session from file"
@@ -242,9 +248,10 @@ const Header: React.FC = () => {
                 Import
               </button>
 
-              <button 
+              <button
                 onClick={toggleTheme}
                 className="cyber-button text-sm"
+                data-theme-toggle
                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
               >
                 {theme === 'dark' ? (
@@ -259,7 +266,7 @@ const Header: React.FC = () => {
                 {theme === 'dark' ? 'Light' : 'Dark'}
               </button>
 
-              <button 
+              <button
                 onClick={toggleHighContrast}
                 className="cyber-button text-sm"
                 aria-label={`${highContrast ? 'Disable' : 'Enable'} high contrast mode (WCAG AAA)`}
@@ -267,16 +274,15 @@ const Header: React.FC = () => {
               >
                 <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343 5.657l-.707-.707m9.9 0l.708.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.5" />
                 </svg>
-                {highContrast ? 'High' : 'Normal'}
+                {highContrast ? 'Normal' : 'High Contrast'}
               </button>
-            </div>
+            </nav>
 
             {/* Mobile Menu Button */}
-            <button 
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden cyber-button p-2"
+              className="lg:hidden cyber-button text-sm"
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -293,7 +299,7 @@ const Header: React.FC = () => {
           {/* Mobile Menu Dropdown */}
           {mobileMenuOpen && (
             <div className="lg:hidden mt-4 pt-4 border-t border-cyber-blue/20 space-y-2 animate-fade-in">
-              <button 
+              <button
                 onClick={handleOpenHelp}
                 className="w-full cyber-button text-sm justify-start"
               >
@@ -302,8 +308,8 @@ const Header: React.FC = () => {
                 </svg>
                 Help (F1)
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => { handleExport(); setMobileMenuOpen(false); }}
                 className="w-full cyber-button text-sm justify-start"
                 disabled={requestHistory.length === 0}
@@ -313,8 +319,8 @@ const Header: React.FC = () => {
                 </svg>
                 Export Session
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => { handleImport(); setMobileMenuOpen(false); }}
                 className="w-full cyber-button text-sm justify-start"
               >
@@ -324,7 +330,7 @@ const Header: React.FC = () => {
                 Import Session
               </button>
 
-              <button 
+              <button
                 onClick={() => { toggleTheme(); setMobileMenuOpen(false); }}
                 className="w-full cyber-button text-sm justify-start"
               >
@@ -345,7 +351,7 @@ const Header: React.FC = () => {
                 )}
               </button>
 
-              <button 
+              <button
                 onClick={() => { toggleHighContrast(); setMobileMenuOpen(false); }}
                 className="w-full cyber-button text-sm justify-start"
               >
@@ -357,43 +363,49 @@ const Header: React.FC = () => {
             </div>
           )}
         </div>
-      </header>
+      </header >
 
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-      
-      {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
-        <ScenarioLibrary
-          isOpen={isScenarioLibraryOpen}
-          onClose={() => setIsScenarioLibraryOpen(false)}
-          onLoadScenario={handleLoadScenario}
-        />
-      )}
+
+      {
+        isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
+          <ScenarioLibrary
+            isOpen={isScenarioLibraryOpen}
+            onClose={() => setIsScenarioLibraryOpen(false)}
+            onLoadScenario={handleLoadScenario}
+          />
+        )
+      }
 
       <SequenceBuilder
         isOpen={isSequenceBuilderOpen}
         onClose={() => setIsSequenceBuilderOpen(false)}
       />
 
-      {isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
-        <div className="container mx-auto px-4 py-2">
-          <ReplayControls
-            replayState={replayState}
-            onPlay={handlePlayReplay}
-            onPause={pauseReplay}
-            onStop={stopReplay}
-            onSpeedChange={setReplaySpeed}
-            onStepForward={stepForward}
-            onStepBackward={stepBackward}
-          />
-        </div>
-      )}
+      {
+        isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
+          <div className="container mx-auto px-4 py-2">
+            <ReplayControls
+              replayState={replayState}
+              onPlay={handlePlayReplay}
+              onPause={pauseReplay}
+              onStop={stopReplay}
+              onSpeedChange={setReplaySpeed}
+              onStepForward={stepForward}
+              onStepBackward={stepBackward}
+            />
+          </div>
+        )
+      }
 
-      {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && showSaveDialog && (
-        <SaveScenarioDialog
-          onSave={handleSaveScenarioSubmit}
-          onCancel={() => setShowSaveDialog(false)}
-        />
-      )}
+      {
+        isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && showSaveDialog && (
+          <SaveScenarioDialog
+            onSave={handleSaveScenarioSubmit}
+            onCancel={() => setShowSaveDialog(false)}
+          />
+        )
+      }
     </>
   );
 };
@@ -415,7 +427,7 @@ const SaveScenarioDialog: React.FC<{
       alert('Please enter a scenario name');
       return;
     }
-    
+
     onSave({
       name: name.trim(),
       description: description.trim() || 'No description provided',
@@ -427,61 +439,61 @@ const SaveScenarioDialog: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-900 via-blue-900/20 to-gray-900 border-2 border-cyan-500/30 rounded-xl max-w-md w-full p-6 shadow-2xl shadow-cyan-500/20">
-        <h2 className="text-2xl font-bold text-cyan-400 mb-4">Save Scenario</h2>
-        
+      <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-900 border-2 border-cyan-600/30 dark:border-cyan-500/30 rounded-xl max-w-md w-full p-6 shadow-2xl shadow-cyan-500/20">
+        <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Save Scenario</h2>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Scenario Name *</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Scenario Name *</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
               placeholder="e.g., DTC Read Test"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Description</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
               placeholder="Describe what this scenario tests..."
               rows={3}
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Author</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Author</label>
             <input
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
               placeholder="Your name"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Tags (comma-separated)</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Tags (comma-separated)</label>
             <input
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
               placeholder="e.g., dtc, diagnostic, test"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Notes</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Notes</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
               placeholder="Additional notes..."
               rows={2}
             />
@@ -497,7 +509,7 @@ const SaveScenarioDialog: React.FC<{
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 bg-gray-700/50 border border-cyan-500/30 text-gray-400 rounded-lg hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700/50 border border-cyan-600/30 dark:border-cyan-500/30 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
