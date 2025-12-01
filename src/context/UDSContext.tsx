@@ -259,6 +259,21 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, [requestHistory]);
 
   const sendRequest = useCallback(async (request: UDSRequest): Promise<UDSResponse> => {
+    // Check for ECU Power
+    if (!ecuPower) {
+      // Simulate timeout delay (client waiting for response that never comes)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const error = new Error('Request timed out - ECU is powered off');
+      emitToast({
+        type: 'error',
+        message: 'Request Timed Out',
+        description: 'No response received from ECU (Ignition OFF)',
+        duration: 5000,
+      });
+      throw error;
+    }
+
     try {
       const response = await simulator.processRequest(request);
 
@@ -297,7 +312,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       });
       throw error;
     }
-  }, [simulator, emitToast]);
+  }, [simulator, emitToast, ecuPower]);
 
   const clearHistory = useCallback(() => {
     setRequestHistory([]);

@@ -300,287 +300,148 @@ const ResponseVisualizer: React.FC = () => {
   };
 
   return (
-    <div className="glass-panel cyber-shape p-6 animate-slide-up bg-white/90 dark:bg-black/80 relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
+    <div className="glass-panel cyber-shape p-0 animate-slide-up !bg-white dark:!bg-black/90 relative overflow-hidden flex flex-col h-[600px]" style={{ animationDelay: '0.1s' }}>
       {/* Scanline Overlay */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] opacity-10 dark:opacity-100" />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] hidden dark:block opacity-20" />
 
-      <div className="flex items-center justify-between mb-6 relative z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-green-600 dark:bg-green-500 rounded-full animate-pulse shadow-neon-green" />
-          <h2 className="text-xl font-bold font-mono text-green-700 dark:text-green-500 tracking-wider">TERMINAL_OUTPUT</h2>
-        </div>
-        <button
-          onClick={clearHistory}
-          className="text-xs font-mono text-green-700 dark:text-green-500 border border-green-700/30 dark:border-green-500/30 px-3 py-1 hover:bg-green-500/10 transition-colors uppercase"
-          disabled={requestHistory.length === 0}
-          aria-label="Clear request history"
-        >
-          [ CLEAR_LOG ]
-        </button>
-      </div>
-
-      {/* Header & Stats Row */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-purple-500/20 bg-gray-100/50 dark:bg-black/20">
-        <div className="flex items-center gap-2">
-          <svg className="w-4 h-4 text-purple-700 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-          </svg>
-          <h3 className="text-xs font-bold text-purple-700 dark:text-purple-400 uppercase tracking-wider">Packet Flow</h3>
-        </div>
-
-        <div className="flex items-center gap-4 text-xs">
-          <div className="flex items-center gap-1.5">
-            <span className="text-slate-700 dark:text-slate-500">REQ:</span>
-            <span className="text-cyan-700 dark:text-cyan-400 font-mono font-bold">{flowStats.totalRequests}</span>
+      {/* Terminal Header */}
+      <div className="flex items-center justify-between px-4 py-3 !bg-gray-100 dark:!bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 relative z-10 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+            <div className="w-3 h-3 rounded-full bg-green-500/80" />
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-slate-700 dark:text-slate-500">RES:</span>
-            <span className="text-purple-700 dark:text-purple-400 font-mono font-bold">{flowStats.totalResponses}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className={`w-1.5 h-1.5 rounded-full ${flowStats.activeFlow ? 'bg-green-600 dark:bg-green-400 animate-pulse' : 'bg-slate-400 dark:bg-slate-600'}`} />
-            <span className="text-slate-700 dark:text-slate-400">{flowStats.activeFlow ? 'Active' : 'Idle'}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Communication Flow - Compact */}
-      <div className="relative py-4 px-4 flex items-center justify-between h-24">
-        {/* Client Node */}
-        <div className="flex flex-col items-center gap-1 z-20 w-16">
-          <div className="w-10 h-10 bg-gradient-to-br from-cyan-600 to-blue-700 dark:from-cyan-500 dark:to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-cyan-500/20 border border-cyan-400/40 relative">
-            <svg className="w-5 h-5 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <div className="flex items-center gap-2 ml-2">
+            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
+            <h2 className="text-sm font-mono text-gray-700 dark:text-gray-300 font-bold tracking-wide">TERMINAL_OUTPUT</h2>
           </div>
-          <div className="text-[10px] font-bold text-cyan-700 dark:text-cyan-400">Client</div>
-
-          {/* Received Response Data */}
-          {completedPacket && completedPacket.responseBytes && (
-            <div className="absolute top-12 left-0 bg-purple-500/20 border border-purple-400/40 rounded px-1.5 py-0.5 backdrop-blur-sm">
-              <div className="text-[9px] text-purple-700 dark:text-purple-300 font-mono whitespace-nowrap">
-                {completedPacket.responseBytes.slice(0, 3).join(' ')}{completedPacket.responseBytes.length > 3 ? '...' : ''}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Communication Channel - Compact */}
-        <div className="flex-1 relative h-full mx-4">
-          {/* Request Channel (Top) */}
-          <div className="absolute left-0 right-0 top-1/3 -translate-y-1/2">
-            <div className="relative h-1 bg-gradient-to-r from-cyan-500/20 via-cyan-500/40 to-purple-500/20 rounded-full">
-              {/* Animated Request Packets */}
-              {activePackets
-                .filter(p => p.direction === 'request')
-                .map(packet => (
-                  <div
-                    key={packet.id}
-                    className="absolute top-1/2 -translate-y-1/2 left-0 animate-packet-request z-30"
-                  >
-                    <div className="w-2 h-2 bg-cyan-500 dark:bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                  </div>
-                ))}
-            </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 text-[10px] font-mono text-gray-600 dark:text-gray-500">
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>TX: {flowStats.totalRequests}</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>RX: {flowStats.totalResponses}</span>
           </div>
+          <button
+            onClick={clearHistory}
+            className="text-[10px] font-mono text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 px-2 py-1 rounded transition-colors uppercase"
+            disabled={requestHistory.length === 0}
+          >
+            CLEAR
+          </button>
+        </div>
+      </div>
 
-          {/* Response Channel (Bottom) */}
-          <div className="absolute left-0 right-0 bottom-1/3 translate-y-1/2">
-            <div className="relative h-1 bg-gradient-to-l from-purple-500/20 via-purple-500/40 to-cyan-500/20 rounded-full">
-              {/* Animated Response Packets */}
-              {activePackets
-                .filter(p => p.direction === 'response')
-                .map(packet => (
-                  <div
-                    key={packet.id}
-                    className="absolute top-1/2 -translate-y-1/2 right-0 animate-packet-response z-30"
-                  >
-                    <div className="w-2 h-2 bg-purple-500 dark:bg-purple-400 rounded-full shadow-[0_0_8px_rgba(192,132,252,0.8)]" />
-                  </div>
-                ))}
-            </div>
+      {/* Packet Flow - Compact & Integrated */}
+      <div className="relative py-2 px-4 flex items-center justify-between h-16 !bg-gray-50 dark:!bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 shrink-0">
+        {/* Client Node */}
+        <div className="flex items-center gap-2 z-20">
+          <div className="w-8 h-8 bg-cyan-900/30 rounded flex items-center justify-center border border-cyan-700/50">
+            <span className="text-xs font-bold text-cyan-500">CLI</span>
+          </div>
+        </div>
+
+        {/* Flow Visualization */}
+        <div className="flex-1 relative h-full mx-4 flex items-center">
+          <div className="w-full h-px bg-gray-300 dark:bg-gray-800 relative">
+            {/* Request Packets */}
+            {activePackets.filter(p => p.direction === 'request').map(p => (
+              <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full animate-packet-request" />
+            ))}
+            {/* Response Packets */}
+            {activePackets.filter(p => p.direction === 'response').map(p => (
+              <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full animate-packet-response" style={{ right: 0, animationDirection: 'reverse' }} />
+            ))}
           </div>
         </div>
 
         {/* ECU Node */}
-        <div className="flex flex-col items-center gap-1 z-20 w-16">
-          <div className="relative w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-700 dark:from-purple-500 dark:to-pink-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/20 border border-purple-400/40">
-            {/* Processing Indicator */}
-            {completedPacket && completedPacket.requestBytes && !activePackets.some(p => p.direction === 'response') && (
-              <div className="absolute inset-0 flex items-center justify-center bg-purple-900/60 rounded-lg backdrop-blur-[1px] animate-pulse z-20">
-                <svg className="w-4 h-4 text-yellow-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-              </div>
+        <div className="flex items-center gap-2 z-20">
+          <div className="w-8 h-8 bg-purple-900/30 rounded flex items-center justify-center border border-purple-700/50 relative">
+            {flowStats.activeFlow && (
+              <div className="absolute inset-0 border border-purple-500 rounded animate-ping opacity-20" />
             )}
-            <svg className="w-5 h-5 text-white drop-shadow-md relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-            </svg>
+            <span className="text-xs font-bold text-purple-500">ECU</span>
           </div>
-          <div className="text-[10px] font-bold text-purple-700 dark:text-purple-400">ECU</div>
-
-          {/* Request Data Display */}
-          {completedPacket && completedPacket.requestBytes && (
-            <div className="absolute top-12 right-0 bg-cyan-500/20 border border-cyan-400/40 rounded px-1.5 py-0.5 backdrop-blur-sm">
-              <div className="text-[9px] text-cyan-700 dark:text-cyan-300 font-mono whitespace-nowrap">
-                {completedPacket.requestBytes.slice(0, 3).join(' ')}{completedPacket.requestBytes.length > 3 ? '...' : ''}
-              </div>
-            </div>
-          )}
         </div>
       </div>
-      <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+
+      {/* Terminal Content Area */}
+      <div className="flex-1 overflow-y-auto p-4 font-mono text-sm custom-scrollbar !bg-gray-50 dark:!bg-black/50">
         {requestHistory.length === 0 ? (
-          <div className="text-center py-12 text-slate-500 dark:text-gray-500">
-            <svg className="w-16 h-16 mx-auto mb-4 opacity-50 text-slate-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-            </svg>
-            <p className="mb-2 text-slate-600 dark:text-gray-400">No messages yet. Send a request to see the response.</p>
-            <p className="text-xs text-slate-500 dark:text-gray-600">💡 Try the "Read VIN" quick example to get started!</p>
+          <div className="h-full flex flex-col items-center justify-center text-gray-600 space-y-2 opacity-50">
+            <p>_ No active session data</p>
+            <p className="text-xs">Waiting for UDS commands...</p>
           </div>
         ) : (
-          // LIFO: Display newest requests first (reverse order)
-          [...requestHistory].reverse().map((item, index) => (
-            <div key={requestHistory.length - 1 - index} className="bg-gray-50 dark:bg-dark-800/50 rounded-lg border border-gray-200 dark:border-dark-600 overflow-hidden animate-fade-in min-w-0 max-w-full">
-              {/* Request */}
-              <div className="p-4 border-b border-gray-200 dark:border-dark-600 min-w-0">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-4 h-4 text-cyber-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                    <span className="text-sm font-bold text-cyber-blue">REQUEST</span>
-                  </div>
-                  <span className="text-xs text-gray-500 font-mono">{formatTimestamp(item.request.timestamp)}</span>
-                </div>
-                <div className="bg-white dark:bg-dark-900/50 rounded p-3 font-mono text-sm min-w-0">
-                  <div className="text-cyber-blue">
-                    {toHex([
-                      item.request.sid,
-                      ...(item.request.subFunction ? [item.request.subFunction] : []),
-                      ...(item.request.data || [])
-                    ])}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    {getServiceName(item.request.sid)}
-                  </div>
-                </div>
-              </div>
-
-              {/* Response */}
-              <div className="p-4 min-w-0">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-4 h-4 text-cyber-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                    </svg>
-                    <span className={`text-sm font-bold ${item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'}`}>
-                      {item.response.isNegative ? 'NEGATIVE RESPONSE' : 'POSITIVE RESPONSE'}
-                    </span>
-                  </div>
-                  <span className="text-xs text-gray-500 font-mono">
-                    ⏱️ {((item.response.timestamp - item.request.timestamp))}ms
+          <div className="space-y-1">
+            {requestHistory.map((item, index) => (
+              <div key={index} className="animate-fade-in">
+                {/* Request Line */}
+                <div className="terminal-log-entry group">
+                  <span className="text-gray-500 dark:text-gray-600 mr-2">[{formatTimestamp(item.request.timestamp)}]</span>
+                  <span className="text-cyan-500 font-bold mr-2">➜ TX</span>
+                  <span className="text-gray-700 dark:text-gray-300 mr-2">{getServiceName(item.request.sid)}</span>
+                  <span className="text-cyan-600 dark:text-cyan-700">
+                    {toHex([item.request.sid, ...(item.request.subFunction ? [item.request.subFunction] : []), ...(item.request.data || [])])}
                   </span>
                 </div>
 
-                <div className={`rounded-lg p-5 min-w-0 ${item.response.isNegative
-                  ? 'bg-white dark:bg-dark-900/80 border border-cyber-pink/30'
-                  : 'bg-white dark:bg-dark-900/80 border border-cyber-green/30'
-                  }`}>
-                  {/* Hex String Display */}
-                  <div
-                    className={`response-data-container font-mono text-base font-bold mb-4 tracking-wide ${item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
-                      }`}
-                  >
-                    {item.response.data.map(byte => byte.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
-                  </div>
+                {/* Response Line */}
+                <div className="terminal-log-entry group mt-0.5">
+                  <span className="text-gray-500 dark:text-gray-600 mr-2">[{formatTimestamp(item.response.timestamp)}]</span>
+                  <span className={`font-bold mr-2 ${item.response.isNegative ? 'text-red-500' : 'text-purple-500'}`}>
+                    {item.response.isNegative ? '✖ RX' : '✔ RX'}
+                  </span>
 
-                  {/* Visual Byte Blocks */}
-                  <div className="flex gap-2 mb-5 flex-wrap">
-                    {item.response.data.map((byte, byteIdx) => (
-                      <div
-                        key={byteIdx}
-                        className={`
-                          flex-shrink-0 rounded-md px-3 py-2 text-center border-2 
-                          transition-all hover:scale-110 animate-byte-appear
-                          ${item.response.isNegative
-                            ? 'bg-cyber-pink/10 border-cyber-pink/60 hover:bg-cyber-pink/20 hover:shadow-lg hover:shadow-cyber-pink/30'
-                            : 'bg-cyber-green/10 border-cyber-green/60 hover:bg-cyber-green/20 hover:shadow-lg hover:shadow-cyber-green/30'
-                          }
-                        `}
-                        style={{
-                          animationDelay: `${byteIdx * 100}ms`,
-                        }}
-                      >
-                        <div className={`font-mono text-lg font-bold ${item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
-                          }`}>
-                          {byte.toString(16).toUpperCase().padStart(2, '0')}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Detailed Byte Breakdown */}
-                  <div className="mt-4 space-y-2.5 text-sm bg-gray-100 dark:bg-dark-800/50 rounded-lg p-4 border border-gray-200 dark:border-dark-600">
-                    {item.response.data.map((byte, byteIdx) => {
-                      const interpretation = getByteInterpretation(item, byteIdx, byte);
-                      return (
-                        <div key={byteIdx} className="flex items-center gap-3 group">
-                          <span className="text-slate-600 dark:text-slate-500 font-mono text-xs font-semibold min-w-[32px]">[{byteIdx}]:</span>
-                          <span className={`font-mono font-bold text-base min-w-[56px] ${item.response.isNegative ? 'text-cyber-pink' : 'text-cyber-green'
-                            }`}>
-                            0x{byte.toString(16).toUpperCase().padStart(2, '0')}
-                          </span>
-                          <svg className="w-4 h-4 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-gray-700 dark:text-gray-300 font-medium">{interpretation}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* ASCII representation */}
-                  {item.response.data.length > 3 && !item.response.isNegative && (
-                    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-600">
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide font-semibold">ASCII Representation:</div>
-                      <div className="response-data-container font-mono text-sm text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-dark-900/60 p-3 rounded-md border border-gray-200 dark:border-dark-600">
-                        {toASCII(item.response.data.slice(item.response.data[1] ? 2 : 1))}
-                      </div>
-                    </div>
+                  {item.response.isNegative ? (
+                    <>
+                      <span className="text-red-600 dark:text-red-400 mr-2">NEGATIVE RESPONSE</span>
+                      <span className="text-red-700 font-bold">
+                        {item.response.nrc ? `NRC 0x${byteToHex(item.response.nrc)}` : 'Error'}
+                      </span>
+                      {item.response.nrc && (
+                        <button
+                          onClick={() => handleOpenLearning(item.response.nrc!, item.request, item.response)}
+                          className="ml-2 text-[10px] bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-1.5 rounded border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+                        >
+                          ? HELP
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-purple-600 dark:text-purple-300 mr-2">POSITIVE RESPONSE</span>
+                      <span className="text-purple-600 dark:text-purple-400">
+                        {item.response.data.map(b => byteToHex(b)).join(' ')}
+                      </span>
+                    </>
                   )}
                 </div>
 
-                {/* NRC Explanation */}
-                {item.response.isNegative && item.response.nrc && (
-                  <div className="mt-3 p-3 bg-cyber-pink/10 border border-cyber-pink/30 rounded-lg animate-fade-in">
-                    <div className="flex items-start space-x-2">
-                      <span className="text-2xl">⚠️</span>
-                      <div className="flex-1">
-                        <div className="font-bold text-cyber-pink text-sm">
-                          NRC 0x{item.response.nrc.toString(16).toUpperCase().padStart(2, '0')}
-                        </div>
-                        <div className="text-xs text-gray-400 mt-1">
-                          {getNRCDescription(item.response.nrc)}
-                        </div>
-                        <button
-                          onClick={() => handleOpenLearning(item.response.nrc!, item.request, item.response)}
-                          className="mt-3 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                          </svg>
-                          Learn More About This Error
-                        </button>
-                      </div>
+                {/* Detailed Breakdown (Collapsible-ish look, always visible for now but indented) */}
+                <div className="pl-24 pr-4 py-1 text-xs text-gray-600 dark:text-gray-500 border-l border-gray-300 dark:border-gray-800 ml-3 mb-2 hidden group-hover:block transition-all">
+                  {item.response.data.map((byte, idx) => (
+                    <div key={idx} className="flex gap-2">
+                      <span className="w-6 text-gray-500 dark:text-gray-600">[{idx}]</span>
+                      <span className="w-8 font-bold text-gray-800 dark:text-gray-400">{byteToHex(byte)}</span>
+                      <span className="text-gray-600 dark:text-gray-600">→ {getByteInterpretation(item, idx, byte)}</span>
                     </div>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
+            ))}
+
+            {/* Active Cursor Line */}
+            <div className="mt-2 text-cyan-600 dark:text-cyan-500 terminal-cursor">
+              _
             </div>
-          ))
+            <div ref={bottomRef} />
+          </div>
         )}
-        <div ref={bottomRef} />
       </div>
 
       {/* NRC Learning Modal */}

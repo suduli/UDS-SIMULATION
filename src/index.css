@@ -12,13 +12,15 @@
     @apply bg-dark-900 text-gray-100 antialiased;
   }
 
-  * {
-    @apply border-dark-600;
-  }
-
   /* Light theme - Enhanced professional design */
   [data-theme="light"] body {
-    background: linear-gradient(135deg, #F0F4F8 0%, #E3EDF7 50%, #D6E4F0 100%);
+    background-color: #F0F4F8;
+    background-image:
+      linear-gradient(rgba(26, 51, 77, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 51, 77, 0.05) 1px, transparent 1px),
+      linear-gradient(135deg, #F0F4F8 0%, #E3EDF7 50%, #D6E4F0 100%);
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+    background-attachment: fixed;
     color: #1A334D;
   }
 
@@ -28,7 +30,13 @@
 
   /* Light theme main container background */
   [data-theme="light"] .min-h-screen {
-    background: linear-gradient(135deg, #F0F4F8 0%, #E3EDF7 50%, #D6E4F0 100%) !important;
+    background-color: #F0F4F8 !important;
+    background-image:
+      linear-gradient(rgba(26, 51, 77, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 51, 77, 0.05) 1px, transparent 1px),
+      linear-gradient(135deg, #F0F4F8 0%, #E3EDF7 50%, #D6E4F0 100%) !important;
+    background-size: 32px 32px, 32px 32px, 100% 100% !important;
+    background-attachment: fixed !important;
     color: #1A334D !important;
   }
 
@@ -193,384 +201,353 @@
   @media (max-width: 768px) {
     .response-data-container {
       font-size: 0.875rem !important;
-      line-height: 1.5 !important;
+      padding: 2px;
+      border-radius: inherit;
+      background: linear-gradient(140deg, var(--card-border-start), var(--card-border-end));
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      pointer-events: none;
+      opacity: 0.95;
+      transition: opacity 0.3s ease;
+      z-index: 0;
     }
   }
 }
 
-@layer utilities {
-  .text-glow {
-    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  border-radius: 45% 55% 50% 60%;
+  background: radial-gradient(70% 60% at 50% 0%, var(--card-border-glow), transparent 75%);
+  filter: blur(24px);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+  z-index: 0;
+}
+
+.glass-card>* {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card:hover::after {
+  opacity: 0.85;
+  filter: blur(30px);
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Packet Flow Animation utilities */
+.animate-packet-request {
+  animation: packet-request 2.5s ease-in-out;
+}
+
+.animate-packet-response {
+  animation: packet-response 2.5s ease-in-out;
+}
+
+/* Byte appearance animation for response visualizer */
+.animate-byte-appear {
+  animation: byteAppear 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Packet Flow Container Styles */
+.packet-flow-container {
+  background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)) !important;
+  border-color: rgba(168, 85, 247, 0.35) !important;
+}
+
+/* Light theme packet flow container - bright and visible */
+[data-theme="light"] .packet-flow-container {
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.98), rgba(240, 244, 248, 0.95)) !important;
+  border: 2px solid rgba(25, 118, 210, 0.3) !important;
+  box-shadow:
+    0 8px 32px rgba(26, 51, 77, 0.12),
+    0 2px 8px rgba(26, 51, 77, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+/* Light theme - Make Client and ECU nodes more vibrant */
+[data-theme="light"] .packet-flow-container .from-cyan-500 {
+  background: linear-gradient(to bottom right, #0891b2, #0e7490) !important;
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4), 0 4px 8px rgba(6, 182, 212, 0.2) !important;
+}
+
+[data-theme="light"] .packet-flow-container .from-purple-500 {
+  background: linear-gradient(to bottom right, #a855f7, #9333ea) !important;
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4), 0 4px 8px rgba(168, 85, 247, 0.2) !important;
+}
+
+[data-theme="light"] .packet-flow-container .text-cyan-400 {
+  color: #0891b2 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .packet-flow-container .text-purple-400 {
+  color: #a855f7 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .packet-flow-container .text-slate-400 {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent;
+}
+
+/* Light theme gradient text - deeper, more saturated colors */
+[data-theme="light"] .gradient-text {
+  background: linear-gradient(to right, #0277BD, #1976D2, #5E35B1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Shadow utilities */
+.shadow-neon-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.shadow-neon-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.shadow-neon-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+/* Status color utilities - Dark Mode */
+.status-critical {
+  @apply text-status-critical-dark;
+}
+
+.status-warning {
+  @apply text-status-warning-dark;
+}
+
+.status-success {
+  @apply text-status-success-dark;
+}
+
+.status-info {
+  @apply text-status-info-dark;
+}
+
+.bg-status-critical {
+  @apply bg-status-critical-dark/20 border-status-critical-dark/50;
+}
+
+.bg-status-warning {
+  @apply bg-status-warning-dark/20 border-status-warning-dark/50;
+}
+
+.bg-status-success {
+  @apply bg-status-success-dark/20 border-status-success-dark/50;
+}
+
+.bg-status-info {
+  @apply bg-status-info-dark/20 border-status-info-dark/50;
+}
+
+/* Status color utilities - Light Mode */
+[data-theme="light"] .status-critical {
+  @apply text-status-critical-light;
+}
+
+[data-theme="light"] .status-warning {
+  @apply text-status-warning-light;
+}
+
+[data-theme="light"] .status-success {
+  @apply text-status-success-light;
+}
+
+[data-theme="light"] .status-info {
+  @apply text-status-info-light;
+}
+
+[data-theme="light"] .bg-status-critical {
+  @apply bg-status-critical-light/10 border-status-critical-light/40;
+}
+
+[data-theme="light"] .bg-status-warning {
+  @apply bg-status-warning-light/10 border-status-warning-light/40;
+}
+
+[data-theme="light"] .bg-status-success {
+  @apply bg-status-success-light/10 border-status-success-light/40;
+}
+
+[data-theme="light"] .bg-status-info {
+  @apply bg-status-info-light/10 border-status-info-light/40;
+}
+
+/* Progress bar */
+.progress-bar {
+  @apply h-1 flex-1 rounded transition-all duration-300;
+}
+
+/* Micro-interaction hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-scale {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 243, 255, 0.3);
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg,
+      var(--shimmer-start, transparent) 0%,
+      var(--shimmer-middle, rgba(255, 255, 255, 0.3)) 50%,
+      var(--shimmer-end, transparent) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.animate-float {
+  animation: float 18s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 10s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 26s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 3.8s ease-in-out infinite;
+}
+
+.animate-twinkle-slow {
+  animation: twinkle 6s ease-in-out infinite;
+}
+
+.animate-streak {
+  animation: streak 14s linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Light theme - Faster particle animations */
+[data-theme="light"] .animate-float {
+  animation: float 9s ease-in-out infinite;
+}
+
+[data-theme="light"] .animate-float-fast {
+  animation: float 5s ease-in-out infinite;
+}
+
+[data-theme="light"] .animate-float-slow {
+  animation: float 13s ease-in-out infinite;
+}
+
+[data-theme="light"] .animate-twinkle {
+  animation: twinkle 1.9s ease-in-out infinite;
+}
+
+[data-theme="light"] .animate-twinkle-slow {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+[data-theme="light"] .animate-streak {
+  animation: streak 7s linear infinite;
+}
+
+.particle-glow {
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.35));
+}
+
+.particle-glow-strong {
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35));
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.bg-size-200 {
+  background-size: 200% 100%;
+}
+
+/* Onboarding Tour Highlight */
+.tour-highlight {
+  position: relative;
+  z-index: 45;
+  animation: tourHighlight 1.5s ease-in-out infinite;
+}
+
+@keyframes tourHighlight {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.7), 0 0 30px rgba(0, 243, 255, 0.3);
   }
 
-  .box-glow {
-    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 243, 255, 0), 0 0 50px rgba(0, 243, 255, 0.5);
   }
+}
 
-  /* Glassmorphism effects */
-  .glass-card {
-    --card-border-start: rgba(56, 189, 248, 0.75);
-    --card-border-end: rgba(129, 140, 248, 0.55);
-    --card-border-glow: rgba(56, 189, 248, 0.28);
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    border-radius: 1.5rem;
-    background: linear-gradient(140deg, rgba(15, 23, 42, 0.94), rgba(9, 14, 26, 0.88));
-    border: 1px solid rgba(148, 163, 184, 0.15);
-    --card-border-end: rgba(25, 118, 210, 0.3);
-    --card-border-glow: rgba(25, 118, 210, 0.15);
-  }
+/* Tooltip animations */
+.tooltip-content {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
 
-  .glass-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 2px;
-    border-radius: inherit;
-    background: linear-gradient(140deg, var(--card-border-start), var(--card-border-end));
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    pointer-events: none;
-    opacity: 0.95;
-    transition: opacity 0.3s ease;
-    z-index: 0;
-  }
-
-  .glass-card::after {
-    content: '';
-    position: absolute;
-    inset: -25%;
-    border-radius: 45% 55% 50% 60%;
-    background: radial-gradient(70% 60% at 50% 0%, var(--card-border-glow), transparent 75%);
-    filter: blur(24px);
-    opacity: 0.6;
-    pointer-events: none;
-    transition: opacity 0.3s ease, filter 0.3s ease;
-    z-index: 0;
-  }
-
-  .glass-card>* {
-    position: relative;
-    z-index: 1;
-  }
-
-  .glass-card:hover::after {
-    opacity: 0.85;
-    filter: blur(30px);
-  }
-
-  /* Animation utilities */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.4s ease-out;
-  }
-
-  .animate-pulse-slow {
-    animation: pulseSlow 3s ease-in-out infinite;
-  }
-
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradientShift 3s ease infinite;
-  }
-
-  /* Packet Flow Animation utilities */
-  .animate-packet-request {
-    animation: packet-request 2.5s ease-in-out;
-  }
-
-  .animate-packet-response {
-    animation: packet-response 2.5s ease-in-out;
-  }
-
-  /* Byte appearance animation for response visualizer */
-  .animate-byte-appear {
-    animation: byteAppear 0.3s ease-out forwards;
+@keyframes tooltipFadeIn {
+  from {
     opacity: 0;
+    transform: scale(0.96) translateY(-4px);
   }
 
-  /* Packet Flow Container Styles */
-  .packet-flow-container {
-    background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)) !important;
-    border-color: rgba(168, 85, 247, 0.35) !important;
-  }
-
-  /* Light theme packet flow container - bright and visible */
-  [data-theme="light"] .packet-flow-container {
-    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.98), rgba(240, 244, 248, 0.95)) !important;
-    border: 2px solid rgba(25, 118, 210, 0.3) !important;
-    box-shadow:
-      0 8px 32px rgba(26, 51, 77, 0.12),
-      0 2px 8px rgba(26, 51, 77, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 1) !important;
-  }
-
-  /* Light theme - Make Client and ECU nodes more vibrant */
-  [data-theme="light"] .packet-flow-container .from-cyan-500 {
-    background: linear-gradient(to bottom right, #0891b2, #0e7490) !important;
-    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4), 0 4px 8px rgba(6, 182, 212, 0.2) !important;
-  }
-
-  [data-theme="light"] .packet-flow-container .from-purple-500 {
-    background: linear-gradient(to bottom right, #a855f7, #9333ea) !important;
-    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4), 0 4px 8px rgba(168, 85, 247, 0.2) !important;
-  }
-
-  [data-theme="light"] .packet-flow-container .text-cyan-400 {
-    color: #0891b2 !important;
-    font-weight: 700 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
-  }
-
-  [data-theme="light"] .packet-flow-container .text-purple-400 {
-    color: #a855f7 !important;
-    font-weight: 700 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
-  }
-
-  [data-theme="light"] .packet-flow-container .text-slate-400 {
-    color: #475569 !important;
-    font-weight: 600 !important;
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent;
-  }
-
-  /* Light theme gradient text - deeper, more saturated colors */
-  [data-theme="light"] .gradient-text {
-    background: linear-gradient(to right, #0277BD, #1976D2, #5E35B1);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Shadow utilities */
-  .shadow-neon-cyan {
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
-  }
-
-  .shadow-neon-purple {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-  }
-
-  .shadow-neon-green {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-  }
-
-  /* Status color utilities - Dark Mode */
-  .status-critical {
-    @apply text-status-critical-dark;
-  }
-
-  .status-warning {
-    @apply text-status-warning-dark;
-  }
-
-  .status-success {
-    @apply text-status-success-dark;
-  }
-
-  .status-info {
-    @apply text-status-info-dark;
-  }
-
-  .bg-status-critical {
-    @apply bg-status-critical-dark/20 border-status-critical-dark/50;
-  }
-
-  .bg-status-warning {
-    @apply bg-status-warning-dark/20 border-status-warning-dark/50;
-  }
-
-  .bg-status-success {
-    @apply bg-status-success-dark/20 border-status-success-dark/50;
-  }
-
-  .bg-status-info {
-    @apply bg-status-info-dark/20 border-status-info-dark/50;
-  }
-
-  /* Status color utilities - Light Mode */
-  [data-theme="light"] .status-critical {
-    @apply text-status-critical-light;
-  }
-
-  [data-theme="light"] .status-warning {
-    @apply text-status-warning-light;
-  }
-
-  [data-theme="light"] .status-success {
-    @apply text-status-success-light;
-  }
-
-  [data-theme="light"] .status-info {
-    @apply text-status-info-light;
-  }
-
-  [data-theme="light"] .bg-status-critical {
-    @apply bg-status-critical-light/10 border-status-critical-light/40;
-  }
-
-  [data-theme="light"] .bg-status-warning {
-    @apply bg-status-warning-light/10 border-status-warning-light/40;
-  }
-
-  [data-theme="light"] .bg-status-success {
-    @apply bg-status-success-light/10 border-status-success-light/40;
-  }
-
-  [data-theme="light"] .bg-status-info {
-    @apply bg-status-info-light/10 border-status-info-light/40;
-  }
-
-  /* Progress bar */
-  .progress-bar {
-    @apply h-1 flex-1 rounded transition-all duration-300;
-  }
-
-  /* Micro-interaction hover effects */
-  .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-2px);
-  }
-
-  .hover-scale {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hover-scale:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 243, 255, 0.3);
-  }
-
-  .shimmer-effect {
-    background: linear-gradient(90deg,
-        var(--shimmer-start, transparent) 0%,
-        var(--shimmer-middle, rgba(255, 255, 255, 0.3)) 50%,
-        var(--shimmer-end, transparent) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-
-  .animate-gradient-shift {
-    background-size: 200% 200%;
-    animation: gradientShift 3s ease infinite;
-  }
-
-  .animate-float {
-    animation: float 18s ease-in-out infinite;
-  }
-
-  .animate-float-fast {
-    animation: float 10s ease-in-out infinite;
-  }
-
-  .animate-float-slow {
-    animation: float 26s ease-in-out infinite;
-  }
-
-  .animate-twinkle {
-    animation: twinkle 3.8s ease-in-out infinite;
-  }
-
-  .animate-twinkle-slow {
-    animation: twinkle 6s ease-in-out infinite;
-  }
-
-  .animate-streak {
-    animation: streak 14s linear infinite;
-    will-change: transform, opacity;
-  }
-
-  /* Light theme - Faster particle animations */
-  [data-theme="light"] .animate-float {
-    animation: float 9s ease-in-out infinite;
-  }
-
-  [data-theme="light"] .animate-float-fast {
-    animation: float 5s ease-in-out infinite;
-  }
-
-  [data-theme="light"] .animate-float-slow {
-    animation: float 13s ease-in-out infinite;
-  }
-
-  [data-theme="light"] .animate-twinkle {
-    animation: twinkle 1.9s ease-in-out infinite;
-  }
-
-  [data-theme="light"] .animate-twinkle-slow {
-    animation: twinkle 3s ease-in-out infinite;
-  }
-
-  [data-theme="light"] .animate-streak {
-    animation: streak 7s linear infinite;
-  }
-
-  .particle-glow {
-    filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.35));
-  }
-
-  .particle-glow-strong {
-    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35));
-  }
-
-  .animate-slide-in-right {
-    animation: slideInRight 0.3s ease-out forwards;
-  }
-
-  .bg-size-200 {
-    background-size: 200% 100%;
-  }
-
-  /* Onboarding Tour Highlight */
-  .tour-highlight {
-    position: relative;
-    z-index: 45;
-    animation: tourHighlight 1.5s ease-in-out infinite;
-  }
-
-  @keyframes tourHighlight {
-
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.7), 0 0 30px rgba(0, 243, 255, 0.3);
-    }
-
-    50% {
-      box-shadow: 0 0 0 8px rgba(0, 243, 255, 0), 0 0 50px rgba(0, 243, 255, 0.5);
-    }
-  }
-
-  /* Tooltip animations */
-  .tooltip-content {
-    animation-duration: 0.2s;
-    animation-timing-function: ease-out;
-  }
-
-  @keyframes tooltipFadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.96) translateY(-4px);
-    }
-
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
+
 
 /* ========================================
    HIGH CONTRAST MODE (WCAG AAA - 7:1)
@@ -594,12 +571,6 @@
   --sparkle-yellow: #ffff00;
   --sparkle-orange: #ff6600;
 }
-
-/* High Contrast Mode - Sparkle Colourful Theme
- * Enhanced with vibrant multi-color sparkles inspired by Aceternity UI
- * Features: Cyan, Pink, Purple, Green, Yellow sparkles on pure black background
- * Source: https://21st.dev/aceternity/sparkles/default
- */
 
 [data-contrast="high"] body {
   background-color: var(--bg-pure-black) !important;

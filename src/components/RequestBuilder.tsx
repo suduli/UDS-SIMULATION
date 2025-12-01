@@ -481,7 +481,7 @@ const RequestBuilder: React.FC = () => {
               value={manualHex}
               onChange={(e) => handleManualHexChange(e.target.value)}
               placeholder="e.g., 10 03 or 22 F1 90"
-              className={`w-full cyber-input font-mono h-24 resize-none ${validationError && manualHex ? 'border-cyber-pink' : ''}`}
+              className={`w-full cyber-input font-mono h-24 resize-none !bg-white dark:!bg-dark-800 !text-gray-900 dark:!text-gray-100 ${validationError && manualHex ? 'border-cyber-pink' : ''}`}
               aria-label="Manual hex input"
               aria-invalid={!!validationError && !!manualHex}
             />

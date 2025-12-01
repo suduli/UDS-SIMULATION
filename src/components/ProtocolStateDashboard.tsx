@@ -16,10 +16,10 @@ const ProtocolStateDashboard: React.FC = () => {
 
   const getSessionColor = (session: DiagnosticSessionType): string => {
     switch (session) {
-      case DiagnosticSessionType.DEFAULT: return 'text-cyber-green';
-      case DiagnosticSessionType.PROGRAMMING: return 'text-cyber-purple';
-      case DiagnosticSessionType.EXTENDED: return 'text-cyber-blue';
-      default: return 'text-gray-400';
+      case DiagnosticSessionType.DEFAULT: return 'text-green-700 dark:text-cyber-green';
+      case DiagnosticSessionType.PROGRAMMING: return 'text-purple-700 dark:text-cyber-purple';
+      case DiagnosticSessionType.EXTENDED: return 'text-blue-700 dark:text-cyber-blue';
+      default: return 'text-gray-600 dark:text-gray-400';
     }
   };
 
@@ -49,7 +49,7 @@ const ProtocolStateDashboard: React.FC = () => {
             </div>
           </div>
           <div>
-            <div className="text-[10px] text-cyber-blue uppercase tracking-[0.2em] mb-1">Session</div>
+            <div className="text-[10px] text-blue-700 dark:text-cyber-blue uppercase tracking-[0.2em] mb-1">Session</div>
             <div className={`text-lg font-bold font-mono ${getSessionColor(protocolState.currentSession)} text-glow`}>
               {getSessionName(protocolState.currentSession)}
             </div>
@@ -61,14 +61,14 @@ const ProtocolStateDashboard: React.FC = () => {
 
         {/* Security Hologram */}
         <div className="flex-1 w-full lg:w-auto flex items-center justify-center gap-4 px-4">
-          <div className={`w-12 h-12 rounded-lg flex items-center justify-center border ${protocolState.securityUnlocked ? 'border-cyber-purple bg-cyber-purple/10' : 'border-amber-500/50 bg-amber-500/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'}`}>
-            <svg className={`w-6 h-6 ${protocolState.securityUnlocked ? 'text-cyber-purple animate-pulse' : 'text-amber-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className={`w-12 h-12 rounded-lg flex items-center justify-center border ${protocolState.securityUnlocked ? 'border-purple-300 dark:border-cyber-purple bg-purple-100 dark:bg-cyber-purple/10' : 'border-amber-300 dark:border-amber-500/50 bg-amber-100 dark:bg-amber-500/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'}`}>
+            <svg className={`w-6 h-6 ${protocolState.securityUnlocked ? 'text-purple-700 dark:text-cyber-purple animate-pulse' : 'text-amber-700 dark:text-amber-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={protocolState.securityUnlocked ? "M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" : "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"} />
             </svg>
           </div>
           <div>
-            <div className={`text-[10px] uppercase tracking-[0.2em] mb-1 ${protocolState.securityUnlocked ? 'text-cyber-purple' : 'text-amber-500'}`}>Security</div>
-            <div className={`text-lg font-bold font-mono ${protocolState.securityUnlocked ? 'text-cyber-purple text-glow' : 'text-amber-500 text-shadow-sm'}`}>
+            <div className={`text-[10px] uppercase tracking-[0.2em] mb-1 ${protocolState.securityUnlocked ? 'text-purple-700 dark:text-cyber-purple' : 'text-amber-700 dark:text-amber-500'}`}>Security</div>
+            <div className={`text-lg font-bold font-mono ${protocolState.securityUnlocked ? 'text-purple-700 dark:text-cyber-purple text-glow' : 'text-amber-700 dark:text-amber-500 text-shadow-sm'}`}>
               {protocolState.securityUnlocked ? `Lvl ${protocolState.securityLevel}` : 'LOCKED'}
             </div>
           </div>
@@ -79,12 +79,12 @@ const ProtocolStateDashboard: React.FC = () => {
 
         {/* Communication Hologram */}
         <div className="flex-1 w-full lg:w-auto flex items-center justify-center gap-4 px-4">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center border ${protocolState.communicationEnabled ? 'border-cyber-green/50 bg-cyber-green/5' : 'border-red-500/50 bg-red-500/5'}`}>
-            <div className={`w-1.5 h-1.5 rounded-full ${protocolState.communicationEnabled ? 'bg-cyber-green animate-ping' : 'bg-red-500'}`}></div>
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center border ${protocolState.communicationEnabled ? 'border-green-300 dark:border-cyber-green/50 bg-green-100 dark:bg-cyber-green/5' : 'border-red-300 dark:border-red-500/50 bg-red-100 dark:bg-red-500/5'}`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${protocolState.communicationEnabled ? 'bg-green-600 dark:bg-cyber-green animate-ping' : 'bg-red-600 dark:bg-red-500'}`}></div>
           </div>
           <div>
-            <div className="text-[10px] text-cyber-green uppercase tracking-[0.2em] mb-1">Comms</div>
-            <div className={`text-lg font-bold font-mono ${protocolState.communicationEnabled ? 'text-cyber-green text-glow' : 'text-red-500'}`}>
+            <div className="text-[10px] text-green-700 dark:text-cyber-green uppercase tracking-[0.2em] mb-1">Comms</div>
+            <div className={`text-lg font-bold font-mono ${protocolState.communicationEnabled ? 'text-green-700 dark:text-cyber-green text-glow' : 'text-red-700 dark:text-red-500'}`}>
               {protocolState.communicationEnabled ? 'ONLINE' : 'OFFLINE'}
             </div>
           </div>
@@ -96,14 +96,14 @@ const ProtocolStateDashboard: React.FC = () => {
         {/* Data Transfer Hologram */}
         <div className="flex-1 w-full lg:w-auto flex items-center justify-center lg:justify-end gap-4 px-4">
           <div className="text-right">
-            <div className="text-[10px] text-cyber-blue uppercase tracking-[0.2em] mb-1">Data Bus</div>
+            <div className="text-[10px] text-blue-700 dark:text-cyber-blue uppercase tracking-[0.2em] mb-1">Data Bus</div>
             <div className="text-lg font-bold font-mono text-gray-800 dark:text-gray-200">
               {protocolState.downloadInProgress ? 'DOWNLOADING...' : protocolState.uploadInProgress ? 'UPLOADING...' : 'IDLE'}
             </div>
           </div>
           <div className="h-10 flex items-end gap-0.5 opacity-50 w-24">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="flex-1 bg-cyber-blue transition-all duration-300" style={{ height: `${Math.random() * 100}%` }} />
+              <div key={i} className="flex-1 bg-blue-600 dark:bg-cyber-blue transition-all duration-300" style={{ height: `${Math.random() * 100}%` }} />
             ))}
           </div>
         </div>
