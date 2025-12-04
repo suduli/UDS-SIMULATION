@@ -36,8 +36,9 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
     const nextQuestion = () => {
         if (isLastQuestion) {
             // Calculate score
-            const correctCount = answers.reduce((count, answer, index) => {
+            const correctCount = answers.reduce((count: number, answer, index) => {
                 const question = questions[index];
+                if (!question) return count;
                 const isCorrect = String(answer).toLowerCase() === String(question.correctAnswer).toLowerCase();
                 return count + (isCorrect ? 1 : 0);
             }, 0);
@@ -72,8 +73,9 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
         String(selectedAnswer).toLowerCase() === String(currentQuestion.correctAnswer).toLowerCase();
 
     if (quizComplete) {
-        const correctCount = answers.reduce((count, answer, index) => {
+        const correctCount = answers.reduce((count: number, answer, index) => {
             const question = questions[index];
+            if (!question) return count;
             const isCorrect = String(answer).toLowerCase() === String(question.correctAnswer).toLowerCase();
             return count + (isCorrect ? 1 : 0);
         }, 0);
@@ -143,12 +145,12 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
                                 onClick={() => !showFeedback && setSelectedAnswer(index)}
                                 disabled={showFeedback}
                                 className={`w-full text-left p-4 rounded-lg border-2 transition-all ${selectedAnswer === index
-                                        ? showFeedback
-                                            ? isCorrect
-                                                ? 'bg-cyber-green/10 border-cyber-green text-cyber-green'
-                                                : 'bg-cyber-pink/10 border-cyber-pink text-cyber-pink'
-                                            : 'bg-cyber-blue/10 border-cyber-blue'
-                                        : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
+                                    ? showFeedback
+                                        ? isCorrect
+                                            ? 'bg-cyber-green/10 border-cyber-green text-cyber-green'
+                                            : 'bg-cyber-pink/10 border-cyber-pink text-cyber-pink'
+                                        : 'bg-cyber-blue/10 border-cyber-blue'
+                                    : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
                                     } ${showFeedback ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                             >
                                 <div className="flex items-center">
@@ -167,12 +169,12 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
                                 onClick={() => !showFeedback && setSelectedAnswer('true')}
                                 disabled={showFeedback}
                                 className={`w-full p-4 rounded-lg border-2 transition-all ${selectedAnswer === 'true'
-                                        ? showFeedback
-                                            ? isCorrect
-                                                ? 'bg-cyber-green/10 border-cyber-green'
-                                                : ' bg-cyber-pink/10 border-cyber-pink'
-                                            : 'bg-cyber-blue/10 border-cyber-blue'
-                                        : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
+                                    ? showFeedback
+                                        ? isCorrect
+                                            ? 'bg-cyber-green/10 border-cyber-green'
+                                            : ' bg-cyber-pink/10 border-cyber-pink'
+                                        : 'bg-cyber-blue/10 border-cyber-blue'
+                                    : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
                                     } ${showFeedback ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                             >
                                 ✓ True
@@ -181,12 +183,12 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
                                 onClick={() => !showFeedback && setSelectedAnswer('false')}
                                 disabled={showFeedback}
                                 className={`w-full p-4 rounded-lg border-2 transition-all ${selectedAnswer === 'false'
-                                        ? showFeedback
-                                            ? isCorrect
-                                                ? 'bg-cyber-green/10 border-cyber-green'
-                                                : 'bg-cyber-pink/10 border-cyber-pink'
-                                            : 'bg-cyber-blue/10 border-cyber-blue'
-                                        : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
+                                    ? showFeedback
+                                        ? isCorrect
+                                            ? 'bg-cyber-green/10 border-cyber-green'
+                                            : 'bg-cyber-pink/10 border-cyber-pink'
+                                        : 'bg-cyber-blue/10 border-cyber-blue'
+                                    : 'bg-dark-800/50 border-dark-600 hover:border-cyber-blue/50'
                                     } ${showFeedback ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                             >
                                 ✗ False
@@ -209,8 +211,8 @@ export const LearningQuiz: React.FC<LearningQuizProps> = ({
                 {/* Feedback */}
                 {showFeedback && (
                     <div className={`p-4 rounded-lg border-2 ${isCorrect
-                            ? 'bg-cyber-green/10 border-cyber-green'
-                            : 'bg-cyber-pink/10 border-cyber-pink'
+                        ? 'bg-cyber-green/10 border-cyber-green'
+                        : 'bg-cyber-pink/10 border-cyber-pink'
                         }`}>
                         <div className="flex items-start space-x-3">
                             <span className="text-2xl">{isCorrect ? '✓' : '✗'}</span>

@@ -3,23 +3,14 @@
  */
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { UDSLearningContent } from '../components/UDSLearning';
+import { Link } from 'react-router-dom';
 import EnhancedBackground from '../components/EnhancedBackground';
 import { useTheme } from '../context/ThemeContext';
-import { usePendingExample } from '../hooks/usePendingExample';
+import RequestBuilder from '../components/RequestBuilder';
+import ResponseVisualizer from '../components/ResponseVisualizer';
 
 export const LearningPage: React.FC = () => {
     const { theme, toggleTheme, highContrast, toggleHighContrast } = useTheme();
-    const navigate = useNavigate();
-    const { setPendingExample } = usePendingExample();
-
-    const handleSendToSimulator = (request: string) => {
-        // Store the example request
-        setPendingExample(request);
-        // Navigate back to simulator
-        navigate('/');
-    };
 
     return (
         <div className="min-h-screen relative overflow-hidden transition-colors duration-300">
@@ -105,9 +96,30 @@ export const LearningPage: React.FC = () => {
                     </div>
                 </header>
 
-                {/* Main Learning Content */}
-                <main className="container mx-auto">
-                    <UDSLearningContent onSendToSimulator={handleSendToSimulator} />
+                {/* Main Content - Interactive Lab Only */}
+                <main className="container mx-auto p-4 h-[calc(100vh-80px)] flex flex-col relative">
+
+                    {/* Interactive Lab */}
+                    <div className="flex-1 min-h-0 flex flex-col">
+
+
+                        {/* Lab Content - Side-by-Side */}
+                        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            {/* Input Section */}
+                            <div className="flex flex-col min-h-0">
+                                <div className="flex-1 overflow-y-auto custom-scrollbar rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm p-1">
+                                    <RequestBuilder initialRequest="" />
+                                </div>
+                            </div>
+
+                            {/* Output Section */}
+                            <div className="flex flex-col min-h-0">
+                                <div className="flex-1 overflow-hidden rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm shadow-inner">
+                                    <ResponseVisualizer />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             </div>
         </div>

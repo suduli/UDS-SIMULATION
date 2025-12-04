@@ -9,9 +9,14 @@ import { ServiceId } from '../types/uds';
 import { fromHex } from '../utils/udsHelpers';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import ServiceCard from './ServiceCard';
+import { serviceTooltipData } from '../data/serviceTooltipData';
 import { AdvancedHexEditor } from './AdvancedHexEditor';
 
-const RequestBuilder: React.FC = () => {
+interface RequestBuilderProps {
+  initialRequest?: string;
+}
+
+const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   const { sendRequest } = useUDS();
   const [selectedService, setSelectedService] = useState<ServiceId | ''>('');
   const [subFunction, setSubFunction] = useState<string>('');
@@ -23,6 +28,30 @@ const RequestBuilder: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>('grid');
   const [showAdvancedHexEditor, setShowAdvancedHexEditor] = useState(false);
+
+  // Load initial request if provided
+  React.useEffect(() => {
+    if (initialRequest) {
+      // Simple parsing logic to try and detect if it's a known service or manual hex
+      // For now, we'll just load it into manual mode for flexibility
+      setManualHex(initialRequest);
+      setIsManualMode(true);
+
+      // Optional: Try to parse SID to select service in dropdown
+      const bytes = initialRequest.split(' ').map(b => parseInt(b, 16));
+      if (bytes.length > 0 && !isNaN(bytes[0])) {
+        const sid = bytes[0];
+        // Check if SID exists in our list
+        const serviceExists = services.some(s => s.id === sid);
+        if (serviceExists) {
+          setSelectedService(sid as ServiceId);
+          if (bytes.length > 1) setSubFunction(bytes[1].toString(16).toUpperCase().padStart(2, '0'));
+          if (bytes.length > 2) setDataInput(bytes.slice(2).map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' '));
+          setIsManualMode(false);
+        }
+      }
+    }
+  }, [initialRequest]);
 
   // Validate hex input
   const validateHexInput = (input: string): { valid: boolean; error: string } => {
@@ -220,34 +249,43 @@ const RequestBuilder: React.FC = () => {
     onToggleManualMode: handleToggleManualMode,
   });
 
-  const loadExample = (exampleType: string) => {
-    switch (exampleType) {
-      case 'session-extended':
-        setSelectedService(ServiceId.DIAGNOSTIC_SESSION_CONTROL);
-        setSubFunction('03');
-        setDataInput('');
-        break;
-      case 'security-seed':
-        setSelectedService(ServiceId.SECURITY_ACCESS);
-        setSubFunction('01');
-        setDataInput('');
-        break;
-      case 'read-vin':
-        setSelectedService(ServiceId.READ_DATA_BY_IDENTIFIER);
-        setSubFunction('');
-        setDataInput('F1 90');
-        break;
-      case 'read-dtc':
-        setSelectedService(ServiceId.READ_DTC_INFORMATION);
-        setSubFunction('02');
-        setDataInput('FF');
-        break;
-      case 'ecu-reset':
-        setSelectedService(ServiceId.ECU_RESET);
-        setSubFunction('01');
-        setDataInput('');
-        break;
+
+
+  const handleInteractiveExample = (hex: string) => {
+    const cleanHex = hex.replace(/\s+/g, '');
+    if (cleanHex.length < 2) return;
+
+    const serviceId = parseInt(cleanHex.substring(0, 2), 16) as ServiceId;
+    setSelectedService(serviceId);
+
+    // Services that typically use a sub-function as the second byte
+    const servicesWithSubFunction = [
+      0x10, // Session Control
+      0x11, // ECU Reset
+      0x19, // Read DTC
+      0x27, // Security Access
+      0x28, // Comm Control
+      0x31, // Routine Control
+      0x3E, // Tester Present
+      0x85  // Control DTC Setting
+    ];
+
+    let subFunc = '';
+    let data = '';
+
+    if (cleanHex.length > 2) {
+      if (servicesWithSubFunction.includes(serviceId)) {
+        subFunc = cleanHex.substring(2, 4);
+        if (cleanHex.length > 4) {
+          data = cleanHex.substring(4).match(/.{1,2}/g)?.join(' ') || '';
+        }
+      } else {
+        data = cleanHex.substring(2).match(/.{1,2}/g)?.join(' ') || '';
+      }
     }
+
+    setSubFunction(subFunc);
+    setDataInput(data);
     setIsManualMode(false);
   };
 
@@ -363,6 +401,7 @@ const RequestBuilder: React.FC = () => {
                       color={metadata.color}
                       isSelected={selectedService === service.id}
                       onClick={() => setSelectedService(service.id)}
+                      onLoadExample={handleInteractiveExample}
                     />
                   );
                 })}
@@ -438,23 +477,32 @@ const RequestBuilder: React.FC = () => {
 
           {/* Example Requests */}
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Quick Examples</label>
+            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+              {selectedService ? 'Service Examples' : 'Quick Examples'}
+            </label>
             <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick example requests">
-              <button onClick={() => loadExample('session-extended')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load extended session example">
-                Extended Session
-              </button>
-              <button onClick={() => loadExample('security-seed')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load security seed example">
-                Security Seed
-              </button>
-              <button onClick={() => loadExample('read-vin')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load read VIN example">
-                Read VIN
-              </button>
-              <button onClick={() => loadExample('read-dtc')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load read DTCs example">
-                Read DTCs
-              </button>
-              <button onClick={() => loadExample('ecu-reset')} className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300" aria-label="Load ECU reset example">
-                ECU Reset
-              </button>
+              {(() => {
+                const serviceIdHex = selectedService ? `0x${selectedService.toString(16).toUpperCase().padStart(2, '0')}` : '';
+                const tooltipData = serviceIdHex ? serviceTooltipData[serviceIdHex] : null;
+                const examples = tooltipData?.quickExamples || [
+                  { label: 'Extended Session', hex: '10 03' },
+                  { label: 'Security Seed', hex: '27 01' },
+                  { label: 'Read VIN', hex: '22 F1 90' },
+                  { label: 'Read DTCs', hex: '19 02 08' },
+                  { label: 'ECU Reset', hex: '11 01' }
+                ];
+
+                return examples.map((ex: { label: string; hex: string }, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleInteractiveExample(ex.hex)}
+                    className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                    aria-label={`Load ${ex.label} example`}
+                  >
+                    {ex.label}
+                  </button>
+                ));
+              })()}
             </div>
           </div>
         </div>

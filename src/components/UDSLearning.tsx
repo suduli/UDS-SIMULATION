@@ -12,11 +12,11 @@ import { LearningQuiz } from './LearningQuiz';
 import ReactMarkdown from 'react-markdown';
 
 interface UDSLearningContentProps {
-    onSendToSimulator: (request: string) => void;
+    onLoadExample: (request: string) => void;
 }
 
 export const UDSLearningContent: React.FC<UDSLearningContentProps> = ({
-    onSendToSimulator
+    onLoadExample
 }) => {
     const [selectedModule, setSelectedModule] = useState<LearningModule>(learningModules[0]);
     const [selectedLesson, setSelectedLesson] = useState<LearningLesson>(learningModules[0].lessons[0]);
@@ -48,12 +48,12 @@ export const UDSLearningContent: React.FC<UDSLearningContentProps> = ({
     };
 
     const handleTryExample = (request: string) => {
-        onSendToSimulator(request);
+        onLoadExample(request);
         // Show toast notification
         if (typeof window !== 'undefined' && (window as any).addToast) {
             (window as any).addToast({
-                type: 'info',
-                message: `Example will be loaded in simulator`,
+                type: 'success',
+                message: `Example loaded into Request Builder`,
                 duration: 3000
             });
         }
@@ -137,7 +137,7 @@ export const UDSLearningContent: React.FC<UDSLearningContentProps> = ({
             {/* Main Content */}
             <div className="flex gap-6 px-4 sm:px-6 py-6">
                 {/* Sidebar */}
-                <div className={`flex-none w-64 pr-6 overflow-y-auto max-h-[calc(100vh-200px)] ${sidebarCollapsed ? 'hidden lg:block' : 'block'
+                <div className={`flex-none w-64 pr-6 overflow-y-auto h-full ${sidebarCollapsed ? 'hidden lg:block' : 'block'
                     }`}>
                     <div className="space-y-2">
                         {learningModules.map((module) => {
@@ -211,7 +211,7 @@ export const UDSLearningContent: React.FC<UDSLearningContentProps> = ({
                 </div>
 
                 {/* Content Area */}
-                <div className="flex-1 overflow-y-auto max-h-[calc(100vh-200px)]">
+                <div className="flex-1 overflow-y-auto h-full">
                     {/* Search Results */}
                     {searchQuery.trim() && searchResults.length > 0 && (
                         <div className="space-y-4">

@@ -5,6 +5,8 @@ export interface ServiceTooltipData {
   useCases: string[];
   parameters?: string[];
   example?: string;
+  exampleHex?: string;
+  quickExamples?: { label: string; hex: string }[];
 }
 
 export const serviceTooltipData: Record<string, ServiceTooltipData> = {
@@ -18,7 +20,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Return to default session after diagnostics'
     ],
     parameters: ['Session Type: 0x01 (Default), 0x02 (Programming), 0x03 (Extended)'],
-    example: 'Request: 10 03 → Switch to Extended Session'
+    example: 'Request: 10 03 → Switch to Extended Session',
+    exampleHex: '10 03',
+    quickExamples: [
+      { label: 'Default Session', hex: '10 01' },
+      { label: 'Programming Session', hex: '10 02' },
+      { label: 'Extended Session', hex: '10 03' }
+    ]
   },
   '0x11': {
     serviceId: '0x11',
@@ -30,7 +38,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Apply new configuration settings'
     ],
     parameters: ['Reset Type: 0x01 (Hard), 0x02 (Key Off/On), 0x03 (Soft)'],
-    example: 'Request: 11 01 → Perform Hard Reset'
+    example: 'Request: 11 01 → Perform Hard Reset',
+    exampleHex: '11 01',
+    quickExamples: [
+      { label: 'Hard Reset', hex: '11 01' },
+      { label: 'Key Off/On Reset', hex: '11 02' },
+      { label: 'Soft Reset', hex: '11 03' }
+    ]
   },
   '0x14': {
     serviceId: '0x14',
@@ -42,7 +56,11 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Remove stored freeze frame data'
     ],
     parameters: ['Group of DTC: 0xFFFFFF (All DTCs)'],
-    example: 'Request: 14 FF FF FF → Clear All DTCs'
+    example: 'Request: 14 FF FF FF → Clear All DTCs',
+    exampleHex: '14 FF FF FF',
+    quickExamples: [
+      { label: 'Clear All DTCs', hex: '14 FF FF FF' }
+    ]
   },
   '0x19': {
     serviceId: '0x19',
@@ -57,7 +75,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Sub-function: 0x01 (Number of DTCs), 0x02 (DTCs by status)',
       'Status Mask: Filter DTCs by status'
     ],
-    example: 'Request: 19 02 08 → Read DTCs with confirmed status'
+    example: 'Request: 19 02 08 → Read DTCs with confirmed status',
+    exampleHex: '19 02 08',
+    quickExamples: [
+      { label: 'Count DTCs', hex: '19 01 08' },
+      { label: 'Read Confirmed DTCs', hex: '19 02 08' },
+      { label: 'Read Pending DTCs', hex: '19 02 04' }
+    ]
   },
   '0x22': {
     serviceId: '0x22',
@@ -69,7 +93,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Monitor sensor values in real-time'
     ],
     parameters: ['Data Identifier (DID): 2-byte hex value (e.g., 0xF190 for VIN)'],
-    example: 'Request: 22 F1 90 → Read VIN'
+    example: 'Request: 22 F1 90 → Read VIN',
+    exampleHex: '22 F1 90',
+    quickExamples: [
+      { label: 'Read VIN', hex: '22 F1 90' },
+      { label: 'Read ECU Power', hex: '22 F1 80' },
+      { label: 'Read Vehicle Speed', hex: '22 01 00' }
+    ]
   },
   '0x23': {
     serviceId: '0x23',
@@ -84,7 +114,8 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Memory Address: Starting address',
       'Memory Size: Number of bytes to read'
     ],
-    example: 'Request: 23 44 12 34 56 78 02 → Read 2 bytes from 0x12345678'
+    example: 'Request: 23 44 12 34 56 78 02 → Read 2 bytes from 0x12345678',
+    exampleHex: '23 44 12 34 56 78 02'
   },
   '0x27': {
     serviceId: '0x27',
@@ -99,7 +130,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Request Seed: 0x01, 0x03, 0x05... (odd)',
       'Send Key: 0x02, 0x04, 0x06... (even)'
     ],
-    example: 'Request: 27 01 → Request Seed, then 27 02 [key] → Send Key'
+    example: 'Request: 27 01 → Request Seed, then 27 02 [key] → Send Key',
+    exampleHex: '27 01',
+    quickExamples: [
+      { label: 'Request Seed (Lvl 1)', hex: '27 01' },
+      { label: 'Send Key (Lvl 1)', hex: '27 02 00 00' },
+      { label: 'Request Seed (Lvl 3)', hex: '27 03' }
+    ]
   },
   '0x28': {
     serviceId: '0x28',
@@ -114,7 +151,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Control Type: 0x00 (Enable), 0x01 (Disable)',
       'Communication Type: Normal, Network, etc.'
     ],
-    example: 'Request: 28 00 03 → Enable Normal & Network Messages'
+    example: 'Request: 28 00 03 → Enable Normal & Network Messages',
+    exampleHex: '28 00 03',
+    quickExamples: [
+      { label: 'Enable All Msgs', hex: '28 00 03' },
+      { label: 'Disable Non-Diag', hex: '28 01 01' },
+      { label: 'Disable All Msgs', hex: '28 03 03' }
+    ]
   },
   '0x2A': {
     serviceId: '0x2A',
@@ -129,7 +172,12 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Transmission Mode: Slow, Medium, Fast, Stop',
       'Periodic Data Identifier (PDID)'
     ],
-    example: 'Request: 2A 01 F1 → Start slow periodic transmission of PDID 0xF1'
+    example: 'Request: 2A 01 F1 → Start slow periodic transmission of PDID 0xF1',
+    exampleHex: '2A 01 F1',
+    quickExamples: [
+      { label: 'Start Slow Trans.', hex: '2A 01 F1' },
+      { label: 'Stop Transmission', hex: '2A 04 F1' }
+    ]
   },
   '0x2E': {
     serviceId: '0x2E',
@@ -144,7 +192,12 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Data Identifier (DID): 2-byte hex value',
       'Data Record: Values to write'
     ],
-    example: 'Request: 2E F1 00 01 02 03 → Write [01 02 03] to DID 0xF100'
+    example: 'Request: 2E F1 00 01 02 03 → Write [01 02 03] to DID 0xF100',
+    exampleHex: '2E F1 00 01 02 03',
+    quickExamples: [
+      { label: 'Write Config', hex: '2E F1 00 01' },
+      { label: 'Reset Calibration', hex: '2E F1 01 00' }
+    ]
   },
   '0x31': {
     serviceId: '0x31',
@@ -159,7 +212,13 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Sub-function: 0x01 (Start), 0x02 (Stop), 0x03 (Request Results)',
       'Routine Identifier: Specific routine ID'
     ],
-    example: 'Request: 31 01 F0 01 → Start routine 0xF001'
+    example: 'Request: 31 01 F0 01 → Start routine 0xF001',
+    exampleHex: '31 01 F0 01',
+    quickExamples: [
+      { label: 'Start Routine', hex: '31 01 F0 01' },
+      { label: 'Stop Routine', hex: '31 02 F0 01' },
+      { label: 'Request Results', hex: '31 03 F0 01' }
+    ]
   },
   '0x34': {
     serviceId: '0x34',
@@ -175,7 +234,8 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Memory Size: Total download size',
       'Data Format: Compression/encryption settings'
     ],
-    example: 'Request: 34 00 44 12 34 56 78 44 00 00 10 00 → Request download to 0x12345678, size 0x1000'
+    example: 'Request: 34 00 44 12 34 56 78 44 00 00 10 00 → Request download to 0x12345678, size 0x1000',
+    exampleHex: '34 00 44 12 34 56 78 44 00 00 10 00'
   },
   '0x35': {
     serviceId: '0x35',
@@ -191,7 +251,8 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Memory Size: Total upload size',
       'Data Format: Compression/encryption settings'
     ],
-    example: 'Request: 35 00 44 12 34 56 78 44 00 00 10 00 → Request upload from 0x12345678, size 0x1000'
+    example: 'Request: 35 00 44 12 34 56 78 44 00 00 10 00 → Request upload from 0x12345678, size 0x1000',
+    exampleHex: '35 00 44 12 34 56 78 44 00 00 10 00'
   },
   '0x36': {
     serviceId: '0x36',
@@ -206,7 +267,8 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Block Sequence Counter: Increments with each block',
       'Transfer Data: Actual payload bytes'
     ],
-    example: 'Request: 36 01 [data] → Transfer block #1, then 36 02 [data] → Transfer block #2'
+    example: 'Request: 36 01 [data] → Transfer block #1, then 36 02 [data] → Transfer block #2',
+    exampleHex: '36 01 00 00'
   },
   '0x37': {
     serviceId: '0x37',
@@ -218,7 +280,8 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Verify data transfer integrity'
     ],
     parameters: ['Optional: Transfer completion parameters'],
-    example: 'Request: 37 → Exit transfer after all blocks sent'
+    example: 'Request: 37 → Exit transfer after all blocks sent',
+    exampleHex: '37'
   },
   '0x3D': {
     serviceId: '0x3D',
@@ -234,6 +297,10 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Memory Size: Number of bytes',
       'Data Record: Bytes to write'
     ],
-    example: 'Request: 3D 44 12 34 56 78 02 AB CD → Write [AB CD] to 0x12345678'
+    example: 'Request: 3D 44 12 34 56 78 02 AB CD → Write [AB CD] to 0x12345678',
+    exampleHex: '3D 44 12 34 56 78 02 AB CD',
+    quickExamples: [
+      { label: 'Write Memory', hex: '3D 44 12 34 56 78 02 AB CD' }
+    ]
   }
 };

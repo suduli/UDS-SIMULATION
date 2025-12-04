@@ -16,6 +16,7 @@ interface ServiceCardProps {
   color: string;
   isSelected: boolean;
   onClick: () => void;
+  onLoadExample?: (hex: string) => void;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -24,7 +25,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   icon,
   description,
   isSelected,
-  onClick
+  onClick,
+  onLoadExample
 }) => {
   const serviceIdHex = `0x${id.toString(16).toUpperCase().padStart(2, '0')}`;
   const tooltipData = serviceTooltipData[serviceIdHex];
@@ -68,7 +70,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   // Wrap with tooltip if data is available
   if (tooltipData) {
     return (
-      <ServiceTooltip {...tooltipData}>
+      <ServiceTooltip {...tooltipData} onLoadExample={onLoadExample}>
         {cardContent}
       </ServiceTooltip>
     );

@@ -275,7 +275,7 @@ const ResponseVisualizer: React.FC = () => {
   };
 
   return (
-    <div className="glass-panel cyber-shape p-0 animate-slide-up !bg-white dark:!bg-black/90 relative overflow-hidden flex flex-col h-[600px]" style={{ animationDelay: '0.1s' }}>
+    <div className="glass-panel cyber-shape p-0 animate-slide-up !bg-white dark:!bg-black/90 relative overflow-hidden flex flex-col h-full" style={{ animationDelay: '0.1s' }}>
       {/* Scanline Overlay */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] hidden dark:block opacity-20" />
 
@@ -397,8 +397,8 @@ const ResponseVisualizer: React.FC = () => {
                   )}
                 </div>
 
-                {/* Detailed Breakdown (Collapsible-ish look, always visible for now but indented) */}
-                <div className="pl-24 pr-4 py-1 text-xs text-gray-600 dark:text-gray-500 border-l border-gray-300 dark:border-gray-800 ml-3 mb-2 hidden group-hover:block transition-all">
+                {/* Detailed Breakdown (Always visible for learning) */}
+                <div className="pl-24 pr-4 py-1 text-xs text-gray-600 dark:text-gray-500 border-l border-gray-300 dark:border-gray-800 ml-3 mb-2 block transition-all">
                   {item.response.data.map((byte, idx) => (
                     <div key={idx} className="flex gap-2">
                       <span className="w-6 text-gray-500 dark:text-gray-600">[{idx}]</span>

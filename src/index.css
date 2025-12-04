@@ -1240,3 +1240,29 @@
     transform: scale(1.05);
   }
 }
+
+/* Fix for select options visibility in dark mode */
+select option {
+  @apply bg-dark-900 text-gray-100;
+}
+
+/* Light theme overrides */
+[data-theme="light"] select option {
+  @apply bg-white text-gray-800;
+}
+/* Cyber Components */
+.cyber-input {
+  @apply w-full bg-dark-800 border border-dark-600 rounded px-3 py-2 text-gray-100 font-mono transition-all duration-200 focus:border-cyber-blue focus:ring-1 focus:ring-cyber-blue outline-none placeholder-gray-500;
+}
+
+[data-theme="light"] .cyber-input {
+  @apply bg-white border-slate-300 text-slate-800 placeholder-slate-400 focus:border-primary-light focus:ring-primary-light;
+}
+
+.cyber-button {
+  @apply px-4 py-2 rounded font-medium transition-all duration-200 flex items-center justify-center gap-2 bg-dark-800 border border-dark-600 text-gray-200 hover:bg-dark-700 hover:border-cyber-blue/50 hover:text-cyber-blue active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+[data-theme="light"] .cyber-button {
+  @apply bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary-light hover:text-primary-light;
+}
