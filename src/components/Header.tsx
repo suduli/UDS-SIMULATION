@@ -1,9 +1,10 @@
 /**
  * Header Component
- * Main header with branding and navigation
+ * Redesigned with beautiful modern UI
  */
 
 import React, { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useUDS } from '../context/UDSContext';
 import { useTheme } from '../context/ThemeContext';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
@@ -11,11 +12,9 @@ import HelpModal from './HelpModal';
 import { ScenarioLibrary } from './ScenarioLibrary';
 import { ReplayControls } from './ReplayControls';
 import { SequenceBuilder } from './SequenceBuilder';
-import { SparklesCore } from '@/components/ui/sparkles';
 import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
-import { SystemStatus } from './SystemStatus';
 
 const Header: React.FC = () => {
   const {
@@ -38,13 +37,13 @@ const Header: React.FC = () => {
   const [isScenarioLibraryOpen, setIsScenarioLibraryOpen] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [isSequenceBuilderOpen, setIsSequenceBuilderOpen] = useState(false);
+  const [ignitionOn, setIgnitionOn] = useState(true);
 
   const handleOpenHelp = useCallback(() => {
     setIsHelpOpen(true);
     setMobileMenuOpen(false);
   }, []);
 
-  // Setup keyboard shortcuts
   useKeyboardShortcuts({
     onHelp: handleOpenHelp,
     onClearHistory: clearHistory,
@@ -68,7 +67,6 @@ const Header: React.FC = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    // Show success feedback
     setShowExportSuccess(true);
     setTimeout(() => setShowExportSuccess(false), 3000);
   };
@@ -82,7 +80,6 @@ const Header: React.FC = () => {
       if (file) {
         try {
           const scenario = await scenarioManager.importScenario(file);
-          // Load the imported scenario
           startReplay(scenario);
           alert(`Scenario "${scenario.name}" imported successfully!`);
         } catch (error) {
@@ -124,167 +121,151 @@ const Header: React.FC = () => {
     }
   };
 
-
   return (
     <>
-      <header className="glass-panel border-b border-cyber-blue/20 sticky top-0 z-50 backdrop-blur-lg">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo and Title */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="relative">
-                <div className="absolute inset-0 bg-cyber-blue blur-xl opacity-50 animate-pulse-slow"></div>
-                {/* Sparkles effect behind logo - adapts to theme */}
-                <div className="absolute inset-0 -m-4 pointer-events-none">
-                  <SparklesCore
-                    background="transparent"
-                    minSize={0.3}
-                    maxSize={0.8}
-                    particleDensity={50}
-                    className="w-full h-full"
-                    particleColor={theme === 'dark' ? '#38BDF8' : '#0EA5E9'}
-                    speed={1.5}
-                  />
-                </div>
-                <div className="relative w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center">
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                  </svg>
-                </div>
+      <header className="bg-dark-900/95 backdrop-blur-md border-b border-gray-800/50 sticky top-0 z-50">
+        <div className="px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between gap-4">
+            {/* Left: Logo & Branding */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
               </div>
-
-              <div>
-                <h1 className="text-base sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-cyan-700 via-blue-700 to-purple-800 dark:from-cyber-blue dark:via-cyan-400 dark:to-cyber-purple bg-clip-text text-transparent animate-gradient-shift">
+              <div className="hidden sm:block">
+                <div className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                   UDS Simulator
-                </h1>
-                <p className="hidden sm:block text-xs lg:text-sm text-gray-600 dark:text-gray-500">Unified Diagnostic Services</p>
-              </div>
-
-              {/* System Status Indicator - Desktop only */}
-              <div className="hidden xl:block ml-8">
-                <SystemStatus />
+                </div>
+                <div className="text-xs text-gray-500">Unified Diagnostic Services</div>
               </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-3">
+            {/* Center: System Indicators (Hidden on mobile) */}
+            <div className="hidden lg:flex items-center gap-3 flex-1 justify-center">
+              {/* System Status */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-xs font-medium text-emerald-400">SYS UP</span>
+              </div>
+
+              {/* Voltage */}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/50 border border-gray-700 rounded-lg">
+                <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="text-xs font-mono text-gray-300">12.1V</span>
+              </div>
+
+              {/* Current */}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/50 border border-gray-700 rounded-lg">
+                <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <span className="text-xs font-mono text-gray-300">8.67A</span>
+              </div>
+
+              {/* IGNITION Toggle */}
               <button
-                onClick={handleOpenHelp}
-                className="cyber-button text-sm help-button"
-                aria-label="Open tutorials and help (F1)"
-                title="F1"
+                onClick={() => setIgnitionOn(!ignitionOn)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${ignitionOn
+                    ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                    : 'bg-gray-800/50 border border-gray-700 text-gray-500'
+                  }`}
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                IGNITION {ignitionOn ? 'ON' : 'OFF'}
+              </button>
+
+              {/* Latency */}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/50 border border-gray-700 rounded-lg">
+                <span className="text-xs text-gray-500">LATENCY</span>
+                <span className="text-xs font-mono text-emerald-400">7ms</span>
+              </div>
+            </div>
+
+            {/* Right: Navigation */}
+            <div className="hidden lg:flex items-center gap-2">
+              <Link
+                to="/"
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+              >
+                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 Help
-              </button>
+              </Link>
+
+              <Link
+                to="/learn"
+                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg transition-all"
+              >
+                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Learn UDS
+              </Link>
 
               {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
                 <button
                   onClick={() => setIsScenarioLibraryOpen(true)}
-                  className="cyber-button text-sm"
-                  aria-label="Open scenario library"
+                  className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
                 >
-                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
-                  </svg>
                   Scenarios
                 </button>
               )}
 
               <button
                 onClick={() => setIsSequenceBuilderOpen(true)}
-                className="cyber-button text-sm"
-                aria-label="Open sequence builder"
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
-                </svg>
                 Sequences
               </button>
 
               {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && (
                 <button
                   onClick={handleSaveScenario}
-                  className="cyber-button text-sm"
                   disabled={requestHistory.length === 0}
-                  aria-label="Save current session as scenario"
+                  className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                  </svg>
                   Save
                 </button>
               )}
 
-              <div className="relative">
-                <button
-                  onClick={handleExport}
-                  className="cyber-button text-sm"
-                  disabled={requestHistory.length === 0}
-                  aria-label="Export session history"
-                >
-                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                  Export
-                </button>
-                {showExportSuccess && (
-                  <div className="absolute top-full mt-2 right-0 bg-cyber-green/20 border border-cyber-green text-cyber-green px-3 py-2 rounded text-xs whitespace-nowrap animate-fade-in">
-                    ✓ Session exported!
-                  </div>
-                )}
-              </div>
+              <button
+                onClick={handleExport}
+                disabled={requestHistory.length === 0}
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Export
+              </button>
 
               <button
                 onClick={handleImport}
-                className="cyber-button text-sm"
-                aria-label="Import session from file"
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
                 Import
               </button>
 
               <button
                 onClick={toggleTheme}
-                className="cyber-button text-sm"
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
                 data-theme-toggle
-                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
               >
-                {theme === 'dark' ? (
-                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                )}
                 {theme === 'dark' ? 'Light' : 'Dark'}
               </button>
 
               <button
                 onClick={toggleHighContrast}
-                className="cyber-button text-sm"
-                aria-label={`${highContrast ? 'Disable' : 'Enable'} high contrast mode (WCAG AAA)`}
-                title="Toggle high contrast mode for better accessibility"
+                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343 5.657l-.707-.707m9.9 0l.708.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                {highContrast ? 'Normal' : 'High Contrast'}
+                High Contrast
               </button>
-            </nav>
+            </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden cyber-button text-sm"
-              aria-label="Toggle menu"
-              aria-expanded={mobileMenuOpen}
+              className="lg:hidden p-2 text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -296,116 +277,94 @@ const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Dropdown */}
+          {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-4 pt-4 border-t border-cyber-blue/20 space-y-2 animate-fade-in">
-              <button
-                onClick={handleOpenHelp}
-                className="w-full cyber-button text-sm justify-start"
+            <div className="lg:hidden mt-4 pt-4 border-t border-gray-800 space-y-2">
+              <Link
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                Help (F1)
+                Help
+              </Link>
+              <Link
+                to="/learn"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 text-sm text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 rounded-lg"
+              >
+                Learn UDS
+              </Link>
+              <button
+                onClick={() => { setIsSequenceBuilderOpen(true); setMobileMenuOpen(false); }}
+                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+              >
+                Sequences
               </button>
-
               <button
                 onClick={() => { handleExport(); setMobileMenuOpen(false); }}
-                className="w-full cyber-button text-sm justify-start"
+                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
                 disabled={requestHistory.length === 0}
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Export Session
+                Export
               </button>
-
               <button
                 onClick={() => { handleImport(); setMobileMenuOpen(false); }}
-                className="w-full cyber-button text-sm justify-start"
+                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
-                Import Session
+                Import
               </button>
-
               <button
                 onClick={() => { toggleTheme(); setMobileMenuOpen(false); }}
-                className="w-full cyber-button text-sm justify-start"
+                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
               >
-                {theme === 'dark' ? (
-                  <>
-                    <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    Light Mode
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                    Dark Mode
-                  </>
-                )}
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </button>
-
               <button
                 onClick={() => { toggleHighContrast(); setMobileMenuOpen(false); }}
-                className="w-full cyber-button text-sm justify-start"
+                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
               >
-                <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343 5.657l-.707-.707m9.9 0l.708.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
                 {highContrast ? 'Normal Contrast' : 'High Contrast'}
               </button>
             </div>
           )}
         </div>
-      </header >
+      </header>
 
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
 
-      {
-        isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
-          <ScenarioLibrary
-            isOpen={isScenarioLibraryOpen}
-            onClose={() => setIsScenarioLibraryOpen(false)}
-            onLoadScenario={handleLoadScenario}
-          />
-        )
-      }
+      {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
+        <ScenarioLibrary
+          isOpen={isScenarioLibraryOpen}
+          onClose={() => setIsScenarioLibraryOpen(false)}
+          onLoadScenario={handleLoadScenario}
+        />
+      )}
 
       <SequenceBuilder
         isOpen={isSequenceBuilderOpen}
         onClose={() => setIsSequenceBuilderOpen(false)}
       />
 
-      {
-        isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
-          <div className="container mx-auto px-4 py-2">
-            <ReplayControls
-              replayState={replayState}
-              onPlay={handlePlayReplay}
-              onPause={pauseReplay}
-              onStop={stopReplay}
-              onSpeedChange={setReplaySpeed}
-              onStepForward={stepForward}
-              onStepBackward={stepBackward}
-            />
-          </div>
-        )
-      }
-
-      {
-        isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && showSaveDialog && (
-          <SaveScenarioDialog
-            onSave={handleSaveScenarioSubmit}
-            onCancel={() => setShowSaveDialog(false)}
+      {isFeatureEnabled('ENABLE_SCENARIO_REPLAY') && replayState.isReplaying && (
+        <div className="container mx-auto px-4 py-2">
+          <ReplayControls
+            replayState={replayState}
+            onPlay={handlePlayReplay}
+            onPause={pauseReplay}
+            onStop={stopReplay}
+            onSpeedChange={setReplaySpeed}
+            onStepForward={stepForward}
+            onStepBackward={stepBackward}
           />
-        )
-      }
+        </div>
+      )}
+
+      {isFeatureEnabled('ENABLE_ENHANCED_EXPORT') && showSaveDialog && (
+        <SaveScenarioDialog
+          onSave={handleSaveScenarioSubmit}
+          onCancel={() => setShowSaveDialog(false)}
+        />
+      )}
     </>
   );
 };
@@ -439,61 +398,61 @@ const SaveScenarioDialog: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-900 border-2 border-cyan-600/30 dark:border-cyan-500/30 rounded-xl max-w-md w-full p-6 shadow-2xl shadow-cyan-500/20">
-        <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Save Scenario</h2>
+      <div className="bg-dark-800 border border-gray-700 rounded-xl max-w-md w-full p-6 shadow-2xl">
+        <h2 className="text-2xl font-bold text-cyan-400 mb-4">Save Scenario</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Scenario Name *</label>
+            <label className="block text-sm text-gray-400 mb-1">Scenario Name *</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
               placeholder="e.g., DTC Read Test"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Description</label>
+            <label className="block text-sm text-gray-400 mb-1">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
               placeholder="Describe what this scenario tests..."
               rows={3}
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Author</label>
+            <label className="block text-sm text-gray-400 mb-1">Author</label>
             <input
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
               placeholder="Your name"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Tags (comma-separated)</label>
+            <label className="block text-sm text-gray-400 mb-1">Tags (comma-separated)</label>
             <input
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
               placeholder="e.g., dtc, diagnostic, test"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Notes</label>
+            <label className="block text-sm text-gray-400 mb-1">Notes</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-gray-800/50 border border-cyan-600/30 dark:border-cyan-500/30 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
               placeholder="Additional notes..."
               rows={2}
             />
@@ -509,7 +468,7 @@ const SaveScenarioDialog: React.FC<{
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700/50 border border-cyan-600/30 dark:border-cyan-500/30 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 bg-gray-700 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
             >
               Cancel
             </button>

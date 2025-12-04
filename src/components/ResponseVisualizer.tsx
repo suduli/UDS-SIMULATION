@@ -5,7 +5,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { useUDS } from '../context/UDSContext';
-import { toHex, toASCII, getNRCDescription } from '../utils/udsHelpers';
+import { toHex, getNRCDescription } from '../utils/udsHelpers';
 import type { UDSRequest, UDSResponse, NegativeResponseCode } from '../types/uds';
 import { NRCLearningModal } from './NRCLearningModal';
 
@@ -20,12 +20,6 @@ interface PacketAnimation {
   bytes: string[];
   timestamp: number;
   isAnimating: boolean;
-}
-
-interface CompletedPacket {
-  requestBytes: string[] | null;  // null means request has been processed and cleared
-  responseBytes: string[] | null; // null means response not yet received
-  timestamp: number;
 }
 
 // Helper to convert single byte to hex string
@@ -161,7 +155,6 @@ const ResponseVisualizer: React.FC = () => {
 
   // Packet Flow Animation state
   const [activePackets, setActivePackets] = useState<PacketAnimation[]>([]);
-  const [completedPacket, setCompletedPacket] = useState<CompletedPacket | null>(null);
   const [flowStats, setFlowStats] = useState({
     totalRequests: 0,
     totalResponses: 0,
@@ -172,9 +165,6 @@ const ResponseVisualizer: React.FC = () => {
   useEffect(() => {
     if (requestHistory.length > lastHistoryLengthRef.current) {
       const latestItem = requestHistory[requestHistory.length - 1];
-
-      // Clear previous completed packet when new request starts
-      setCompletedPacket(null);
 
       // Create request packet animation
       const requestBytes = [
@@ -199,13 +189,6 @@ const ResponseVisualizer: React.FC = () => {
         // Remove the request packet animation (it has arrived)
         setActivePackets(prev => prev.filter(p => p.id !== requestPacket.id));
 
-        // Show request data at ECU (packet has arrived, ECU is now processing)
-        setCompletedPacket({
-          requestBytes,            // ECU: Shows received request ✅
-          responseBytes: null,     // Client: Waiting for response ✅
-          timestamp: Date.now()
-        });
-
         // T=2500ms - 3000ms - ECU PROCESSING (500ms delay)
         setTimeout(() => {
           // T=3000ms - ECU STARTS RESPONSE
@@ -227,14 +210,6 @@ const ResponseVisualizer: React.FC = () => {
             // T=5500ms - RESPONSE ARRIVES AT CLIENT (COMPLETE!)
             // Remove the response packet animation (it has arrived)
             setActivePackets(prev => prev.filter(p => p.id !== responsePacket.id));
-
-            // Clear ECU request (processed), show response at Client
-            // Timeline: ECU data cleared, Client shows response
-            setCompletedPacket({
-              requestBytes: null,  // ECU: Request processed, cleared ✅
-              responseBytes,       // Client: Response received, displayed ✅
-              timestamp: Date.now()
-            });
 
             setFlowStats(prev => ({ ...prev, activeFlow: false }));
           }, 2500); // Response animation duration (2500ms)
@@ -447,11 +422,11 @@ const ResponseVisualizer: React.FC = () => {
       {/* NRC Learning Modal */}
       {selectedNRC && (
         <NRCLearningModal
+          isOpen={learningModalOpen}
+          onClose={() => setLearningModalOpen(false)}
           nrc={selectedNRC.nrc}
           request={selectedNRC.request}
           response={selectedNRC.response}
-          isOpen={learningModalOpen}
-          onClose={() => setLearningModalOpen(false)}
           onTryCorrection={handleTryCorrection}
           onMarkResolved={handleMarkResolved}
         />
@@ -459,6 +434,5 @@ const ResponseVisualizer: React.FC = () => {
     </div>
   );
 };
-
 
 export default ResponseVisualizer;
