@@ -104,7 +104,23 @@ interface UDSContextType {
   voltage: number;
   current: number;
   ecuPower: boolean;
-  toggleEcuPower: () => void;
+
+  // Advanced Power State
+  systemVoltage: 12 | 24;
+  targetVoltage: number;
+  currentLimit: number;
+  powerState: 'OFF' | 'ACC' | 'ON' | 'CRANKING';
+  faultState: 'NONE' | 'SHORT_GND' | 'OPEN_CIRCUIT';
+
+  toggleEcuPower: () => void; // Toggles between OFF and ON (keeping previous ACC state logic if needed, or simplifying)
+  setPowerState: (state: 'OFF' | 'ACC' | 'ON' | 'CRANKING') => void;
+  setSystemVoltage: (volts: 12 | 24) => void;
+  setTargetVoltage: (volts: number) => void;
+  setCurrentLimit: (amps: number) => void;
+  setFaultState: (fault: 'NONE' | 'SHORT_GND' | 'OPEN_CIRCUIT') => void;
+  simulateCranking: () => void;
+  setVoltage: (volts: number) => void; // Keep for backward compatibility or manual override
+  setCurrent: (amps: number) => void; // Keep for backward compatibility
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -193,40 +209,136 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const sequenceAbortController = useRef<AbortController | null>(null);
 
   // Power Management State
+  const [systemVoltage, setSystemVoltage] = useState<12 | 24>(12);
+  const [targetVoltage, setTargetVoltage] = useState(12.0); // Default to 12V
+  const [currentLimit, setCurrentLimit] = useState(5.0);
+  const [powerState, setPowerState] = useState<'OFF' | 'ACC' | 'ON' | 'CRANKING'>('ON');
+  const [faultState, setFaultState] = useState<'NONE' | 'SHORT_GND' | 'OPEN_CIRCUIT'>('NONE');
+
+  // Legacy state support (derived or synced)
   const [voltage, setVoltage] = useState(12.4);
   const [current, setCurrent] = useState(0.5);
   const [ecuPower, setEcuPower] = useState(true);
 
-  // Simulate power fluctuations
+  // Sync legacy ecuPower with powerState
   React.useEffect(() => {
-    if (!ecuPower) {
-      setVoltage(0);
-      setCurrent(0);
-      return;
-    }
+    setEcuPower(powerState !== 'OFF');
+  }, [powerState]);
 
+  // Simulate power physics
+  React.useEffect(() => {
     const interval = setInterval(() => {
-      // Fluctuate voltage between 11.8 and 14.4
-      setVoltage(prev => {
-        const change = (Math.random() - 0.5) * 0.1;
-        const newVal = prev + change;
-        return Math.max(11.8, Math.min(14.4, newVal));
-      });
+      // 1. Handle Faults
+      if (faultState === 'SHORT_GND') {
+        setVoltage(0);
+        setCurrent(Math.random() * 5 + 15); // Spike > 15A
+        return;
+      }
+      if (faultState === 'OPEN_CIRCUIT') {
+        setVoltage(targetVoltage); // Voltage might still be present at terminals, but no current
+        setCurrent(0);
+        return;
+      }
 
-      // Fluctuate current between 0.3 and 0.8
-      setCurrent(prev => {
-        const change = (Math.random() - 0.5) * 0.05;
-        const newVal = prev + change;
-        return Math.max(0.3, Math.min(0.8, newVal));
-      });
-    }, 1000);
+      // 2. Handle Power States
+      if (powerState === 'OFF') {
+        setVoltage(0);
+        setCurrent(0);
+        return;
+      }
+
+      // Base voltage depends on state and target
+      let baseVoltage = targetVoltage;
+
+      if (powerState === 'CRANKING') {
+        // Cranking logic handled by animation/timeout, but here we ensure it doesn't stay static if manual set fails
+        // This block might be overridden by the simulateCranking animation loop
+      }
+
+      // Calculate Load Current based on state
+      let baseCurrent = 0;
+      if (powerState === 'ACC') {
+        baseCurrent = 0.2; // 200mA
+      } else if (powerState === 'ON') {
+        baseCurrent = 0.5; // 500mA idle
+      } else if (powerState === 'CRANKING') {
+        baseCurrent = 8.0; // High draw during crank
+      }
+
+      // Apply fluctuations
+      // Voltage fluctuation (alternator ripple if ON)
+      const vRipple = powerState === 'ON' ? (Math.random() - 0.5) * 0.2 : 0.05;
+      let newVoltage = baseVoltage + vRipple;
+
+      // Current fluctuation
+      const iRipple = (Math.random() - 0.5) * 0.05;
+      let newCurrent = baseCurrent + iRipple;
+
+      // 3. Apply Limits
+      // Clamp Voltage
+      newVoltage = Math.max(0, Math.min(36, newVoltage));
+
+      // Current Limiting (CC Mode simulation)
+      if (newCurrent > currentLimit) {
+        newCurrent = currentLimit;
+        // In a real bench supply, voltage would drop in CC mode. 
+        // V = I * R. If I is capped, V must drop. 
+        // Let's simulate a simple voltage drop proportional to the limit hit
+        newVoltage = newVoltage * (currentLimit / (baseCurrent + 0.001));
+      }
+
+      setVoltage(newVoltage);
+      setCurrent(newCurrent);
+
+    }, 100); // 10Hz update for smoothness
 
     return () => clearInterval(interval);
-  }, [ecuPower]);
+  }, [powerState, faultState, targetVoltage, currentLimit, systemVoltage]);
 
   const toggleEcuPower = useCallback(() => {
-    setEcuPower(prev => !prev);
+    setPowerState(prev => prev === 'OFF' ? 'ON' : 'OFF');
   }, []);
+
+  const simulateCranking = useCallback(async () => {
+    if (powerState === 'OFF') return;
+
+    const originalState = powerState;
+    setPowerState('CRANKING');
+
+    // Animation loop for cranking profile
+    const startTime = Date.now();
+    const duration = 1500; // 1.5s crank
+
+    const crankInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed >= duration) {
+        clearInterval(crankInterval);
+        setPowerState(originalState); // Return to previous state (usually ON)
+        return;
+      }
+
+      // Cranking Profile: Drop to 6V, then ramp up
+      // 0-300ms: Drop
+      // 300-1000ms: Hold low/fluctuate
+      // 1000-1500ms: Ramp up
+
+      let crankVolts = 12.0;
+      if (elapsed < 300) {
+        crankVolts = 12.0 - (elapsed / 300) * 6.0; // Drop to 6V
+      } else if (elapsed < 1000) {
+        crankVolts = 6.0 + (Math.random() * 1.0); // Rattle around 6-7V
+      } else {
+        const progress = (elapsed - 1000) / 500;
+        crankVolts = 7.0 + progress * (targetVoltage - 7.0); // Ramp back
+      }
+
+      setVoltage(crankVolts);
+      // Current spikes during crank
+      setCurrent(8.0 + (Math.random() * 2.0));
+
+    }, 50);
+
+  }, [powerState, targetVoltage]);
 
   // Save learning progress to localStorage whenever it changes
   React.useEffect(() => {
@@ -950,6 +1062,21 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         current,
         ecuPower,
         toggleEcuPower,
+        setVoltage,
+        setCurrent,
+
+        // Advanced Power State
+        systemVoltage,
+        targetVoltage,
+        currentLimit,
+        powerState,
+        faultState,
+        setPowerState,
+        setSystemVoltage,
+        setTargetVoltage,
+        setCurrentLimit,
+        setFaultState,
+        simulateCranking,
       }}
     >
       {children}

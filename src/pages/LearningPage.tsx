@@ -8,6 +8,8 @@ import EnhancedBackground from '../components/EnhancedBackground';
 import { useTheme } from '../context/ThemeContext';
 import RequestBuilder from '../components/RequestBuilder';
 import ResponseVisualizer from '../components/ResponseVisualizer';
+import { SystemStatus } from '../components/SystemStatus';
+import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
 
 export const LearningPage: React.FC = () => {
     const { theme, toggleTheme, highContrast, toggleHighContrast } = useTheme();
@@ -41,6 +43,11 @@ export const LearningPage: React.FC = () => {
                                         📚 Learn UDS Protocol
                                     </h1>
                                 </div>
+                            </div>
+
+                            {/* System Status Indicators */}
+                            <div className="hidden lg:flex items-center gap-3 flex-1 justify-center px-4">
+                                <SystemStatus />
                             </div>
 
                             {/* Theme Controls */}
@@ -98,6 +105,7 @@ export const LearningPage: React.FC = () => {
 
                 {/* Main Content - Interactive Lab Only */}
                 <main className="container mx-auto p-4 h-[calc(100vh-80px)] flex flex-col relative">
+                    <ProtocolStateDashboard />
 
                     {/* Interactive Lab */}
                     <div className="flex-1 min-h-0 flex flex-col">

@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import RequestBuilder from '../components/RequestBuilder';
 import ResponseVisualizer from '../components/ResponseVisualizer';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
+import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
 import EnhancedBackground from '../components/EnhancedBackground';
 import { OnboardingTour } from '../components/OnboardingTour';
 import ToastContainer from '../components/ToastContainer';
@@ -71,7 +72,7 @@ export const HomePage: React.FC = () => {
 
                 <main id="main-content" className="container mx-auto px-4 py-4 sm:py-6 lg:py-8">
                     {/* Enhanced Protocol State Dashboard - Responsive grid */}
-                    <div className="protocol-dashboard mb-4 sm:mb-6">
+                    <div className="protocol-dashboard mb-4 sm:mb-6 space-y-6">
                         <ProtocolStateDashboard />
                     </div>
 
@@ -90,6 +91,11 @@ export const HomePage: React.FC = () => {
                                 <ResponseVisualizer />
                             </div>
                         </div>
+                    </div>
+
+                    {/* Power Supply Dashboard - Moved to bottom */}
+                    <div className="power-supply-dashboard mb-4 sm:mb-6">
+                        <PowerSupplyDashboard />
                     </div>
                 </main>
             </div>
