@@ -10,6 +10,7 @@ import RequestBuilder from '../components/RequestBuilder';
 import ResponseVisualizer from '../components/ResponseVisualizer';
 import { SystemStatus } from '../components/SystemStatus';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
+import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
 
 export const LearningPage: React.FC = () => {
     const { theme, toggleTheme, highContrast, toggleHighContrast } = useTheme();
@@ -104,29 +105,35 @@ export const LearningPage: React.FC = () => {
                 </header>
 
                 {/* Main Content - Interactive Lab Only */}
-                <main className="container mx-auto p-4 h-[calc(100vh-80px)] flex flex-col relative">
+                {/* Main Content - Interactive Lab Only */}
+                <main className="container mx-auto p-4 flex flex-col relative min-h-[calc(100vh-80px)]">
                     <ProtocolStateDashboard />
 
                     {/* Interactive Lab */}
-                    <div className="flex-1 min-h-0 flex flex-col">
+                    <div className="flex flex-col gap-4">
 
 
                         {/* Lab Content - Side-by-Side */}
-                        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             {/* Input Section */}
-                            <div className="flex flex-col min-h-0">
-                                <div className="flex-1 overflow-y-auto custom-scrollbar rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm p-1">
+                            <div className="flex flex-col">
+                                <div className="rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm p-1 min-h-[400px]">
                                     <RequestBuilder initialRequest="" />
                                 </div>
                             </div>
 
                             {/* Output Section */}
-                            <div className="flex flex-col min-h-0">
-                                <div className="flex-1 overflow-hidden rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm shadow-inner">
+                            <div className="flex flex-col">
+                                <div className="rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm shadow-inner min-h-[400px]">
                                     <ResponseVisualizer />
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Power Supply Dashboard */}
+                    <div className="mt-4">
+                        <PowerSupplyDashboard />
                     </div>
                 </main>
             </div>

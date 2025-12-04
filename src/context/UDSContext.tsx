@@ -8,6 +8,7 @@
 import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
+import { parseNRC } from '../utils/nrcLookup';
 import { mockECUConfig } from '../services/mockECU';
 import { NegativeResponseCode as NegativeResponseCodeMap } from '../types/uds';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode } from '../types/uds';
@@ -387,30 +388,60 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
 
     try {
-      const response = await simulator.processRequest(request);
+      // Process request through simulator
+      // Pass ignition state (ON or CRANKING considered ON for UDS)
+      const ignitionOn = powerState === 'ON' || powerState === 'CRANKING';
+      const response = await simulator.processRequest(request, ignitionOn);
 
       setRequestHistory(prev => [...prev, { request, response }]);
       setProtocolState(simulator.getState());
 
       if (response.isNegative) {
-        const nrcHex = response.nrc !== undefined ? formatHexByte(response.nrc) : undefined;
-        const friendlyName = getFriendlyNRCName(response.nrc);
-
-        emitToast({
-          type: 'error',
-          message: nrcHex ? `Negative response ${nrcHex}` : 'Negative response received',
-          description: friendlyName
-            ? `${friendlyName} for service ${formatHexByte(request.sid)}`
-            : `Service ${formatHexByte(request.sid)} returned a negative response.`,
-          duration: 7000,
-        });
+        // Check for Response Pending (0x78)
+        if (response.data.length >= 3 && response.data[2] === 0x78) { // 0x78 is Response Pending
+          // NRC 0x78: Do NOT show error toast.
+          // Ideally restart P2 timer here, but for now just suppress error.
+          console.log('NRC 0x78: Response Pending - Waiting...');
+        } else {
+          const nrc = parseNRC(response.data);
+          if (nrc) {
+            emitToast({
+              type: nrc.definition.severity,
+              message: `${nrc.definition.name} (0x${nrc.nrcCode.toString(16).toUpperCase().padStart(2, '0')})`,
+              description: nrc.definition.description,
+              duration: 7000,
+            });
+          } else {
+            // Fallback if parseNRC fails
+            const nrcHex = response.nrc !== undefined ? formatHexByte(response.nrc) : undefined;
+            const friendlyName = getFriendlyNRCName(response.nrc);
+            emitToast({
+              type: 'error',
+              message: nrcHex ? `Negative response ${nrcHex}` : 'Negative response received',
+              description: friendlyName
+                ? `${friendlyName} for service ${formatHexByte(request.sid)}`
+                : `Service ${formatHexByte(request.sid)} returned a negative response.`,
+              duration: 7000,
+            });
+          }
+        }
       } else {
-        emitToast({
-          type: 'success',
-          message: `Response for service ${formatHexByte(request.sid)}`,
-          description: `Received ${response.data.length} byte${response.data.length === 1 ? '' : 's'} from ECU.`,
-          duration: 4500,
-        });
+        // Success Toast (Optional, maybe for specific services like Security Access)
+        if (request.sid === 0x27 && request.subFunction && request.subFunction % 2 === 0) {
+          emitToast({
+            type: 'success',
+            message: 'Security Access Granted',
+            description: 'ECU Unlocked',
+            duration: 4500,
+          });
+        } else {
+          emitToast({
+            type: 'success',
+            message: `Response for service ${formatHexByte(request.sid)}`,
+            description: `Received ${response.data.length} byte${response.data.length === 1 ? '' : 's'} from ECU.`,
+            duration: 4500,
+          });
+        }
       }
 
       return response;
@@ -490,7 +521,18 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
 
     // Send the request
-    const response = await simulator.processRequest(request);
+    // For replay, we assume ignition is ON or we capture state? 
+    // For simplicity, let's assume replay forces ignition ON or uses current state.
+    // Using current state is safer.
+    const ignitionOn = true; // Replay usually implies we want to see the response recorded, so force ON? 
+    // Actually, if we replay a "Conditions Not Correct" scenario, we might want to respect that.
+    // But `processRequest` generates a NEW response.
+    // If we are replaying, we might just be visualizing history?
+    // Wait, `executeReplayStep` calls `simulator.processRequest`. This generates a NEW response.
+    // If we want to reproduce the original scenario, we should probably set the simulator state to match.
+    // For now, let's pass `true` to allow the request to proceed, or `this.ecuPower`?
+    // Let's use `true` to ensure replay doesn't fail due to ignition being OFF in the simulator unless intended.
+    const response = await simulator.processRequest(request, true);
     setRequestHistory(prev => [...prev, { request, response }]);
     setProtocolState(simulator.getState());
 
@@ -620,7 +662,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       const scenario = currentReplayScenario.current;
       const request = scenario.requests[replayState.currentStep];
 
-      const response = await simulator.processRequest(request);
+      const response = await simulator.processRequest(request, true);
       setRequestHistory(prev => [...prev, { request, response }]);
       setProtocolState(simulator.getState());
 

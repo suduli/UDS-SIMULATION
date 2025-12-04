@@ -50,7 +50,10 @@ export class UDSSimulator {
   /**
    * Process UDS request and generate response
    */
-  async processRequest(request: UDSRequest): Promise<UDSResponse> {
+  /**
+   * Process UDS request and generate response
+   */
+  async processRequest(request: UDSRequest, ignitionOn: boolean): Promise<UDSResponse> {
     this.state.lastActivityTime = Date.now();
 
     // Check if service is supported
@@ -61,56 +64,70 @@ export class UDSSimulator {
       );
     }
 
+    // Ignition Check: Reject most services if Ignition is OFF
+    // Allowed services: DiagnosticSessionControl (0x10), ECUReset (0x11)
+    const ALWAYS_ALLOWED_SIDS = [
+      ServiceId.DIAGNOSTIC_SESSION_CONTROL,
+      ServiceId.ECU_RESET
+    ];
+
+    if (!ignitionOn && !ALWAYS_ALLOWED_SIDS.includes(request.sid)) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
+      );
+    }
+
     // Route to appropriate service handler
     switch (request.sid) {
       case ServiceId.DIAGNOSTIC_SESSION_CONTROL:
         return this.handleDiagnosticSessionControl(request);
-      
+
       case ServiceId.ECU_RESET:
         return await this.handleECUReset(request);
-      
+
       case ServiceId.CLEAR_DIAGNOSTIC_INFORMATION:
         return this.handleClearDTC(request);
-      
+
       case ServiceId.READ_DTC_INFORMATION:
         return this.handleReadDTC(request);
-      
+
       case ServiceId.READ_DATA_BY_IDENTIFIER:
         return this.handleReadDataById(request);
-      
+
       case ServiceId.READ_MEMORY_BY_ADDRESS:
         return this.handleReadMemory(request);
-      
+
       case ServiceId.SECURITY_ACCESS:
         return this.handleSecurityAccess(request);
-      
+
       case ServiceId.COMMUNICATION_CONTROL:
         return this.handleCommunicationControl(request);
-      
+
       case ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER:
         return this.handlePeriodicData(request);
-      
+
       case ServiceId.WRITE_DATA_BY_IDENTIFIER:
         return this.handleWriteDataById(request);
-      
+
       case ServiceId.WRITE_MEMORY_BY_ADDRESS:
         return this.handleWriteMemory(request);
-      
+
       case ServiceId.ROUTINE_CONTROL:
         return this.handleRoutineControl(request);
-      
+
       case ServiceId.REQUEST_DOWNLOAD:
         return this.handleRequestDownload(request);
-      
+
       case ServiceId.REQUEST_UPLOAD:
         return this.handleRequestUpload(request);
-      
+
       case ServiceId.TRANSFER_DATA:
         return this.handleTransferData(request);
-      
+
       case ServiceId.REQUEST_TRANSFER_EXIT:
         return this.handleTransferExit(request);
-      
+
       default:
         return this.createNegativeResponseObj(
           request.sid,
@@ -131,7 +148,7 @@ export class UDSSimulator {
     }
 
     const sessionType = request.subFunction as DiagnosticSessionType;
-    
+
     // Validate session type
     if (![DiagnosticSessionType.DEFAULT, DiagnosticSessionType.PROGRAMMING, DiagnosticSessionType.EXTENDED].includes(sessionType)) {
       return this.createNegativeResponseObj(
@@ -141,7 +158,7 @@ export class UDSSimulator {
     }
 
     this.state.currentSession = sessionType;
-    
+
     // Reset security when changing session
     if (sessionType !== DiagnosticSessionType.EXTENDED) {
       this.state.securityUnlocked = false;
@@ -242,7 +259,7 @@ export class UDSSimulator {
             const dtcStatus = dtcStatusToByte(dtc.status);
             return (dtcStatus & statusMask) !== 0;
           });
-          
+
           responseData.push(0x08); // DTCFormatIdentifier (ISO14229-1)
           responseData.push((filteredDTCs.length >> 8) & 0xFF);
           responseData.push(filteredDTCs.length & 0xFF);
@@ -258,7 +275,7 @@ export class UDSSimulator {
           });
 
           responseData.push(statusMask);
-          
+
           filteredDTCs.forEach(dtc => {
             responseData.push((dtc.code >> 16) & 0xFF);
             responseData.push((dtc.code >> 8) & 0xFF);
@@ -305,7 +322,7 @@ export class UDSSimulator {
     }
 
     const responseData: number[] = [0x62, request.data[0], request.data[1]];
-    
+
     // Convert value to bytes based on format
     if (typeof dataId.value === 'string') {
       dataId.value.split('').forEach(char => {
@@ -346,8 +363,8 @@ export class UDSSimulator {
     }
 
     // Simplified: assume 4-byte address, 2-byte size
-    const address = (request.data[0] << 24) | (request.data[1] << 16) | 
-                   (request.data[2] << 8) | request.data[3];
+    const address = (request.data[0] << 24) | (request.data[1] << 16) |
+      (request.data[2] << 8) | request.data[3];
     const size = (request.data[4] << 8) | request.data[5];
 
     // Find memory region
@@ -356,7 +373,7 @@ export class UDSSimulator {
     );
 
     const responseData: number[] = [0x63];
-    
+
     if (memRegion?.data) {
       responseData.push(...memRegion.data);
     } else {
@@ -451,7 +468,7 @@ export class UDSSimulator {
     }
 
     const controlType = request.subFunction;
-    
+
     // 0x00 = enable, 0x01 = disable, 0x03 = enable all
     if (controlType === 0x00 || controlType === 0x03) {
       this.state.communicationEnabled = true;
@@ -479,7 +496,7 @@ export class UDSSimulator {
     }
 
     const transmissionMode = request.subFunction;
-    
+
     if (transmissionMode === 0x01) {
       // Start sending
       this.state.activePeriodicIds = request.data;
@@ -579,9 +596,9 @@ export class UDSSimulator {
 
     const controlType = request.subFunction as RoutineControlType;
     const routineId = (request.data[0] << 8) | request.data[1];
-    
+
     const routine = this.ecuConfig.routines.find(r => r.id === routineId);
-    
+
     if (!routine) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -596,12 +613,12 @@ export class UDSSimulator {
         routine.status = 'running';
         responseData.push(0x00); // Routine started
         break;
-      
+
       case RoutineControlType.STOP_ROUTINE:
         routine.status = 'idle';
         responseData.push(0x00); // Routine stopped
         break;
-      
+
       case RoutineControlType.REQUEST_ROUTINE_RESULTS:
         routine.status = 'completed';
         if (routine.results) {
@@ -681,7 +698,7 @@ export class UDSSimulator {
     }
 
     const blockCounter = request.data[0];
-    
+
     if (blockCounter !== this.state.transferBlockCounter) {
       return this.createNegativeResponseObj(
         request.sid,
