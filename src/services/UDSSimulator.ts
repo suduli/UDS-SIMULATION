@@ -66,12 +66,12 @@ export class UDSSimulator {
 
     // Ignition Check: Reject most services if Ignition is OFF
     // Allowed services: DiagnosticSessionControl (0x10), ECUReset (0x11)
-    const ALWAYS_ALLOWED_SIDS = [
+    const ALWAYS_ALLOWED_SIDS: ServiceId[] = [
       ServiceId.DIAGNOSTIC_SESSION_CONTROL,
       ServiceId.ECU_RESET
     ];
 
-    if (!ignitionOn && !ALWAYS_ALLOWED_SIDS.includes(request.sid)) {
+    if (!ignitionOn && !ALWAYS_ALLOWED_SIDS.includes(request.sid as ServiceId)) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.CONDITIONS_NOT_CORRECT

@@ -146,7 +146,7 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 
 const ResponseVisualizer: React.FC = () => {
   const { requestHistory, clearHistory, recordNRCResolution } = useUDS();
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const lastHistoryLengthRef = useRef(0);
 
   // NRC Learning Modal state
@@ -237,10 +237,15 @@ const ResponseVisualizer: React.FC = () => {
     }
   };
 
-  // Auto-scroll disabled to prevent page jumping
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  // }, [requestHistory]);
+  // Auto-scroll to top when new content is added (since we show newest first)
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [requestHistory]);
 
   const getServiceName = (sid: number): string => {
     const serviceNames: Record<number, string> = {
@@ -310,34 +315,57 @@ const ResponseVisualizer: React.FC = () => {
         </div>
       </div>
 
-      {/* Packet Flow - Compact & Integrated */}
-      <div className="relative py-2 px-4 flex items-center justify-between h-16 !bg-gray-50 dark:!bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 shrink-0">
+      {/* Packet Flow - Dual Line (TX & RX) */}
+      <div className="relative py-3 px-4 flex items-center justify-between h-24 !bg-gray-50 dark:!bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 shrink-0">
         {/* Client Node */}
-        <div className="flex items-center gap-2 z-20">
-          <div className="w-8 h-8 bg-cyan-900/30 rounded flex items-center justify-center border border-cyan-700/50">
+        <div className="flex flex-col items-center justify-center gap-2 z-20 h-full">
+          <div className="w-10 h-10 bg-cyan-900/30 rounded-lg flex items-center justify-center border border-cyan-700/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
             <span className="text-xs font-bold text-cyan-500">CLI</span>
           </div>
         </div>
 
         {/* Flow Visualization */}
-        <div className="flex-1 relative h-full mx-4 flex items-center">
-          <div className="w-full h-px bg-gray-300 dark:bg-gray-800 relative">
-            {/* Request Packets */}
-            {activePackets.filter(p => p.direction === 'request').map(p => (
-              <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full animate-packet-request" />
-            ))}
-            {/* Response Packets */}
-            {activePackets.filter(p => p.direction === 'response').map(p => (
-              <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full animate-packet-response" style={{ right: 0, animationDirection: 'reverse' }} />
-            ))}
+        <div className="flex-1 flex flex-col justify-center gap-6 mx-4 h-full relative">
+
+          {/* TX Line (CLI -> ECU) */}
+          <div className="relative w-full h-4 flex items-center">
+            <div className="absolute left-[-10px] text-[10px] font-mono text-cyan-600/70 font-bold">TX</div>
+            <div className="w-full h-px bg-gradient-to-r from-cyan-900/50 via-cyan-500/30 to-cyan-900/50 relative">
+              {/* Direction Arrows */}
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-cyan-500/50 text-[10px]">▶</div>
+              <div className="absolute left-1/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
+              <div className="absolute left-2/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
+
+              {/* Request Packets */}
+              {activePackets.filter(p => p.direction === 'request').map(p => (
+                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full animate-packet-request" />
+              ))}
+            </div>
           </div>
+
+          {/* RX Line (ECU -> CLI) */}
+          <div className="relative w-full h-4 flex items-center">
+            <div className="absolute left-[-10px] text-[10px] font-mono text-purple-600/70 font-bold">RX</div>
+            <div className="w-full h-px bg-gradient-to-r from-purple-900/50 via-purple-500/30 to-purple-900/50 relative">
+              {/* Direction Arrows */}
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 text-purple-500/50 text-[10px]">◀</div>
+              <div className="absolute left-1/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
+              <div className="absolute left-2/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
+
+              {/* Response Packets */}
+              {activePackets.filter(p => p.direction === 'response').map(p => (
+                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full animate-packet-response" />
+              ))}
+            </div>
+          </div>
+
         </div>
 
         {/* ECU Node */}
-        <div className="flex items-center gap-2 z-20">
-          <div className="w-8 h-8 bg-purple-900/30 rounded flex items-center justify-center border border-purple-700/50 relative">
+        <div className="flex flex-col items-center justify-center gap-2 z-20 h-full">
+          <div className="w-10 h-10 bg-purple-900/30 rounded-lg flex items-center justify-center border border-purple-700/50 relative shadow-[0_0_15px_rgba(168,85,247,0.3)]">
             {flowStats.activeFlow && (
-              <div className="absolute inset-0 border border-purple-500 rounded animate-ping opacity-20" />
+              <div className="absolute inset-0 border border-purple-500 rounded-lg animate-ping opacity-20" />
             )}
             <span className="text-xs font-bold text-purple-500">ECU</span>
           </div>
@@ -345,7 +373,7 @@ const ResponseVisualizer: React.FC = () => {
       </div>
 
       {/* Terminal Content Area */}
-      <div className="flex-1 overflow-y-auto p-4 font-mono text-sm custom-scrollbar !bg-gray-50 dark:!bg-black/50">
+      <div ref={containerRef} className="h-[400px] overflow-y-auto p-4 font-mono text-sm custom-scrollbar !bg-gray-50 dark:!bg-black/50 scroll-smooth">
         {requestHistory.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-gray-600 space-y-2 opacity-50">
             <p>_ No active session data</p>
@@ -353,8 +381,8 @@ const ResponseVisualizer: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-1">
-            {requestHistory.map((item, index) => (
-              <div key={index} className="animate-fade-in">
+            {[...requestHistory].reverse().map((item, index) => (
+              <div key={`${item.request.timestamp}-${index}`} className="animate-fade-in">
                 {/* Request Line */}
                 <div className="terminal-log-entry group">
                   <span className="text-gray-500 dark:text-gray-600 mr-2">[{formatTimestamp(item.request.timestamp)}]</span>
@@ -410,11 +438,9 @@ const ResponseVisualizer: React.FC = () => {
               </div>
             ))}
 
-            {/* Active Cursor Line */}
             <div className="mt-2 text-cyan-600 dark:text-cyan-500 terminal-cursor">
               _
             </div>
-            <div ref={bottomRef} />
           </div>
         )}
       </div>

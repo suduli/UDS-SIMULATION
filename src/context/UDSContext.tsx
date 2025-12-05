@@ -524,7 +524,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // For replay, we assume ignition is ON or we capture state? 
     // For simplicity, let's assume replay forces ignition ON or uses current state.
     // Using current state is safer.
-    const ignitionOn = true; // Replay usually implies we want to see the response recorded, so force ON? 
+    // const ignitionOn = true; // Unused 
     // Actually, if we replay a "Conditions Not Correct" scenario, we might want to respect that.
     // But `processRequest` generates a NEW response.
     // If we are replaying, we might just be visualizing history?

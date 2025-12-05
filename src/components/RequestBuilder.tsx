@@ -25,8 +25,15 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   const [manualHex, setManualHex] = useState<string>('');
   const [sending, setSending] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>('grid');
+
+  const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>(() => {
+    const saved = localStorage.getItem('uds_service_view_mode');
+    return (saved === 'grid' || saved === 'dropdown') ? saved : 'dropdown';
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('uds_service_view_mode', viewMode);
+  }, [viewMode]);
   const [showAdvancedHexEditor, setShowAdvancedHexEditor] = useState(false);
 
   // Load initial request if provided
@@ -190,16 +197,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
     },
   };
 
-  // Filter services based on search query
-  const filteredServices = services.filter(service => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      service.name.toLowerCase().includes(query) ||
-      service.id.toString(16).toLowerCase().includes(query) ||
-      `0x${service.id.toString(16)}`.toLowerCase().includes(query)
-    );
-  });
+
 
   const handleSend = useCallback(async () => {
     if ((!selectedService && !isManualMode) || validationError) return;
@@ -310,48 +308,13 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
       {!isManualMode ? (
         <div className="space-y-4">
-          {/* Service Search */}
-          <div>
-            <label htmlFor="service-search" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Search Services</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                id="service-search"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by ID (0x22), name (Read), or description..."
-                className="w-full cyber-input pl-10 pr-10"
-                aria-label="Search for UDS services"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-cyber-blue transition-colors"
-                  aria-label="Clear search"
-                >
-                  <svg className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          </div>
+
 
           {/* Service Selection */}
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-sm text-gray-600 dark:text-gray-400">
                 Service (SID)
-                {filteredServices.length < services.length && searchQuery && (
-                  <span className="ml-2 text-cyber-blue">
-                    {filteredServices.length} {filteredServices.length === 1 ? 'result' : 'results'}
-                  </span>
-                )}
               </label>
               <div className="flex gap-2">
                 <button
@@ -385,7 +348,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto custom-scrollbar p-1">
-                {filteredServices.map(service => {
+                {services.map(service => {
                   const metadata = serviceMetadata[service.id] || {
                     icon: '⚙️',
                     color: 'text-gray-400',
@@ -405,13 +368,12 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                     />
                   );
                 })}
-                {filteredServices.length === 0 && (
+                {services.length === 0 && (
                   <div className="col-span-full text-center py-8 text-gray-500">
                     <svg className="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <p>No services found</p>
-                    <p className="text-xs mt-1">Try a different search term</p>
                   </div>
                 )}
               </div>
@@ -424,8 +386,8 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                 aria-label="Select UDS service"
               >
                 <option value="">Select a service...</option>
-                {filteredServices.length > 0 ? (
-                  filteredServices.map((service) => (
+                {services.length > 0 ? (
+                  services.map((service) => (
                     <option key={service.id} value={service.id}>
                       {service.name}
                     </option>
