@@ -13,6 +13,7 @@ import { ScenarioLibrary } from './ScenarioLibrary';
 import { ReplayControls } from './ReplayControls';
 import { SequenceBuilder } from './SequenceBuilder';
 import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
+import type { UDSRequest, UDSResponse } from '../types/uds';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
 import { SystemStatus } from './SystemStatus';
@@ -79,9 +80,49 @@ const Header: React.FC = () => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
         try {
-          const scenario = await scenarioManager.importScenario(file);
-          startReplay(scenario);
-          alert(`Scenario "${scenario.name}" imported successfully!`);
+          // Read file content first to check format
+          const content = await file.text();
+          const data = JSON.parse(content);
+
+          // Check if it's a simple export format (from handleExport)
+          if (data.requestHistory && Array.isArray(data.requestHistory)) {
+            // Convert simple export format to EnhancedScenario format
+            const requests = data.requestHistory.map((item: { request: UDSRequest }) => item.request);
+            const responses = data.requestHistory.map((item: { response: UDSResponse }) => item.response);
+
+            // Calculate timings between requests
+            const timings: number[] = requests.map((req: UDSRequest, idx: number) => {
+              if (idx === 0) return 0;
+              return Math.max(0, req.timestamp - requests[idx - 1].timestamp);
+            });
+
+            // Create EnhancedScenario from export data
+            const scenario: EnhancedScenario = {
+              id: `imported_${Date.now()}`,
+              name: `Imported Session (${new Date(data.exportDate || Date.now()).toLocaleDateString()})`,
+              description: `Imported from exported session file`,
+              version: data.version || '1.0.0',
+              metadata: {
+                description: `Imported session with ${data.totalRequests || requests.length} requests`,
+                tags: ['imported'],
+                duration: requests.length > 1 ? requests[requests.length - 1].timestamp - requests[0].timestamp : 0,
+                totalRequests: requests.length,
+                successRate: Math.round((responses.filter((r: UDSResponse) => !r.isNegative).length / responses.length) * 100),
+              },
+              requests,
+              responses,
+              timings,
+              createdAt: Date.now(),
+            };
+
+            startReplay(scenario);
+            alert(`Session imported successfully! (${requests.length} requests)`);
+          } else {
+            // Try as EnhancedScenario format
+            const scenario = await scenarioManager.importScenario(file);
+            startReplay(scenario);
+            alert(`Scenario "${scenario.name}" imported successfully!`);
+          }
         } catch (error) {
           console.error('Error importing file:', error);
           alert(`Error importing file: ${error}`);
