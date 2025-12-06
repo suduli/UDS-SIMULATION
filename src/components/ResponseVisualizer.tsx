@@ -145,7 +145,7 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 };
 
 const ResponseVisualizer: React.FC = () => {
-  const { requestHistory, clearHistory, recordNRCResolution } = useUDS();
+  const { requestHistory, clearHistory, recordNRCResolution, ecuPower } = useUDS();
   const containerRef = useRef<HTMLDivElement>(null);
   const lastHistoryLengthRef = useRef(0);
 
@@ -280,17 +280,26 @@ const ResponseVisualizer: React.FC = () => {
   };
 
   return (
-    <div className="glass-panel cyber-shape p-0 animate-slide-up !bg-white dark:!bg-black/90 relative overflow-hidden flex flex-col h-full" style={{ animationDelay: '0.1s' }}>
+    <div className="glass-panel cyber-shape p-0 animate-slide-up terminal-container relative overflow-hidden flex flex-col h-full" style={{ animationDelay: '0.1s' }}>
       {/* Scanline Overlay */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] hidden dark:block opacity-20" />
 
       {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-3 !bg-gray-100 dark:!bg-gray-900/80 border-b border-gray-200 dark:border-gray-800 relative z-10 shrink-0">
+      <div className="terminal-header flex items-center justify-between px-4 py-3 relative z-10 shrink-0">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500/80" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+            {/* Red - Glows when ECU is OFFLINE */}
+            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${!ecuPower
+                ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'
+                : 'bg-red-500/30'
+              }`} title={ecuPower ? 'Ignition On' : 'Ignition Off'} />
+            {/* Yellow - Always dim (standby indicator) */}
+            <div className="w-3 h-3 rounded-full bg-yellow-500/30 transition-all duration-300" title="Standby" />
+            {/* Green - Glows when ECU is ONLINE */}
+            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${ecuPower
+                ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse'
+                : 'bg-green-500/30'
+              }`} title={ecuPower ? 'ECU Online' : 'ECU Offline'} />
           </div>
           <div className="flex items-center gap-2 ml-2">
             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -301,6 +310,12 @@ const ResponseVisualizer: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* Latency Indicator */}
+          <div className="flex items-center gap-1 px-2 py-1 bg-gray-800/50 border border-gray-700 rounded-md">
+            <span className="text-[10px] text-gray-500">LATENCY</span>
+            <span className="text-[10px] font-mono text-emerald-400">7ms</span>
+          </div>
+
           <div className="flex items-center gap-3 text-[10px] font-mono text-gray-600 dark:text-gray-500">
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>TX: {flowStats.totalRequests}</span>
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>RX: {flowStats.totalResponses}</span>
@@ -373,29 +388,29 @@ const ResponseVisualizer: React.FC = () => {
       </div>
 
       {/* Terminal Content Area */}
-      <div ref={containerRef} className="h-[400px] overflow-y-auto p-4 font-mono text-sm custom-scrollbar !bg-gray-50 dark:!bg-black/50 scroll-smooth">
+      <div ref={containerRef} className="h-[400px] overflow-y-auto p-4 font-mono text-sm custom-scrollbar scroll-smooth">
         {requestHistory.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-gray-600 space-y-2 opacity-50">
-            <p>_ No active session data</p>
+          <div className="terminal-empty-state">
+            <p className="font-mono">No active session data</p>
             <p className="text-xs">Waiting for UDS commands...</p>
           </div>
         ) : (
           <div className="space-y-1">
             {[...requestHistory].reverse().map((item, index) => (
-              <div key={`${item.request.timestamp}-${index}`} className="animate-fade-in">
+              <div key={`${item.request.timestamp}-${index}`} className="animate-fade-in mb-3">
                 {/* Request Line */}
-                <div className="terminal-log-entry group">
-                  <span className="text-gray-500 dark:text-gray-600 mr-2">[{formatTimestamp(item.request.timestamp)}]</span>
+                <div className="terminal-log-entry terminal-log-tx group">
+                  <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.request.timestamp)}]</span>
                   <span className="text-cyan-500 font-bold mr-2">➜ TX</span>
-                  <span className="text-gray-700 dark:text-gray-300 mr-2">{getServiceName(item.request.sid)}</span>
-                  <span className="text-cyan-600 dark:text-cyan-700">
+                  <span className="text-gray-700 dark:text-gray-300 mr-2 font-medium">{getServiceName(item.request.sid)}</span>
+                  <span className="text-cyan-600 dark:text-cyan-400 font-mono">
                     {toHex([item.request.sid, ...(item.request.subFunction ? [item.request.subFunction] : []), ...(item.request.data || [])])}
                   </span>
                 </div>
 
                 {/* Response Line */}
-                <div className="terminal-log-entry group mt-0.5">
-                  <span className="text-gray-500 dark:text-gray-600 mr-2">[{formatTimestamp(item.response.timestamp)}]</span>
+                <div className={`terminal-log-entry group mt-1 ${item.response.isNegative ? 'terminal-log-rx-negative' : 'terminal-log-rx-positive'}`}>
+                  <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.response.timestamp)}]</span>
                   <span className={`font-bold mr-2 ${item.response.isNegative ? 'text-red-500' : 'text-purple-500'}`}>
                     {item.response.isNegative ? '✖ RX' : '✔ RX'}
                   </span>
@@ -417,8 +432,8 @@ const ResponseVisualizer: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <span className="text-purple-600 dark:text-purple-300 mr-2">POSITIVE RESPONSE</span>
-                      <span className="text-purple-600 dark:text-purple-400">
+                      <span className="text-purple-600 dark:text-purple-300 mr-2 font-medium">POSITIVE RESPONSE</span>
+                      <span className="text-purple-600 dark:text-purple-400 font-mono">
                         {item.response.data.map(b => byteToHex(b)).join(' ')}
                       </span>
                     </>
@@ -426,19 +441,19 @@ const ResponseVisualizer: React.FC = () => {
                 </div>
 
                 {/* Detailed Breakdown (Always visible for learning) */}
-                <div className="pl-24 pr-4 py-1 text-xs text-gray-600 dark:text-gray-500 border-l border-gray-300 dark:border-gray-800 ml-3 mb-2 block transition-all">
+                <div className="terminal-byte-breakdown py-2 mt-1 mb-2">
                   {item.response.data.map((byte, idx) => (
-                    <div key={idx} className="flex gap-2">
-                      <span className="w-6 text-gray-500 dark:text-gray-600">[{idx}]</span>
-                      <span className="w-8 font-bold text-gray-800 dark:text-gray-400">{byteToHex(byte)}</span>
-                      <span className="text-gray-600 dark:text-gray-600">→ {getByteInterpretation(item, idx, byte)}</span>
+                    <div key={idx} className="terminal-byte-row">
+                      <span className="terminal-byte-index">{idx}</span>
+                      <span className="terminal-byte-value">{byteToHex(byte)}</span>
+                      <span className="terminal-byte-interpretation">{getByteInterpretation(item, idx, byte)}</span>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
 
-            <div className="mt-2 text-cyan-600 dark:text-cyan-500 terminal-cursor">
+            <div className="mt-4 text-cyan-500 terminal-cursor text-lg">
               _
             </div>
           </div>

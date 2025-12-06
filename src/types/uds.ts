@@ -56,6 +56,7 @@ export const DiagnosticSessionType = {
   DEFAULT: 0x01,
   PROGRAMMING: 0x02,
   EXTENDED: 0x03,
+  SAFETY: 0x04,
 } as const;
 
 export type DiagnosticSessionType = typeof DiagnosticSessionType[keyof typeof DiagnosticSessionType];
@@ -134,6 +135,8 @@ export interface UDSResponse {
   timestamp: number;
   isNegative: boolean;
   nrc?: NegativeResponseCode;
+  suppressedResponse?: boolean; // True when suppress positive response bit (0x80) was set
+  resetType?: ECUResetType;     // ECU Reset type for power effect coordination (SID 11)
 }
 
 // Protocol State
@@ -149,6 +152,9 @@ export interface ProtocolState {
   downloadInProgress: boolean;
   uploadInProgress: boolean;
   transferBlockCounter: number;
+  // Rapid Power Shutdown (RPS) state - SID 11 subfunction 0x04/0x05
+  rpsEnabled: boolean;
+  rpsPowerDownTime: number;  // Power-down time in 10ms units (0-255)
 }
 
 // Memory Address Interface

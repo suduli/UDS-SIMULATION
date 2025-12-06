@@ -1,0 +1,1089 @@
+{
+  "id": "exported_1764962157403",
+  "name": "UDS Session Export (12/6/2025)",
+  "description": "Exported UDS session with 52 requests",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "UDS Simulator",
+    "description": "Exported session with 52 requests, 94% success rate",
+    "tags": [
+      "exported",
+      "session"
+    ],
+    "duration": 38000,
+    "totalRequests": 52,
+    "successRate": 94
+  },
+  "requests": [
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440000000,
+      "description": "[SETUP] Reset to Default Session"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440001000,
+      "description": "TC-01.1: Clear All DTCs (0xFFFFFF) - Valid Request"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        51
+      ],
+      "timestamp": 1733440002000,
+      "description": "TC-01.2: Clear Emission-Related DTCs (0xFFFF33) - OEM Specific"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        1,
+        0,
+        0
+      ],
+      "timestamp": 1733440003000,
+      "description": "TC-01.3: Clear Powertrain Group (0x010000) - OEM Specific"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        2,
+        0,
+        0
+      ],
+      "timestamp": 1733440004000,
+      "description": "TC-01.4: Clear Chassis Group (0x020000) - OEM Specific"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        4,
+        0,
+        0
+      ],
+      "timestamp": 1733440005000,
+      "description": "TC-01.5: Clear Body/Comfort Group (0x040000) - OEM Specific"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        8,
+        0,
+        0
+      ],
+      "timestamp": 1733440006000,
+      "description": "TC-01.6: Clear Network/Communication Group (0x080000) - OEM Specific"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        1,
+        1,
+        1
+      ],
+      "timestamp": 1733440007000,
+      "description": "TC-01.7: Clear Single Specific DTC (0x010101)"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1733440008000,
+      "description": "TC-01.8: Clear DTC 0x000000 (Edge Case - No DTCs selected)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440008500,
+      "description": "[SETUP] Reset to Default Session for TC-02"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255
+      ],
+      "timestamp": 1733440009000,
+      "description": "TC-02.1: Message Too Short (2 bytes groupOfDTC) - Expect NRC 0x13"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255
+      ],
+      "timestamp": 1733440010000,
+      "description": "TC-02.2: Message Too Short (1 byte groupOfDTC) - Expect NRC 0x13"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [],
+      "timestamp": 1733440011000,
+      "description": "TC-02.3: Message Too Short (No groupOfDTC) - Expect NRC 0x13"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255,
+        0
+      ],
+      "timestamp": 1733440012000,
+      "description": "TC-02.4: Message Too Long (4 bytes groupOfDTC) - Expect NRC 0x13"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255,
+        0,
+        0
+      ],
+      "timestamp": 1733440013000,
+      "description": "TC-02.5: Message Too Long (5 bytes extra) - Expect NRC 0x13"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440013500,
+      "description": "[SETUP] Reset to Default Session for TC-03"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1733440014000,
+      "description": "TC-03.1: Enter Extended Session"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440015000,
+      "description": "TC-03.1: Clear All DTCs in Extended Session - Valid"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440015500,
+      "description": "[SETUP] Return to Default Session"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1733440016000,
+      "description": "TC-03.2: Enter Programming Session"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440017000,
+      "description": "TC-03.2: Clear All DTCs in Programming Session - OEM Dependent"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440017500,
+      "description": "[SETUP] Return to Default Session"
+    },
+    {
+      "sid": 16,
+      "subFunction": 4,
+      "data": [],
+      "timestamp": 1733440018000,
+      "description": "TC-03.3: Enter Safety Session"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440019000,
+      "description": "TC-03.3: Clear All DTCs in Safety Session - Usually Blocked (Expect NRC 0x22 or 0x33)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440019500,
+      "description": "[SETUP] Return to Default Session for TC-04"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        18,
+        52,
+        86
+      ],
+      "timestamp": 1733440020000,
+      "description": "TC-04.1: Unsupported groupOfDTC (0x123456) - Expect NRC 0x31"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        171,
+        205,
+        239
+      ],
+      "timestamp": 1733440021000,
+      "description": "TC-04.2: Unsupported groupOfDTC (0xABCDEF) - Expect NRC 0x31"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        16,
+        32,
+        48
+      ],
+      "timestamp": 1733440022000,
+      "description": "TC-04.3: Unsupported groupOfDTC (0x102030) - Expect NRC 0x31"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440022500,
+      "description": "[SETUP] Reset to Default Session for TC-05"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1733440023000,
+      "description": "TC-05.1: Enter Extended Session for Security Test"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440024000,
+      "description": "TC-05.1: Clear All DTCs Without Security Unlock - May Require Security (Expect NRC 0x33 if protected)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440024500,
+      "description": "[SETUP] Return to Default Session"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440025000,
+      "description": "[SETUP] Reset to Default Session for TC-06"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440026000,
+      "description": "TC-06.1: Clear DTCs - Verify Blocked if Conditions Not Met (Expect NRC 0x22)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440026500,
+      "description": "[SETUP] Reset to Default Session for TC-07"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440027000,
+      "description": "TC-07.1: Clear All DTCs - Verify Response is 0x54 Only (1 byte)"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        1,
+        1,
+        1
+      ],
+      "timestamp": 1733440028000,
+      "description": "TC-07.2: Clear Single DTC - Verify Response is 0x54 Only (1 byte)"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440029000,
+      "description": "TC-07.3: Clear DTCs When No DTCs Stored - Still Returns 0x54"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440029500,
+      "description": "[SETUP] Reset to Default Session for TC-08"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        128,
+        0,
+        0
+      ],
+      "timestamp": 1733440030000,
+      "description": "TC-08.1: Boundary Value 0x800000"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        0,
+        128,
+        0
+      ],
+      "timestamp": 1733440031000,
+      "description": "TC-08.2: Boundary Value 0x008000"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        0,
+        0,
+        128
+      ],
+      "timestamp": 1733440032000,
+      "description": "TC-08.3: Boundary Value 0x000080"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        254,
+        254,
+        254
+      ],
+      "timestamp": 1733440033000,
+      "description": "TC-08.4: Near Max Value 0xFEFEFE"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440033500,
+      "description": "[SETUP] Reset to Default Session for TC-09"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440034000,
+      "description": "TC-09.1: Clear All DTCs (First Request)"
+    },
+    {
+      "sid": 25,
+      "subFunction": 1,
+      "data": [
+        255
+      ],
+      "timestamp": 1733440035000,
+      "description": "TC-09.2: Read DTC Count After Clear (Expect 0 DTCs)"
+    },
+    {
+      "sid": 25,
+      "subFunction": 2,
+      "data": [
+        255
+      ],
+      "timestamp": 1733440036000,
+      "description": "TC-09.3: Read All DTCs After Clear (Expect Empty List)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1733440036500,
+      "description": "[SETUP] Reset to Default Session for TC-10"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440037000,
+      "description": "TC-10.1: Rapid Consecutive Clear Requests - First"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440037100,
+      "description": "TC-10.2: Rapid Consecutive Clear Requests - Second (100ms)"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        255,
+        255,
+        255
+      ],
+      "timestamp": 1733440037200,
+      "description": "TC-10.3: Rapid Consecutive Clear Requests - Third (100ms)"
+    },
+    {
+      "sid": 20,
+      "subFunction": 0,
+      "data": [
+        1,
+        0,
+        0
+      ],
+      "timestamp": 1733440038000,
+      "description": "TC-10.4: Different Group Clear After All Clear"
+    }
+  ],
+  "responses": [
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962014399,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962015427,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962016440,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962017458,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962018484,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962019509,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962020536,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962021571,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962022599,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962023127,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        127,
+        20,
+        19
+      ],
+      "timestamp": 1764962024160,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 20,
+      "data": [
+        127,
+        20,
+        19
+      ],
+      "timestamp": 1764962025197,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 20,
+      "data": [
+        127,
+        20,
+        19
+      ],
+      "timestamp": 1764962026236,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962027256,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962028276,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962028814,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1764962029869,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962030913,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962031455,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962032483,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962033518,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962034069,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        4,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962035113,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962036174,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962036727,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962037759,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962038781,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962039819,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962040373,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1764962041414,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962042463,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962042995,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962044031,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962045073,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962045619,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962046664,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962047714,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962048770,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962049312,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962050386,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962051483,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962052535,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962053601,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962054159,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962055210,
+      "isNegative": false
+    },
+    {
+      "sid": 25,
+      "data": [
+        89,
+        1,
+        8,
+        0,
+        0
+      ],
+      "timestamp": 1764962056276,
+      "isNegative": false
+    },
+    {
+      "sid": 25,
+      "data": [
+        89,
+        2,
+        255
+      ],
+      "timestamp": 1764962057329,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1764962057885,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962058935,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962059096,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962059264,
+      "isNegative": false
+    },
+    {
+      "sid": 20,
+      "data": [
+        84
+      ],
+      "timestamp": 1764962060316,
+      "isNegative": false
+    }
+  ],
+  "timings": [
+    0,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    500,
+    500,
+    1000,
+    500,
+    500,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    500,
+    500,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    100,
+    100,
+    800
+  ],
+  "createdAt": 1764962157403,
+  "notes": "Exported on 2025-12-05T19:15:57.403Z"
+}

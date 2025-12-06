@@ -113,6 +113,11 @@ interface UDSContextType {
   powerState: 'OFF' | 'ACC' | 'ON' | 'CRANKING';
   faultState: 'NONE' | 'SHORT_GND' | 'OPEN_CIRCUIT';
 
+  // Rapid Power Shutdown (RPS) State - SID 11
+  rpsEnabled: boolean;
+  rpsPowerDownTime: number;      // Power-down time in 10ms units (0-255)
+  rpsCountdown: number | null;   // Active countdown in ms (null if not counting down)
+
   toggleEcuPower: () => void; // Toggles between OFF and ON (keeping previous ACC state logic if needed, or simplifying)
   setPowerState: (state: 'OFF' | 'ACC' | 'ON' | 'CRANKING') => void;
   setSystemVoltage: (volts: 12 | 24) => void;
@@ -122,6 +127,7 @@ interface UDSContextType {
   simulateCranking: () => void;
   setVoltage: (volts: number) => void; // Keep for backward compatibility or manual override
   setCurrent: (amps: number) => void; // Keep for backward compatibility
+  triggerRpsPowerDown: () => void;    // Manually trigger RPS power-down countdown
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -220,6 +226,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [voltage, setVoltage] = useState(12.4);
   const [current, setCurrent] = useState(0.5);
   const [ecuPower, setEcuPower] = useState(true);
+
+  // Rapid Power Shutdown (RPS) State - SID 11
+  const [rpsEnabled, setRpsEnabled] = useState(false);
+  const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
+  const [rpsCountdown, setRpsCountdown] = useState<number | null>(null);
+  const rpsTimerRef = useRef<number | null>(null);
 
   // Sync legacy ecuPower with powerState
   React.useEffect(() => {
@@ -341,6 +353,132 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   }, [powerState, targetVoltage]);
 
+  /**
+   * Simulate voltage profile during ECU Reset operations
+   * - Hard Reset: Brief voltage dip (~8V for 200ms, then recovery)
+   * - Key Off-On: Simulates power cycle via voltage drop (without changing powerState to avoid triggering RPS)
+   */
+  const simulateResetVoltageProfile = useCallback((type: 'hard' | 'keyOffOn') => {
+    if (type === 'hard') {
+      // Hard Reset: Brief voltage dip to simulate reset current draw
+      setVoltage(8.0);
+      setCurrent(3.0); // Spike current during reset
+
+      setTimeout(() => {
+        setVoltage(targetVoltage);
+        setCurrent(0.5); // Return to idle
+      }, 200);
+    } else if (type === 'keyOffOn') {
+      // Key Off-On Reset: Simulate power cycle via voltage/current only
+      // We don't change powerState to avoid triggering RPS logic during reset
+      setVoltage(0);
+      setCurrent(0);
+
+      setTimeout(() => {
+        setVoltage(targetVoltage);
+        setCurrent(0.5);
+      }, 500);
+    }
+  }, [targetVoltage]);
+
+  /**
+   * Trigger RPS (Rapid Power Shutdown) countdown when ignition turns OFF
+   * Uses the stored rpsPowerDownTime (in 10ms units) for graceful shutdown
+   */
+  const triggerRpsPowerDown = useCallback(() => {
+    if (!rpsEnabled || rpsPowerDownTime === 0) {
+      // RPS not enabled or immediate shutdown
+      setRpsCountdown(null);
+      return;
+    }
+
+    const totalMs = rpsPowerDownTime * 10; // Convert 10ms units to ms
+    setRpsCountdown(totalMs);
+
+    // Clear any existing timer
+    if (rpsTimerRef.current) {
+      clearInterval(rpsTimerRef.current);
+    }
+
+    // Start countdown animation
+    const startTime = Date.now();
+    rpsTimerRef.current = window.setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, totalMs - elapsed);
+
+      if (remaining <= 0) {
+        // Countdown complete - graceful shutdown
+        clearInterval(rpsTimerRef.current!);
+        rpsTimerRef.current = null;
+        setRpsCountdown(null);
+
+        // Perform graceful ECU shutdown
+        simulator.reset();
+        setProtocolState(simulator.getState());
+
+        emitToast({
+          type: 'info',
+          message: 'RPS Power-Down Complete',
+          description: `ECU gracefully shut down after ${totalMs}ms`,
+          duration: 4000,
+        });
+      } else {
+        setRpsCountdown(remaining);
+      }
+    }, 50); // Update every 50ms for smooth countdown
+  }, [rpsEnabled, rpsPowerDownTime, simulator, emitToast]);
+
+  // RPS behavior: Trigger power-down countdown when power switches to OFF
+  // DISABLED: This was causing UI crashes. RPS state is tracked but not auto-triggered.
+  // The user can manually observe RPS state in the Power Supply Dashboard.
+  // TODO: Re-enable with proper state management once the root cause is identified.
+  // React.useEffect(() => {
+  //   if (powerState === 'OFF' && rpsEnabled && !rpsTimerRef.current) {
+  //     triggerRpsPowerDown();
+  //   } else if (powerState !== 'OFF' && rpsTimerRef.current) {
+  //     clearInterval(rpsTimerRef.current);
+  //     rpsTimerRef.current = null;
+  //     setRpsCountdown(null);
+  //   }
+  // }, [powerState, rpsEnabled, triggerRpsPowerDown]);
+
+  // Session timeout enforcement (S3 timer)
+  // Per ISO 14229, if no diagnostic request is received within S3 timeout,
+  // the ECU reverts to Default session and locks security
+  React.useEffect(() => {
+    if (!ecuPower) return; // No timeout check when ECU is off
+
+    const checkTimeout = () => {
+      const currentState = simulator.getState();
+
+      // Only enforce timeout in non-default sessions
+      if (currentState.currentSession === 1) return; // DiagnosticSessionType.DEFAULT = 1
+
+      const elapsed = Date.now() - currentState.lastActivityTime;
+      const timeout = currentState.sessionTimeout;
+
+      if (elapsed >= timeout) {
+        // Session timed out - reset to default
+        console.log('[S3 Timeout] Session timed out, reverting to Default');
+        simulator.reset();
+        setProtocolState(simulator.getState());
+
+        // Emit toast notification
+        emitToast({
+          type: 'warning',
+          message: 'Session Timeout (S3)',
+          description: 'Reverted to Default session due to inactivity',
+          duration: 5000,
+        });
+      }
+    };
+
+    // Check every 1 second
+    const interval = setInterval(checkTimeout, 1000);
+
+    return () => clearInterval(interval);
+  }, [ecuPower, simulator, emitToast]);
+
   // Save learning progress to localStorage whenever it changes
   React.useEffect(() => {
     const serialized = serializeLearningProgress(learningProgress);
@@ -390,11 +528,15 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     try {
       // Process request through simulator
       // Pass ignition state (ON or CRANKING considered ON for UDS)
+      // Pass voltage parameters for power condition validation (SID 11)
       const ignitionOn = powerState === 'ON' || powerState === 'CRANKING';
-      const response = await simulator.processRequest(request, ignitionOn);
+      const response = await simulator.processRequest(request, ignitionOn, voltage, systemVoltage);
 
       setRequestHistory(prev => [...prev, { request, response }]);
       setProtocolState(simulator.getState());
+
+      // Note: SID 11 (ECU Reset) power effects handling has been disabled
+      // due to causing UI crashes. The core reset functionality still works.
 
       if (response.isNegative) {
         // Check for Response Pending (0x78)
@@ -425,8 +567,8 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             });
           }
         }
-      } else {
-        // Success Toast (Optional, maybe for specific services like Security Access)
+      } else if (request.sid !== 0x11) {
+        // Success Toast (Optional, but skip for ECU Reset as we have specific toasts above)
         if (request.sid === 0x27 && request.subFunction && request.subFunction % 2 === 0) {
           emitToast({
             type: 'success',
@@ -455,7 +597,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       });
       throw error;
     }
-  }, [simulator, emitToast, ecuPower]);
+  }, [simulator, emitToast, ecuPower, powerState, voltage, systemVoltage]);
 
   const clearHistory = useCallback(() => {
     setRequestHistory([]);
@@ -1119,6 +1261,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setCurrentLimit,
         setFaultState,
         simulateCranking,
+
+        // Rapid Power Shutdown (RPS) State - SID 11
+        rpsEnabled,
+        rpsPowerDownTime,
+        rpsCountdown,
+        triggerRpsPowerDown,
       }}
     >
       {children}

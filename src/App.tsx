@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UDSProvider } from './context/UDSContext';
 import { HomePage } from './pages/HomePage';
 import { LearningPage } from './pages/LearningPage';
+import { ConditionsPage } from './pages/ConditionsPage';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/learn" element={<LearningPage />} />
+            <Route path="/conditions" element={<ConditionsPage />} />
           </Routes>
+
         </UDSProvider>
       </ThemeProvider>
     </BrowserRouter>

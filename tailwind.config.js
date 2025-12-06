@@ -75,6 +75,7 @@ export default {
         'pulse-slow': 'pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'slide-up': 'slideUp 0.3s ease-out',
         'slide-down': 'slideDown 0.3s ease-out',
+        'slide-in-right': 'slideInRight 0.3s ease-out',
         'fade-in': 'fadeIn 0.5s ease-out',
         'shimmer': 'shimmer 2s linear infinite',
         'gradient-shift': 'gradientShift 3s ease-in-out infinite',
@@ -97,6 +98,10 @@ export default {
         slideDown: {
           'from': { transform: 'translateY(-10px)', opacity: '0' },
           'to': { transform: 'translateY(0)', opacity: '1' }
+        },
+        slideInRight: {
+          'from': { transform: 'translateX(100%)', opacity: '0' },
+          'to': { transform: 'translateX(0)', opacity: '1' }
         },
         fadeIn: {
           'from': { opacity: '0' },

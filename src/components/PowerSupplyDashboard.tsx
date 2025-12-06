@@ -15,7 +15,11 @@ export const PowerSupplyDashboard: React.FC = () => {
         setPowerState,
         setSystemVoltage,
         setFaultState,
-        simulateCranking
+        simulateCranking,
+        // RPS State
+        rpsEnabled,
+        rpsPowerDownTime,
+        rpsCountdown,
     } = useUDS();
 
     // Local state for waveform
@@ -134,7 +138,33 @@ export const PowerSupplyDashboard: React.FC = () => {
                         <span className={`text-[10px] px-1 rounded ${isCC ? 'bg-red-500/20 text-red-400 border border-red-500/50' : 'text-gray-700'}`}>CC</span>
                         <span className={`text-[10px] px-1 rounded ${!isCC && powerState !== 'OFF' ? 'bg-green-500/20 text-green-400 border border-green-500/50' : 'text-gray-700'}`}>CV</span>
                         <span className={`text-[10px] px-1 rounded ${isOVP ? 'bg-red-500 text-white animate-pulse' : 'text-gray-700'}`}>OVP</span>
+                        {/* RPS Status Indicator */}
+                        <span
+                            className={`text-[10px] px-1 rounded ${rpsCountdown !== null
+                                    ? 'bg-orange-500 text-white animate-pulse'
+                                    : rpsEnabled
+                                        ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50'
+                                        : 'text-gray-700'
+                                }`}
+                            title={rpsEnabled ? `RPS Enabled: ${rpsPowerDownTime * 10}ms` : 'RPS Disabled'}
+                        >
+                            RPS
+                        </span>
                     </div>
+
+                    {/* RPS Countdown Overlay */}
+                    {rpsCountdown !== null && (
+                        <div className="absolute inset-0 bg-orange-500/10 flex items-center justify-center pointer-events-none z-10">
+                            <div className="text-center">
+                                <div className="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">
+                                    RPS POWER-DOWN
+                                </div>
+                                <div className="text-orange-300 text-2xl font-mono font-bold">
+                                    {(rpsCountdown / 1000).toFixed(1)}s
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Voltage Readout */}
                     <div className="mb-4">

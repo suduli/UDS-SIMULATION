@@ -3,7 +3,7 @@
  * Interactive UI for building UDS requests
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { ServiceId } from '../types/uds';
 import { fromHex } from '../utils/udsHelpers';
@@ -25,6 +25,9 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   const [manualHex, setManualHex] = useState<string>('');
   const [sending, setSending] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
+
+  // Ref to guard against rapid double-clicks (state updates are async, refs are sync)
+  const sendingRef = useRef(false);
 
   const [viewMode, setViewMode] = useState<'grid' | 'dropdown'>(() => {
     const saved = localStorage.getItem('uds_service_view_mode');
@@ -200,9 +203,23 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
 
   const handleSend = useCallback(async () => {
+    // Synchronous guard: prevent double-click race condition
+    // State updates are async, but ref updates are sync - this catches rapid clicks
+    if (sendingRef.current) {
+      return;
+    }
+
+    // Guard: prevent sending empty request in manual mode
+    if (isManualMode && !manualHex.trim()) {
+      return;
+    }
+
     if ((!selectedService && !isManualMode) || validationError) return;
 
+    // Set both ref (sync) and state (async) for complete protection
+    sendingRef.current = true;
     setSending(true);
+
     try {
       let requestData: number[] = [];
 
@@ -229,9 +246,16 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
       };
 
       await sendRequest(request);
+
+      // Clear input after successful send in manual mode
+      if (isManualMode) {
+        setManualHex('');
+        setValidationError('');
+      }
     } catch (error) {
       console.error('Error sending request:', error);
     } finally {
+      sendingRef.current = false;
       setSending(false);
     }
   }, [selectedService, isManualMode, validationError, manualHex, subFunction, dataInput, sendRequest]);
@@ -530,11 +554,11 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
       {/* Send Button */}
       <button
         onClick={handleSend}
-        disabled={(!selectedService && !isManualMode) || sending || !!validationError}
+        disabled={(!selectedService && !isManualMode) || (isManualMode && !manualHex.trim()) || sending || !!validationError}
         className={`
           w-full mt-6 py-3 rounded-lg font-bold cyber-shape
           transition-all duration-300
-          ${(!selectedService && !isManualMode) || sending || !!validationError
+          ${(!selectedService && !isManualMode) || (isManualMode && !manualHex.trim()) || sending || !!validationError
             ? 'bg-gray-200 dark:bg-dark-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : 'bg-gradient-to-r from-cyber-blue via-purple-500 to-cyber-purple text-white hover:shadow-neon hover:scale-105 bg-size-200 animate-gradient-shift active:scale-95'
           }

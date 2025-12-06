@@ -1266,3 +1266,284 @@ select option {
 [data-theme="light"] .cyber-button {
   @apply bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary-light hover:text-primary-light;
 }
+
+/* ========================================
+   TERMINAL OUTPUT STYLES (Cyber-Diagnostic)
+   ======================================== */
+
+/* Terminal Container */
+.terminal-container {
+  background: linear-gradient(135deg, rgba(10, 10, 15, 0.98) 0%, rgba(19, 19, 24, 0.98) 100%);
+  border: 1px solid rgba(0, 243, 255, 0.15);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(0, 243, 255, 0.05);
+}
+
+[data-theme="light"] .terminal-container {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
+  border: 1px solid rgba(25, 118, 210, 0.2);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 4px 20px rgba(26, 51, 77, 0.1);
+}
+
+/* Terminal Header */
+.terminal-header {
+  background: linear-gradient(to right, rgba(0, 243, 255, 0.03), transparent, rgba(168, 85, 247, 0.03));
+  border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+[data-theme="light"] .terminal-header {
+  background: linear-gradient(to right, rgba(25, 118, 210, 0.05), transparent, rgba(147, 51, 234, 0.05));
+  border-bottom: 1px solid rgba(25, 118, 210, 0.15);
+}
+
+/* Terminal Log Entry - Base */
+.terminal-log-entry {
+  position: relative;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  margin-left: 0.25rem;
+  border-left: 3px solid transparent;
+  border-radius: 0 4px 4px 0;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.terminal-log-entry:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .terminal-log-entry:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* TX Entry Styling */
+.terminal-log-tx {
+  border-left-color: #00f3ff;
+}
+
+.terminal-log-tx:hover {
+  background: rgba(0, 243, 255, 0.05);
+  box-shadow: inset 3px 0 10px rgba(0, 243, 255, 0.1);
+}
+
+[data-theme="light"] .terminal-log-tx {
+  border-left-color: #0891b2;
+}
+
+[data-theme="light"] .terminal-log-tx:hover {
+  background: rgba(8, 145, 178, 0.05);
+}
+
+/* RX Positive Response Styling */
+.terminal-log-rx-positive {
+  border-left-color: #a855f7;
+}
+
+.terminal-log-rx-positive:hover {
+  background: rgba(168, 85, 247, 0.05);
+  box-shadow: inset 3px 0 10px rgba(168, 85, 247, 0.1);
+}
+
+[data-theme="light"] .terminal-log-rx-positive {
+  border-left-color: #9333ea;
+}
+
+[data-theme="light"] .terminal-log-rx-positive:hover {
+  background: rgba(147, 51, 234, 0.05);
+}
+
+/* RX Negative Response Styling */
+.terminal-log-rx-negative {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.terminal-log-rx-negative:hover {
+  background: rgba(239, 68, 68, 0.08);
+  box-shadow: inset 3px 0 10px rgba(239, 68, 68, 0.15);
+}
+
+[data-theme="light"] .terminal-log-rx-negative {
+  border-left-color: #dc2626;
+  background: rgba(220, 38, 38, 0.03);
+}
+
+[data-theme="light"] .terminal-log-rx-negative:hover {
+  background: rgba(220, 38, 38, 0.06);
+}
+
+/* Byte Breakdown Section */
+.terminal-byte-breakdown {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 1rem;
+  border-left: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.terminal-byte-breakdown::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(168, 85, 247, 0.5), rgba(0, 243, 255, 0.2), transparent);
+}
+
+[data-theme="light"] .terminal-byte-breakdown {
+  border-left-color: rgba(100, 116, 139, 0.3);
+}
+
+[data-theme="light"] .terminal-byte-breakdown::before {
+  background: linear-gradient(to bottom, rgba(147, 51, 234, 0.4), rgba(8, 145, 178, 0.2), transparent);
+}
+
+/* Byte Row */
+.terminal-byte-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  transition: background 0.15s ease;
+  border-radius: 2px;
+}
+
+.terminal-byte-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .terminal-byte-row:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Byte Index Badge */
+.terminal-byte-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-family: ui-monospace, monospace;
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.15), rgba(100, 116, 139, 0.05));
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  border-radius: 4px;
+  color: #64748b;
+}
+
+[data-theme="light"] .terminal-byte-index {
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.12), rgba(100, 116, 139, 0.04));
+  border-color: rgba(100, 116, 139, 0.25);
+  color: #475569;
+}
+
+/* Byte Value */
+.terminal-byte-value {
+  min-width: 1.75rem;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  color: #e2e8f0;
+}
+
+[data-theme="light"] .terminal-byte-value {
+  color: #1e293b;
+}
+
+/* Byte Interpretation */
+.terminal-byte-interpretation {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.terminal-byte-interpretation::before {
+  content: '→';
+  margin-right: 0.375rem;
+  color: rgba(100, 116, 139, 0.5);
+}
+
+[data-theme="light"] .terminal-byte-interpretation {
+  color: #475569;
+}
+
+/* Terminal Cursor */
+.terminal-cursor {
+  display: inline-block;
+  animation: terminal-blink 1s step-end infinite;
+  text-shadow: 0 0 8px rgba(0, 243, 255, 0.8), 0 0 16px rgba(0, 243, 255, 0.4);
+}
+
+@keyframes terminal-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+[data-theme="light"] .terminal-cursor {
+  text-shadow: 0 0 8px rgba(8, 145, 178, 0.6), 0 0 16px rgba(8, 145, 178, 0.3);
+}
+
+/* Terminal Empty State */
+.terminal-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #475569;
+  opacity: 0.6;
+}
+
+.terminal-empty-state::before {
+  content: '>';
+  font-size: 2rem;
+  color: #00f3ff;
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+  animation: terminal-blink 1.5s step-end infinite;
+}
+
+[data-theme="light"] .terminal-empty-state::before {
+  color: #0891b2;
+}
+
+/* High Contrast Mode Terminal Overrides */
+[data-contrast="high"] .terminal-container {
+  background: var(--bg-pure-black) !important;
+  border-color: var(--cyber-blue-bright) !important;
+  border-width: 2px !important;
+}
+
+[data-contrast="high"] .terminal-log-entry {
+  border-left-width: 4px !important;
+}
+
+[data-contrast="high"] .terminal-log-tx {
+  border-left-color: var(--sparkle-cyan) !important;
+}
+
+[data-contrast="high"] .terminal-log-rx-positive {
+  border-left-color: var(--sparkle-green) !important;
+}
+
+[data-contrast="high"] .terminal-log-rx-negative {
+  border-left-color: var(--cyber-pink-bright) !important;
+  background: rgba(255, 0, 153, 0.15) !important;
+}
+
+[data-contrast="high"] .terminal-byte-index {
+  background: transparent !important;
+  border-color: var(--cyber-blue-bright) !important;
+  color: var(--text-pure-white) !important;
+}
+
+[data-contrast="high"] .terminal-byte-value {
+  color: var(--text-pure-white) !important;
+}
+
+[data-contrast="high"] .terminal-cursor {
+  text-shadow: 0 0 10px var(--cyber-blue-bright), 0 0 20px var(--cyber-blue-bright) !important;
+}
+

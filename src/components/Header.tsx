@@ -16,7 +16,6 @@ import type { EnhancedScenario, ScenarioMetadata } from '../types/scenario';
 import type { UDSRequest, UDSResponse } from '../types/uds';
 import { scenarioManager } from '../services/ScenarioManager';
 import { isFeatureEnabled } from '../config/featureFlags';
-import { SystemStatus } from './SystemStatus';
 
 const Header: React.FC = () => {
   const {
@@ -51,11 +50,42 @@ const Header: React.FC = () => {
   });
 
   const handleExport = () => {
+    // Extract requests and responses from history
+    const requests = requestHistory.map(item => item.request);
+    const responses = requestHistory.map(item => item.response);
+
+    // Calculate timings between requests
+    const timings: number[] = requests.map((req, idx) => {
+      if (idx === 0) return 0;
+      return Math.max(0, req.timestamp - requests[idx - 1].timestamp);
+    });
+
+    // Calculate success rate
+    const successCount = responses.filter(r => !r.isNegative).length;
+    const successRate = responses.length > 0 ? Math.round((successCount / responses.length) * 100) : 0;
+
+    // Calculate duration
+    const duration = requests.length > 1 ? requests[requests.length - 1].timestamp - requests[0].timestamp : 0;
+
+    // Create EnhancedScenario format (compatible with import)
     const exportData = {
+      id: `exported_${Date.now()}`,
+      name: `UDS Session Export (${new Date().toLocaleDateString()})`,
+      description: `Exported UDS session with ${requests.length} requests`,
       version: '1.0.0',
-      exportDate: new Date().toISOString(),
-      requestHistory: requestHistory,
-      totalRequests: requestHistory.length,
+      metadata: {
+        author: 'UDS Simulator',
+        description: `Exported session with ${requests.length} requests, ${successRate}% success rate`,
+        tags: ['exported', 'session'],
+        duration: duration,
+        totalRequests: requests.length,
+        successRate: successRate,
+      },
+      requests: requests,
+      responses: responses,
+      timings: timings,
+      createdAt: Date.now(),
+      notes: `Exported on ${new Date().toISOString()}`,
     };
 
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
@@ -84,9 +114,33 @@ const Header: React.FC = () => {
           const content = await file.text();
           const data = JSON.parse(content);
 
-          // Check if it's a simple export format (from handleExport)
-          if (data.requestHistory && Array.isArray(data.requestHistory)) {
-            // Convert simple export format to EnhancedScenario format
+          // Check if it's a direct EnhancedScenario format (new export format)
+          if (data.id && data.name && data.requests && Array.isArray(data.requests)) {
+            // Direct EnhancedScenario format - use as-is with validation
+            const scenario: EnhancedScenario = {
+              id: data.id,
+              name: data.name,
+              description: data.description || 'Imported scenario',
+              version: data.version || '1.0.0',
+              metadata: data.metadata || {
+                description: `Imported scenario with ${data.requests.length} requests`,
+                tags: ['imported'],
+                duration: 0,
+                totalRequests: data.requests.length,
+                successRate: 100,
+              },
+              requests: data.requests,
+              responses: data.responses || [],
+              timings: data.timings || data.requests.map(() => 1000),
+              createdAt: data.createdAt || Date.now(),
+              notes: data.notes,
+            };
+            startReplay(scenario);
+            alert(`Scenario "${scenario.name}" imported successfully! (${scenario.requests.length} requests)`);
+          }
+          // Check if it's the legacy export format (requestHistory array)
+          else if (data.requestHistory && Array.isArray(data.requestHistory)) {
+            // Convert legacy export format to EnhancedScenario format
             const requests = data.requestHistory.map((item: { request: UDSRequest }) => item.request);
             const responses = data.requestHistory.map((item: { response: UDSResponse }) => item.response);
 
@@ -96,7 +150,7 @@ const Header: React.FC = () => {
               return Math.max(0, req.timestamp - requests[idx - 1].timestamp);
             });
 
-            // Create EnhancedScenario from export data
+            // Create EnhancedScenario from legacy export data
             const scenario: EnhancedScenario = {
               id: `imported_${Date.now()}`,
               name: `Imported Session (${new Date(data.exportDate || Date.now()).toLocaleDateString()})`,
@@ -107,7 +161,7 @@ const Header: React.FC = () => {
                 tags: ['imported'],
                 duration: requests.length > 1 ? requests[requests.length - 1].timestamp - requests[0].timestamp : 0,
                 totalRequests: requests.length,
-                successRate: Math.round((responses.filter((r: UDSResponse) => !r.isNegative).length / responses.length) * 100),
+                successRate: responses.length > 0 ? Math.round((responses.filter((r: UDSResponse) => !r.isNegative).length / responses.length) * 100) : 100,
               },
               requests,
               responses,
@@ -118,7 +172,7 @@ const Header: React.FC = () => {
             startReplay(scenario);
             alert(`Session imported successfully! (${requests.length} requests)`);
           } else {
-            // Try as EnhancedScenario format
+            // Try with ScenarioManager for other formats
             const scenario = await scenarioManager.importScenario(file);
             startReplay(scenario);
             alert(`Scenario "${scenario.name}" imported successfully!`);
@@ -182,21 +236,16 @@ const Header: React.FC = () => {
               </div>
             </div>
 
-            {/* Center: System Indicators (Hidden on mobile) */}
-            <div className="hidden lg:flex items-center gap-3 flex-1 justify-center">
-              <SystemStatus />
-            </div>
-
-            {/* Right: Navigation */}
+            {/* Center: Navigation Links (Hidden on mobile) */}
             <div className="hidden lg:flex items-center gap-2">
               <Link
                 to="/"
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-emerald-500/10 to-green-500/10 hover:from-emerald-500/20 hover:to-green-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg transition-all"
               >
                 <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                Help
+                Home
               </Link>
 
               <Link
@@ -207,6 +256,16 @@ const Header: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
                 Learn UDS
+              </Link>
+
+              <Link
+                to="/conditions"
+                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 text-pink-400 border border-pink-500/30 rounded-lg transition-all"
+              >
+                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Conditions
               </Link>
 
               {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
@@ -287,9 +346,9 @@ const Header: React.FC = () => {
               <Link
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block px-3 py-2 text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-lg"
               >
-                Help
+                Home
               </Link>
               <Link
                 to="/learn"
@@ -297,6 +356,13 @@ const Header: React.FC = () => {
                 className="block px-3 py-2 text-sm text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 rounded-lg"
               >
                 Learn UDS
+              </Link>
+              <Link
+                to="/conditions"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 text-sm text-pink-400 bg-pink-500/10 border border-pink-500/30 rounded-lg"
+              >
+                Conditions
               </Link>
               <button
                 onClick={() => { setIsSequenceBuilderOpen(true); setMobileMenuOpen(false); }}
