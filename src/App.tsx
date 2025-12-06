@@ -3,7 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UDSProvider } from './context/UDSContext';
 import { HomePage } from './pages/HomePage';
 import { LearningPage } from './pages/LearningPage';
-import { ConditionsPage } from './pages/ConditionsPage';
+import { ClusterDashboardPage } from './pages/ClusterDashboardPage';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/learn" element={<LearningPage />} />
-            <Route path="/conditions" element={<ConditionsPage />} />
+            <Route path="/cluster" element={<ClusterDashboardPage />} />
           </Routes>
 
         </UDSProvider>

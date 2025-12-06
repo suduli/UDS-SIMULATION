@@ -214,10 +214,12 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-900/20 dark:to-gray-900 border-2 border-cyan-600/30 dark:border-cyan-500/30 rounded-xl max-w-7xl w-full max-h-[95vh] overflow-hidden shadow-2xl shadow-cyan-500/20">
+      {/* Modal Backdrop */}
+      <div className="fixed inset-0 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        {/* Main Container */}
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-slate-900/95 dark:to-gray-900 border border-slate-300 dark:border-cyan-500/30 rounded-xl max-w-7xl w-full max-h-[95vh] overflow-hidden shadow-2xl shadow-slate-500/20 dark:shadow-cyan-500/20">
           {/* Header */}
-          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-b border-cyan-600/30 dark:border-cyan-500/30 p-6">
+          <div className="bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5 dark:from-cyan-500/10 dark:via-blue-500/10 dark:to-purple-500/10 border-b border-slate-200 dark:border-cyan-500/30 p-6">
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-2">
@@ -227,14 +229,14 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
                   Sequence Builder
                 </h2>
                 {currentSequence && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-slate-600 dark:text-gray-400 mt-1">
                     {currentSequence.name} • {currentSequence.steps.length} steps
                   </p>
                 )}
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+                className="text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800"
                 aria-label="Close"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,7 +255,7 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
               </button>
               <button
                 onClick={() => setShowTemplates(!showTemplates)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700/50 border border-cyan-600/30 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 bg-slate-100 dark:bg-gray-700/50 border border-slate-300 dark:border-cyan-500/30 text-cyan-600 dark:text-cyan-400 rounded-lg hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors"
               >
                 📚 Templates
               </button>
@@ -261,32 +263,32 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
                 <>
                   <button
                     onClick={handleAddStep}
-                    className="px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors"
+                    className="px-4 py-2 bg-emerald-50 dark:bg-green-500/20 border border-emerald-300 dark:border-green-500/50 text-emerald-600 dark:text-green-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-green-500/30 transition-colors"
                   >
                     + Add Step
                   </button>
                   <button
                     onClick={handleValidate}
-                    className="px-4 py-2 bg-blue-500/20 border border-blue-500/50 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors"
+                    className="px-4 py-2 bg-blue-50 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-500/50 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-500/30 transition-colors"
                   >
                     ✓ Validate
                   </button>
                   <button
                     onClick={() => setShowExecutionPanel(true)}
-                    className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/50 text-cyan-400 rounded-lg hover:from-cyan-500/30 hover:to-blue-500/30 transition-all font-semibold"
+                    className="px-4 py-2 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-500/20 dark:to-blue-500/20 border border-cyan-300 dark:border-cyan-500/50 text-cyan-600 dark:text-cyan-400 rounded-lg hover:from-cyan-100 hover:to-blue-100 dark:hover:from-cyan-500/30 dark:hover:to-blue-500/30 transition-all font-semibold"
                     disabled={!currentSequence || currentSequence.steps.length === 0}
                   >
                     ▶️ Execute
                   </button>
                   <button
                     onClick={handleSave}
-                    className="px-4 py-2 bg-purple-500/20 border border-purple-500/50 text-purple-400 rounded-lg hover:bg-purple-500/30 transition-colors"
+                    className="px-4 py-2 bg-purple-50 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-500/50 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-500/30 transition-colors"
                   >
                     💾 Save
                   </button>
                   <button
                     onClick={handleDelete}
-                    className="px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                    className="px-4 py-2 bg-red-50 dark:bg-red-500/20 border border-red-300 dark:border-red-500/50 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-500/30 transition-colors"
                   >
                     🗑️ Delete
                   </button>
@@ -296,9 +298,9 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
 
             {/* Validation Errors */}
             {validationErrors.length > 0 && (
-              <div className="mt-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
-                <h4 className="text-red-400 font-semibold mb-2">⚠️ Validation Errors:</h4>
-                <ul className="list-disc list-inside text-sm text-red-300 space-y-1">
+              <div className="mt-4 p-4 bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/50 rounded-lg">
+                <h4 className="text-red-600 dark:text-red-400 font-semibold mb-2">⚠️ Validation Errors:</h4>
+                <ul className="list-disc list-inside text-sm text-red-500 dark:text-red-300 space-y-1">
                   {validationErrors.map((error, idx) => (
                     <li key={idx}>{error}</li>
                   ))}
@@ -311,32 +313,32 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
           <div className="flex h-[calc(95vh-200px)]">
             {/* Templates Sidebar */}
             {showTemplates && (
-              <div className="w-80 border-r border-cyan-600/30 dark:border-cyan-500/30 overflow-y-auto p-4 bg-gray-100 dark:bg-gray-800/20">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Available Sequences</h3>
+              <div className="w-80 border-r border-slate-200 dark:border-cyan-500/30 overflow-y-auto p-4 bg-slate-50 dark:bg-gray-800/20">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Available Sequences</h3>
                 <div className="space-y-2">
                   {sequences.map(seq => (
                     <button
                       key={seq.id}
                       onClick={() => handleLoadExisting(seq)}
-                      className="w-full text-left p-3 rounded-lg bg-white dark:bg-gray-800/50 border border-cyan-600/20 dark:border-cyan-500/20 hover:border-cyan-600/50 dark:hover:border-cyan-500/50 transition-colors"
+                      className="w-full text-left p-3 rounded-lg bg-white dark:bg-gray-800/50 border border-slate-200 dark:border-cyan-500/20 hover:border-cyan-500 dark:hover:border-cyan-500/50 transition-colors shadow-sm hover:shadow-md"
                     >
-                      <h4 className="text-gray-900 dark:text-white font-semibold">{seq.name}</h4>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{seq.description}</p>
+                      <h4 className="text-slate-900 dark:text-white font-semibold">{seq.name}</h4>
+                      <p className="text-xs text-slate-600 dark:text-gray-400 mt-1">{seq.description}</p>
                       <p className="text-xs text-cyan-600 dark:text-cyan-400 mt-1">{seq.steps.length} steps</p>
                     </button>
                   ))}
                   {sequences.length === 0 && (
-                    <p className="text-gray-500 text-sm">No saved sequences yet</p>
+                    <p className="text-slate-500 dark:text-gray-500 text-sm">No saved sequences yet</p>
                   )}
                 </div>
               </div>
             )}
 
             {/* Main Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-6 bg-slate-50/50 dark:bg-transparent">
               {!currentSequence ? (
-                <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                  <svg className="w-24 h-24 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex flex-col items-center justify-center h-full text-slate-400 dark:text-gray-500">
+                  <svg className="w-24 h-24 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                   <p className="text-lg">Create a new sequence or load an existing one</p>
@@ -344,18 +346,18 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
               ) : (
                 <div>
                   {/* Sequence Info */}
-                  <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-800/30 rounded-lg border border-cyan-600/20 dark:border-cyan-500/20">
+                  <div className="mb-6 p-4 bg-white dark:bg-gray-800/30 rounded-lg border border-slate-200 dark:border-cyan-500/20 shadow-sm">
                     <input
                       type="text"
                       value={currentSequence.name}
                       onChange={(e) => setCurrentSequence({ ...currentSequence, name: e.target.value })}
-                      className="w-full bg-transparent text-xl font-bold text-gray-900 dark:text-white border-none outline-none mb-2"
+                      className="w-full bg-transparent text-xl font-bold text-slate-900 dark:text-white border-none outline-none mb-2 placeholder-slate-400 dark:placeholder-gray-500"
                       placeholder="Sequence Name"
                     />
                     <textarea
                       value={currentSequence.description}
                       onChange={(e) => setCurrentSequence({ ...currentSequence, description: e.target.value })}
-                      className="w-full bg-transparent text-sm text-gray-600 dark:text-gray-400 border-none outline-none resize-none"
+                      className="w-full bg-transparent text-sm text-slate-600 dark:text-gray-400 border-none outline-none resize-none placeholder-slate-400 dark:placeholder-gray-600"
                       placeholder="Description"
                       rows={2}
                     />
@@ -364,7 +366,7 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
                   {/* Steps */}
                   <div className="space-y-3">
                     {currentSequence.steps.length === 0 ? (
-                      <div className="text-center py-12 text-gray-500">
+                      <div className="text-center py-12 text-slate-500 dark:text-gray-500">
                         <p>No steps yet. Click "Add Step" to begin.</p>
                       </div>
                     ) : (
@@ -391,32 +393,32 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
 
           {/* Step Editor Modal */}
           {showStepEditor && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-              <div className="bg-white dark:bg-gray-900 border-2 border-cyan-600/50 dark:border-cyan-500/50 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            <div className="absolute inset-0 bg-slate-900/60 dark:bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+              <div className="bg-white dark:bg-gray-900 border border-slate-300 dark:border-cyan-500/50 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 shadow-2xl">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
                   {editingStep ? 'Edit Step' : 'Add New Step'}
                 </h3>
 
                 <div className="space-y-4">
                   {/* Label */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Step Label</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Step Label</label>
                     <input
                       type="text"
                       value={stepLabel}
                       onChange={(e) => setStepLabel(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       placeholder="e.g., Enter Diagnostic Session"
                     />
                   </div>
 
                   {/* Description */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Description (optional)</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Description (optional)</label>
                     <textarea
                       value={stepDescription}
                       onChange={(e) => setStepDescription(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white resize-none"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white resize-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       rows={2}
                       placeholder="Additional details..."
                     />
@@ -424,59 +426,59 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
 
                   {/* SID */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service ID (SID)</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Service ID (SID)</label>
                     <input
                       type="text"
                       value={stepSID}
                       onChange={(e) => setStepSID(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white font-mono"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white font-mono focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       placeholder="0x10"
                     />
                   </div>
 
                   {/* Sub-function */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Sub-function (optional)</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Sub-function (optional)</label>
                     <input
                       type="text"
                       value={stepSubFunction}
                       onChange={(e) => setStepSubFunction(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white font-mono"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white font-mono focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       placeholder="0x01"
                     />
                   </div>
 
                   {/* Data */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Data Bytes (space-separated)</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Data Bytes (space-separated)</label>
                     <input
                       type="text"
                       value={stepData}
                       onChange={(e) => setStepData(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white font-mono"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white font-mono focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       placeholder="0xF1 0x90"
                     />
                   </div>
 
                   {/* Delay */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Delay (ms)</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Delay (ms)</label>
                     <input
                       type="number"
                       value={stepDelay}
                       onChange={(e) => setStepDelay(e.target.value)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                       min="0"
                     />
                   </div>
 
                   {/* Condition */}
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Execution Condition</label>
+                    <label className="block text-sm text-slate-600 dark:text-gray-400 mb-1">Execution Condition</label>
                     <select
                       value={stepCondition}
                       onChange={(e) => setStepCondition(e.target.value as ConditionType)}
-                      className="w-full bg-gray-100 dark:bg-gray-800 border border-cyan-600/30 dark:border-cyan-500/30 rounded px-3 py-2 text-gray-900 dark:text-white"
+                      className="w-full bg-slate-50 dark:bg-gray-800 border border-slate-300 dark:border-cyan-500/30 rounded px-3 py-2 text-slate-900 dark:text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-colors"
                     >
                       <option value="always">Always Execute</option>
                       <option value="if_positive">If Previous Positive</option>
@@ -492,24 +494,24 @@ export const SequenceBuilder: React.FC<SequenceBuilderProps> = ({
                       id="continueOnError"
                       checked={stepContinueOnError}
                       onChange={(e) => setStepContinueOnError(e.target.checked)}
-                      className="w-4 h-4"
+                      className="w-4 h-4 rounded border-slate-300 dark:border-gray-600 text-cyan-500 focus:ring-cyan-500"
                     />
-                    <label htmlFor="continueOnError" className="text-sm text-gray-600 dark:text-gray-400">
+                    <label htmlFor="continueOnError" className="text-sm text-slate-600 dark:text-gray-400">
                       Continue sequence if this step fails
                     </label>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-3 pt-4 border-t border-cyan-500/30">
+                  <div className="flex gap-3 pt-4 border-t border-slate-200 dark:border-cyan-500/30">
                     <button
                       onClick={handleSaveStep}
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all"
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all shadow-lg shadow-cyan-500/30"
                     >
                       {editingStep ? 'Update Step' : 'Add Step'}
                     </button>
                     <button
                       onClick={() => setShowStepEditor(false)}
-                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                      className="px-4 py-2 bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-white rounded-lg hover:bg-slate-200 dark:hover:bg-gray-600 transition-colors"
                     >
                       Cancel
                     </button>

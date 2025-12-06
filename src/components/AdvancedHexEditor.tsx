@@ -86,9 +86,9 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
       category: hexEditorService.categorizeByte(byte, bytes.length, bytes.map(b => b.value)),
       description: hexEditorService.getByteDescription(byte, bytes.length, bytes.map(b => b.value))
     };
-    
+
     setBytes([...bytes, newByte]);
-    
+
     // Update recent bytes
     const newRecent = [byte, ...recentBytes.filter(b => b !== byte)].slice(0, 16);
     setRecentBytes(newRecent);
@@ -131,7 +131,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
     const updated = [...customTemplates, newTemplate];
     setCustomTemplates(updated);
     localStorage.setItem('hexEditor_customTemplates', JSON.stringify(updated));
-    
+
     alert('Template saved!');
   };
 
@@ -170,7 +170,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-dark-700">
           <div>
-            <h2 className="text-xl font-bold text-white flex items-center">
+            <h2 className="text-xl font-bold text-gray-100 flex items-center">
               <svg className="w-6 h-6 mr-2 text-cyber-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
               </svg>
@@ -178,7 +178,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
             </h2>
             <p className="text-sm text-gray-400 mt-1">Visual byte-level request builder</p>
           </div>
-          
+
           <button
             onClick={onClose}
             className="p-2 rounded hover:bg-dark-700 transition-colors"
@@ -264,7 +264,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
                   </svg>
                   Templates ({allTemplates.length})
                 </button>
-                
+
                 {showTemplates && (
                   <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto custom-scrollbar">
                     {Object.entries(templatesByCategory).map(([category, templates]) => (
@@ -279,7 +279,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
                             className="text-left px-2 py-1.5 rounded text-xs bg-dark-700 hover:bg-dark-600 transition-colors border border-dark-600"
                             title={template.description}
                           >
-                            <div className="text-white font-medium truncate">{template.name}</div>
+                            <div className="text-gray-100 font-medium truncate">{template.name}</div>
                             <div className="text-gray-500 text-[10px] font-mono">
                               {template.bytes.map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
                             </div>
@@ -315,7 +315,7 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
               Show suggestions
             </label>
           </div>
-          
+
           <div className="flex gap-2">
             <button
               onClick={onClose}
@@ -326,11 +326,10 @@ export const AdvancedHexEditor: React.FC<AdvancedHexEditorProps> = ({
             <button
               onClick={handleApply}
               disabled={bytes.length === 0}
-              className={`px-4 py-2 rounded text-sm font-bold transition-all ${
-                bytes.length === 0
+              className={`px-4 py-2 rounded text-sm font-bold transition-all ${bytes.length === 0
                   ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
                   : 'bg-gradient-to-r from-cyber-blue to-cyber-purple text-white hover:shadow-neon'
-              }`}
+                }`}
             >
               Apply to Request
             </button>

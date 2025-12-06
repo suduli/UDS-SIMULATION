@@ -259,14 +259,16 @@ const Header: React.FC = () => {
               </Link>
 
               <Link
-                to="/conditions"
-                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 text-pink-400 border border-pink-500/30 rounded-lg transition-all"
+                to="/cluster"
+                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 text-amber-400 border border-amber-500/30 rounded-lg transition-all"
               >
                 <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
                 </svg>
-                Conditions
+                Cluster Dashboard
               </Link>
+
 
               {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
                 <button
@@ -358,11 +360,11 @@ const Header: React.FC = () => {
                 Learn UDS
               </Link>
               <Link
-                to="/conditions"
+                to="/cluster"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm text-pink-400 bg-pink-500/10 border border-pink-500/30 rounded-lg"
+                className="block px-3 py-2 text-sm text-amber-400 bg-amber-500/10 border border-amber-500/30 rounded-lg"
               >
-                Conditions
+                Cluster Dashboard
               </Link>
               <button
                 onClick={() => { setIsSequenceBuilderOpen(true); setMobileMenuOpen(false); }}

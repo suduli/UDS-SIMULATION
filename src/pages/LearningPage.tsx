@@ -116,17 +116,13 @@ export const LearningPage: React.FC = () => {
                         {/* Lab Content - Side-by-Side */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             {/* Input Section */}
-                            <div className="flex flex-col">
-                                <div className="rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm p-1 min-h-[400px]">
-                                    <RequestBuilder initialRequest="" />
-                                </div>
+                            <div className="flex flex-col h-full">
+                                <RequestBuilder initialRequest="" />
                             </div>
 
                             {/* Output Section */}
-                            <div className="flex flex-col">
-                                <div className="rounded-xl border border-gray-800 bg-dark-900/30 backdrop-blur-sm shadow-inner min-h-[400px]">
-                                    <ResponseVisualizer />
-                                </div>
+                            <div className="flex flex-col h-full">
+                                <ResponseVisualizer />
                             </div>
                         </div>
                     </div>

@@ -272,7 +272,6 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   });
 
 
-
   const handleInteractiveExample = (hex: string) => {
     const cleanHex = hex.replace(/\s+/g, '');
     if (cleanHex.length < 2) return;
@@ -312,15 +311,15 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   };
 
   return (
-    <div className="glass-panel cyber-shape p-6 animate-slide-up">
+    <div className="glass-panel cyber-shape p-6 animate-slide-up h-full">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-cyber-blue">Request Builder</h2>
         <div className="flex items-center space-x-2">
           <button
             onClick={handleToggleManualMode}
             className={`px-3 py-1 text-sm rounded transition-all ${isManualMode
-              ? 'bg-cyber-blue text-dark-900'
-              : 'bg-gray-200 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+              ? 'bg-cyber-blue text-dark-900 font-bold'
+              : 'bg-dark-700 text-gray-400 hover:text-gray-200 border border-dark-600'
               }`}
             aria-label="Toggle manual mode (Ctrl+M)"
             title="Ctrl+M"
@@ -337,7 +336,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
           {/* Service Selection */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">
+              <label className="text-sm text-gray-400">
                 Service (SID)
               </label>
               <div className="flex gap-2">
@@ -345,7 +344,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                   onClick={() => setViewMode('grid')}
                   className={`p-1.5 rounded transition-colors ${viewMode === 'grid'
                     ? 'bg-cyber-blue/20 text-cyber-blue'
-                    : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    : 'text-gray-400 hover:text-gray-200'
                     }`}
                   aria-label="Grid view"
                   title="Grid view"
@@ -358,7 +357,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                   onClick={() => setViewMode('dropdown')}
                   className={`p-1.5 rounded transition-colors ${viewMode === 'dropdown'
                     ? 'bg-cyber-blue/20 text-cyber-blue'
-                    : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-200'
+                    : 'text-gray-400 hover:text-gray-200'
                     }`}
                   aria-label="List view"
                   title="List view"
@@ -426,7 +425,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
           {/* Sub-Function */}
           {selectedService && (
             <div>
-              <label htmlFor="subfunction-input" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Sub-Function (Optional)</label>
+              <label htmlFor="subfunction-input" className="block text-sm text-gray-400 mb-2">Sub-Function (Optional)</label>
               <input
                 id="subfunction-input"
                 type="text"
@@ -441,7 +440,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
           {/* Data Input */}
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Data (Hex bytes, space-separated)</label>
+            <label className="block text-sm text-gray-400 mb-2">Data (Hex bytes, space-separated)</label>
             <input
               type="text"
               value={dataInput}
@@ -463,7 +462,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
           {/* Example Requests */}
           <div>
-            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+            <label className="block text-sm text-gray-400 mb-2">
               {selectedService ? 'Service Examples' : 'Quick Examples'}
             </label>
             <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick example requests">
@@ -497,7 +496,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
           {/* Manual Hex Input */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-sm text-gray-600 dark:text-gray-400">
+              <label className="text-sm text-gray-400">
                 Manual Hex Frame (space-separated bytes)
               </label>
               <button
@@ -515,7 +514,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
               value={manualHex}
               onChange={(e) => handleManualHexChange(e.target.value)}
               placeholder="e.g., 10 03 or 22 F1 90"
-              className={`w-full cyber-input font-mono h-24 resize-none !bg-white dark:!bg-dark-800 !text-gray-900 dark:!text-gray-100 ${validationError && manualHex ? 'border-cyber-pink' : ''}`}
+              className={`w-full cyber-input font-mono h-24 resize-none !bg-dark-800 !text-gray-100 ${validationError && manualHex ? 'border-cyber-pink' : ''}`}
               aria-label="Manual hex input"
               aria-invalid={!!validationError && !!manualHex}
             />
@@ -536,8 +535,8 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
       )}
 
       {/* Preview */}
-      <div className="mt-4 preview-box rounded-lg p-4 border">
-        <h3 className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview</h3>
+      <div className="mt-4 preview-box rounded-lg p-4 border border-dark-600 bg-dark-800/50">
+        <h3 className="text-sm text-gray-400 mb-2">Preview</h3>
         <div className="font-mono text-cyber-green text-sm">
           {isManualMode ? (
             manualHex || 'Enter hex data...'
@@ -559,7 +558,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
           w-full mt-6 py-3 rounded-lg font-bold cyber-shape
           transition-all duration-300
           ${(!selectedService && !isManualMode) || (isManualMode && !manualHex.trim()) || sending || !!validationError
-            ? 'bg-gray-200 dark:bg-dark-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+            ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
             : 'bg-gradient-to-r from-cyber-blue via-purple-500 to-cyber-purple text-white hover:shadow-neon hover:scale-105 bg-size-200 animate-gradient-shift active:scale-95'
           }
         `}
