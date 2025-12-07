@@ -244,10 +244,8 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [ecuPower, setEcuPower] = useState(true);
 
   // Rapid Power Shutdown (RPS) State - SID 11
-  const [rpsEnabled, setRpsEnabled] = useState(false);
-  const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
-  const [rpsCountdown, setRpsCountdown] = useState<number | null>(null);
-  const rpsTimerRef = useRef<number | null>(null);
+  const [rpsEnabled] = useState(false);  const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
+  const [rpsPowerDownTime] = useState<number | null>(null);  const rpsTimerRef = useRef<number | null>(null);
 
   // Vehicle State for Cluster Integration
   const [vehicleState, setVehicleStateInternal] = useState<VehicleState>({
