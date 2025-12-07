@@ -1,8 +1,8 @@
 # SID 0x19 - Practical Implementation Guide
 
-**Document Version**: 2.0  
-**Last Updated**: October 12, 2025  
-**Format**: Visual Diagrams (No Code)  
+**Document Version**: 3.0  
+**Last Updated**: December 7, 2025  
+**Format**: Visual Diagrams + Implementation Reference  
 **ISO Reference**: ISO 14229-1:2020 Section 10.7
 
 ---
@@ -1230,4 +1230,67 @@ WITH SID 0x22 (Read Data by Identifier):
 
 ---
 
+## Implementation Reference
+
+> 📁 **This section documents the actual implementation in the UDS Simulator codebase**
+
+### Core Implementation Files
+
+| File | Purpose |
+|------|---------|
+| `src/services/UDSSimulator.ts` | Main SID 0x19 handler with all 15 subfunctions |
+| `src/types/uds.ts` | DTC interfaces: DTCInfo, DTCSnapshotRecord, DTCExtendedDataRecord |
+| `src/services/mockECU.ts` | Comprehensive DTC database (P, C, B, U codes) |
+| `src/utils/udsHelpers.ts` | DTC formatting and status interpretation helpers |
+
+### UI Components
+
+| Component | Purpose |
+|-----------|---------|
+| `src/components/DTCManagementPanel.tsx` | Real-time DTC visualization with category/status filtering |
+| `src/components/ResponseVisualizer.tsx` | Subfunction-aware byte interpretation |
+| `src/data/serviceTooltipData.ts` | Quick examples for all major subfunctions |
+
+### Supported Subfunctions (Implemented)
+
+| SF | Name | Status |
+|----|------|--------|
+| 0x01 | reportNumberOfDTCByStatusMask | ✅ Full |
+| 0x02 | reportDTCByStatusMask | ✅ Full |
+| 0x03 | reportDTCSnapshotIdentification | ✅ Full |
+| 0x04 | reportDTCSnapshotRecordByDTCNumber | ✅ Full |
+| 0x06 | reportDTCExtDataRecordByDTCNumber | ✅ Full |
+| 0x07 | reportNumberOfDTCBySeverityMaskRecord | ✅ Full |
+| 0x08 | reportDTCBySeverityMaskRecord | ✅ Full |
+| 0x09 | reportSeverityInformationOfDTC | ✅ Full |
+| 0x0A | reportSupportedDTC | ✅ Full |
+| 0x0B | reportFirstTestFailedDTC | ✅ Full |
+| 0x0C | reportFirstConfirmedDTC | ✅ Full |
+| 0x0D | reportMostRecentTestFailedDTC | ✅ Full |
+| 0x0E | reportMostRecentConfirmedDTC | ✅ Full |
+| 0x0F | reportMirrorMemoryDTCByStatusMask | ✅ Full |
+
+### Mock DTC Database
+
+The simulator includes 14 pre-configured DTCs across all categories:
+
+- **Powertrain (P-codes)**: Engine, transmission, drivetrain faults
+- **Chassis (C-codes)**: ABS, stability control, suspension faults
+- **Body (B-codes)**: Airbag, lighting, climate faults
+- **Network (U-codes)**: CAN bus, ECU communication faults
+
+Each DTC includes:
+- Snapshot records with freeze frame data (RPM, speed, temps)
+- Extended data (occurrence counters, aging counters, timestamps)
+- Proper ISO 14229 status bytes
+
+### Learning Resources
+
+- Interactive lesson in `src/data/learningContent.ts` (service-0x19)
+- 4 quiz questions covering status bytes, subfunctions, and DTC prefixes
+- 3 examples with complete byte-by-byte breakdowns
+
+---
+
 **End of Document**
+

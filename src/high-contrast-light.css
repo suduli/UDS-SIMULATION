@@ -576,3 +576,369 @@
     border-color: var(--text-pure-black) !important;
     border-width: 2px !important;
 }
+
+/* ========================================
+   DTC MANAGEMENT PANEL - HIGH CONTRAST LIGHT
+   ======================================== */
+
+/* Main Panel */
+[data-theme="light"][data-contrast="high"] .dtc-panel {
+    background: var(--bg-pure-white) !important;
+    backdrop-filter: none !important;
+    border: 3px solid var(--text-pure-black) !important;
+    box-shadow: none !important;
+}
+
+/* Header Icon */
+[data-theme="light"][data-contrast="high"] .dtc-header-icon {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--accent-blue-dark) !important;
+    color: var(--accent-blue-dark) !important;
+}
+
+/* Panel Title & Subtitle */
+[data-theme="light"][data-contrast="high"] .dtc-panel-title {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-panel-subtitle {
+    color: #333333 !important;
+}
+
+/* Close Button */
+[data-theme="light"][data-contrast="high"] .dtc-close-btn {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-close-btn:hover {
+    background: var(--text-pure-black) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Last Request Info */
+[data-theme="light"][data-contrast="high"] .dtc-last-request {
+    background: var(--bg-pure-white) !important;
+    border: 2px solid var(--text-pure-black) !important;
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-last-request-value {
+    color: var(--accent-blue-dark) !important;
+}
+
+/* Action Buttons */
+[data-theme="light"][data-contrast="high"] .dtc-action-btn {
+    background: var(--bg-pure-white) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-primary {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-primary:hover:not(:disabled) {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-warning {
+    color: var(--accent-orange-dark) !important;
+    border-color: var(--accent-orange-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-warning:hover:not(:disabled) {
+    background: var(--accent-orange-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-info {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-info:hover:not(:disabled) {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-purple {
+    color: var(--accent-purple-dark) !important;
+    border-color: var(--accent-purple-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-purple:hover:not(:disabled) {
+    background: var(--accent-purple-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-danger {
+    color: var(--accent-red-dark) !important;
+    border-color: var(--accent-red-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-action-btn-danger:hover:not(:disabled) {
+    background: var(--accent-red-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Category Tabs */
+[data-theme="light"][data-contrast="high"] .dtc-category-tab {
+    background: var(--bg-pure-white) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-category-tab-active {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+    background: rgba(0, 102, 204, 0.1) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-category-tab-inactive {
+    color: var(--text-pure-black) !important;
+    border-color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-category-tab-inactive:hover {
+    background: var(--text-pure-black) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Status Pills */
+[data-theme="light"][data-contrast="high"] .dtc-status-pill {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-all {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-confirmed {
+    color: var(--accent-red-dark) !important;
+    border-color: var(--accent-red-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-pending {
+    color: var(--accent-orange-dark) !important;
+    border-color: var(--accent-orange-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-active {
+    color: #cc4400 !important;
+    border-color: #cc4400 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-inactive {
+    color: var(--text-pure-black) !important;
+    border-color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-pill-inactive:hover {
+    background: var(--text-pure-black) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* DTC Card */
+[data-theme="light"][data-contrast="high"] .dtc-card {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-card:hover {
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-card-expanded {
+    border-color: var(--accent-blue-dark) !important;
+    background: rgba(0, 102, 204, 0.05) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-code {
+    color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-category-label {
+    color: #333333 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-description {
+    color: var(--text-pure-black) !important;
+}
+
+/* Status Tags */
+[data-theme="light"][data-contrast="high"] .dtc-status-tag {
+    background: var(--bg-pure-white) !important;
+    border: 2px solid var(--text-pure-black) !important;
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-more {
+    color: var(--text-pure-black) !important;
+}
+
+/* Severity Badges */
+[data-theme="light"][data-contrast="high"] .dtc-severity-badge {
+    background: var(--bg-pure-white) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-severity-critical {
+    color: var(--accent-red-dark) !important;
+    border-color: var(--accent-red-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-severity-high {
+    color: #cc4400 !important;
+    border-color: #cc4400 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-severity-medium {
+    color: var(--accent-orange-dark) !important;
+    border-color: var(--accent-orange-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-severity-low {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-severity-default {
+    color: var(--text-pure-black) !important;
+    border-color: var(--text-pure-black) !important;
+}
+
+/* Expand Icon */
+[data-theme="light"][data-contrast="high"] .dtc-expand-icon {
+    color: var(--text-pure-black) !important;
+}
+
+/* Expanded Content */
+[data-theme="light"][data-contrast="high"] .dtc-expanded-content {
+    border-color: var(--text-pure-black) !important;
+}
+
+/* Status Bits */
+[data-theme="light"][data-contrast="high"] .dtc-status-bit {
+    border-width: 2px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-bit-active {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-bit-inactive {
+    background: var(--bg-pure-white) !important;
+    color: var(--text-pure-black) !important;
+    border-color: var(--text-pure-black) !important;
+}
+
+/* Section Labels */
+[data-theme="light"][data-contrast="high"] .dtc-section-label {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-status-labels {
+    color: #333333 !important;
+}
+
+/* Counter Boxes */
+[data-theme="light"][data-contrast="high"] .dtc-counter-box {
+    background: var(--bg-pure-white) !important;
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-counter-label {
+    color: #333333 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-counter-value-primary {
+    color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-counter-value-secondary {
+    color: var(--text-pure-black) !important;
+}
+
+/* Timestamps */
+[data-theme="light"][data-contrast="high"] .dtc-timestamp-label {
+    color: #333333 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-timestamp-value {
+    color: var(--text-pure-black) !important;
+}
+
+/* Data Rows */
+[data-theme="light"][data-contrast="high"] .dtc-data-row {
+    background: var(--bg-pure-white) !important;
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-data-key {
+    color: #333333 !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-data-value {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-data-value-fail {
+    color: var(--accent-red-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-data-value-pass {
+    color: var(--accent-green-dark) !important;
+}
+
+/* Detail Action Buttons */
+[data-theme="light"][data-contrast="high"] .dtc-detail-btn {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-detail-btn-primary {
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-detail-btn-primary:hover {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-detail-btn-purple {
+    color: var(--accent-purple-dark) !important;
+    border-color: var(--accent-purple-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-detail-btn-purple:hover {
+    background: var(--accent-purple-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Empty State */
+[data-theme="light"][data-contrast="high"] .dtc-empty-state {
+    color: var(--text-pure-black) !important;
+}
+
+/* Footer */
+[data-theme="light"][data-contrast="high"] .dtc-footer {
+    border-color: var(--text-pure-black) !important;
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-footer-dot {
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-footer-dot-confirmed {
+    background: var(--accent-red-dark) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .dtc-footer-dot-pending {
+    background: var(--accent-orange-dark) !important;
+}

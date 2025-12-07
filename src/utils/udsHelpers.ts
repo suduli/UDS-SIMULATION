@@ -180,7 +180,7 @@ export const validateRequestLength = (sid: number, data: number[]): boolean => {
     0x27: 2,  // SID + SubFunction
     0x31: 4,  // SID + SubFunction + Routine ID high + low
   };
-  
+
   const minLength = minLengths[sid] || 1;
   return data.length >= minLength;
 };
@@ -231,21 +231,21 @@ export const generateAutomotiveData = (type: string): number[] => {
       const rpm = Math.floor(Math.random() * 3000) + 800;
       return [(rpm >> 8) & 0xFF, rpm & 0xFF];
     }
-    
+
     case 'vehicleSpeed':
       // Return 1 byte (0-255 km/h)
       return [Math.floor(Math.random() * 120) + 20];
-    
+
     case 'coolantTemp':
       // Return 1 byte (-40 to 215°C, offset by 40)
       return [Math.floor(Math.random() * 60) + 80];
-    
+
     case 'batteryVoltage': {
       // Return 2 bytes (0-16V, scaled by 100)
       const voltage = Math.floor((Math.random() * 2 + 12) * 100);
       return [(voltage >> 8) & 0xFF, voltage & 0xFF];
     }
-    
+
     default:
       return [0x00, 0x00];
   }
@@ -256,4 +256,99 @@ export const generateAutomotiveData = (type: string): number[] => {
  */
 export const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+/**
+ * Format 3-byte DTC code to human-readable format (e.g., P0420, C0035)
+ * @param code - 3-byte DTC code as number
+ * @returns Formatted DTC string (e.g., "P0420")
+ */
+export const formatDTCCode = (code: number): string => {
+  // Extract category from first nibble of first byte
+  const firstByte = (code >> 16) & 0xFF;
+  const category = (firstByte >> 4) & 0x0F;
+
+  // Map category to P/C/B/U
+  const categoryChars: Record<number, string> = {
+    0x00: 'P', // Powertrain - Generic
+    0x01: 'P', // Powertrain - Manufacturer specific
+    0x02: 'C', // Chassis
+    0x03: 'B', // Body
+    0x04: 'U', // Network
+  };
+
+  const categoryChar = categoryChars[category] || 'P';
+
+  // Format remaining digits
+  const digit1 = firstByte & 0x0F;
+  const digit2 = ((code >> 8) & 0xF0) >> 4;
+  const digit3 = (code >> 8) & 0x0F;
+  const digit4 = (code & 0xFF);
+
+  return `${categoryChar}${digit1.toString(16).toUpperCase()}${digit2.toString(16).toUpperCase()}${digit3.toString(16).toUpperCase()}${digit4.toString(16).toUpperCase().padStart(2, '0')}`;
+};
+
+/**
+ * Get DTC category from code
+ */
+export const getDTCCategory = (code: number): 'powertrain' | 'chassis' | 'body' | 'network' => {
+  const firstByte = (code >> 16) & 0xFF;
+  const category = (firstByte >> 4) & 0x0F;
+
+  switch (category) {
+    case 0x00:
+    case 0x01:
+      return 'powertrain';
+    case 0x02:
+      return 'chassis';
+    case 0x03:
+      return 'body';
+    case 0x04:
+      return 'network';
+    default:
+      return 'powertrain';
+  }
+};
+
+/**
+ * Get human-readable status bit descriptions
+ */
+export const getDTCStatusDescriptions = (status: DTCStatusMask): string[] => {
+  const descriptions: string[] = [];
+
+  if (status.testFailed) descriptions.push('Test Failed');
+  if (status.testFailedThisOperationCycle) descriptions.push('Failed This Cycle');
+  if (status.pendingDTC) descriptions.push('Pending');
+  if (status.confirmedDTC) descriptions.push('Confirmed');
+  if (status.testNotCompletedSinceLastClear) descriptions.push('Not Completed Since Clear');
+  if (status.testFailedSinceLastClear) descriptions.push('Failed Since Clear');
+  if (status.testNotCompletedThisOperationCycle) descriptions.push('Not Completed This Cycle');
+  if (status.warningIndicatorRequested) descriptions.push('MIL On');
+
+  return descriptions;
+};
+
+/**
+ * Get SID 19 subfunction name
+ */
+export const getSID19SubfunctionName = (subFunction: number): string => {
+  const names: Record<number, string> = {
+    0x01: 'reportNumberOfDTCByStatusMask',
+    0x02: 'reportDTCByStatusMask',
+    0x03: 'reportDTCSnapshotIdentification',
+    0x04: 'reportDTCSnapshotRecordByDTCNumber',
+    0x05: 'reportDTCStoredDataByRecordNumber',
+    0x06: 'reportDTCExtDataRecordByDTCNumber',
+    0x07: 'reportNumberOfDTCBySeverityMaskRecord',
+    0x08: 'reportDTCBySeverityMaskRecord',
+    0x09: 'reportSeverityInformationOfDTC',
+    0x0A: 'reportSupportedDTC',
+    0x0B: 'reportFirstTestFailedDTC',
+    0x0C: 'reportFirstConfirmedDTC',
+    0x0D: 'reportMostRecentTestFailedDTC',
+    0x0E: 'reportMostRecentConfirmedDTC',
+    0x0F: 'reportMirrorMemoryDTCByStatusMask',
+  };
+
+  return names[subFunction & 0x7F] || `Unknown (0x${subFunction.toString(16).toUpperCase()})`;
 };

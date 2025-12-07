@@ -1,0 +1,783 @@
+{
+    "id": "sid19-read-dtc-information-test-suite",
+    "name": "SID 19 Read DTC Information Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 19 (ReadDTCInformation) based on ISO 14229-1:2020. Covers all 15 subfunctions including DTC counting, reading by status mask, snapshot/freeze frame data, extended data, severity masks, supported DTCs, and first/most recent failures. Each test category starts from Default Session to ensure proper isolation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450001000,
+            "description": "TC-01.1: SF 0x01 - Count All DTCs (Status Mask 0xFF)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                8
+            ],
+            "timestamp": 1733450002000,
+            "description": "TC-01.2: SF 0x01 - Count Confirmed DTCs Only (Status Mask 0x08)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                4
+            ],
+            "timestamp": 1733450003000,
+            "description": "TC-01.3: SF 0x01 - Count Pending DTCs Only (Status Mask 0x04)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                1
+            ],
+            "timestamp": 1733450004000,
+            "description": "TC-01.4: SF 0x01 - Count testFailed DTCs (Status Mask 0x01)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                128
+            ],
+            "timestamp": 1733450005000,
+            "description": "TC-01.5: SF 0x01 - Count MIL Active DTCs (Status Mask 0x80)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                0
+            ],
+            "timestamp": 1733450006000,
+            "description": "TC-01.6: SF 0x01 - Count with Zero Mask (Edge Case)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450006500,
+            "description": "[SETUP] Reset to Default Session for TC-02"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450007000,
+            "description": "TC-02.1: SF 0x02 - Read All DTCs by Status (Mask 0xFF)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                8
+            ],
+            "timestamp": 1733450008000,
+            "description": "TC-02.2: SF 0x02 - Read Confirmed DTCs (Mask 0x08)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                4
+            ],
+            "timestamp": 1733450009000,
+            "description": "TC-02.3: SF 0x02 - Read Pending DTCs (Mask 0x04)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                9
+            ],
+            "timestamp": 1733450010000,
+            "description": "TC-02.4: SF 0x02 - Read Confirmed OR Failed (Mask 0x09)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                128
+            ],
+            "timestamp": 1733450011000,
+            "description": "TC-02.5: SF 0x02 - Read MIL Active DTCs (Mask 0x80)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450011500,
+            "description": "[SETUP] Reset to Default Session for TC-03"
+        },
+        {
+            "sid": 25,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450012000,
+            "description": "TC-03.1: SF 0x03 - Report DTC Snapshot Identification"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450012500,
+            "description": "[SETUP] Reset to Default Session for TC-04"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "timestamp": 1733450013000,
+            "description": "TC-04.1: SF 0x04 - Read Snapshot Record for DTC 0x010101, Record 1"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1,
+                255
+            ],
+            "timestamp": 1733450014000,
+            "description": "TC-04.2: SF 0x04 - Read All Snapshot Records for DTC (Record 0xFF)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                3,
+                0,
+                1
+            ],
+            "timestamp": 1733450015000,
+            "description": "TC-04.3: SF 0x04 - Read Snapshot for P0300 Misfire DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                255,
+                255,
+                255,
+                1
+            ],
+            "timestamp": 1733450016000,
+            "description": "TC-04.4: SF 0x04 - Invalid DTC 0xFFFFFF - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450016500,
+            "description": "[SETUP] Reset to Default Session for TC-05"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                1,
+                1,
+                1
+            ],
+            "timestamp": 1733450017000,
+            "description": "TC-05.1: SF 0x06 - Read Extended Data Record 1 for DTC 0x010101"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                1,
+                1,
+                255
+            ],
+            "timestamp": 1733450018000,
+            "description": "TC-05.2: SF 0x06 - Read All Extended Data (Record 0xFF)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                3,
+                0,
+                1
+            ],
+            "timestamp": 1733450019000,
+            "description": "TC-05.3: SF 0x06 - Read Extended Data for P0300"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450019500,
+            "description": "[SETUP] Reset to Default Session for TC-06"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [
+                96,
+                255
+            ],
+            "timestamp": 1733450020000,
+            "description": "TC-06.1: SF 0x07 - Count DTCs by Severity (High/0x60, All Status)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [
+                64,
+                255
+            ],
+            "timestamp": 1733450021000,
+            "description": "TC-06.2: SF 0x07 - Count DTCs by Severity (Medium/0x40)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [
+                32,
+                255
+            ],
+            "timestamp": 1733450022000,
+            "description": "TC-06.3: SF 0x07 - Count DTCs by Severity (Low/0x20)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450022500,
+            "description": "[SETUP] Reset to Default Session for TC-07"
+        },
+        {
+            "sid": 25,
+            "subFunction": 8,
+            "data": [
+                96,
+                255
+            ],
+            "timestamp": 1733450023000,
+            "description": "TC-07.1: SF 0x08 - Read DTCs by Severity (High/0x60)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 8,
+            "data": [
+                64,
+                8
+            ],
+            "timestamp": 1733450024000,
+            "description": "TC-07.2: SF 0x08 - Read Medium Severity + Confirmed (0x40, 0x08)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450024500,
+            "description": "[SETUP] Reset to Default Session for TC-08"
+        },
+        {
+            "sid": 25,
+            "subFunction": 9,
+            "data": [
+                1,
+                1,
+                1
+            ],
+            "timestamp": 1733450025000,
+            "description": "TC-08.1: SF 0x09 - Report Severity Information for DTC 0x010101"
+        },
+        {
+            "sid": 25,
+            "subFunction": 9,
+            "data": [
+                1,
+                3,
+                0
+            ],
+            "timestamp": 1733450026000,
+            "description": "TC-08.2: SF 0x09 - Report Severity for P0300"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450026500,
+            "description": "[SETUP] Reset to Default Session for TC-09"
+        },
+        {
+            "sid": 25,
+            "subFunction": 10,
+            "data": [],
+            "timestamp": 1733450027000,
+            "description": "TC-09.1: SF 0x0A - Report ALL Supported DTCs"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450027500,
+            "description": "[SETUP] Reset to Default Session for TC-10"
+        },
+        {
+            "sid": 25,
+            "subFunction": 11,
+            "data": [],
+            "timestamp": 1733450028000,
+            "description": "TC-10.1: SF 0x0B - Report First Test Failed DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 12,
+            "data": [],
+            "timestamp": 1733450029000,
+            "description": "TC-10.2: SF 0x0C - Report First Confirmed DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 13,
+            "data": [],
+            "timestamp": 1733450030000,
+            "description": "TC-10.3: SF 0x0D - Report Most Recent Test Failed DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 14,
+            "data": [],
+            "timestamp": 1733450031000,
+            "description": "TC-10.4: SF 0x0E - Report Most Recent Confirmed DTC"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450031500,
+            "description": "[SETUP] Reset to Default Session for TC-11"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450032000,
+            "description": "TC-11.1: Enter Extended Session for Mirror Memory Tests"
+        },
+        {
+            "sid": 25,
+            "subFunction": 15,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450033000,
+            "description": "TC-11.2: SF 0x0F - Report Mirror Memory DTC by Status (Extended Session)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450033500,
+            "description": "[SETUP] Reset to Default Session for TC-12"
+        },
+        {
+            "sid": 25,
+            "subFunction": 15,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450034000,
+            "description": "TC-12.1: SF 0x0F - Mirror Memory in Default Session - Expect NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450034500,
+            "description": "[SETUP] Reset to Default Session for TC-13 (Message Length)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450035000,
+            "description": "TC-13.1: SF 0x01 - Missing Status Mask - Expect NRC 0x13"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1733450036000,
+            "description": "TC-13.2: SF 0x02 - Missing Status Mask - Expect NRC 0x13"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1
+            ],
+            "timestamp": 1733450037000,
+            "description": "TC-13.3: SF 0x04 - Incomplete DTC (only 2 bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1
+            ],
+            "timestamp": 1733450038000,
+            "description": "TC-13.4: SF 0x04 - Missing Record Number - Expect NRC 0x13"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                1
+            ],
+            "timestamp": 1733450039000,
+            "description": "TC-13.5: SF 0x06 - Incomplete DTC - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450039500,
+            "description": "[SETUP] Reset to Default Session for TC-14 (Invalid Subfunctions)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 0,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450040000,
+            "description": "TC-14.1: Invalid Subfunction 0x00 - Expect NRC 0x12"
+        },
+        {
+            "sid": 25,
+            "subFunction": 32,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450041000,
+            "description": "TC-14.2: Invalid Subfunction 0x20 - Expect NRC 0x12"
+        },
+        {
+            "sid": 25,
+            "subFunction": 255,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450042000,
+            "description": "TC-14.3: Invalid Subfunction 0xFF - Expect NRC 0x12"
+        },
+        {
+            "sid": 25,
+            "subFunction": 99,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450043000,
+            "description": "TC-14.4: Invalid Subfunction 0x63 - Expect NRC 0x12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450043500,
+            "description": "[SETUP] Reset to Default Session for TC-15 (Session Tests)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450044000,
+            "description": "TC-15.1: Read DTC Count in Default Session - Valid"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450045000,
+            "description": "TC-15.2: Enter Extended Session"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450046000,
+            "description": "TC-15.3: Read DTC Count in Extended Session - Valid"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1733450047000,
+            "description": "TC-15.4: Enter Programming Session"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450048000,
+            "description": "TC-15.5: Read DTC Count in Programming Session - May be restricted"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450048500,
+            "description": "[SETUP] Reset to Default Session for TC-16"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450049000,
+            "description": "TC-16.1: Count All DTCs Before Clear"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733450050000,
+            "description": "TC-16.2: Clear All DTCs (SID 0x14)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450051000,
+            "description": "TC-16.3: Count All DTCs After Clear - Expect 0"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450052000,
+            "description": "TC-16.4: Read All DTCs After Clear - Expect Empty"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450052500,
+            "description": "[SETUP] Reset to Default Session for TC-17"
+        },
+        {
+            "sid": 25,
+            "subFunction": 129,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450053000,
+            "description": "TC-17.1: SF 0x01 with Suppress Positive Response (0x81)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 130,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450054000,
+            "description": "TC-17.2: SF 0x02 with Suppress Positive Response (0x82)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 138,
+            "data": [],
+            "timestamp": 1733450055000,
+            "description": "TC-17.3: SF 0x0A with Suppress Positive Response (0x8A)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450055500,
+            "description": "[SETUP] Reset to Default Session for TC-18 (Stress Tests)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450056000,
+            "description": "TC-18.1: Rapid Request 1 - Count DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450056100,
+            "description": "TC-18.2: Rapid Request 2 - Count DTCs (100ms)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450056200,
+            "description": "TC-18.3: Rapid Request 3 - Read DTCs (100ms)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 10,
+            "data": [],
+            "timestamp": 1733450056300,
+            "description": "TC-18.4: Rapid Request 4 - Supported DTCs (100ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450056800,
+            "description": "[SETUP] Final Reset to Default Session"
+        }
+    ],
+    "createdAt": 1733450000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 compliant test suite for SID 19 (ReadDTCInformation) with comprehensive coverage of all 15 subfunctions, error handling, session validation, and stress testing",
+        "tags": [
+            "SID19",
+            "Read DTC",
+            "ReadDTCInformation",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "DTC Management",
+            "Freeze Frame",
+            "Extended Data",
+            "Snapshot"
+        ],
+        "duration": 75000,
+        "totalRequests": 80,
+        "successRate": 100
+    },
+    "timings": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        500,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        500,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        100,
+        100,
+        100,
+        500
+    ],
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 19 (ReadDTCInformation). Covers all 15 ISO 14229-1 subfunctions: 0x01 (Count by Status), 0x02 (Read by Status), 0x03 (Snapshot Identification), 0x04 (Snapshot Record), 0x06 (Extended Data), 0x07 (Count by Severity), 0x08 (Read by Severity), 0x09 (Severity Info), 0x0A (Supported DTCs), 0x0B-0x0E (First/Most Recent Failed/Confirmed), 0x0F (Mirror Memory). Includes NRC validation for 0x12 (SubfunctionNotSupported), 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x31 (RequestOutOfRange). Also includes Suppress Positive Response bit testing and stress testing."
+}

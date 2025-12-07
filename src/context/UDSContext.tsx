@@ -11,7 +11,7 @@ import { UDSSimulator } from '../services/UDSSimulator';
 import { parseNRC } from '../utils/nrcLookup';
 import { mockECUConfig } from '../services/mockECU';
 import { NegativeResponseCode as NegativeResponseCodeMap } from '../types/uds';
-import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode } from '../types/uds';
+import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode, ECUConfig } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
 import type { Sequence, SequenceExecutionState, SequenceExecutionOptions } from '../types/sequence';
@@ -67,6 +67,7 @@ interface VehicleState {
 
 interface UDSContextType {
   simulator: UDSSimulator;
+  ecuConfig: ECUConfig;
   protocolState: ProtocolState;
   requestHistory: Array<{ request: UDSRequest; response: UDSResponse }>;
   metrics: UDSMetrics;
@@ -146,6 +147,9 @@ interface UDSContextType {
   triggerRpsPowerDown: () => void;    // Manually trigger RPS power-down countdown
   setRpsPowerDownTime: (time: number) => void;
   simulateResetVoltageProfile: (type: 'hard' | 'keyOffOn') => void;
+
+  // DTC Management for Fault Triggers
+  updateDTCStatus: (dtcCode: number, isActive: boolean, vehicleState?: VehicleState) => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -1231,6 +1235,75 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     };
   }, []);
 
+  // DTC Management for Fault Triggers
+  const updateDTCStatus = useCallback((dtcCode: number, isActive: boolean, capturedState?: VehicleState) => {
+    const dtcIndex = mockECUConfig.dtcs.findIndex(d => d.code === dtcCode);
+    if (dtcIndex === -1) {
+      console.warn(`DTC 0x${dtcCode.toString(16).toUpperCase()} not found in ECU config`);
+      return;
+    }
+
+    const dtc = mockECUConfig.dtcs[dtcIndex];
+    const currentTime = Date.now();
+
+    if (isActive) {
+      // Activate DTC - set status bits
+      dtc.status = {
+        ...dtc.status,
+        testFailed: true,
+        testFailedThisOperationCycle: true,
+        confirmedDTC: true,
+        testFailedSinceLastClear: true,
+      };
+
+      // Increment occurrence counter
+      if (dtc.occurrenceCounter !== undefined) {
+        dtc.occurrenceCounter++;
+      }
+
+      // Set first/most recent failure timestamps
+      if (!dtc.firstFailureTimestamp) {
+        dtc.firstFailureTimestamp = currentTime;
+      }
+      dtc.mostRecentFailureTimestamp = currentTime;
+
+      // Capture freeze frame from vehicle state if provided
+      if (capturedState && dtc.snapshots && dtc.snapshots.length > 0) {
+        const snapshot = dtc.snapshots[0];
+        snapshot.recordNumber = 1;
+        snapshot.data = {
+          vehicleSpeed: capturedState.vehicleSpeedKph,
+          engineRPM: capturedState.engineRpm,
+          coolantTemp: capturedState.coolantTemperature,
+          throttlePosition: 0, // Not available from vehicleState
+          fuelLevel: capturedState.fuelLevel,
+          batteryVoltage: voltage,
+          engineLoad: 0, // Not available from vehicleState
+          intakeAirTemp: 25, // Default value
+          oilPressure: capturedState.oilPressure,
+          ambientTemp: 22, // Default value
+        };
+      }
+
+      console.log(`DTC 0x${dtcCode.toString(16).toUpperCase()} ACTIVATED - ${dtc.description}`);
+    } else {
+      // Deactivate DTC - clear testFailed but keep confirmed for history
+      dtc.status = {
+        ...dtc.status,
+        testFailed: false,
+        testFailedThisOperationCycle: false,
+        pendingDTC: false,
+      };
+
+      // Increment aging counter
+      if (dtc.agingCounter !== undefined) {
+        dtc.agingCounter++;
+      }
+
+      console.log(`DTC 0x${dtcCode.toString(16).toUpperCase()} DEACTIVATED - ${dtc.description}`);
+    }
+  }, []);
+
   return (
     <UDSContext.Provider
       value={{
@@ -1308,6 +1381,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         // Vehicle State for Cluster Integration
         vehicleState,
         updateVehicleState,
+
+        // ECU Configuration (for DTC Management)
+        ecuConfig: mockECUConfig,
+
+        // DTC Management for Fault Triggers
+        updateDTCStatus,
       }}
     >
       {children}

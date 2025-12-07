@@ -637,6 +637,208 @@ Example: 27 02 AB CD EF 12  (Send Key for Level 1)
                     'Failed attempts are limited and may trigger delay periods',
                     'Security unlock persists for the diagnostic session'
                 ]
+            },
+            {
+                id: 'service-0x19',
+                title: '0x19 - Read DTC Information',
+                duration: '30 min',
+                content: `# Service 0x19: Read DTC Information
+
+## Purpose
+Read diagnostic trouble codes (DTCs) and associated information from ECU memory. This is one of the most frequently used diagnostic services for vehicle troubleshooting.
+
+## Key Concepts
+
+### DTC Format
+A DTC (Diagnostic Trouble Code) consists of **3 bytes**:
+
+\`\`\`
+[High Byte] [Middle Byte] [Low Byte]
+Example: 0x04 0x20 0x01 = P0420 (Catalyst Efficiency)
+\`\`\`
+
+**DTC Prefixes:**
+- **P** = Powertrain (0x00-0x3F)
+- **C** = Chassis (0x40-0x7F)
+- **B** = Body (0x80-0xBF)
+- **U** = Network (0xC0-0xFF)
+
+### DTC Status Byte
+Each DTC has an **8-bit status** that indicates its current state:
+
+| Bit | Name | Description |
+|-----|------|-------------|
+| 0 | testFailed | Test currently failing |
+| 1 | testFailedThisOperationCycle | Failed at least once this cycle |
+| 2 | pendingDTC | Waiting for confirmation |
+| 3 | confirmedDTC | DTC is confirmed/mature |
+| 4 | testNotCompSinceLastClear | Not tested since clear |
+| 5 | testFailedSinceLastClear | Failed since last clear |
+| 6 | testNotCompThisOperationCycle | Not tested this cycle |
+| 7 | warningIndicatorRequested | MIL/warning lamp on |
+
+## Common Subfunctions
+
+### 0x01 - reportNumberOfDTCByStatusMask
+**Purpose**: Count DTCs matching a status mask
+\`\`\`
+Request:  19 01 [StatusMask]
+Response: 59 01 [StatusMask] [DTCFormat] [CountHi] [CountLo]
+Example:  19 01 FF → Count all DTCs
+\`\`\`
+
+### 0x02 - reportDTCByStatusMask
+**Purpose**: List DTCs matching a status mask
+\`\`\`
+Request:  19 02 [StatusMask]
+Response: 59 02 [StatusMask] [DTC1-3bytes] [Status] [DTC2-3bytes] [Status]...
+Example:  19 02 08 → Read confirmed DTCs only
+\`\`\`
+
+### 0x04 - reportDTCSnapshotRecordByDTCNumber
+**Purpose**: Get freeze frame data for a specific DTC
+\`\`\`
+Request:  19 04 [DTC-3bytes] [RecordNumber]
+Response: 59 04 [DTC-3bytes] [Status] [RecordNum] [FreezeFrameData...]
+\`\`\`
+
+### 0x06 - reportDTCExtDataRecordByDTCNumber
+**Purpose**: Get extended data (counters, aging) for a DTC
+\`\`\`
+Request:  19 06 [DTC-3bytes] [RecordNumber]
+Response: 59 06 [DTC-3bytes] [Status] [RecordNum] [ExtendedData...]
+\`\`\`
+
+### 0x0A - reportSupportedDTC
+**Purpose**: List all DTCs the ECU can detect
+\`\`\`
+Request:  19 0A
+Response: 59 0A [StatusMask] [DTC1] [DTC2]...
+\`\`\`
+
+## Status Mask Examples
+
+| Mask | Purpose |
+|------|---------|
+| 0x01 | Failed tests |
+| 0x04 | Pending DTCs |
+| 0x08 | Confirmed DTCs |
+| 0x09 | Confirmed OR Failed |
+| 0x80 | Warning light active |
+| 0xFF | All DTCs (any status) |
+
+## Common Negative Responses
+
+| NRC | Meaning | Solution |
+|-----|---------|----------|
+| 0x12 | Sub-function not supported | Check ECU capabilities |
+| 0x13 | Incorrect message length | Verify request format |
+| 0x14 | Response too long | Use status mask to filter |
+| 0x31 | Request out of range | DTC not found |
+
+## Best Practices
+
+✅ Use status masks to filter results efficiently
+✅ Read snapshot data for intermittent faults
+✅ Check extended data for occurrence counts
+✅ Document findings before clearing DTCs
+✅ Always verify zero DTCs after repair`,
+                examples: [
+                    {
+                        title: 'Count All DTCs',
+                        description: 'Get total count of DTCs with any status',
+                        request: '19 01 FF',
+                        expectedResponse: '59 01 FF 01 00 05',
+                        explanation: 'Response indicates 5 DTCs are stored (0x0005)',
+                        breakdown: [
+                            { byte: '19', meaning: 'SID: Read DTC Information' },
+                            { byte: '01', meaning: 'SF: reportNumberOfDTCByStatusMask' },
+                            { byte: 'FF', meaning: 'Status Mask: All DTCs' },
+                            { byte: '59', meaning: 'Positive Response (0x19 + 0x40)' },
+                            { byte: '01', meaning: 'Sub-function Echo' },
+                            { byte: 'FF', meaning: 'DTC Status Availability Mask' },
+                            { byte: '01', meaning: 'DTC Format (ISO 14229-1)' },
+                            { byte: '00 05', meaning: 'DTC Count: 5' }
+                        ]
+                    },
+                    {
+                        title: 'Read Confirmed DTCs',
+                        description: 'Get list of confirmed (mature) fault codes',
+                        request: '19 02 08',
+                        expectedResponse: '59 02 FF 04 20 01 09 00 A1 23 0D',
+                        explanation: 'Returns 2 confirmed DTCs with their status bytes',
+                        breakdown: [
+                            { byte: '19 02', meaning: 'Read DTC by Status Mask' },
+                            { byte: '08', meaning: 'Status Mask: Confirmed only (bit 3)' },
+                            { byte: '59 02 FF', meaning: 'Positive Response + Availability' },
+                            { byte: '04 20 01', meaning: 'DTC #1: P0420 (Catalyst Efficiency)' },
+                            { byte: '09', meaning: 'Status: Confirmed + Failed' },
+                            { byte: '00 A1 23', meaning: 'DTC #2: P00A1 (Intake Air Temp)' },
+                            { byte: '0D', meaning: 'Status: Confirmed + Pending' }
+                        ]
+                    },
+                    {
+                        title: 'Read Freeze Frame Data',
+                        description: 'Get snapshot data captured when DTC P0420 occurred',
+                        request: '19 04 04 20 01 01',
+                        expectedResponse: '59 04 04 20 01 09 01 03 F1 00 3C...',
+                        explanation: 'Returns freeze frame record #1 with vehicle conditions at fault time',
+                        breakdown: [
+                            { byte: '19 04', meaning: 'Read DTC Snapshot Record' },
+                            { byte: '04 20 01', meaning: 'DTC: P0420' },
+                            { byte: '01', meaning: 'Record Number: 1' },
+                            { byte: '59 04', meaning: 'Positive Response' },
+                            { byte: '09', meaning: 'DTC Status' },
+                            { byte: '01', meaning: 'Snapshot Record Number' },
+                            { byte: '03', meaning: 'Number of DIDs in snapshot' },
+                            { byte: 'F1 00 3C...', meaning: 'Freeze Frame Data (speed, RPM, temp...)' }
+                        ]
+                    }
+                ],
+                quiz: [
+                    {
+                        id: 'q-dtc-1',
+                        question: 'What status mask value would you use to read only CONFIRMED DTCs?',
+                        type: 'hex-decode',
+                        correctAnswer: '08',
+                        explanation: 'Bit 3 (0x08) is the confirmedDTC bit. Setting this mask filters for confirmed DTCs only.'
+                    },
+                    {
+                        id: 'q-dtc-2',
+                        question: 'What does a DTC status byte of 0x09 indicate?',
+                        type: 'multiple-choice',
+                        options: [
+                            'Pending only',
+                            'Confirmed + Test failed',
+                            'Warning lamp only',
+                            'Test not complete'
+                        ],
+                        correctAnswer: 1,
+                        explanation: '0x09 = 0x08 (confirmed) + 0x01 (testFailed). The DTC is confirmed and currently failing.'
+                    },
+                    {
+                        id: 'q-dtc-3',
+                        question: 'Which sub-function retrieves freeze frame data?',
+                        type: 'hex-decode',
+                        correctAnswer: '04',
+                        explanation: 'Sub-function 0x04 (reportDTCSnapshotRecordByDTCNumber) returns freeze frame/snapshot data for a specific DTC.'
+                    },
+                    {
+                        id: 'q-dtc-4',
+                        question: 'What DTC prefix indicates a Network/Communication fault?',
+                        type: 'multiple-choice',
+                        options: ['P (Powertrain)', 'C (Chassis)', 'B (Body)', 'U (Network)'],
+                        correctAnswer: 3,
+                        explanation: 'U-codes (0xC0-0xFF first nibble) indicate network and communication faults like CAN errors.'
+                    }
+                ],
+                keyTakeaways: [
+                    'SID 0x19 has 15 subfunctions for different DTC report types',
+                    'Each DTC has a 3-byte code and 1-byte status',
+                    'Status byte bits indicate pending, confirmed, failed states',
+                    'Freeze frame data captures vehicle conditions at fault time',
+                    'Use status masks (0x04, 0x08, 0xFF) to filter results'
+                ]
             }
         ]
     },

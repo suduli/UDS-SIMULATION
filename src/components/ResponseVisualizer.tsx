@@ -119,11 +119,96 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
       break;
 
     case 0x19: // Read DTC Information
-      if (byteIdx === 1) return 'Sub-function';
-      if (byteIdx === 2) return 'DTC Status Availability Mask';
-      if (byteIdx === 3) return 'DTC Format Identifier';
-      if (byteIdx >= 4) return `DTC Data Byte ${byteIdx - 3}`;
-      break;
+      if (byteIdx === 1) {
+        const subfunctionNames: Record<number, string> = {
+          0x01: 'reportNumberOfDTCByStatusMask',
+          0x02: 'reportDTCByStatusMask',
+          0x03: 'reportDTCSnapshotIdentification',
+          0x04: 'reportDTCSnapshotRecordByDTCNumber',
+          0x06: 'reportDTCExtDataRecordByDTCNumber',
+          0x07: 'reportNumberOfDTCBySeverityMaskRecord',
+          0x08: 'reportDTCBySeverityMaskRecord',
+          0x09: 'reportSeverityInformationOfDTC',
+          0x0A: 'reportSupportedDTC',
+          0x0B: 'reportFirstTestFailedDTC',
+          0x0C: 'reportFirstConfirmedDTC',
+          0x0D: 'reportMostRecentTestFailedDTC',
+          0x0E: 'reportMostRecentConfirmedDTC',
+          0x0F: 'reportMirrorMemoryDTCByStatusMask',
+        };
+        return `Sub-function: ${subfunctionNames[byte] || 'Unknown (0x' + byte.toString(16).toUpperCase() + ')'}`;
+      }
+      // Subfunction-specific interpretation
+      const subFunc = request.subFunction || response.data[1];
+      if (subFunc === 0x01 || subFunc === 0x07) {
+        // reportNumberOfDTCByStatusMask / reportNumberOfDTCBySeverityMaskRecord
+        if (byteIdx === 2) return 'DTC Status Availability Mask';
+        if (byteIdx === 3) return 'DTC Format Identifier (ISO 14229-1)';
+        if (byteIdx === 4) return 'DTC Count High Byte';
+        if (byteIdx === 5) {
+          const count = ((response.data[4] << 8) | byte);
+          return `DTC Count Low Byte (Total: ${count} DTCs)`;
+        }
+      } else if (subFunc === 0x02 || subFunc === 0x0A || subFunc === 0x0B || subFunc === 0x0C || subFunc === 0x0D || subFunc === 0x0E || subFunc === 0x0F) {
+        // DTC list responses
+        if (byteIdx === 2) return 'DTC Status Availability Mask';
+        if (byteIdx >= 3) {
+          const dtcOffset = (byteIdx - 3) % 4;
+          const dtcNum = Math.floor((byteIdx - 3) / 4) + 1;
+          if (dtcOffset === 0) return `DTC #${dtcNum} High Byte`;
+          if (dtcOffset === 1) return `DTC #${dtcNum} Middle Byte`;
+          if (dtcOffset === 2) return `DTC #${dtcNum} Low Byte`;
+          if (dtcOffset === 3) {
+            const statusDesc = [];
+            if (byte & 0x08) statusDesc.push('Confirmed');
+            if (byte & 0x04) statusDesc.push('Pending');
+            if (byte & 0x01) statusDesc.push('Failed');
+            return `DTC #${dtcNum} Status (${statusDesc.join(', ') || 'No flags'})`;
+          }
+        }
+      } else if (subFunc === 0x03) {
+        // reportDTCSnapshotIdentification
+        if (byteIdx === 2) return 'DTC High Byte';
+        if (byteIdx === 3) return 'DTC Middle Byte';
+        if (byteIdx === 4) return 'DTC Low Byte';
+        if (byteIdx >= 5) return `Snapshot Record Number ${byteIdx - 4}`;
+      } else if (subFunc === 0x04) {
+        // reportDTCSnapshotRecordByDTCNumber (Freeze Frame Data)
+        if (byteIdx === 2) return 'DTC High Byte';
+        if (byteIdx === 3) return 'DTC Middle Byte';
+        if (byteIdx === 4) return 'DTC Low Byte';
+        if (byteIdx === 5) return 'DTC Status Byte';
+        if (byteIdx === 6) return 'Snapshot Record Number';
+        if (byteIdx === 7) return 'Number of DIDs in Snapshot';
+        if (byteIdx >= 8) return `Freeze Frame Data Byte ${byteIdx - 7}`;
+      } else if (subFunc === 0x06) {
+        // reportDTCExtDataRecordByDTCNumber
+        if (byteIdx === 2) return 'DTC High Byte';
+        if (byteIdx === 3) return 'DTC Middle Byte';
+        if (byteIdx === 4) return 'DTC Low Byte';
+        if (byteIdx === 5) return 'DTC Status Byte';
+        if (byteIdx === 6) return 'Extended Data Record Number';
+        if (byteIdx >= 7) return `Extended Data Byte ${byteIdx - 6}`;
+      } else if (subFunc === 0x08 || subFunc === 0x09) {
+        // Severity-based responses
+        if (byteIdx === 2) return 'DTC Status Availability Mask';
+        if (byteIdx >= 3) {
+          const severityOffset = (byteIdx - 3) % 6;
+          const dtcNum = Math.floor((byteIdx - 3) / 6) + 1;
+          if (severityOffset === 0) {
+            const severity = (byte >> 5) & 0x07;
+            const sevNames = ['No Info', 'Maint Due', 'Check Soon', 'Check Now', 'Critical', 'Critical', 'Critical', 'Critical'];
+            return `DTC #${dtcNum} Severity (${sevNames[severity]})`;
+          }
+          if (severityOffset === 1) return `DTC #${dtcNum} Functional Unit`;
+          if (severityOffset === 2) return `DTC #${dtcNum} High Byte`;
+          if (severityOffset === 3) return `DTC #${dtcNum} Middle Byte`;
+          if (severityOffset === 4) return `DTC #${dtcNum} Low Byte`;
+          if (severityOffset === 5) return `DTC #${dtcNum} Status`;
+        }
+      }
+      return `DTC Data Byte ${byteIdx - 2}`;
+
 
     case 0x34: // Request Download
       if (byteIdx === 1) return 'Length Format Identifier';
@@ -290,15 +375,15 @@ const ResponseVisualizer: React.FC = () => {
           <div className="flex gap-1.5">
             {/* Red - Glows when ECU is OFFLINE */}
             <div className={`w-3 h-3 rounded-full transition-all duration-300 ${!ecuPower
-                ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'
-                : 'bg-red-500/30'
+              ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'
+              : 'bg-red-500/30'
               }`} title={ecuPower ? 'Ignition On' : 'Ignition Off'} />
             {/* Yellow - Always dim (standby indicator) */}
             <div className="w-3 h-3 rounded-full bg-yellow-500/30 transition-all duration-300" title="Standby" />
             {/* Green - Glows when ECU is ONLINE */}
             <div className={`w-3 h-3 rounded-full transition-all duration-300 ${ecuPower
-                ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse'
-                : 'bg-green-500/30'
+              ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse'
+              : 'bg-green-500/30'
               }`} title={ecuPower ? 'ECU Online' : 'ECU Offline'} />
           </div>
           <div className="flex items-center gap-2 ml-2">

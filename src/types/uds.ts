@@ -89,6 +89,70 @@ export const SecurityAccessType = {
 
 export type SecurityAccessType = typeof SecurityAccessType[keyof typeof SecurityAccessType];
 
+// DTC Categories
+export type DTCCategory = 'powertrain' | 'chassis' | 'body' | 'network';
+
+// SID 19 Subfunctions (Read DTC Information Report Types)
+export const DTCReportType = {
+  REPORT_NUMBER_BY_STATUS_MASK: 0x01,
+  REPORT_DTC_BY_STATUS_MASK: 0x02,
+  REPORT_DTC_SNAPSHOT_ID: 0x03,
+  REPORT_DTC_SNAPSHOT_BY_DTC_NUMBER: 0x04,
+  REPORT_DTC_STORED_DATA_BY_RECORD_NUMBER: 0x05,
+  REPORT_DTC_EXT_DATA_BY_DTC_NUMBER: 0x06,
+  REPORT_NUMBER_BY_SEVERITY_MASK: 0x07,
+  REPORT_DTC_BY_SEVERITY_MASK: 0x08,
+  REPORT_SEVERITY_INFO_OF_DTC: 0x09,
+  REPORT_SUPPORTED_DTC: 0x0A,
+  REPORT_FIRST_TEST_FAILED: 0x0B,
+  REPORT_FIRST_CONFIRMED: 0x0C,
+  REPORT_MOST_RECENT_TEST_FAILED: 0x0D,
+  REPORT_MOST_RECENT_CONFIRMED: 0x0E,
+  REPORT_MIRROR_MEMORY_DTC: 0x0F,
+} as const;
+
+export type DTCReportType = typeof DTCReportType[keyof typeof DTCReportType];
+
+// DTC Severity Levels per ISO 14229
+export const DTCSeverity = {
+  NO_SEVERITY: 0x00,
+  MAINTENANCE_ONLY: 0x20,
+  CHECK_AT_NEXT_HALT: 0x40,
+  CHECK_IMMEDIATELY: 0x60,
+} as const;
+
+export type DTCSeverity = typeof DTCSeverity[keyof typeof DTCSeverity];
+
+// DTC Snapshot Record (Freeze Frame Data)
+export interface DTCSnapshotRecord {
+  recordNumber: number;
+  timestamp: number;
+  data: {
+    vehicleSpeed: number;      // km/h
+    engineRPM: number;         // RPM
+    coolantTemp: number;       // °C
+    throttlePosition: number;  // %
+    fuelLevel: number;         // %
+    batteryVoltage: number;    // V
+    engineLoad: number;        // %
+    intakeAirTemp: number;     // °C
+    oilPressure: number;       // kPa
+    ambientTemp: number;       // °C
+  };
+}
+
+// DTC Extended Data Record
+export interface DTCExtendedDataRecord {
+  recordNumber: number;
+  occurrenceCounter: number;     // How many times fault occurred
+  agingCounter: number;          // Cycles since last failure (for aging out)
+  agedCounter: number;           // Times DTC has aged out
+  selfHealingCounter: number;    // Self-healing cycles
+  failedSinceLastClear: boolean;
+  testNotCompleted: boolean;
+  customData?: number[];         // OEM-specific data
+}
+
 // DTC Status Masks
 export interface DTCStatusMask {
   testFailed: boolean;
@@ -113,12 +177,21 @@ export interface DataIdentifier {
 
 // DTC Information
 export interface DTCInfo {
-  code: number;
-  status: DTCStatusMask;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  description: string;
-  snapshot?: number[];
-  extendedData?: number[];
+  code: number;                              // 3-byte DTC code
+  status: DTCStatusMask;                     // 8-bit status byte
+  severity: 'low' | 'medium' | 'high' | 'critical';  // Severity classification
+  severityByte?: DTCSeverity;                // ISO 14229 severity byte
+  category: DTCCategory;                     // P/C/B/U category
+  description: string;                       // Human-readable description
+  occurrenceCounter: number;                 // Number of times fault occurred
+  agingCounter: number;                      // Aging cycles since last failure
+  firstFailureTimestamp?: number;            // When DTC first failed
+  mostRecentFailureTimestamp?: number;       // Most recent failure
+  snapshots?: DTCSnapshotRecord[];           // Freeze frame data records
+  extendedData?: DTCExtendedDataRecord[];    // Extended data records
+  // Legacy support - raw byte arrays (optional)
+  snapshotRaw?: number[];
+  extendedDataRaw?: number[];
 }
 
 // UDS Request/Response Base Interfaces

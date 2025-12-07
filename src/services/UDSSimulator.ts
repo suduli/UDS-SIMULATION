@@ -508,28 +508,48 @@ export class UDSSimulator {
 
   /**
    * 0x19 - Read DTC Information
+   * Comprehensive implementation supporting all ISO 14229-1 subfunctions
    */
   private handleReadDTC(request: UDSRequest): UDSResponse {
-    if (!request.subFunction) {
+    // Validate subfunction is present
+    if (request.subFunction === undefined) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
       );
     }
 
-    const subFunction = request.subFunction;
+    // Extract suppress positive response bit and actual subfunction
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+    const subFunction = request.subFunction & 0x7F;
+
+    // DTCStatusAvailabilityMask - indicates which status bits this ECU supports
+    const statusAvailabilityMask = 0xFF; // All status bits supported
+    // DTCFormatIdentifier per ISO 14229-1 (0x01 = ISO 15031-6 format)
+    const dtcFormatIdentifier = 0x01;
+
     const responseData: number[] = [0x59, subFunction];
 
     switch (subFunction) {
       case 0x01: // reportNumberOfDTCByStatusMask
         {
-          const statusMask = request.data?.[0] || 0xFF;
+          // Validate message length (SID + SubFunc + StatusMask = 3 bytes)
+          if (!request.data || request.data.length < 1) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const statusMask = request.data[0];
           const filteredDTCs = this.ecuConfig.dtcs.filter(dtc => {
             const dtcStatus = dtcStatusToByte(dtc.status);
-            return (dtcStatus & statusMask) !== 0;
+            return statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
           });
 
-          responseData.push(0x08); // DTCFormatIdentifier (ISO14229-1)
+          // Response: 59 01 [StatusAvailMask] [DTCFormatID] [CountHighByte] [CountLowByte]
+          responseData.push(statusAvailabilityMask);
+          responseData.push(dtcFormatIdentifier);
           responseData.push((filteredDTCs.length >> 8) & 0xFF);
           responseData.push(filteredDTCs.length & 0xFF);
         }
@@ -537,15 +557,406 @@ export class UDSSimulator {
 
       case 0x02: // reportDTCByStatusMask
         {
-          const statusMask = request.data?.[0] || 0xFF;
+          if (!request.data || request.data.length < 1) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const statusMask = request.data[0];
           const filteredDTCs = this.ecuConfig.dtcs.filter(dtc => {
             const dtcStatus = dtcStatusToByte(dtc.status);
-            return (dtcStatus & statusMask) !== 0;
+            return statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
           });
 
-          responseData.push(statusMask);
+          // Response: 59 02 [StatusAvailMask] [DTC1-3bytes][Status1] [DTC2][Status2]...
+          responseData.push(statusAvailabilityMask);
 
           filteredDTCs.forEach(dtc => {
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          });
+        }
+        break;
+
+      case 0x03: // reportDTCSnapshotIdentification
+        {
+          // Returns all DTCs that have snapshot records
+          responseData.push(statusAvailabilityMask);
+
+          this.ecuConfig.dtcs.forEach(dtc => {
+            if (dtc.snapshots && dtc.snapshots.length > 0) {
+              dtc.snapshots.forEach(snapshot => {
+                // DTC code (3 bytes) + Snapshot record number (1 byte)
+                responseData.push((dtc.code >> 16) & 0xFF);
+                responseData.push((dtc.code >> 8) & 0xFF);
+                responseData.push(dtc.code & 0xFF);
+                responseData.push(snapshot.recordNumber);
+              });
+            }
+          });
+        }
+        break;
+
+      case 0x04: // reportDTCSnapshotRecordByDTCNumber
+        {
+          // Request: SID + SubFunc + DTC (3 bytes) + SnapshotRecordNumber (1 byte)
+          if (!request.data || request.data.length < 4) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const requestedDTC = (request.data[0] << 16) | (request.data[1] << 8) | request.data[2];
+          const requestedRecordNum = request.data[3];
+
+          const dtc = this.ecuConfig.dtcs.find(d => d.code === requestedDTC);
+          if (!dtc) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Add DTC and status to response
+          responseData.push((dtc.code >> 16) & 0xFF);
+          responseData.push((dtc.code >> 8) & 0xFF);
+          responseData.push(dtc.code & 0xFF);
+          responseData.push(dtcStatusToByte(dtc.status));
+
+          // Find matching snapshot(s)
+          const snapshots = dtc.snapshots || [];
+          const matchingSnapshots = requestedRecordNum === 0xFF
+            ? snapshots
+            : snapshots.filter(s => s.recordNumber === requestedRecordNum);
+
+          if (matchingSnapshots.length === 0 && requestedRecordNum !== 0xFF) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Add snapshot data for each matching record
+          matchingSnapshots.forEach(snapshot => {
+            responseData.push(snapshot.recordNumber);
+            // Number of data identifiers
+            responseData.push(0x0A); // 10 data items
+
+            // Vehicle Speed (DID 0x010D)
+            responseData.push(0x01, 0x0D);
+            responseData.push(snapshot.data.vehicleSpeed & 0xFF);
+
+            // Engine RPM (DID 0x010C)
+            responseData.push(0x01, 0x0C);
+            responseData.push((snapshot.data.engineRPM >> 8) & 0xFF);
+            responseData.push(snapshot.data.engineRPM & 0xFF);
+
+            // Coolant Temp (DID 0x0105)
+            responseData.push(0x01, 0x05);
+            responseData.push((snapshot.data.coolantTemp + 40) & 0xFF); // Offset per OBD
+
+            // Throttle Position (DID 0x0111)
+            responseData.push(0x01, 0x11);
+            responseData.push(Math.round(snapshot.data.throttlePosition * 2.55) & 0xFF);
+
+            // Fuel Level (DID 0x012F)
+            responseData.push(0x01, 0x2F);
+            responseData.push(Math.round(snapshot.data.fuelLevel * 2.55) & 0xFF);
+
+            // Battery Voltage (DID 0x0142)
+            responseData.push(0x01, 0x42);
+            responseData.push(Math.round(snapshot.data.batteryVoltage * 10) & 0xFF);
+
+            // Engine Load (DID 0x0104)
+            responseData.push(0x01, 0x04);
+            responseData.push(Math.round(snapshot.data.engineLoad * 2.55) & 0xFF);
+
+            // Intake Air Temp (DID 0x010F)
+            responseData.push(0x01, 0x0F);
+            responseData.push((snapshot.data.intakeAirTemp + 40) & 0xFF);
+
+            // Oil Pressure (custom DID 0xF401)
+            responseData.push(0xF4, 0x01);
+            responseData.push((snapshot.data.oilPressure >> 8) & 0xFF);
+            responseData.push(snapshot.data.oilPressure & 0xFF);
+
+            // Ambient Temp (DID 0x0146)
+            responseData.push(0x01, 0x46);
+            responseData.push((snapshot.data.ambientTemp + 40) & 0xFF);
+          });
+        }
+        break;
+
+      case 0x06: // reportDTCExtDataRecordByDTCNumber
+        {
+          // Request: SID + SubFunc + DTC (3 bytes) + ExtDataRecordNumber (1 byte)
+          if (!request.data || request.data.length < 4) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const requestedDTC = (request.data[0] << 16) | (request.data[1] << 8) | request.data[2];
+          const requestedRecordNum = request.data[3];
+
+          const dtc = this.ecuConfig.dtcs.find(d => d.code === requestedDTC);
+          if (!dtc) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Add DTC and status
+          responseData.push((dtc.code >> 16) & 0xFF);
+          responseData.push((dtc.code >> 8) & 0xFF);
+          responseData.push(dtc.code & 0xFF);
+          responseData.push(dtcStatusToByte(dtc.status));
+
+          // Find matching extended data record(s)
+          const extRecords = dtc.extendedData || [];
+          const matchingRecords = requestedRecordNum === 0xFF
+            ? extRecords
+            : extRecords.filter(r => r.recordNumber === requestedRecordNum);
+
+          if (matchingRecords.length === 0 && requestedRecordNum !== 0xFF) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Add extended data for each record
+          matchingRecords.forEach(record => {
+            responseData.push(record.recordNumber);
+            responseData.push(record.occurrenceCounter & 0xFF);
+            responseData.push(record.agingCounter & 0xFF);
+            responseData.push(record.agedCounter & 0xFF);
+            responseData.push(record.selfHealingCounter & 0xFF);
+            responseData.push(record.failedSinceLastClear ? 0x01 : 0x00);
+            responseData.push(record.testNotCompleted ? 0x01 : 0x00);
+          });
+        }
+        break;
+
+      case 0x07: // reportNumberOfDTCBySeverityMaskRecord
+        {
+          if (!request.data || request.data.length < 2) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const severityMask = request.data[0];
+          const statusMask = request.data[1];
+
+          const filteredDTCs = this.ecuConfig.dtcs.filter(dtc => {
+            const dtcStatus = dtcStatusToByte(dtc.status);
+            const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
+            const statusMatch = statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
+            const severityMatch = severityMask === 0x00 || (dtcSeverity & severityMask) !== 0;
+            return statusMatch && severityMatch;
+          });
+
+          responseData.push(statusAvailabilityMask);
+          responseData.push(dtcFormatIdentifier);
+          responseData.push((filteredDTCs.length >> 8) & 0xFF);
+          responseData.push(filteredDTCs.length & 0xFF);
+        }
+        break;
+
+      case 0x08: // reportDTCBySeverityMaskRecord
+        {
+          if (!request.data || request.data.length < 2) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const severityMask = request.data[0];
+          const statusMask = request.data[1];
+
+          responseData.push(statusAvailabilityMask);
+
+          const filteredDTCs = this.ecuConfig.dtcs.filter(dtc => {
+            const dtcStatus = dtcStatusToByte(dtc.status);
+            const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
+            const statusMatch = statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
+            const severityMatch = severityMask === 0x00 || (dtcSeverity & severityMask) !== 0;
+            return statusMatch && severityMatch;
+          });
+
+          filteredDTCs.forEach(dtc => {
+            const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
+            responseData.push(dtcSeverity);
+            responseData.push(0x00); // Functional unit type
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          });
+        }
+        break;
+
+      case 0x09: // reportSeverityInformationOfDTC
+        {
+          if (!request.data || request.data.length < 3) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const requestedDTC = (request.data[0] << 16) | (request.data[1] << 8) | request.data[2];
+          const dtc = this.ecuConfig.dtcs.find(d => d.code === requestedDTC);
+
+          if (!dtc) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
+          responseData.push(statusAvailabilityMask);
+          responseData.push(dtcSeverity);
+          responseData.push(0x00); // Functional unit type
+          responseData.push((dtc.code >> 16) & 0xFF);
+          responseData.push((dtc.code >> 8) & 0xFF);
+          responseData.push(dtc.code & 0xFF);
+          responseData.push(dtcStatusToByte(dtc.status));
+        }
+        break;
+
+      case 0x0A: // reportSupportedDTC
+        {
+          // Returns all DTCs the ECU can detect (capability list)
+          // Response does NOT include status bytes
+          responseData.push(statusAvailabilityMask);
+
+          this.ecuConfig.dtcs.forEach(dtc => {
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          });
+        }
+        break;
+
+      case 0x0B: // reportFirstTestFailedDTC
+        {
+          responseData.push(statusAvailabilityMask);
+
+          // Find first test-failed DTC (by timestamp)
+          const testFailedDTCs = this.ecuConfig.dtcs
+            .filter(dtc => dtc.status.testFailed)
+            .sort((a, b) => (a.firstFailureTimestamp || 0) - (b.firstFailureTimestamp || 0));
+
+          if (testFailedDTCs.length > 0) {
+            const dtc = testFailedDTCs[0];
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          }
+        }
+        break;
+
+      case 0x0C: // reportFirstConfirmedDTC
+        {
+          responseData.push(statusAvailabilityMask);
+
+          // Find first confirmed DTC (by timestamp)
+          const confirmedDTCs = this.ecuConfig.dtcs
+            .filter(dtc => dtc.status.confirmedDTC)
+            .sort((a, b) => (a.firstFailureTimestamp || 0) - (b.firstFailureTimestamp || 0));
+
+          if (confirmedDTCs.length > 0) {
+            const dtc = confirmedDTCs[0];
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          }
+        }
+        break;
+
+      case 0x0D: // reportMostRecentTestFailedDTC
+        {
+          responseData.push(statusAvailabilityMask);
+
+          // Find most recent test-failed DTC
+          const testFailedDTCs = this.ecuConfig.dtcs
+            .filter(dtc => dtc.status.testFailed)
+            .sort((a, b) => (b.mostRecentFailureTimestamp || 0) - (a.mostRecentFailureTimestamp || 0));
+
+          if (testFailedDTCs.length > 0) {
+            const dtc = testFailedDTCs[0];
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          }
+        }
+        break;
+
+      case 0x0E: // reportMostRecentConfirmedDTC
+        {
+          responseData.push(statusAvailabilityMask);
+
+          // Find most recent confirmed DTC
+          const confirmedDTCs = this.ecuConfig.dtcs
+            .filter(dtc => dtc.status.confirmedDTC)
+            .sort((a, b) => (b.mostRecentFailureTimestamp || 0) - (a.mostRecentFailureTimestamp || 0));
+
+          if (confirmedDTCs.length > 0) {
+            const dtc = confirmedDTCs[0];
+            responseData.push((dtc.code >> 16) & 0xFF);
+            responseData.push((dtc.code >> 8) & 0xFF);
+            responseData.push(dtc.code & 0xFF);
+            responseData.push(dtcStatusToByte(dtc.status));
+          }
+        }
+        break;
+
+      case 0x0F: // reportMirrorMemoryDTCByStatusMask
+        {
+          // Mirror memory requires extended session per ISO 14229
+          if (this.state.currentSession === DiagnosticSessionType.DEFAULT) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.CONDITIONS_NOT_CORRECT
+            );
+          }
+
+          if (!request.data || request.data.length < 1) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          const statusMask = request.data[0];
+          responseData.push(statusAvailabilityMask);
+
+          // Mirror memory would contain DTCs from before last clear
+          // For simulation, we return a subset of DTCs
+          const mirrorDTCs = this.ecuConfig.dtcs
+            .filter(dtc => dtc.status.testFailedSinceLastClear)
+            .filter(dtc => {
+              const dtcStatus = dtcStatusToByte(dtc.status);
+              return statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
+            });
+
+          mirrorDTCs.forEach(dtc => {
             responseData.push((dtc.code >> 16) & 0xFF);
             responseData.push((dtc.code >> 8) & 0xFF);
             responseData.push(dtc.code & 0xFF);
@@ -561,12 +972,41 @@ export class UDSSimulator {
         );
     }
 
+    // Handle suppress positive response
+    if (suppressPositiveResponse) {
+      return {
+        sid: request.sid,
+        data: [],
+        timestamp: Date.now(),
+        isNegative: false,
+        suppressedResponse: true,
+      };
+    }
+
     return {
       sid: request.sid,
       data: responseData,
       timestamp: Date.now(),
       isNegative: false,
     };
+  }
+
+  /**
+   * Helper: Convert severity string to ISO 14229 severity byte
+   */
+  private getSeverityByte(severity: string): number {
+    switch (severity) {
+      case 'critical':
+        return 0x60; // Check immediately
+      case 'high':
+        return 0x60;
+      case 'medium':
+        return 0x40; // Check at next halt
+      case 'low':
+        return 0x20; // Maintenance only
+      default:
+        return 0x00; // No severity
+    }
   }
 
   /**

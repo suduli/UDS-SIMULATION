@@ -65,22 +65,32 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
   '0x19': {
     serviceId: '0x19',
     serviceName: 'Read DTC Information',
-    description: 'Retrieves diagnostic trouble codes (DTCs) and related information like status, severity, and freeze frames.',
+    description: 'Retrieves diagnostic trouble codes (DTCs) and related information like status, severity, freeze frames, and extended data. Supports 15 subfunctions per ISO 14229.',
     useCases: [
-      'Read current fault codes',
-      'Check DTC status (pending, confirmed)',
-      'Retrieve freeze frame snapshots'
+      'Read current fault codes by status',
+      'Count DTCs matching specific criteria',
+      'Retrieve freeze frame (snapshot) data',
+      'Get extended data (counters, aging)',
+      'Filter DTCs by severity level'
     ],
     parameters: [
-      'Sub-function: 0x01 (Number of DTCs), 0x02 (DTCs by status)',
-      'Status Mask: Filter DTCs by status'
+      'Sub-function: 0x01-0x0F (15 report types)',
+      'Status Mask: 0x01 (Failed), 0x04 (Pending), 0x08 (Confirmed), 0xFF (All)',
+      'Severity Mask: 0x20 (Check Soon), 0x40 (Check Now), 0x80 (Critical)'
     ],
-    example: 'Request: 19 02 08 → Read DTCs with confirmed status',
-    exampleHex: '19 02 08',
+    example: 'Request: 19 02 FF → Read all DTCs with any status',
+    exampleHex: '19 02 FF',
     quickExamples: [
-      { label: 'Count DTCs', hex: '19 01 08' },
-      { label: 'Read Confirmed DTCs', hex: '19 02 08' },
-      { label: 'Read Pending DTCs', hex: '19 02 04' }
+      { label: 'Count All DTCs', hex: '19 01 FF' },
+      { label: 'Read All DTCs', hex: '19 02 FF' },
+      { label: 'Read Confirmed', hex: '19 02 08' },
+      { label: 'Read Pending', hex: '19 02 04' },
+      { label: 'Snapshot IDs', hex: '19 03' },
+      { label: 'Supported DTCs', hex: '19 0A' },
+      { label: 'First Failed', hex: '19 0B' },
+      { label: 'Most Recent', hex: '19 0D' },
+      { label: 'Count by Severity', hex: '19 07 80 FF' },
+      { label: 'Read by Severity', hex: '19 08 80 FF' }
     ]
   },
   '0x22': {

@@ -20,6 +20,7 @@ import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
 import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
+import DTCManagementPanel from '../components/DTCManagementPanel';
 import { useUDS } from '../context/UDSContext';
 
 // ========================================
@@ -537,7 +538,8 @@ export const ClusterDashboardPage: React.FC = () => {
         powerState,
         setPowerState,
         voltage,
-        simulateCranking
+        simulateCranking,
+        updateDTCStatus
     } = useUDS();
 
     // Map powerState to ignitionStatus for display
@@ -611,6 +613,24 @@ export const ClusterDashboardPage: React.FC = () => {
     const handleApplyFaults = () => {
         console.log('=== Fault Triggers Applied ===');
         console.log('faultTriggers:', JSON.stringify({ ...faultTriggers, totalActive: totalFaults }, null, 2));
+
+        // Map fault triggers to DTC codes and update DTC status
+        // Powertrain DTCs
+        updateDTCStatus(0x010101, faultTriggers.powertrain.mafFault, vehicleState);           // P0101 - MAF Sensor
+        updateDTCStatus(0x010171, faultTriggers.powertrain.coolantTempSensorFault, vehicleState); // P0171 - System Lean (coolant sensor related)
+        updateDTCStatus(0x010300, faultTriggers.powertrain.misfireDetected, vehicleState);   // P0300 - Misfire
+        updateDTCStatus(0x010562, faultTriggers.powertrain.fuelPressureLow, vehicleState);   // P0562 - System Voltage Low (fuel pressure)
+
+        // Chassis DTCs
+        updateDTCStatus(0x020035, faultTriggers.brakes.wheelSpeedFLFault, vehicleState);     // C0035 - Left Front Wheel Speed
+        updateDTCStatus(0x020045, faultTriggers.brakes.absPumpMotorFailure, vehicleState);   // C0045 - ABS Pump Motor
+
+        // Body DTCs - using existing codes
+        updateDTCStatus(0x030056, faultTriggers.body.driverDoorSwitchStuck, vehicleState);   // B0056 - Driver Door
+
+        // Network DTCs
+        updateDTCStatus(0x040100, faultTriggers.network.canTimeoutEngineEcu, vehicleState);  // U0100 - Lost Comm ECM
+        updateDTCStatus(0x040121, faultTriggers.network.canTimeoutAbs, vehicleState);        // U0121 - Lost Comm ABS
     };
 
     const handleResetFaults = () => {
@@ -872,6 +892,11 @@ export const ClusterDashboardPage: React.FC = () => {
                     {/* Power Supply Dashboard - Bottom */}
                     <div className="power-supply-dashboard mt-4">
                         <PowerSupplyDashboard />
+                    </div>
+
+                    {/* DTC Management Panel - SID 19 Support */}
+                    <div className="dtc-management-panel mt-4">
+                        <DTCManagementPanel />
                     </div>
                 </main>
             </div>
