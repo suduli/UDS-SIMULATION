@@ -144,6 +144,8 @@ interface UDSContextType {
   setVoltage: (volts: number) => void; // Keep for backward compatibility or manual override
   setCurrent: (amps: number) => void; // Keep for backward compatibility
   triggerRpsPowerDown: () => void;    // Manually trigger RPS power-down countdown
+  setRpsPowerDownTime: (time: number) => void;
+  simulateResetVoltageProfile: (type: 'hard' | 'keyOffOn') => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -244,8 +246,10 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [ecuPower, setEcuPower] = useState(true);
 
   // Rapid Power Shutdown (RPS) State - SID 11
-  const [rpsEnabled] = useState(false);  const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
-  const [rpsPowerDownTime] = useState<number | null>(null);  const rpsTimerRef = useRef<number | null>(null);
+  const [rpsEnabled] = useState(false);
+  const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
+  const [rpsCountdown, setRpsCountdown] = useState<number | null>(null);
+  const rpsTimerRef = useRef<number | null>(null);
 
   // Vehicle State for Cluster Integration
   const [vehicleState, setVehicleStateInternal] = useState<VehicleState>({
@@ -1296,8 +1300,10 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         // Rapid Power Shutdown (RPS) State - SID 11
         rpsEnabled,
         rpsPowerDownTime,
+        setRpsPowerDownTime,
         rpsCountdown,
         triggerRpsPowerDown,
+        simulateResetVoltageProfile,
 
         // Vehicle State for Cluster Integration
         vehicleState,
