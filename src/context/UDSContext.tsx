@@ -53,6 +53,18 @@ const getFriendlyNRCName = (code?: NegativeResponseCode) => {
   return toTitleCase(rawLabel);
 };
 
+// Vehicle State Type for Cluster Integration
+type GearPosition = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3';
+
+interface VehicleState {
+  gearPosition: GearPosition;
+  vehicleSpeedKph: number;
+  engineRpm: number;
+  coolantTemperature: number;
+  fuelLevel: number;
+  oilPressure: number;
+}
+
 interface UDSContextType {
   simulator: UDSSimulator;
   protocolState: ProtocolState;
@@ -117,6 +129,10 @@ interface UDSContextType {
   rpsEnabled: boolean;
   rpsPowerDownTime: number;      // Power-down time in 10ms units (0-255)
   rpsCountdown: number | null;   // Active countdown in ms (null if not counting down)
+
+  // Vehicle State for Cluster Integration
+  vehicleState: VehicleState;
+  updateVehicleState: <K extends keyof VehicleState>(key: K, value: VehicleState[K]) => void;
 
   toggleEcuPower: () => void; // Toggles between OFF and ON (keeping previous ACC state logic if needed, or simplifying)
   setPowerState: (state: 'OFF' | 'ACC' | 'ON' | 'CRANKING') => void;
@@ -232,6 +248,23 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [rpsPowerDownTime, setRpsPowerDownTime] = useState(0); // in 10ms units
   const [rpsCountdown, setRpsCountdown] = useState<number | null>(null);
   const rpsTimerRef = useRef<number | null>(null);
+
+  // Vehicle State for Cluster Integration
+  const [vehicleState, setVehicleStateInternal] = useState<VehicleState>({
+    gearPosition: 'P',
+    vehicleSpeedKph: 0,
+    engineRpm: 0,
+    coolantTemperature: 88,
+    fuelLevel: 72,
+    oilPressure: 45
+  });
+
+  const updateVehicleState = useCallback(<K extends keyof VehicleState>(
+    key: K,
+    value: VehicleState[K]
+  ) => {
+    setVehicleStateInternal(prev => ({ ...prev, [key]: value }));
+  }, []);
 
   // Sync legacy ecuPower with powerState
   React.useEffect(() => {
@@ -1267,6 +1300,10 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         rpsPowerDownTime,
         rpsCountdown,
         triggerRpsPowerDown,
+
+        // Vehicle State for Cluster Integration
+        vehicleState,
+        updateVehicleState,
       }}
     >
       {children}

@@ -17,6 +17,9 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
+import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
+import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
+import { useUDS } from '../context/UDSContext';
 
 // ========================================
 // TYPE DEFINITIONS
@@ -25,15 +28,10 @@ import EnhancedBackground from '../components/EnhancedBackground';
 type IgnitionStatus = 'OFF' | 'ACC' | 'ON' | 'CRANK';
 type GearPosition = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3';
 
-interface VehicleState {
+// Local interface for cluster display (ignition and battery from context)
+interface LocalVehicleState {
     ignitionStatus: IgnitionStatus;
-    gearPosition: GearPosition;
-    engineRpm: number;
-    vehicleSpeedKph: number;
     batteryVoltage12V: number;
-    coolantTemperature: number;
-    fuelLevel: number;
-    oilPressure: number;
 }
 
 interface FaultTriggers {
@@ -188,19 +186,19 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
     const needleColor = isInRed ? '#ff3b30' : '#00d4ff';
 
     return (
-        <div className="relative" style={{ width: size, height: size }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        <div className="relative cluster-gauge" style={{ width: size, height: size }}>
+            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="cluster-gauge-svg">
                 <defs>
-                    {/* Outer ring gradient */}
+                    {/* Outer ring gradient - Dark theme */}
                     <linearGradient id={`bezel-${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#3a3a40" />
-                        <stop offset="50%" stopColor="#1a1a1f" />
-                        <stop offset="100%" stopColor="#2a2a30" />
+                        <stop offset="0%" className="gauge-bezel-start" stopColor="var(--gauge-bezel-start, #3a3a40)" />
+                        <stop offset="50%" className="gauge-bezel-mid" stopColor="var(--gauge-bezel-mid, #1a1a1f)" />
+                        <stop offset="100%" className="gauge-bezel-end" stopColor="var(--gauge-bezel-end, #2a2a30)" />
                     </linearGradient>
                     {/* Inner gradient */}
                     <radialGradient id={`inner-${label}`} cx="30%" cy="30%">
-                        <stop offset="0%" stopColor="#1a1a1f" />
-                        <stop offset="100%" stopColor="#0a0a0d" />
+                        <stop offset="0%" stopColor="var(--gauge-inner-start, #1a1a1f)" />
+                        <stop offset="100%" stopColor="var(--gauge-inner-end, #0a0a0d)" />
                     </radialGradient>
                     {/* Needle glow */}
                     <filter id={`needle-glow-${label}`}>
@@ -224,15 +222,15 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
                 <circle
                     cx={center} cy={center} r={outerRadius + 3}
                     fill="none"
-                    stroke="#00d4ff"
+                    className="gauge-bezel-glow"
                     strokeWidth="1"
-                    opacity="0.3"
                     filter={`url(#bezel-glow-${label})`}
                 />
 
                 {/* Outer bezel */}
                 <circle
                     cx={center} cy={center} r={outerRadius}
+                    className="gauge-outer-bezel"
                     fill={`url(#inner-${label})`}
                     stroke={`url(#bezel-${label})`}
                     strokeWidth="8"
@@ -241,8 +239,7 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
                 {/* Inner circle */}
                 <circle
                     cx={center} cy={center} r={innerRadius - 30}
-                    fill="#0a0a0d"
-                    stroke="#222"
+                    className="gauge-inner-circle"
                     strokeWidth="1"
                 />
 
@@ -266,13 +263,13 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
                 />
 
                 {/* Center hub */}
-                <circle cx={center} cy={center} r="18" fill="#1a1a1f" stroke="#333" strokeWidth="3" />
-                <circle cx={center} cy={center} r="8" fill="#333" />
+                <circle cx={center} cy={center} r="18" className="gauge-center-hub" strokeWidth="3" />
+                <circle cx={center} cy={center} r="8" className="gauge-center-dot" />
             </svg>
 
             {/* Label at bottom */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-                <span className="text-sm text-gray-500 uppercase tracking-[0.2em] font-medium">
+                <span className="text-sm cluster-gauge-label uppercase tracking-[0.2em] font-medium">
                     {label}
                 </span>
             </div>
@@ -359,9 +356,9 @@ const Telltale: React.FC<TelltaleProps> = ({ icon, active, color, label }) => {
     return (
         <div className="flex flex-col items-center" title={label}>
             <div
-                className="w-6 h-6 transition-all duration-300"
+                className={`w-6 h-6 transition-all duration-300 ${active ? '' : 'cluster-telltale-inactive'}`}
                 style={{
-                    color: active ? c.on : '#2a2a2f',
+                    color: active ? c.on : undefined,
                     filter: active ? `drop-shadow(0 0 6px ${c.glow})` : 'none'
                 }}
             >
@@ -389,9 +386,9 @@ const StatusItem: React.FC<StatusItemProps> = ({ icon, label, value, unit, warni
             {icon}
         </div>
         <div>
-            <div className="text-[10px] text-gray-500 uppercase tracking-wider">{label}</div>
-            <div className={`text-lg font-semibold tabular-nums ${warning ? 'text-red-400' : 'text-white'}`}>
-                {value}<span className="text-xs text-gray-500 ml-1">{unit}</span>
+            <div className="text-[10px] cluster-text-secondary uppercase tracking-wider">{label}</div>
+            <div className={`text-lg font-semibold tabular-nums ${warning ? 'text-red-400' : 'cluster-status-value'}`}>
+                {value}<span className="text-xs cluster-text-secondary ml-1">{unit}</span>
             </div>
         </div>
     </div>
@@ -417,7 +414,7 @@ const GearSelector: React.FC<GearSelectorProps> = ({ gear, onChange }) => {
                     onClick={() => onChange(g)}
                     className={`w-12 h-10 flex items-center justify-center text-xl font-bold transition-all duration-200 rounded ${gear === g
                         ? 'text-green-400 bg-green-500/10 shadow-[0_0_15px_rgba(48,209,88,0.3)]'
-                        : 'text-gray-600 hover:text-gray-400'
+                        : 'cluster-fault-chevron hover:text-gray-400'
                         }`}
                     style={{
                         fontFamily: "'Inter', sans-serif",
@@ -450,15 +447,15 @@ const IgnitionSwitch: React.FC<IgnitionSwitchProps> = ({ status, onChange }) => 
     };
 
     return (
-        <div className="flex gap-1 bg-black/50 rounded-lg p-1">
+        <div className="flex gap-1 cluster-ignition-switch rounded-lg p-1">
             {statuses.map((s) => (
                 <button
                     key={s}
                     onClick={() => onChange(s)}
-                    className={`px-3 py-1.5 text-[10px] font-bold rounded transition-all ${status === s ? 'scale-105' : 'opacity-40 hover:opacity-70'}`}
+                    className={`px-3 py-1.5 text-[10px] font-bold rounded transition-all ${status === s ? 'scale-105' : 'opacity-40 hover:opacity-70 cluster-ignition-btn-inactive'}`}
                     style={{
                         backgroundColor: status === s ? `${colors[s]}20` : 'transparent',
-                        color: status === s ? colors[s] : '#666',
+                        color: status === s ? colors[s] : undefined,
                         boxShadow: status === s ? `0 0 10px ${colors[s]}40` : 'none'
                     }}
                 >
@@ -481,11 +478,11 @@ interface FaultToggleProps {
 
 const FaultToggle: React.FC<FaultToggleProps> = ({ label, checked, onChange }) => (
     <label className="flex items-center justify-between py-1.5 cursor-pointer group">
-        <span className={`text-xs transition-colors ${checked ? 'text-red-400' : 'text-gray-500 group-hover:text-gray-300'}`}>
+        <span className={`text-xs transition-colors ${checked ? 'text-red-400' : 'cluster-fault-label group-hover:cluster-fault-label'}`}>
             {label}
         </span>
         <div
-            className={`w-9 h-5 rounded-full relative transition-all cursor-pointer ${checked ? 'bg-red-500' : 'bg-gray-700'}`}
+            className={`w-9 h-5 rounded-full relative transition-all cursor-pointer ${checked ? 'bg-red-500' : 'cluster-toggle-inactive'}`}
             onClick={() => onChange(!checked)}
         >
             <div
@@ -509,24 +506,24 @@ const FaultSection: React.FC<FaultSectionProps> = ({ title, activeCount, childre
     const [open, setOpen] = useState(true);
 
     return (
-        <div className="border border-gray-800/50 rounded-lg overflow-hidden">
+        <div className="border cluster-fault-section rounded-lg overflow-hidden">
             <button
                 onClick={() => setOpen(!open)}
-                className="w-full flex items-center justify-between p-2.5 hover:bg-white/5 transition-colors"
+                className="w-full flex items-center justify-between p-2.5 cluster-fault-section-header hover:bg-white/5 transition-colors"
             >
-                <span className="text-xs font-medium text-gray-400">{title}</span>
+                <span className="text-xs font-medium cluster-fault-section-title">{title}</span>
                 <div className="flex items-center gap-2">
                     {activeCount > 0 && (
                         <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500/20 text-red-400 rounded">
                             {activeCount}
                         </span>
                     )}
-                    <svg className={`w-3 h-3 text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-3 h-3 cluster-fault-chevron transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                 </div>
             </button>
-            {open && <div className="px-2.5 pb-2.5 border-t border-gray-800/50">{children}</div>}
+            {open && <div className="px-2.5 pb-2.5 border-t cluster-fault-section-content">{children}</div>}
         </div>
     );
 };
@@ -536,16 +533,55 @@ const FaultSection: React.FC<FaultSectionProps> = ({ title, activeCount, childre
 // ========================================
 
 export const ClusterDashboardPage: React.FC = () => {
-    const [vehicleState, setVehicleState] = useState<VehicleState>({
-        ignitionStatus: 'ON',
-        gearPosition: 'D',
-        engineRpm: 3200,
-        vehicleSpeedKph: 85,
-        batteryVoltage12V: 14.2,
-        coolantTemperature: 88,
-        fuelLevel: 72,
-        oilPressure: 45
-    });
+    // Get vehicle state and power management from UDS Context
+    const {
+        vehicleState,
+        updateVehicleState,
+        powerState,
+        setPowerState,
+        voltage,
+        setTargetVoltage,
+        simulateCranking
+    } = useUDS();
+
+    // Map powerState to ignitionStatus for display
+    const mapPowerStateToIgnition = (ps: typeof powerState): IgnitionStatus => {
+        switch (ps) {
+            case 'OFF': return 'OFF';
+            case 'ACC': return 'ACC';
+            case 'ON': return 'ON';
+            case 'CRANKING': return 'CRANK';
+            default: return 'OFF';
+        }
+    };
+
+    // Map ignitionStatus to powerState for context
+    const mapIgnitionToPowerState = (ig: IgnitionStatus): typeof powerState => {
+        switch (ig) {
+            case 'OFF': return 'OFF';
+            case 'ACC': return 'ACC';
+            case 'ON': return 'ON';
+            case 'CRANK': return 'CRANKING';
+            default: return 'OFF';
+        }
+    };
+
+    // Derived ignition status from context
+    const ignitionStatus = mapPowerStateToIgnition(powerState);
+
+    // Handle ignition change - sync with context
+    const handleIgnitionChange = (newStatus: IgnitionStatus) => {
+        if (newStatus === 'CRANK') {
+            simulateCranking();
+        } else {
+            setPowerState(mapIgnitionToPowerState(newStatus));
+        }
+    };
+
+    // Handle vehicle state changes - sync with context
+    const updateVehicle = <K extends keyof typeof vehicleState>(key: K, value: typeof vehicleState[K]) => {
+        updateVehicleState(key, value);
+    };
 
     const [faultTriggers, setFaultTriggers] = useState<FaultTriggers>({
         powertrain: { mafFault: false, coolantTempSensorFault: false, throttlePositionError: false, misfireDetected: false, fuelPressureLow: false },
@@ -553,10 +589,6 @@ export const ClusterDashboardPage: React.FC = () => {
         body: { driverDoorSwitchStuck: false, windowMotorFLStuck: false, wiperMotorOverload: false, centralLockControlFault: false },
         network: { canTimeoutEngineEcu: false, canTimeoutAbs: false, canBusOff: false }
     });
-
-    const updateVehicle = <K extends keyof VehicleState>(key: K, value: VehicleState[K]) => {
-        setVehicleState(prev => ({ ...prev, [key]: value }));
-    };
 
     const updateFault = (category: keyof FaultTriggers, fault: string, value: boolean) => {
         setFaultTriggers(prev => ({
@@ -576,6 +608,8 @@ export const ClusterDashboardPage: React.FC = () => {
     const handleApplyConditions = () => {
         console.log('=== Operating Conditions Applied ===');
         console.log('vehicleState:', JSON.stringify(vehicleState, null, 2));
+        console.log('ignitionStatus:', ignitionStatus);
+        console.log('voltage:', voltage);
     };
 
     const handleApplyFaults = () => {
@@ -592,10 +626,11 @@ export const ClusterDashboardPage: React.FC = () => {
         });
     };
 
+    // Use voltage from context for battery display and telltales
     const telltales = {
         engine: Object.values(faultTriggers.powertrain).some(Boolean),
         abs: Object.values(faultTriggers.brakes).some(Boolean),
-        battery: vehicleState.batteryVoltage12V < 11.5 || vehicleState.batteryVoltage12V > 15.5,
+        battery: voltage < 11.5 || voltage > 15.5,
         oil: faultTriggers.powertrain.fuelPressureLow || vehicleState.oilPressure < 20,
         temp: vehicleState.coolantTemperature > 105,
         fuel: vehicleState.fuelLevel < 15,
@@ -604,7 +639,7 @@ export const ClusterDashboardPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-[#050508]">
+        <div className="min-h-screen relative overflow-hidden cluster-page-container">
             <div className="cyber-grid opacity-30" />
             <EnhancedBackground />
 
@@ -612,21 +647,21 @@ export const ClusterDashboardPage: React.FC = () => {
                 <Header />
 
                 <main className="container mx-auto px-4 py-4">
+                    {/* Protocol State Dashboard - Below Header */}
+                    <div className="protocol-dashboard mb-4">
+                        <ProtocolStateDashboard />
+                    </div>
+
                     <div className="grid grid-cols-1 xl:grid-cols-5 gap-4">
 
                         {/* MAIN CLUSTER PANEL - 4 columns */}
                         <div className="xl:col-span-4">
                             {/* Instrument Cluster */}
                             <div
-                                className="relative rounded-[2rem] overflow-hidden"
-                                style={{
-                                    background: 'linear-gradient(180deg, #0c0c10 0%, #050508 100%)',
-                                    boxShadow: '0 0 60px rgba(0, 212, 255, 0.05), inset 0 1px 0 rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.05)'
-                                }}
+                                className="relative rounded-[2rem] overflow-hidden cluster-main-panel"
                             >
                                 {/* Top bezel with telltales */}
-                                <div className="flex items-center justify-center gap-8 py-4 border-b border-gray-800/30">
+                                <div className="flex items-center justify-center gap-8 py-4 border-b cluster-telltales-header">
                                     <Telltale icon={<EngineIcon />} active={telltales.engine} color="amber" label="Check Engine" />
                                     <Telltale icon={<ABSIcon />} active={telltales.abs} color="amber" label="ABS" />
                                     <Telltale icon={<BatteryIcon />} active={telltales.battery} color="red" label="Battery" />
@@ -657,26 +692,24 @@ export const ClusterDashboardPage: React.FC = () => {
                                         {/* Large Speed Display */}
                                         <div className="text-center mb-4">
                                             <div
-                                                className="text-7xl lg:text-8xl font-extralight tabular-nums tracking-tight"
+                                                className="text-7xl lg:text-8xl font-extralight tabular-nums tracking-tight cluster-speed-display"
                                                 style={{
-                                                    color: '#00d4ff',
-                                                    textShadow: '0 0 40px rgba(0, 212, 255, 0.4)',
                                                     fontFamily: "'Inter', sans-serif"
                                                 }}
                                             >
                                                 {Math.round(vehicleState.vehicleSpeedKph)}
                                             </div>
-                                            <div className="text-sm text-gray-500 tracking-[0.3em] mt-1">KM/H</div>
+                                            <div className="text-sm cluster-text-secondary tracking-[0.3em] mt-1">KM/H</div>
                                         </div>
 
                                         {/* Vehicle Status Info */}
-                                        <div className="grid grid-cols-2 gap-2 w-full bg-black/40 rounded-xl p-3 border border-gray-800/50">
+                                        <div className="grid grid-cols-2 gap-2 w-full cluster-status-panel rounded-xl p-3 border">
                                             <StatusItem
                                                 icon={<BatteryIcon />}
                                                 label="Voltage"
-                                                value={vehicleState.batteryVoltage12V.toFixed(1)}
+                                                value={voltage.toFixed(1)}
                                                 unit="V"
-                                                warning={vehicleState.batteryVoltage12V < 11.5}
+                                                warning={voltage < 11.5}
                                             />
                                             <StatusItem
                                                 icon={<TempIcon />}
@@ -704,8 +737,8 @@ export const ClusterDashboardPage: React.FC = () => {
                                         {/* Ignition */}
                                         <div className="mt-4">
                                             <IgnitionSwitch
-                                                status={vehicleState.ignitionStatus}
-                                                onChange={(s) => updateVehicle('ignitionStatus', s)}
+                                                status={ignitionStatus}
+                                                onChange={handleIgnitionChange}
                                             />
                                         </div>
                                     </div>
@@ -729,51 +762,51 @@ export const ClusterDashboardPage: React.FC = () => {
                                 {/* Bottom controls */}
                                 <div className="px-6 pb-4">
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                        <div className="bg-black/40 rounded-lg p-3 border border-gray-800/30">
-                                            <label className="text-[10px] text-gray-500 uppercase tracking-wider">Engine RPM</label>
+                                        <div className="cluster-control-slider rounded-lg p-3 border">
+                                            <label className="text-[10px] cluster-control-label uppercase tracking-wider">Engine RPM</label>
                                             <input
                                                 type="range" min="0" max="10000" step="100"
                                                 value={vehicleState.engineRpm}
                                                 onChange={(e) => updateVehicle('engineRpm', Number(e.target.value))}
                                                 className="w-full mt-1 accent-cyan-500"
                                             />
-                                            <div className="text-center text-xs text-gray-400 mt-1">{vehicleState.engineRpm}</div>
+                                            <div className="text-center text-xs cluster-control-value mt-1">{vehicleState.engineRpm}</div>
                                         </div>
-                                        <div className="bg-black/40 rounded-lg p-3 border border-gray-800/30">
-                                            <label className="text-[10px] text-gray-500 uppercase tracking-wider">Speed</label>
+                                        <div className="cluster-control-slider rounded-lg p-3 border">
+                                            <label className="text-[10px] cluster-control-label uppercase tracking-wider">Speed</label>
                                             <input
                                                 type="range" min="0" max="280"
                                                 value={vehicleState.vehicleSpeedKph}
                                                 onChange={(e) => updateVehicle('vehicleSpeedKph', Number(e.target.value))}
                                                 className="w-full mt-1 accent-cyan-500"
                                             />
-                                            <div className="text-center text-xs text-gray-400 mt-1">{vehicleState.vehicleSpeedKph} km/h</div>
+                                            <div className="text-center text-xs cluster-control-value mt-1">{vehicleState.vehicleSpeedKph} km/h</div>
                                         </div>
-                                        <div className="bg-black/40 rounded-lg p-3 border border-gray-800/30">
-                                            <label className="text-[10px] text-gray-500 uppercase tracking-wider">Coolant</label>
+                                        <div className="cluster-control-slider rounded-lg p-3 border">
+                                            <label className="text-[10px] cluster-control-label uppercase tracking-wider">Coolant</label>
                                             <input
                                                 type="range" min="-40" max="130"
                                                 value={vehicleState.coolantTemperature}
                                                 onChange={(e) => updateVehicle('coolantTemperature', Number(e.target.value))}
                                                 className="w-full mt-1 accent-red-500"
                                             />
-                                            <div className="text-center text-xs text-gray-400 mt-1">{vehicleState.coolantTemperature}°C</div>
+                                            <div className="text-center text-xs cluster-control-value mt-1">{vehicleState.coolantTemperature}°C</div>
                                         </div>
-                                        <div className="bg-black/40 rounded-lg p-3 border border-gray-800/30">
-                                            <label className="text-[10px] text-gray-500 uppercase tracking-wider">Fuel Level</label>
+                                        <div className="cluster-control-slider rounded-lg p-3 border">
+                                            <label className="text-[10px] cluster-control-label uppercase tracking-wider">Fuel Level</label>
                                             <input
                                                 type="range" min="0" max="100"
                                                 value={vehicleState.fuelLevel}
                                                 onChange={(e) => updateVehicle('fuelLevel', Number(e.target.value))}
                                                 className="w-full mt-1 accent-green-500"
                                             />
-                                            <div className="text-center text-xs text-gray-400 mt-1">{vehicleState.fuelLevel}%</div>
+                                            <div className="text-center text-xs cluster-control-value mt-1">{vehicleState.fuelLevel}%</div>
                                         </div>
                                     </div>
 
                                     <button
                                         onClick={handleApplyConditions}
-                                        className="w-full mt-3 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-medium rounded-lg hover:from-cyan-500 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/20"
+                                        className="w-full mt-3 py-2.5 cluster-apply-btn text-sm font-medium rounded-lg transition-all"
                                     >
                                         Apply Operating Conditions
                                     </button>
@@ -782,9 +815,9 @@ export const ClusterDashboardPage: React.FC = () => {
                         </div>
 
                         {/* FAULT TRIGGERS PANEL - 1 column */}
-                        <div className="bg-[#0a0a0d] border border-gray-800/50 rounded-xl p-3">
+                        <div className="cluster-fault-panel rounded-xl p-3">
                             <div className="flex items-center justify-between mb-3">
-                                <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wider">Faults</h2>
+                                <h2 className="text-xs font-medium cluster-fault-header uppercase tracking-wider">Faults</h2>
                                 {totalFaults > 0 && (
                                     <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500/20 text-red-400 rounded">
                                         {totalFaults}
@@ -823,21 +856,26 @@ export const ClusterDashboardPage: React.FC = () => {
                                 </FaultSection>
                             </div>
 
-                            <div className="flex gap-2 mt-3 pt-3 border-t border-gray-800/50">
+                            <div className="flex gap-2 mt-3 pt-3 border-t cluster-footer-divider">
                                 <button
                                     onClick={handleApplyFaults}
-                                    className="flex-1 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-medium rounded-lg transition-all"
+                                    className="flex-1 py-2 cluster-inject-btn text-xs font-medium rounded-lg transition-all hover:opacity-90"
                                 >
                                     Inject
                                 </button>
                                 <button
                                     onClick={handleResetFaults}
-                                    className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs rounded-lg transition-all"
+                                    className="px-3 py-2 cluster-reset-btn text-xs rounded-lg transition-all hover:opacity-90"
                                 >
                                     Reset
                                 </button>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Power Supply Dashboard - Bottom */}
+                    <div className="power-supply-dashboard mt-4">
+                        <PowerSupplyDashboard />
                     </div>
                 </main>
             </div>
