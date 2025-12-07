@@ -29,10 +29,6 @@ type IgnitionStatus = 'OFF' | 'ACC' | 'ON' | 'CRANK';
 type GearPosition = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3';
 
 // Local interface for cluster display (ignition and battery from context)
-interface LocalVehicleState {
-    ignitionStatus: IgnitionStatus;
-    batteryVoltage12V: number;
-}
 
 interface FaultTriggers {
     powertrain: {
@@ -540,7 +536,6 @@ export const ClusterDashboardPage: React.FC = () => {
         powerState,
         setPowerState,
         voltage,
-        setTargetVoltage,
         simulateCranking
     } = useUDS();
 
