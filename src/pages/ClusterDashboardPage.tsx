@@ -15,6 +15,7 @@
  */
 
 import React, { useState } from 'react';
+import type { JSX } from 'react';
 import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
 import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
