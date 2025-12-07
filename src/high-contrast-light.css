@@ -220,3 +220,359 @@
     border-width: 3px !important;
     color: var(--text-pure-black) !important;
 }
+
+/* ========================================
+   HEADER - HIGH CONTRAST LIGHT MODE
+   ======================================== */
+
+/* Header Container */
+[data-theme="light"][data-contrast="high"] .header-container {
+    background: var(--bg-pure-white) !important;
+    border-color: var(--text-pure-black) !important;
+    border-width: 3px !important;
+    backdrop-filter: none !important;
+}
+
+/* Header Subtitle */
+[data-theme="light"][data-contrast="high"] .header-subtitle {
+    color: var(--text-pure-black) !important;
+}
+
+/* Header Navigation Buttons */
+[data-theme="light"][data-contrast="high"] .header-nav-btn {
+    color: var(--text-pure-black) !important;
+    background: transparent !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-nav-btn:hover {
+    color: var(--bg-pure-white) !important;
+    background: var(--accent-blue-dark) !important;
+}
+
+/* Navigation Links - Home (Green) */
+[data-theme="light"][data-contrast="high"] .header-link-home {
+    background: transparent !important;
+    color: var(--accent-green-dark) !important;
+    border-color: var(--accent-green-dark) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-link-home:hover {
+    background: var(--accent-green-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Navigation Links - Learn (Blue) */
+[data-theme="light"][data-contrast="high"] .header-link-learn {
+    background: transparent !important;
+    color: var(--accent-blue-dark) !important;
+    border-color: var(--accent-blue-dark) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-link-learn:hover {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Navigation Links - Cluster (Orange) */
+[data-theme="light"][data-contrast="high"] .header-link-cluster {
+    background: transparent !important;
+    color: var(--accent-orange-dark) !important;
+    border-color: var(--accent-orange-dark) !important;
+    border-width: 3px !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-link-cluster:hover {
+    background: var(--accent-orange-dark) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Mobile Menu Button */
+[data-theme="light"][data-contrast="high"] .header-mobile-btn {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-mobile-btn:hover {
+    color: var(--accent-blue-dark) !important;
+}
+
+/* Mobile Menu */
+[data-theme="light"][data-contrast="high"] .header-mobile-menu {
+    border-color: var(--text-pure-black) !important;
+    border-width: 3px !important;
+    background: var(--bg-pure-white) !important;
+}
+
+/* Mobile Menu Links */
+[data-theme="light"][data-contrast="high"] .header-mobile-link {
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-mobile-link:hover {
+    color: var(--bg-pure-white) !important;
+    background: var(--accent-blue-dark) !important;
+}
+
+/* Dialog Overlay */
+[data-theme="light"][data-contrast="high"] .header-dialog-overlay {
+    background: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Dialog Panel */
+[data-theme="light"][data-contrast="high"] .header-dialog-panel {
+    background: var(--bg-pure-white) !important;
+    border-color: var(--text-pure-black) !important;
+    border-width: 3px !important;
+}
+
+/* Dialog Title */
+[data-theme="light"][data-contrast="high"] .header-dialog-title {
+    color: var(--accent-blue-dark) !important;
+}
+
+/* Dialog Labels */
+[data-theme="light"][data-contrast="high"] .header-dialog-label {
+    color: var(--text-pure-black) !important;
+}
+
+/* Dialog Inputs */
+[data-theme="light"][data-contrast="high"] .header-dialog-input {
+    background: var(--bg-pure-white) !important;
+    border-color: var(--text-pure-black) !important;
+    border-width: 2px !important;
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-dialog-input::placeholder {
+    color: #666666 !important;
+}
+
+/* Dialog Cancel Button */
+[data-theme="light"][data-contrast="high"] .header-dialog-cancel-btn {
+    background: transparent !important;
+    border-color: var(--text-pure-black) !important;
+    border-width: 3px !important;
+    color: var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .header-dialog-cancel-btn:hover {
+    background: var(--text-pure-black) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* ========================================
+   CLUSTER DASHBOARD - HIGH CONTRAST LIGHT MODE
+   ======================================== */
+
+/* Cluster Page Container */
+[data-theme="light"][data-contrast="high"] .cluster-page-container {
+    background-color: var(--bg-pure-white) !important;
+}
+
+/* Main Cluster Panel */
+[data-theme="light"][data-contrast="high"] .cluster-main-panel {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--text-pure-black) !important;
+    box-shadow: none !important;
+}
+
+/* Telltales Header */
+[data-theme="light"][data-contrast="high"] .cluster-telltales-header {
+    background: var(--bg-pure-white) !important;
+    border-color: var(--text-pure-black) !important;
+    border-width: 2px !important;
+}
+
+/* Telltale Inactive State */
+[data-theme="light"][data-contrast="high"] .cluster-telltale-inactive {
+    color: #666666 !important;
+}
+
+/* Speed Display */
+[data-theme="light"][data-contrast="high"] .cluster-speed-display {
+    color: var(--accent-blue-dark) !important;
+    text-shadow: none !important;
+}
+
+/* Cluster Text Primary */
+[data-theme="light"][data-contrast="high"] .cluster-text-primary {
+    color: var(--text-pure-black) !important;
+}
+
+/* Cluster Text Secondary */
+[data-theme="light"][data-contrast="high"] .cluster-text-secondary {
+    color: #333333 !important;
+}
+
+/* Cluster Gauge Label */
+[data-theme="light"][data-contrast="high"] .cluster-gauge-label {
+    color: var(--text-pure-black) !important;
+}
+
+/* Cluster Status Panel */
+[data-theme="light"][data-contrast="high"] .cluster-status-panel {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--text-pure-black) !important;
+    box-shadow: none !important;
+}
+
+/* Cluster Status Value */
+[data-theme="light"][data-contrast="high"] .cluster-status-value {
+    color: var(--text-pure-black) !important;
+}
+
+/* Cluster Control Slider */
+[data-theme="light"][data-contrast="high"] .cluster-control-slider {
+    background: var(--bg-pure-white) !important;
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+/* Cluster Control Label */
+[data-theme="light"][data-contrast="high"] .cluster-control-label {
+    color: var(--text-pure-black) !important;
+}
+
+/* Cluster Control Value */
+[data-theme="light"][data-contrast="high"] .cluster-control-value {
+    color: #333333 !important;
+}
+
+/* Ignition Switch Container */
+[data-theme="light"][data-contrast="high"] .cluster-ignition-switch {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--text-pure-black) !important;
+    box-shadow: none !important;
+}
+
+/* Ignition Button Inactive */
+[data-theme="light"][data-contrast="high"] .cluster-ignition-btn-inactive {
+    color: #444444 !important;
+}
+
+/* Fault Panel Container */
+[data-theme="light"][data-contrast="high"] .cluster-fault-panel {
+    background: var(--bg-pure-white) !important;
+    border: 3px solid var(--text-pure-black) !important;
+    box-shadow: none !important;
+}
+
+/* Fault Panel Header */
+[data-theme="light"][data-contrast="high"] .cluster-fault-header {
+    color: var(--text-pure-black) !important;
+}
+
+/* Fault Section */
+[data-theme="light"][data-contrast="high"] .cluster-fault-section {
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+/* Fault Section Header */
+[data-theme="light"][data-contrast="high"] .cluster-fault-section-header {
+    background: var(--bg-pure-white) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .cluster-fault-section-header:hover {
+    background: #f0f0f0 !important;
+}
+
+/* Fault Section Title */
+[data-theme="light"][data-contrast="high"] .cluster-fault-section-title {
+    color: var(--text-pure-black) !important;
+}
+
+/* Fault Section Content */
+[data-theme="light"][data-contrast="high"] .cluster-fault-section-content {
+    border-color: var(--text-pure-black) !important;
+}
+
+/* Fault Label */
+[data-theme="light"][data-contrast="high"] .cluster-fault-label {
+    color: var(--text-pure-black) !important;
+}
+
+/* Fault Toggle Chevron */
+[data-theme="light"][data-contrast="high"] .cluster-fault-chevron {
+    color: var(--text-pure-black) !important;
+}
+
+/* Toggle Inactive */
+[data-theme="light"][data-contrast="high"] .cluster-toggle-inactive {
+    background: #cccccc !important;
+    border: 2px solid var(--text-pure-black) !important;
+}
+
+/* Apply Button */
+[data-theme="light"][data-contrast="high"] .cluster-apply-btn {
+    background: var(--accent-blue-dark) !important;
+    color: var(--bg-pure-white) !important;
+    border: 3px solid var(--accent-blue-dark) !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"][data-contrast="high"] .cluster-apply-btn:hover {
+    background: var(--bg-pure-white) !important;
+    color: var(--accent-blue-dark) !important;
+}
+
+/* Reset Button */
+[data-theme="light"][data-contrast="high"] .cluster-reset-btn {
+    background: var(--bg-pure-white) !important;
+    color: var(--text-pure-black) !important;
+    border: 3px solid var(--text-pure-black) !important;
+}
+
+[data-theme="light"][data-contrast="high"] .cluster-reset-btn:hover {
+    background: var(--text-pure-black) !important;
+    color: var(--bg-pure-white) !important;
+}
+
+/* Inject Button */
+[data-theme="light"][data-contrast="high"] .cluster-inject-btn {
+    background: var(--accent-red-dark) !important;
+    color: var(--bg-pure-white) !important;
+    border: 3px solid var(--accent-red-dark) !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"][data-contrast="high"] .cluster-inject-btn:hover {
+    background: var(--bg-pure-white) !important;
+    color: var(--accent-red-dark) !important;
+}
+
+/* Gauge Bezel Glow */
+[data-theme="light"][data-contrast="high"] .gauge-bezel-glow {
+    stroke: var(--accent-blue-dark) !important;
+    opacity: 1 !important;
+}
+
+/* Gauge Inner Circle */
+[data-theme="light"][data-contrast="high"] .gauge-inner-circle {
+    fill: var(--bg-pure-white) !important;
+    stroke: var(--text-pure-black) !important;
+    stroke-width: 2px !important;
+}
+
+/* Gauge Center Hub */
+[data-theme="light"][data-contrast="high"] .gauge-center-hub {
+    fill: var(--bg-pure-white) !important;
+    stroke: var(--text-pure-black) !important;
+}
+
+/* Gauge Center Dot */
+[data-theme="light"][data-contrast="high"] .gauge-center-dot {
+    fill: var(--text-pure-black) !important;
+}
+
+/* Gauge Outer Bezel - Override SVG gradient backgrounds */
+[data-theme="light"][data-contrast="high"] .gauge-outer-bezel {
+    fill: var(--bg-pure-white) !important;
+    stroke: var(--text-pure-black) !important;
+    stroke-width: 4px !important;
+}
+
+/* Cluster Footer Divider */
+[data-theme="light"][data-contrast="high"] .cluster-footer-divider {
+    border-color: var(--text-pure-black) !important;
+    border-width: 2px !important;
+}

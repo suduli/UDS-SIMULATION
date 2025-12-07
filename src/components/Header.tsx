@@ -218,7 +218,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-dark-900/95 backdrop-blur-md border-b border-gray-800/50 sticky top-0 z-50">
+      <header className="header-container border-b sticky top-0 z-50">
         <div className="px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between gap-4">
             {/* Left: Logo & Branding */}
@@ -232,7 +232,7 @@ const Header: React.FC = () => {
                 <div className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                   UDS Simulator
                 </div>
-                <div className="text-xs text-gray-500">Unified Diagnostic Services</div>
+                <div className="text-xs header-subtitle">Unified Diagnostic Services</div>
               </div>
             </div>
 
@@ -240,7 +240,7 @@ const Header: React.FC = () => {
             <div className="hidden lg:flex items-center gap-2">
               <Link
                 to="/"
-                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-emerald-500/10 to-green-500/10 hover:from-emerald-500/20 hover:to-green-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-link-home border rounded-lg transition-all"
               >
                 <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -250,7 +250,7 @@ const Header: React.FC = () => {
 
               <Link
                 to="/learn"
-                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 text-cyan-400 border border-cyan-500/30 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-link-learn border rounded-lg transition-all"
               >
                 <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -260,7 +260,7 @@ const Header: React.FC = () => {
 
               <Link
                 to="/cluster"
-                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 text-amber-400 border border-amber-500/30 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-link-cluster border rounded-lg transition-all"
               >
                 <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -273,7 +273,7 @@ const Header: React.FC = () => {
               {isFeatureEnabled('ENABLE_SCENARIO_LIBRARY') && (
                 <button
                   onClick={() => setIsScenarioLibraryOpen(true)}
-                  className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                  className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all"
                 >
                   Scenarios
                 </button>
@@ -281,7 +281,7 @@ const Header: React.FC = () => {
 
               <button
                 onClick={() => setIsSequenceBuilderOpen(true)}
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all"
               >
                 Sequences
               </button>
@@ -290,7 +290,7 @@ const Header: React.FC = () => {
                 <button
                   onClick={handleSaveScenario}
                   disabled={requestHistory.length === 0}
-                  className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Save
                 </button>
@@ -299,21 +299,21 @@ const Header: React.FC = () => {
               <button
                 onClick={handleExport}
                 disabled={requestHistory.length === 0}
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Export
               </button>
 
               <button
                 onClick={handleImport}
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all"
               >
                 Import
               </button>
 
               <button
                 onClick={toggleTheme}
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all"
                 data-theme-toggle
               >
                 {theme === 'dark' ? 'Light' : 'Dark'}
@@ -321,7 +321,7 @@ const Header: React.FC = () => {
 
               <button
                 onClick={toggleHighContrast}
-                className="px-3 py-1.5 text-xs font-medium text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg transition-all"
+                className="px-3 py-1.5 text-xs font-medium header-nav-btn rounded-lg transition-all"
               >
                 High Contrast
               </button>
@@ -330,7 +330,7 @@ const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+              className="lg:hidden p-2 header-mobile-btn rounded-lg"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -344,56 +344,56 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-4 pt-4 border-t border-gray-800 space-y-2">
+            <div className="lg:hidden mt-4 pt-4 border-t header-mobile-menu space-y-2">
               <Link
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-lg"
+                className="block px-3 py-2 text-sm header-link-home border rounded-lg"
               >
                 Home
               </Link>
               <Link
                 to="/learn"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 rounded-lg"
+                className="block px-3 py-2 text-sm header-link-learn border rounded-lg"
               >
                 Learn UDS
               </Link>
               <Link
                 to="/cluster"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm text-amber-400 bg-amber-500/10 border border-amber-500/30 rounded-lg"
+                className="block px-3 py-2 text-sm header-link-cluster border rounded-lg"
               >
                 Cluster Dashboard
               </Link>
               <button
                 onClick={() => { setIsSequenceBuilderOpen(true); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
               >
                 Sequences
               </button>
               <button
                 onClick={() => { handleExport(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
                 disabled={requestHistory.length === 0}
               >
                 Export
               </button>
               <button
                 onClick={() => { handleImport(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
               >
                 Import
               </button>
               <button
                 onClick={() => { toggleTheme(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
               >
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </button>
               <button
                 onClick={() => { toggleHighContrast(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-800/50 rounded-lg"
+                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
               >
                 {highContrast ? 'Normal Contrast' : 'High Contrast'}
               </button>
@@ -479,62 +479,62 @@ const SaveScenarioDialog: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-dark-800 border border-gray-700 rounded-xl max-w-md w-full p-6 shadow-2xl">
-        <h2 className="text-2xl font-bold text-cyan-400 mb-4">Save Scenario</h2>
+    <div className="fixed inset-0 header-dialog-overlay backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="header-dialog-panel border rounded-xl max-w-md w-full p-6 shadow-2xl">
+        <h2 className="text-2xl font-bold header-dialog-title mb-4">Save Scenario</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Scenario Name *</label>
+            <label className="block text-sm header-dialog-label mb-1">Scenario Name *</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full header-dialog-input border rounded-lg px-4 py-2 focus:outline-none"
               placeholder="e.g., DTC Read Test"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Description</label>
+            <label className="block text-sm header-dialog-label mb-1">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full header-dialog-input border rounded-lg px-4 py-2 focus:outline-none"
               placeholder="Describe what this scenario tests..."
               rows={3}
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Author</label>
+            <label className="block text-sm header-dialog-label mb-1">Author</label>
             <input
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full header-dialog-input border rounded-lg px-4 py-2 focus:outline-none"
               placeholder="Your name"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Tags (comma-separated)</label>
+            <label className="block text-sm header-dialog-label mb-1">Tags (comma-separated)</label>
             <input
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full header-dialog-input border rounded-lg px-4 py-2 focus:outline-none"
               placeholder="e.g., dtc, diagnostic, test"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Notes</label>
+            <label className="block text-sm header-dialog-label mb-1">Notes</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full header-dialog-input border rounded-lg px-4 py-2 focus:outline-none"
               placeholder="Additional notes..."
               rows={2}
             />
@@ -550,7 +550,7 @@ const SaveScenarioDialog: React.FC<{
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 bg-gray-700 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+              className="px-4 py-2 header-dialog-cancel-btn border rounded-lg transition-colors"
             >
               Cancel
             </button>
