@@ -20,8 +20,7 @@ interface DTCManagementPanelProps {
 }
 
 const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compact = false }) => {
-    const { sendRequest, ecuConfig } = useUDS();
-    const [selectedCategory, setSelectedCategory] = useState<DTCCategory | 'all'>('all');
+ const { sendRequest, ecuConfig, ecuPower } = useUDS();    const [selectedCategory, setSelectedCategory] = useState<DTCCategory | 'all'>('all');
     const [selectedStatus, setSelectedStatus] = useState<'all' | 'confirmed' | 'pending' | 'active'>('all');
     const [expandedDTC, setExpandedDTC] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -166,42 +165,42 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
         <div className="flex flex-wrap gap-2 mb-4">
             <button
                 onClick={() => handleReadDTCs(0x01, 0xFF)}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-primary"
             >
                 Count All
             </button>
             <button
                 onClick={() => handleReadDTCs(0x02, 0xFF)}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-primary"
             >
                 Read All
             </button>
             <button
                 onClick={() => handleReadDTCs(0x02, 0x08)}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-warning"
             >
                 Confirmed Only
             </button>
             <button
                 onClick={() => handleReadDTCs(0x02, 0x04)}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-info"
             >
                 Pending Only
             </button>
             <button
                 onClick={() => handleReadDTCs(0x0A)}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-purple"
             >
                 Supported DTCs
             </button>
             <button
                 onClick={handleClearDTCs}
-                disabled={isLoading}
+                disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-danger ml-auto"
             >
                 Clear All DTCs
