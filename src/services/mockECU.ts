@@ -707,6 +707,52 @@ const mockDTCs: DTCInfo[] = [
     }],
   },
   {
+    code: 0x040121,  // U0121 - Lost Communication with ABS
+    status: {
+      testFailed: false,
+      testFailedThisOperationCycle: false,
+      pendingDTC: true,
+      confirmedDTC: false,
+      testNotCompletedSinceLastClear: false,
+      testFailedSinceLastClear: true,
+      testNotCompletedThisOperationCycle: false,
+      warningIndicatorRequested: false,
+    },
+    severity: 'high',
+    severityByte: 0x60,
+    category: 'network',
+    description: 'Lost Communication With ABS Control Module',
+    occurrenceCounter: 1,
+    agingCounter: 0,
+    firstFailureTimestamp: Date.now() - 3600000,
+    mostRecentFailureTimestamp: Date.now() - 3600000,
+    snapshots: [{
+      recordNumber: 1,
+      timestamp: Date.now() - 3600000,
+      data: {
+        vehicleSpeed: 40,
+        engineRPM: 1800,
+        coolantTemp: 85,
+        throttlePosition: 30,
+        fuelLevel: 55,
+        batteryVoltage: 13.8,
+        engineLoad: 40,
+        intakeAirTemp: 23,
+        oilPressure: 325,
+        ambientTemp: 19,
+      }
+    }],
+    extendedData: [{
+      recordNumber: 1,
+      occurrenceCounter: 1,
+      agingCounter: 0,
+      agedCounter: 0,
+      selfHealingCounter: 0,
+      failedSinceLastClear: true,
+      testNotCompleted: false,
+    }],
+  },
+  {
     code: 0x040155,  // U0155 - Lost Communication with Cluster
     status: {
       testFailed: false,
