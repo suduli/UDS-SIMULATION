@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>UDS Simulator - Unified Diagnostic Services Testing Tool</title>
     <script type="text/javascript">
-      // Save the path for restoration after redirect
-      var pathSegments = window.location.pathname.split('/').filter(Boolean);
-      // Assuming the first segment is the repo name (e.g., 'UDS-SIMULATION')
-      var route = '/' + pathSegments.slice(1).join('/'); 
-      sessionStorage.redirect = route;
-      // Redirect to the repository root (e.g., '/UDS-SIMULATION/')
-      window.location.replace('/' + pathSegments[0] + '/');
+        // Preserve the entire path including the repository name (basename)
+        var path = window.location.pathname + window.location.search + window.location.hash;
+        sessionStorage.redirect = path;
+
+        // Redirect to the repository root
+        // We assume the first path segment is the repository name
+        var pathSegments = window.location.pathname.split('/').filter(Boolean);
+        var repoPath = '/' + pathSegments[0] + '/';
+        window.location.replace(repoPath);
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- Fallback content if JavaScript is disabled -->
     <p>Loading...</p>
-  </body>
+</body>
+
 </html>
