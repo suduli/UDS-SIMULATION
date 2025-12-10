@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useUDS } from '../context/UDSContext';
-import type { DTCInfo, DTCCategory, DTCStatusMask } from '../types/uds';
+import type { DTCInfo, DTCCategory, DTCStatusMask, ServiceId } from '../types/uds';
 import {
     formatDTCCode,
     dtcStatusToByte,
@@ -20,7 +20,7 @@ interface DTCManagementPanelProps {
 }
 
 const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compact = false }) => {
- const { sendRequest, ecuConfig, ecuPower } = useUDS();    const [selectedCategory, setSelectedCategory] = useState<DTCCategory | 'all'>('all');
+    const { sendRequest, ecuConfig, ecuPower } = useUDS(); const [selectedCategory, setSelectedCategory] = useState<DTCCategory | 'all'>('all');
     const [selectedStatus, setSelectedStatus] = useState<'all' | 'confirmed' | 'pending' | 'active'>('all');
     const [expandedDTC, setExpandedDTC] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +28,11 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
 
     // Get DTCs from ECU config
     const dtcs: DTCInfo[] = ecuConfig?.dtcs || [];
+
+    // DEBUG: Log mount and prop updates
+    React.useEffect(() => {
+        console.log('[DTCManagementPanel] Mounted. ECU Power:', ecuPower);
+    }, [ecuPower]);
 
     // Filter DTCs based on selected category and status
     const filteredDTCs = useMemo(() => {
@@ -77,6 +82,9 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                 data: [statusMask],
                 timestamp: Date.now(),
             });
+            console.log('[DTCManagementPanel] Read DTCs Success');
+        } catch (e) {
+            console.error('[DTCManagementPanel] Read DTCs Failed:', e);
         } finally {
             setIsLoading(false);
         }
@@ -85,12 +93,28 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
     // Send clear DTC request
     const handleClearDTCs = async () => {
         setIsLoading(true);
+
+        const requestData = [0xFF, 0xFF, 0xFF];
+        const request = {
+            sid: 0x14 as ServiceId,
+            data: requestData,
+            timestamp: Date.now(),
+        };
+
+        console.log('[DTCManagementPanel] 🔴 Clear DTC Request Created:');
+        console.log('  - SID:', `0x${request.sid.toString(16).toUpperCase()}`);
+        console.log('  - Data Array:', request.data);
+        console.log('  - Data Length:', request.data?.length);
+        console.log('  - Data Contents:', request.data?.map(b => `0x${b.toString(16).toUpperCase().padStart(2, '0')}`).join(' '));
+        console.log('  - Timestamp:', request.timestamp);
+        console.log('  - Request Object:', JSON.stringify(request));
+
         try {
-            await sendRequest({
-                sid: 0x14,
-                data: [0xFF, 0xFF, 0xFF], // Clear all DTCs
-                timestamp: Date.now(),
-            });
+            console.log('[DTCManagementPanel] 🚀 Sending Clear DTC request...');
+            await sendRequest(request);
+            console.log('[DTCManagementPanel] ✅ Clear DTC request completed successfully');
+        } catch (error) {
+            console.error('[DTCManagementPanel] ❌ Clear DTC request failed:', error);
         } finally {
             setIsLoading(false);
         }
@@ -164,14 +188,20 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
     const QuickActions = () => (
         <div className="flex flex-wrap gap-2 mb-4">
             <button
-                onClick={() => handleReadDTCs(0x01, 0xFF)}
+                onClick={() => {
+                    console.log('[DTCManagementPanel] Clicked Count All');
+                    handleReadDTCs(0x01, 0xFF);
+                }}
                 disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-primary"
             >
                 Count All
             </button>
             <button
-                onClick={() => handleReadDTCs(0x02, 0xFF)}
+                onClick={() => {
+                    console.log('[DTCManagementPanel] Clicked Read All');
+                    handleReadDTCs(0x02, 0xFF);
+                }}
                 disabled={isLoading || !ecuPower}
                 className="dtc-action-btn dtc-action-btn-primary"
             >
@@ -417,6 +447,9 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
         );
     };
 
+    // DEBUG: Render log
+    console.log('[DTCManagementPanel] Render. isLoading:', isLoading, 'ecuPower:', ecuPower);
+
     return (
         <div className={`dtc-panel ${compact ? 'p-3' : 'p-4'}`}>
             {/* Header */}
@@ -491,4 +524,5 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
     );
 };
 
-export default DTCManagementPanel;
+// Wrap with React.memo to prevent re-renders from parent context updates
+export default React.memo(DTCManagementPanel);

@@ -352,3 +352,98 @@ export const getSID19SubfunctionName = (subFunction: number): string => {
 
   return names[subFunction & 0x7F] || `Unknown (0x${subFunction.toString(16).toUpperCase()})`;
 };
+
+/**
+ * ALFID Parser for SID 0x23 (Read Memory By Address)
+ * Parses Address and Length Format Identifier per ISO 14229-1
+ * 
+ * ALFID Format:
+ *   Bits 7-4: Memory size length in bytes (0-15)
+ *   Bits 3-0: Memory address length in bytes (0-15)
+ * 
+ * @param data - Request data bytes (excluding SID)
+ * @returns Parsed ALFID result with address, size, and validity
+ */
+export interface ALFIDResult {
+  addressLength: number;
+  sizeLength: number;
+  address: number;
+  size: number;
+  valid: boolean;
+  errorMessage?: string;
+}
+
+export const parseALFID = (data: number[]): ALFIDResult => {
+  // Minimum: 1 byte ALFID + at least 1 byte address + 1 byte size
+  if (!data || data.length < 3) {
+    return {
+      addressLength: 0,
+      sizeLength: 0,
+      address: 0,
+      size: 0,
+      valid: false,
+      errorMessage: 'Insufficient data length',
+    };
+  }
+
+  const alfid = data[0];
+  const addressLength = alfid & 0x0F;  // Low nibble
+  const sizeLength = (alfid >> 4) & 0x0F;  // High nibble
+
+  // Validate address and size lengths
+  if (addressLength === 0 || addressLength > 8) {
+    return {
+      addressLength,
+      sizeLength,
+      address: 0,
+      size: 0,
+      valid: false,
+      errorMessage: `Invalid address length: ${addressLength} (must be 1-8)`,
+    };
+  }
+
+  if (sizeLength === 0 || sizeLength > 8) {
+    return {
+      addressLength,
+      sizeLength,
+      address: 0,
+      size: 0,
+      valid: false,
+      errorMessage: `Invalid size length: ${sizeLength} (must be 1-8)`,
+    };
+  }
+
+  // Expected message length: ALFID (1) + address + size
+  const expectedLength = 1 + addressLength + sizeLength;
+  if (data.length !== expectedLength) {
+    return {
+      addressLength,
+      sizeLength,
+      address: 0,
+      size: 0,
+      valid: false,
+      errorMessage: `Incorrect message length: expected ${expectedLength}, got ${data.length}`,
+    };
+  }
+
+  // Parse address (big-endian)
+  let address = 0;
+  for (let i = 0; i < addressLength; i++) {
+    address = (address << 8) | data[1 + i];
+  }
+
+  // Parse size (big-endian)
+  let size = 0;
+  for (let i = 0; i < sizeLength; i++) {
+    size = (size << 8) | data[1 + addressLength + i];
+  }
+
+  return {
+    addressLength,
+    sizeLength,
+    address,
+    size,
+    valid: true,
+  };
+};
+

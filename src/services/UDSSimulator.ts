@@ -22,6 +22,7 @@ import {
   dtcStatusToByte,
   generateAutomotiveData,
   delay,
+  parseALFID,
 } from '../utils/udsHelpers';
 
 export class UDSSimulator {
@@ -40,6 +41,11 @@ export class UDSSimulator {
       lastActivityTime: Date.now(),
       sessionTimeout: 5000,
       communicationEnabled: true,
+      communicationControlState: {
+        normalMessages: { rxEnabled: true, txEnabled: true },
+        networkManagement: { rxEnabled: true, txEnabled: true },
+        subnets: new Map(),
+      },
       activePeriodicIds: [],
       downloadInProgress: false,
       uploadInProgress: false,
@@ -47,6 +53,13 @@ export class UDSSimulator {
       // RPS state initialization
       rpsEnabled: false,
       rpsPowerDownTime: 0,
+      // Security Access timing state
+      lastSeedRequestTime: 0,
+      lastSeedRequestLevel: 0,
+      lastInvalidKeyTime: 0,
+      securityDelayActive: false,
+      seedTimeout: 5000,           // 5 seconds
+      securityDelayDuration: 10000, // 10 seconds
     };
   }
 
@@ -76,13 +89,16 @@ export class UDSSimulator {
       );
     }
 
-    // Ignition Check: Reject most services if Ignition is OFF
-    // Allowed services: DiagnosticSessionControl (0x10), ECUReset (0x11)
+    // Ignition Check: Allow most services only when Ignition is ON
+    // Services allowed regardless of ignition: DiagnosticSessionControl (0x10), ECUReset (0x11)
     const ALWAYS_ALLOWED_SIDS: ServiceId[] = [
       ServiceId.DIAGNOSTIC_SESSION_CONTROL,
-      ServiceId.ECU_RESET
+      ServiceId.ECU_RESET,
+      ServiceId.READ_DTC_INFORMATION,
+      ServiceId.CLEAR_DIAGNOSTIC_INFORMATION
     ];
 
+    // Reject if ignition is OFF (ignitionOn = false) and SID is not always allowed
     if (!ignitionOn && !ALWAYS_ALLOWED_SIDS.includes(request.sid as ServiceId)) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -220,39 +236,20 @@ export class UDSSimulator {
     }
 
     // Session transition validation per ISO 14229-1:2020
-    // Valid Transitions Matrix:
+    // Relaxed transition matrix for test simulator to allow flexible session changes
     // | From → To        | Default | Programming | Extended | Safety |
     // |------------------|---------|-------------|----------|--------|
     // | Default (0x01)   | OK      | OK          | OK       | OK     |
-    // | Programming(0x02)| OK      | NRC 0x22    | NRC 0x22 | NRC 0x22|
-    // | Extended (0x03)  | OK      | NRC 0x22    | OK       | NRC 0x22|
-    // | Safety (0x04)    | OK      | NRC 0x22    | NRC 0x22 | OK     |
+    // | Programming(0x02)| OK      | OK          | OK       | OK     |
+    // | Extended (0x03)  | OK      | OK          | OK       | OK     |
+    // | Safety (0x04)    | OK      | OK          | OK       | OK     |
     const currentSession = this.state.currentSession;
 
     const isTransitionValid = (): boolean => {
-      // Always allow transition TO Default session
-      if (sessionType === DiagnosticSessionType.DEFAULT) {
-        return true;
-      }
-
-      // Always allow transition FROM Default session
-      if (currentSession === DiagnosticSessionType.DEFAULT) {
-        return true;
-      }
-
-      // Programming session: cannot re-enter or transition to from any non-Default
-      if (currentSession === DiagnosticSessionType.PROGRAMMING) {
-        return false; // Must return to Default first
-      }
-
-      // Extended and Safety: allow re-entering same session only
-      if (sessionType === currentSession) {
-        return sessionType === DiagnosticSessionType.EXTENDED ||
-          sessionType === DiagnosticSessionType.SAFETY;
-      }
-
-      // All other non-Default to non-Default transitions are blocked
-      return false;
+      // For UDS simulator/testing purposes, allow all session transitions
+      // This enables comprehensive testing of service behavior in different sessions
+      // Real ECUs may implement stricter transition rules based on security/safety requirements
+      return true;
     };
 
     if (!isTransitionValid()) {
@@ -270,6 +267,13 @@ export class UDSSimulator {
     if (sessionType !== currentSession) {
       this.state.securityUnlocked = false;
       this.state.securityLevel = 0;
+      this.state.securityAttempts = 0;
+      this.state.lastSeedRequestTime = 0;
+      this.state.lastSeedRequestLevel = 0;
+      this.state.lastInvalidKeyTime = 0;
+      this.state.securityDelayActive = false;
+      this.currentSeed = [];
+      this.expectedKey = [];
     }
 
     // Reset activity timestamp for session timeout
@@ -468,14 +472,36 @@ export class UDSSimulator {
    * - Safety Session typically blocks clear operations to preserve evidence
    */
   private handleClearDTC(request: UDSRequest): UDSResponse {
+    // DEBUG: Log incoming request details
+    console.log('[UDSSimulator] 🔧 handleClearDTC called');
+    console.log('  - Request Object:', request);
+    console.log('  - Request SID:', `0x${request.sid.toString(16).toUpperCase()}`);
+    console.log('  - Request.data exists?', !!request.data);
+    console.log('  - Request.data type:', typeof request.data);
+    console.log('  - Request.data is Array?', Array.isArray(request.data));
+    console.log('  - Request.data value:', request.data);
+    console.log('  - Request.data length:', request.data?.length);
+
+    if (request.data) {
+      console.log('  - Data bytes:', request.data.map(b => `0x${b.toString(16).toUpperCase().padStart(2, '0')}`).join(' '));
+    }
+
     // Validate message length: must be exactly 3 bytes of data (groupOfDTC)
     // Less than 3 bytes OR more than 3 bytes = NRC 0x13
     if (!request.data || request.data.length !== 3) {
+      console.log('[UDSSimulator] ❌ VALIDATION FAILED:');
+      console.log('  - request.data is falsy?', !request.data);
+      console.log('  - request.data.length !== 3?', request.data?.length !== 3);
+      console.log('  - Actual length:', request.data?.length);
+      console.log('  - Returning NRC 0x13 (Incorrect Message Length)');
+
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
       );
     }
+
+    console.log('[UDSSimulator] ✅ Validation passed, proceeding with Clear DTC...');
 
     // Session restriction: Safety Session (0x04) typically blocks DTC clearing
     // This preserves diagnostic evidence for safety-critical analysis
@@ -972,17 +998,6 @@ export class UDSSimulator {
         );
     }
 
-    // Handle suppress positive response
-    if (suppressPositiveResponse) {
-      return {
-        sid: request.sid,
-        data: [],
-        timestamp: Date.now(),
-        isNegative: false,
-        suppressedResponse: true,
-      };
-    }
-
     return {
       sid: request.sid,
       data: responseData,
@@ -1011,8 +1026,16 @@ export class UDSSimulator {
 
   /**
    * 0x22 - Read Data By Identifier
+   * 
+   * Comprehensive implementation per ISO 14229-1:2020:
+   * - Supports multiple DIDs in single request
+   * - Validates session requirements
+   * - Validates security requirements
+   * - Checks response length limits
+   * - "All-or-nothing" behavior: if ANY DID fails, entire request fails
    */
   private handleReadDataById(request: UDSRequest): UDSResponse {
+    // Validate message length: must be 1 + (N × 2) bytes where N = number of DIDs
     if (!request.data || request.data.length < 2) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -1020,31 +1043,109 @@ export class UDSSimulator {
       );
     }
 
-    const did = (request.data[0] << 8) | request.data[1];
-    const dataId = this.ecuConfig.dataIdentifiers.find(d => d.id === did);
-
-    if (!dataId) {
+    // Data length must be even (each DID is 2 bytes)
+    if (request.data.length % 2 !== 0) {
       return this.createNegativeResponseObj(
         request.sid,
-        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
       );
     }
 
-    const responseData: number[] = [0x62, request.data[0], request.data[1]];
-
-    // Convert value to bytes based on format
-    if (typeof dataId.value === 'string') {
-      dataId.value.split('').forEach(char => {
-        responseData.push(char.charCodeAt(0));
-      });
-    } else if (Array.isArray(dataId.value)) {
-      responseData.push(...dataId.value);
-    } else {
-      // Generate dynamic data for certain DIDs
-      const dynamicData = generateAutomotiveData(dataId.name);
-      responseData.push(...dynamicData);
+    // Extract all DIDs from request
+    const numDIDs = request.data.length / 2;
+    const dids: number[] = [];
+    for (let i = 0; i < numDIDs; i++) {
+      const did = (request.data[i * 2] << 8) | request.data[i * 2 + 1];
+      dids.push(did);
     }
 
+    // Response buffer - start with positive response SID
+    const responseData: number[] = [0x62];
+    const MAX_RESPONSE_LENGTH = 4095; // Maximum for CAN-TP
+
+    // Process each DID
+    for (const did of dids) {
+      // Step 1: Look up DID in configuration table
+      const dataId = this.ecuConfig.dataIdentifiers.find(d => d.id === did);
+
+      if (!dataId) {
+        // NRC 0x31: DID doesn't exist in this ECU
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+
+      // Step 2: Validate session requirements
+      if (dataId.requiredSession && dataId.requiredSession.length > 0) {
+        if (!dataId.requiredSession.includes(this.state.currentSession)) {
+          // NRC 0x7F: Service not supported in active session
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
+          );
+        }
+      }
+
+      // Step 3: Validate security requirements
+      const requiredSecLevel = dataId.requiredSecurity || 0;
+      if (requiredSecLevel > 0) {
+        if (!this.state.securityUnlocked) {
+          // NRC 0x33: Security access denied
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.SECURITY_ACCESS_DENIED
+          );
+        }
+        // Check if security level is sufficient
+        if (this.state.securityLevel < requiredSecLevel) {
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.SECURITY_ACCESS_DENIED
+          );
+        }
+      }
+
+      // Step 4: Get DID data
+      // Echo the DID in response (2 bytes)
+      responseData.push((did >> 8) & 0xFF);
+      responseData.push(did & 0xFF);
+
+      // Convert value to bytes based on format
+      const dataBytes: number[] = [];
+
+      // Special handling for Active Diagnostic Session DID (0xF186)
+      // Return current session value dynamically
+      if (did === 0xF186) {
+        dataBytes.push(this.state.currentSession);
+      } else if (typeof dataId.value === 'string') {
+        // ASCII string
+        dataId.value.split('').forEach(char => {
+          dataBytes.push(char.charCodeAt(0));
+        });
+      } else if (Array.isArray(dataId.value)) {
+        // Byte array
+        dataBytes.push(...dataId.value);
+      } else {
+        // Numeric value - generate dynamic data
+        const dynamicData = generateAutomotiveData(dataId.name);
+        dataBytes.push(...dynamicData);
+      }
+
+      // Step 5: Check if adding this data would exceed buffer limit
+      if (responseData.length + dataBytes.length > MAX_RESPONSE_LENGTH) {
+        // NRC 0x14: Response too long
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.RESPONSE_TOO_LONG
+        );
+      }
+
+      // Add data to response
+      responseData.push(...dataBytes);
+    }
+
+    // All DIDs processed successfully - return combined response
     return {
       sid: request.sid,
       data: responseData,
@@ -1055,15 +1156,26 @@ export class UDSSimulator {
 
   /**
    * 0x23 - Read Memory By Address
+   * Comprehensive implementation per ISO 14229-1:2020
+   * 
+   * Features:
+   * - Dynamic ALFID parsing (supports 1-8 byte addresses and sizes)
+   * - Session validation (requires Extended or Programming session)
+   * - Security access validation for protected memory regions
+   * - Memory region boundary validation
+   * - Comprehensive NRC handling
    */
   private handleReadMemory(request: UDSRequest): UDSResponse {
-    if (!this.state.securityUnlocked) {
+    // Validate session - requires Extended (0x03) or Programming (0x02)
+    if (this.state.currentSession !== DiagnosticSessionType.EXTENDED &&
+      this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
       return this.createNegativeResponseObj(
         request.sid,
-        NegativeResponseCode.SECURITY_ACCESS_DENIED
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
       );
     }
 
+    // Validate minimum request length
     if (!request.data || request.data.length < 3) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -1071,37 +1183,137 @@ export class UDSSimulator {
       );
     }
 
-    // Simplified: assume 4-byte address, 2-byte size
-    const address = (request.data[0] << 24) | (request.data[1] << 16) |
-      (request.data[2] << 8) | request.data[3];
-    const size = (request.data[4] << 8) | request.data[5];
+    // Parse ALFID
+    const alfidResult = parseALFID(request.data);
 
-    // Find memory region
-    const memRegion = this.ecuConfig.memoryMap.find(
-      m => m.address === address && m.size === size
-    );
+    if (!alfidResult.valid) {
+      // Return NRC 0x13 for ALFID parsing errors
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
 
-    const responseData: number[] = [0x63];
+    const { address, size } = alfidResult;
 
-    if (memRegion?.data) {
-      responseData.push(...memRegion.data);
-    } else {
-      // Generate dummy data
-      for (let i = 0; i < size; i++) {
-        responseData.push(Math.floor(Math.random() * 256));
+    // Validate size is not zero
+    if (size === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check for address overflow
+    const maxAddress = 0xFFFFFFFF; // 32-bit max
+    if (address > maxAddress || address + size > maxAddress || address + size < address) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Find memory region containing the requested address
+    let targetRegion: any = null;
+
+    for (const region of this.ecuConfig.memoryMap) {
+      const regionEnd = region.address + region.size;
+      const requestEnd = address + size;
+
+      // Check if request falls within this region
+      if (address >= region.address && address < regionEnd) {
+        // Check if entire read stays within the region
+        if (requestEnd <= regionEnd) {
+          targetRegion = region;
+          break;
+        } else {
+          // Read crosses region boundary
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.REQUEST_OUT_OF_RANGE
+          );
+        }
       }
     }
 
-    return {
-      sid: request.sid,
-      data: responseData,
-      timestamp: Date.now(),
-      isNegative: false,
-    };
+    // No matching region found
+    if (!targetRegion) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is accessible
+    if (targetRegion.accessible === false) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check security access requirements
+    const requiredSecurityLevel = targetRegion.securityLevel || 0;
+    if (requiredSecurityLevel > 0 && !this.state.securityUnlocked) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SECURITY_ACCESS_DENIED
+      );
+    }
+
+    // Generate response data
+    try {
+      const responseData: number[] = [0x63]; // Positive response SID
+
+      // Calculate offset within the region
+      const offsetInRegion = address - targetRegion.address;
+
+      // Read data from region
+      if (targetRegion.data && targetRegion.data.length > 0) {
+        // Use configured data if available
+        for (let i = 0; i < size; i++) {
+          const dataIndex = (offsetInRegion + i) % targetRegion.data.length;
+          responseData.push(targetRegion.data[dataIndex]);
+        }
+      } else {
+        // Generate deterministic data based on address for consistency
+        for (let i = 0; i < size; i++) {
+          const byteAddr = address + i;
+          // Use address-based pattern for realistic simulation
+          responseData.push((byteAddr & 0xFF) ^ 0xAA);
+        }
+      }
+
+      return {
+        sid: request.sid,
+        data: responseData,
+        timestamp: Date.now(),
+        isNegative: false,
+      };
+
+    } catch (error) {
+      // Return NRC 0x72 for unexpected errors
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.GENERAL_PROGRAMMING_FAILURE
+      );
+    }
   }
 
   /**
    * 0x27 - Security Access
+   * Comprehensive implementation per ISO 14229-1:2020 Section 9.3
+   * 
+   * Features:
+   * - Session validation (requires Extended or Programming)
+   * - Supported security levels: 1 (0x01/02), 2 (0x03/04), 3 (0x05/06)
+   * - Sub-function validation (odd = seed, even = key)
+   * - Already unlocked handling (returns all-zero seed)
+   * - Attempt counter with 3-try lockout
+   * - 10-second delay timer after invalid key
+   * - 5-second seed timeout
+   * - Sequence error detection
+   * - Comprehensive NRC handling
    */
   private handleSecurityAccess(request: UDSRequest): UDSResponse {
     if (!request.subFunction) {
@@ -1112,10 +1324,40 @@ export class UDSSimulator {
     }
 
     const subFunction = request.subFunction;
+    const currentTime = Date.now();
+
+    // Session validation: Requires Extended (0x03) or Programming (0x02) session
+    if (this.state.currentSession !== DiagnosticSessionType.EXTENDED &&
+      this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
+      );
+    }
 
     // Check if odd (request seed) or even (send key)
     if (subFunction % 2 === 1) {
-      // Request Seed
+      // ========== REQUEST SEED (Odd Sub-Function) ==========
+
+      // Validate sub-function range: 0x01-0x7F (odd only)
+      if (subFunction === 0x00 || subFunction > 0x7F) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+
+      // Supported security levels: 1 (0x01), 2 (0x03), 3 (0x05)
+      // All other levels return NRC 0x12
+      const supportedLevels = [0x01, 0x03, 0x05];
+      if (!supportedLevels.includes(subFunction)) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+        );
+      }
+
+      // Check attempt counter lockout
       if (this.state.securityAttempts >= 3) {
         return this.createNegativeResponseObj(
           request.sid,
@@ -1123,40 +1365,137 @@ export class UDSSimulator {
         );
       }
 
+      // Check delay timer (10 seconds after invalid key)
+      if (this.state.securityDelayActive) {
+        const timeSinceInvalidKey = currentTime - this.state.lastInvalidKeyTime;
+        if (timeSinceInvalidKey < this.state.securityDelayDuration) {
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.REQUIRED_TIME_DELAY_NOT_EXPIRED
+          );
+        }
+        // Delay expired, clear flag
+        this.state.securityDelayActive = false;
+      }
+
+      // Calculate security level from sub-function
+      const requestedLevel = Math.floor((subFunction + 1) / 2);
+
+      // Check if already unlocked at this level
+      if (this.state.securityUnlocked && this.state.securityLevel === requestedLevel) {
+        // Return all-zero seed (ISO 14229-1:2020 Section 9.3.2)
+        return {
+          sid: request.sid,
+          data: [0x67, subFunction, 0x00, 0x00, 0x00, 0x00],
+          timestamp: currentTime,
+          isNegative: false,
+        };
+      }
+
+      // Generate new random seed
       this.currentSeed = generateSeed(4);
       this.expectedKey = calculateKeyXOR(this.currentSeed);
+
+      // Track seed request for validation
+      this.state.lastSeedRequestTime = currentTime;
+      this.state.lastSeedRequestLevel = subFunction;
 
       return {
         sid: request.sid,
         data: [0x67, subFunction, ...this.currentSeed],
-        timestamp: Date.now(),
+        timestamp: currentTime,
         isNegative: false,
       };
+
     } else {
-      // Send Key
-      if (!request.data || request.data.length < 4) {
+      // ========== SEND KEY (Even Sub-Function) ==========
+
+      // Validate sub-function range: 0x02-0x80 (even only)
+      if (subFunction === 0x00 || subFunction > 0x80 || subFunction % 2 !== 0) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+
+      // Check attempt counter lockout
+      if (this.state.securityAttempts >= 3) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.EXCEED_NUMBER_OF_ATTEMPTS
+        );
+      }
+
+      // Validate that seed was requested first
+      if (this.state.lastSeedRequestTime === 0) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.CONDITIONS_NOT_CORRECT
+        );
+      }
+
+      // Check seed timeout (5 seconds)
+      const timeSinceSeed = currentTime - this.state.lastSeedRequestTime;
+      if (timeSinceSeed > this.state.seedTimeout) {
+        // Seed expired, reset state
+        this.state.lastSeedRequestTime = 0;
+        this.state.lastSeedRequestLevel = 0;
+        this.currentSeed = [];
+        this.expectedKey = [];
+
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.CONDITIONS_NOT_CORRECT
+        );
+      }
+
+      // Validate sequence: key sub-function must match seed sub-function + 1
+      const expectedKeySubFunction = this.state.lastSeedRequestLevel + 1;
+      if (subFunction !== expectedKeySubFunction) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_SEQUENCE_ERROR
+        );
+      }
+
+      // Validate message length: must have exactly 4 bytes of key data
+      if (!request.data || request.data.length !== 4) {
         return this.createNegativeResponseObj(
           request.sid,
           NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
         );
       }
 
+      // Validate key
       const receivedKey = request.data.slice(0, 4);
       const isValid = receivedKey.every((byte, idx) => byte === this.expectedKey[idx]);
 
       if (isValid) {
+        // ===== SUCCESS =====
         this.state.securityUnlocked = true;
         this.state.securityLevel = Math.floor(subFunction / 2);
         this.state.securityAttempts = 0;
+        this.state.securityDelayActive = false;
+        this.state.lastInvalidKeyTime = 0;
 
         return {
           sid: request.sid,
           data: [0x67, subFunction],
-          timestamp: Date.now(),
+          timestamp: currentTime,
           isNegative: false,
         };
       } else {
+        // ===== INVALID KEY =====
         this.state.securityAttempts++;
+        this.state.lastInvalidKeyTime = currentTime;
+        this.state.securityDelayActive = true;
+
+        // Clear seed/key to require new seed request
+        this.state.lastSeedRequestTime = 0;
+        this.state.lastSeedRequestLevel = 0;
+        this.currentSeed = [];
+        this.expectedKey = [];
+
         return this.createNegativeResponseObj(
           request.sid,
           NegativeResponseCode.INVALID_KEY
@@ -1167,24 +1506,182 @@ export class UDSSimulator {
 
   /**
    * 0x28 - Communication Control
+   * Comprehensive implementation per ISO 14229-1:2020 Section 9.5
+   * 
+   * Features:
+   * - Control types 0x00-0x05 (RX/TX enable/disable combinations)
+   * - Communication types 0x01-0x03 (Normal, NM, Both)
+   * - Optional subnet/node identification (bytes 3-4)
+   * - Session validation (requires Extended or Programming)
+   * - Security validation for critical operations
+   * - Comprehensive NRC handling
+   * 
+   * Important: Diagnostic messages (SID 0x28, 0x3E, 0x10, etc.) are NEVER disabled
    */
   private handleCommunicationControl(request: UDSRequest): UDSResponse {
-    if (!request.subFunction) {
+    // Validate subfunction is present
+    if (request.subFunction === undefined) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
       );
     }
 
-    const controlType = request.subFunction;
+    // Extract suppress positive response bit (bit 7) and control type
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+    const controlType = request.subFunction & 0x7F;
 
-    // 0x00 = enable, 0x01 = disable, 0x03 = enable all
-    if (controlType === 0x00 || controlType === 0x03) {
-      this.state.communicationEnabled = true;
-    } else if (controlType === 0x01) {
-      this.state.communicationEnabled = false;
+    // Validate control type (0x00-0x05 supported)
+    const validControlTypes = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05];
+    if (!validControlTypes.includes(controlType)) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+      );
     }
 
+    // Validate message length
+    // Minimum: 3 bytes (SID + ControlType + CommunicationType)
+    // With node ID: 5 bytes (SID + ControlType + CommunicationType + NodeIDHigh + NodeIDLow)
+    if (!request.data || request.data.length < 1) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract communication type (byte 2 in request, byte 0 in data)
+    const communicationType = request.data[0];
+
+    // Validate communication type (0x01, 0x02, 0x03 valid)
+    const validCommunicationTypes = [0x01, 0x02, 0x03];
+    if (!validCommunicationTypes.includes(communicationType)) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check message length based on whether node ID is present
+    const hasNodeId = request.data.length >= 3;
+    if (request.data.length !== 1 && request.data.length !== 3) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Session validation: Require Extended (0x03) or Programming (0x02) session
+    // Communication control is NOT available in Default session (per ISO 14229-1)
+    if (this.state.currentSession !== DiagnosticSessionType.EXTENDED &&
+      this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
+      );
+    }
+
+    // Security validation: Require security unlock for disabling communication
+    // Only COMPLETE disable (0x03) requires security for safety (per ISO 14229-1:2020)
+    // Partial disables (0x00: RX-only, 0x02: TX-only) are diagnostic operations
+    const isDisablingCommunication = controlType === 0x03;
+    if (isDisablingCommunication && !this.state.securityUnlocked) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SECURITY_ACCESS_DENIED
+      );
+    }
+
+    // Extract optional node identification (subnet targeting)
+    let nodeId: number | undefined;
+    if (hasNodeId) {
+      nodeId = (request.data[1] << 8) | request.data[2];
+    }
+
+    // Determine RX/TX states based on control type
+    let rxEnabled: boolean;
+    let txEnabled: boolean;
+
+    switch (controlType) {
+      case 0x00: // Enable RX, Disable TX
+      case 0x04: // Enable RX, Disable TX with Enhanced Addressing
+        rxEnabled = true;
+        txEnabled = false;
+        break;
+      case 0x01: // Enable RX and TX
+      case 0x05: // Enable RX and TX with Enhanced Addressing
+        rxEnabled = true;
+        txEnabled = true;
+        break;
+      case 0x02: // Disable RX, Enable TX
+        rxEnabled = false;
+        txEnabled = true;
+        break;
+      case 0x03: // Disable RX and TX
+        rxEnabled = false;
+        txEnabled = false;
+        break;
+      default:
+        // Should never reach here due to earlier validation
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+        );
+    }
+
+    // Apply communication control based on communication type
+    const newState = { rxEnabled, txEnabled };
+
+    if (nodeId !== undefined) {
+      // Subnet-specific control
+      let subnetState = this.state.communicationControlState.subnets.get(nodeId);
+      if (!subnetState) {
+        subnetState = {
+          normalMessages: { rxEnabled: true, txEnabled: true },
+          networkManagement: { rxEnabled: true, txEnabled: true },
+        };
+        this.state.communicationControlState.subnets.set(nodeId, subnetState);
+      }
+
+      // Apply to specific subnet
+      if (communicationType === 0x01) {
+        // Normal messages only
+        subnetState.normalMessages = newState;
+      } else if (communicationType === 0x02) {
+        // Network management only
+        subnetState.networkManagement = newState;
+      } else if (communicationType === 0x03) {
+        // Both types
+        subnetState.normalMessages = newState;
+        subnetState.networkManagement = newState;
+      }
+    } else {
+      // Global control (all subnets)
+      if (communicationType === 0x01) {
+        // Normal messages only
+        this.state.communicationControlState.normalMessages = newState;
+      } else if (communicationType === 0x02) {
+        // Network management only
+        this.state.communicationControlState.networkManagement = newState;
+      } else if (communicationType === 0x03) {
+        // Both types
+        this.state.communicationControlState.normalMessages = newState;
+        this.state.communicationControlState.networkManagement = newState;
+      }
+    }
+
+    // If suppress positive response bit is set, return null (no response)
+    if (suppressPositiveResponse) {
+      return {
+        sid: request.sid,
+        data: [],
+        timestamp: Date.now(),
+        isNegative: false,
+        suppressedResponse: true,
+      } as UDSResponse;
+    }
+
+    // Positive response: 0x68 + echo control type
     return {
       sid: request.sid,
       data: [0x68, controlType],
@@ -1483,13 +1980,25 @@ export class UDSSimulator {
       lastActivityTime: Date.now(),
       sessionTimeout: 5000,
       communicationEnabled: true,
+      communicationControlState: {
+        normalMessages: { rxEnabled: true, txEnabled: true },
+        networkManagement: { rxEnabled: true, txEnabled: true },
+        subnets: new Map(),
+      },
       activePeriodicIds: [],
       downloadInProgress: false,
       uploadInProgress: false,
       transferBlockCounter: 0,
-      // RPS state reset
       rpsEnabled: false,
       rpsPowerDownTime: 0,
+      lastSeedRequestTime: 0,
+      lastSeedRequestLevel: 0,
+      lastInvalidKeyTime: 0,
+      securityDelayActive: false,
+      seedTimeout: 5000,
+      securityDelayDuration: 10000,
     };
+    this.currentSeed = [];
+    this.expectedKey = [];
   }
 }

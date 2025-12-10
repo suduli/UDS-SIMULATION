@@ -1,0 +1,1776 @@
+{
+  "id": "exported_1765384117189",
+  "name": "UDS Session Export (12/10/2025)",
+  "description": "Exported UDS session with 82 requests",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "UDS Simulator",
+    "description": "Exported session with 82 requests, 63% success rate",
+    "tags": [
+      "exported",
+      "session"
+    ],
+    "duration": 105000,
+    "totalRequests": 82,
+    "successRate": 63
+  },
+  "requests": [
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450000000,
+      "description": "[SETUP] Reset to Default Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450001000,
+      "description": "TC-01.1: Request Seed Level 1 in DEFAULT Session - Expect NRC 0x7F"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450002000,
+      "description": "TC-01.2: Switch to EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450003000,
+      "description": "TC-01.3: Request Seed Level 1 in EXTENDED - Success"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450004000,
+      "description": "TC-01.4: Switch to PROGRAMMING Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450005000,
+      "description": "TC-01.5: Request Seed Level 1 in PROGRAMMING - Success"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450005500,
+      "description": "[SETUP] Reset to Default for TC-02"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450006000,
+      "description": "TC-02.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450007000,
+      "description": "TC-02.2: Request Seed Level 1 (0x01) - Success"
+    },
+    {
+      "sid": 39,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450008000,
+      "description": "TC-02.3: Request Seed Level 2 (0x03) - Success"
+    },
+    {
+      "sid": 39,
+      "subFunction": 5,
+      "data": [],
+      "timestamp": 1734450009000,
+      "description": "TC-02.4: Request Seed Level 3 (0x05) - Success"
+    },
+    {
+      "sid": 39,
+      "subFunction": 7,
+      "data": [],
+      "timestamp": 1734450010000,
+      "description": "TC-02.5: Request Seed Level 4 (0x07) - Expect NRC 0x12 (Not Supported)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450010500,
+      "description": "[SETUP] Reset to Default for TC-03"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450011000,
+      "description": "TC-03.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 0,
+      "data": [],
+      "timestamp": 1734450012000,
+      "description": "TC-03.2: Request Seed with 0x00 - Expect NRC 0x31 (Out of Range)"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450013000,
+      "description": "TC-03.3: Request Seed with even number (0x02) - Expect NRC 0x31"
+    },
+    {
+      "sid": 39,
+      "subFunction": 129,
+      "data": [],
+      "timestamp": 1734450014000,
+      "description": "TC-03.4: Request Seed with 0x81 (> 0x7F) - Expect NRC 0x31"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450014500,
+      "description": "[SETUP] Reset to Default for TC-04"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450015000,
+      "description": "TC-04.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450016000,
+      "description": "TC-04.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450017000,
+      "description": "TC-04.3: Send Correct Key (XOR of seed) - Success"
+    },
+    {
+      "sid": 46,
+      "data": [
+        241,
+        144,
+        1,
+        2
+      ],
+      "timestamp": 1734450018000,
+      "description": "TC-04.4: Write Protected DID (should work now)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450018500,
+      "description": "[SETUP] Reset to Default for TC-05"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450019000,
+      "description": "TC-05.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450020000,
+      "description": "TC-05.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450021000,
+      "description": "TC-05.3: Send Correct Key - Unlock"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450022000,
+      "description": "TC-05.4: Request Seed Level 1 Again (Already Unlocked) - Expect All-Zero Seed"
+    },
+    {
+      "sid": 39,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450023000,
+      "description": "TC-05.5: Request Seed Level 2 (Different Level) - Expect New Seed"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450023500,
+      "description": "[SETUP] Reset to Default for TC-06"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450024000,
+      "description": "TC-06.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450025000,
+      "description": "TC-06.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1734450026000,
+      "description": "TC-06.3: Send WRONG Key (all zeros) - Expect NRC 0x35 (Invalid Key)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450026500,
+      "description": "[SETUP] Reset to Default for TC-07"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450027000,
+      "description": "TC-07.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450028000,
+      "description": "TC-07.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 4,
+      "data": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "timestamp": 1734450029000,
+      "description": "TC-07.3: Send Key for WRONG Level (0x04 instead of 0x02) - Expect NRC 0x24 (Sequence Error)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450029500,
+      "description": "[SETUP] Reset to Default for TC-08"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450030000,
+      "description": "TC-08.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450031000,
+      "description": "TC-08.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        1,
+        2
+      ],
+      "timestamp": 1734450032000,
+      "description": "TC-08.3: Send Key with 2 bytes (should be 4) - Expect NRC 0x13"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450033000,
+      "description": "TC-08.4: Request Seed Level 1 Again"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        1,
+        2,
+        3
+      ],
+      "timestamp": 1734450034000,
+      "description": "TC-08.5: Send Key with 3 bytes - Expect NRC 0x13"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450035000,
+      "description": "TC-08.6: Request Seed Level 1 Again"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450036000,
+      "description": "TC-08.7: Send Key with correct 4 bytes - Success"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450036500,
+      "description": "[SETUP] Reset to Default for TC-09"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450037000,
+      "description": "TC-09.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450038000,
+      "description": "TC-09.2: Request Seed Attempt 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1734450039000,
+      "description": "TC-09.3: Invalid Key Attempt 1 - NRC 0x35 (Counter=1)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450050000,
+      "description": "TC-09.4: Reset to Default (wait 10s for delay)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450051000,
+      "description": "TC-09.5: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450052000,
+      "description": "TC-09.6: Request Seed Attempt 2"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1734450053000,
+      "description": "TC-09.7: Invalid Key Attempt 2 - NRC 0x35 (Counter=2)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450064000,
+      "description": "TC-09.8: Reset to Default (wait 10s)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450065000,
+      "description": "TC-09.9: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450066000,
+      "description": "TC-09.10: Request Seed Attempt 3"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1734450067000,
+      "description": "TC-09.11: Invalid Key Attempt 3 - NRC 0x35 (Counter=3 - LOCKED OUT)"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450068000,
+      "description": "TC-09.12: Request Seed Attempt 4 - Expect NRC 0x36 (Exceeded Attempts)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450068500,
+      "description": "[SETUP] Reset to Default for TC-10"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450069000,
+      "description": "TC-10.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450070000,
+      "description": "TC-10.2: Request Seed"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timestamp": 1734450071000,
+      "description": "TC-10.3: Invalid Key - Start Delay Timer"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450073000,
+      "description": "TC-10.4: Request Seed 2s Later (delay still active) - Expect NRC 0x37"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450082000,
+      "description": "TC-10.5: Request Seed 11s Later (delay expired) - Success"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450082500,
+      "description": "[SETUP] Reset to Default for TC-11"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450083000,
+      "description": "TC-11.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450084000,
+      "description": "TC-11.2: Request Seed"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450090500,
+      "description": "TC-11.3: Send Key 6.5s Later (seed timeout = 5s) - Expect NRC 0x22"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450091000,
+      "description": "TC-11.4: Request Seed Again"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450094000,
+      "description": "TC-11.5: Send Key within 3s - Success"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450094500,
+      "description": "[SETUP] Reset to Default for TC-12"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450095000,
+      "description": "TC-12.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450096000,
+      "description": "TC-12.2: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450097000,
+      "description": "TC-12.3: Send Key - Unlock Level 1"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450098000,
+      "description": "TC-12.4: Switch to DEFAULT Session (security should be lost)"
+    },
+    {
+      "sid": 46,
+      "data": [
+        241,
+        144,
+        1,
+        2
+      ],
+      "timestamp": 1734450099000,
+      "description": "TC-12.5: Attempt Write Protected DID - Expect NRC 0x33 (Security Lost)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450100000,
+      "description": "TC-12.6: Enter EXTENDED Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450101000,
+      "description": "TC-12.7: Request Seed Level 1"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1734450102000,
+      "description": "TC-12.8: Send Key - Unlock"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450103000,
+      "description": "TC-12.9: Switch to PROGRAMMING Session (security should be lost)"
+    },
+    {
+      "sid": 46,
+      "data": [
+        241,
+        144,
+        1,
+        2
+      ],
+      "timestamp": 1734450104000,
+      "description": "TC-12.10: Attempt Write Protected DID - Expect NRC 0x33 (Security Lost)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450104500,
+      "description": "[SETUP] Final Reset to Default Session"
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "timestamp": 1734450105000,
+      "description": "TC-13.1: Send Key WITHOUT Seed Request First - Expect NRC 0x22 (Conditions Not Correct)"
+    }
+  ],
+  "responses": [
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765383980058,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        127
+      ],
+      "timestamp": 1765383981091,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765383982094,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        59,
+        153,
+        101,
+        128
+      ],
+      "timestamp": 1765383983096,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765383984128,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        46,
+        84,
+        133,
+        160
+      ],
+      "timestamp": 1765383985165,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765383986199,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765383987240,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        0,
+        6,
+        205,
+        202
+      ],
+      "timestamp": 1765383988281,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        3,
+        169,
+        50,
+        193,
+        249
+      ],
+      "timestamp": 1765383989323,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        5,
+        13,
+        190,
+        114,
+        209
+      ],
+      "timestamp": 1765383990363,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        18
+      ],
+      "timestamp": 1765383991409,
+      "isNegative": true,
+      "nrc": 18
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765383992454,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765383993503,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        19
+      ],
+      "timestamp": 1765383994551,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        34
+      ],
+      "timestamp": 1765383995605,
+      "isNegative": true,
+      "nrc": 34
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        49
+      ],
+      "timestamp": 1765383996652,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765383997706,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765383998780,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        35,
+        113,
+        116,
+        76
+      ],
+      "timestamp": 1765383999838,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384000900,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 46,
+      "data": [
+        127,
+        46,
+        51
+      ],
+      "timestamp": 1765384001970,
+      "isNegative": true,
+      "nrc": 51
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384003037,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384004124,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        248,
+        173,
+        78,
+        89
+      ],
+      "timestamp": 1765384005204,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384006276,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384007350,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384008424,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384009500,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384010577,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        80,
+        161,
+        231,
+        52
+      ],
+      "timestamp": 1765384011649,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384012727,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384013810,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384014894,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        75,
+        177,
+        132,
+        203
+      ],
+      "timestamp": 1765384015979,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        36
+      ],
+      "timestamp": 1765384017074,
+      "isNegative": true,
+      "nrc": 36
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384018165,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384019253,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        244,
+        181,
+        92,
+        205
+      ],
+      "timestamp": 1765384020344,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        19
+      ],
+      "timestamp": 1765384021440,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        159,
+        218,
+        180,
+        53
+      ],
+      "timestamp": 1765384022533,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        19
+      ],
+      "timestamp": 1765384023645,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        67,
+        50,
+        62,
+        66
+      ],
+      "timestamp": 1765384024743,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384025850,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384026953,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384028057,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        102,
+        58,
+        36,
+        185
+      ],
+      "timestamp": 1765384029157,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384030260,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384031427,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384032525,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        216,
+        221,
+        241,
+        121
+      ],
+      "timestamp": 1765384033616,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384034719,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384035809,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384036912,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        32,
+        170,
+        100,
+        15
+      ],
+      "timestamp": 1765384038005,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384039123,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384040208,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384041302,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384042415,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        186,
+        76,
+        155,
+        122
+      ],
+      "timestamp": 1765384043495,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384044577,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384045657,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384046735,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384047814,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384048898,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        131,
+        221,
+        138,
+        27
+      ],
+      "timestamp": 1765384049979,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384051062,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        55
+      ],
+      "timestamp": 1765384052177,
+      "isNegative": true,
+      "nrc": 55
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        34
+      ],
+      "timestamp": 1765384053314,
+      "isNegative": true,
+      "nrc": 34
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384054631,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384055732,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        167,
+        154,
+        112,
+        234
+      ],
+      "timestamp": 1765384056896,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384058036,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384059165,
+      "isNegative": false
+    },
+    {
+      "sid": 46,
+      "data": [
+        127,
+        46,
+        51
+      ],
+      "timestamp": 1765384060332,
+      "isNegative": true,
+      "nrc": 51
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765384061488,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        220,
+        160,
+        223,
+        212
+      ],
+      "timestamp": 1765384062647,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        53
+      ],
+      "timestamp": 1765384063832,
+      "isNegative": true,
+      "nrc": 53
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384065023,
+      "isNegative": false
+    },
+    {
+      "sid": 46,
+      "data": [
+        127,
+        46,
+        51
+      ],
+      "timestamp": 1765384066225,
+      "isNegative": true,
+      "nrc": 51
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765384067431,
+      "isNegative": false
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        127
+      ],
+      "timestamp": 1765384068584,
+      "isNegative": true,
+      "nrc": 127
+    }
+  ],
+  "timings": [
+    0,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    11000,
+    1000,
+    1000,
+    1000,
+    11000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    2000,
+    9000,
+    500,
+    500,
+    1000,
+    6500,
+    500,
+    3000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500
+  ],
+  "createdAt": 1765384117190,
+  "notes": "Exported on 2025-12-10T16:28:37.190Z"
+}

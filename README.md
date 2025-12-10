@@ -155,6 +155,28 @@ npm run preview
 npm run docs:organize
 ```
 
+### Storybook
+
+**Interactive component documentation and development environment:**
+
+```bash
+# Run Storybook development server
+npm run storybook
+
+# Build static Storybook for deployment
+npm run build-storybook
+```
+
+Storybook provides:
+- Interactive component browsing and testing
+- Theme switching (dark, light, high contrast modes)
+- Viewport testing (mobile, tablet, desktop, cluster)
+- Component documentation with live examples
+- Props controls and visual testing
+
+See **[STORYBOOK_GUIDE.md](./STORYBOOK_GUIDE.md)** for complete documentation on using Storybook.
+```
+
 ## 🎯 Usage
 
 ### Getting Started

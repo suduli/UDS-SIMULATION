@@ -1,0 +1,693 @@
+{
+    "id": "sid27-security-access-test-suite",
+    "name": "SID 27 Security Access Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 27 (SecurityAccess) based on ISO 14229-1:2020 Section 9.3. Covers session validation, security levels 1-3, sub-function validation, already unlocked handling, attempt counter lockout, delay timer, seed timeout, sequence errors, and all NRCs (0x12, 0x13, 0x22, 0x24, 0x31, 0x35, 0x36, 0x37, 0x7F). Each test category starts from Default Session for proper isolation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450001000,
+            "description": "TC-01.1: Request Seed Level 1 in DEFAULT Session - Expect NRC 0x7F"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450002000,
+            "description": "TC-01.2: Switch to EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450003000,
+            "description": "TC-01.3: Request Seed Level 1 in EXTENDED - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450004000,
+            "description": "TC-01.4: Switch to PROGRAMMING Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450005000,
+            "description": "TC-01.5: Request Seed Level 1 in PROGRAMMING - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450005500,
+            "description": "[SETUP] Reset to Default for TC-02"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450006000,
+            "description": "TC-02.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450007000,
+            "description": "TC-02.2: Request Seed Level 1 (0x01) - Success"
+        },
+        {
+            "sid": 39,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450008000,
+            "description": "TC-02.3: Request Seed Level 2 (0x03) - Success"
+        },
+        {
+            "sid": 39,
+            "subFunction": 5,
+            "data": [],
+            "timestamp": 1734450009000,
+            "description": "TC-02.4: Request Seed Level 3 (0x05) - Success"
+        },
+        {
+            "sid": 39,
+            "subFunction": 7,
+            "data": [],
+            "timestamp": 1734450010000,
+            "description": "TC-02.5: Request Seed Level 4 (0x07) - Expect NRC 0x12 (Not Supported)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450010500,
+            "description": "[SETUP] Reset to Default for TC-03"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450011000,
+            "description": "TC-03.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734450012000,
+            "description": "TC-03.2: Request Seed with 0x00 - Expect NRC 0x31 (Out of Range)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450013000,
+            "description": "TC-03.3: Request Seed with even number (0x02) - Expect NRC 0x31"
+        },
+        {
+            "sid": 39,
+            "subFunction": 129,
+            "data": [],
+            "timestamp": 1734450014000,
+            "description": "TC-03.4: Request Seed with 0x81 (> 0x7F) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450014500,
+            "description": "[SETUP] Reset to Default for TC-04"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450015000,
+            "description": "TC-04.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450016000,
+            "description": "TC-04.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450017000,
+            "description": "TC-04.3: Send Correct Key (XOR of seed) - Success"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                1,
+                2
+            ],
+            "timestamp": 1734450018000,
+            "description": "TC-04.4: Write Protected DID (should work now)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450018500,
+            "description": "[SETUP] Reset to Default for TC-05"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450019000,
+            "description": "TC-05.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450020000,
+            "description": "TC-05.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450021000,
+            "description": "TC-05.3: Send Correct Key - Unlock"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450022000,
+            "description": "TC-05.4: Request Seed Level 1 Again (Already Unlocked) - Expect All-Zero Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450023000,
+            "description": "TC-05.5: Request Seed Level 2 (Different Level) - Expect New Seed"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450023500,
+            "description": "[SETUP] Reset to Default for TC-06"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450024000,
+            "description": "TC-06.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450025000,
+            "description": "TC-06.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450026000,
+            "description": "TC-06.3: Send WRONG Key (all zeros) - Expect NRC 0x35 (Invalid Key)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450026500,
+            "description": "[SETUP] Reset to Default for TC-07"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450027000,
+            "description": "TC-07.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450028000,
+            "description": "TC-07.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 4,
+            "data": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734450029000,
+            "description": "TC-07.3: Send Key for WRONG Level (0x04 instead of 0x02) - Expect NRC 0x24 (Sequence Error)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450029500,
+            "description": "[SETUP] Reset to Default for TC-08"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450030000,
+            "description": "TC-08.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450031000,
+            "description": "TC-08.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                1,
+                2
+            ],
+            "timestamp": 1734450032000,
+            "description": "TC-08.3: Send Key with 2 bytes (should be 4) - Expect NRC 0x13"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450033000,
+            "description": "TC-08.4: Request Seed Level 1 Again"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                1,
+                2,
+                3
+            ],
+            "timestamp": 1734450034000,
+            "description": "TC-08.5: Send Key with 3 bytes - Expect NRC 0x13"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450035000,
+            "description": "TC-08.6: Request Seed Level 1 Again"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450036000,
+            "description": "TC-08.7: Send Key with correct 4 bytes - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450036500,
+            "description": "[SETUP] Reset to Default for TC-09"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450037000,
+            "description": "TC-09.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450038000,
+            "description": "TC-09.2: Request Seed Attempt 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450039000,
+            "description": "TC-09.3: Invalid Key Attempt 1 - NRC 0x35 (Counter=1)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450050000,
+            "description": "TC-09.4: Reset to Default (wait 10s for delay)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450051000,
+            "description": "TC-09.5: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450052000,
+            "description": "TC-09.6: Request Seed Attempt 2"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450053000,
+            "description": "TC-09.7: Invalid Key Attempt 2 - NRC 0x35 (Counter=2)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450064000,
+            "description": "TC-09.8: Reset to Default (wait 10s)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450065000,
+            "description": "TC-09.9: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450066000,
+            "description": "TC-09.10: Request Seed Attempt 3"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450067000,
+            "description": "TC-09.11: Invalid Key Attempt 3 - NRC 0x35 (Counter=3 - LOCKED OUT)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450068000,
+            "description": "TC-09.12: Request Seed Attempt 4 - Expect NRC 0x36 (Exceeded Attempts)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450068500,
+            "description": "[SETUP] Reset to Default for TC-10"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450069000,
+            "description": "TC-10.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450070000,
+            "description": "TC-10.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450071000,
+            "description": "TC-10.3: Invalid Key - Start Delay Timer"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450073000,
+            "description": "TC-10.4: Request Seed 2s Later (delay still active) - Expect NRC 0x37"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450082000,
+            "description": "TC-10.5: Request Seed 11s Later (delay expired) - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450082500,
+            "description": "[SETUP] Reset to Default for TC-11"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450083000,
+            "description": "TC-11.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450084000,
+            "description": "TC-11.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450090500,
+            "description": "TC-11.3: Send Key 6.5s Later (seed timeout = 5s) - Expect NRC 0x22"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450091000,
+            "description": "TC-11.4: Request Seed Again"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450094000,
+            "description": "TC-11.5: Send Key within 3s - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450094500,
+            "description": "[SETUP] Reset to Default for TC-12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450095000,
+            "description": "TC-12.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450096000,
+            "description": "TC-12.2: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450097000,
+            "description": "TC-12.3: Send Key - Unlock Level 1"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450098000,
+            "description": "TC-12.4: Switch to DEFAULT Session (security should be lost)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                1,
+                2
+            ],
+            "timestamp": 1734450099000,
+            "description": "TC-12.5: Attempt Write Protected DID - Expect NRC 0x33 (Security Lost)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450100000,
+            "description": "TC-12.6: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450101000,
+            "description": "TC-12.7: Request Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450102000,
+            "description": "TC-12.8: Send Key - Unlock"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450103000,
+            "description": "TC-12.9: Switch to PROGRAMMING Session (security should be lost)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                1,
+                2
+            ],
+            "timestamp": 1734450104000,
+            "description": "TC-12.10: Attempt Write Protected DID - Expect NRC 0x33 (Security Lost)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450104500,
+            "description": "[SETUP] Final Reset to Default Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734450105000,
+            "description": "TC-13.1: Send Key WITHOUT Seed Request First - Expect NRC 0x22 (Conditions Not Correct)"
+        }
+    ],
+    "createdAt": 1734450000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 9.3 compliant test suite for SID 27 (SecurityAccess) with comprehensive coverage of session validation, supported security levels 1-3, sub-function validation, already unlocked handling, attempt counter lockout, delay timer enforcement, seed timeout, sequence errors, and all 9 NRCs.",
+        "tags": [
+            "SID27",
+            "Security Access",
+            "SecurityAccess",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "Seed/Key",
+            "Session Validation",
+            " Attempt Counter",
+            "Delay Timer",
+            "Timeout"
+        ],
+        "duration": 105000,
+        "totalRequests": 80,
+        "successRate": 100
+    },
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 27 (SecurityAccess). Tests 13 categories: (TC-01) Session validation in DEFAULT/EXTENDED/PROGRAMMING sessions, (TC-02) Supported security levels 1-3 and unsupported level 4, (TC-03) Sub-function validation with invalid values, (TC-04) Successful unlock flow and protected operation, (TC-05) Already unlocked handling with all-zero seed response, (TC-06) Invalid key handling, (TC-07) Sequence error detection (mismatched seed/key levels), (TC-08) Message length validation for key data, (TC-09) Attempt counter with 3-try lockout and NRC 0x36, (TC-10) 10-second delay timer enforcement after invalid key (NRC 0x37), (TC-11) 5-second seed timeout validation (NRC 0x22), (TC-12) Security state reset on session transitions, (TC-13) Conditions not correct when sending key without seed request. Validates NRC handling for 0x12 (SubFunctionNotSupported), 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x24 (RequestSequenceError), 0x31 (RequestOutOfRange), 0x35 (InvalidKey), 0x36 (ExceededNumberOfAttempts), 0x37 (RequiredTimeDelayNotExpired), 0x7F (ServiceNotSupportedInActiveSession)."
+}

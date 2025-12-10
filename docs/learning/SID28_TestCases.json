@@ -1,0 +1,478 @@
+{
+    "id": "sid28-communication-control-test-suite",
+    "name": "SID 0x28 Communication Control Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 0x28 (CommunicationControl) based on ISO 14229-1:2020 Section 9.5. Covers all control types (0x00-0x05), communication types (0x01-0x03), subnet targeting, session validation, security validation, and all NRCs (0x12, 0x13, 0x22, 0x31, 0x33, 0x7F). Each test category starts from Default Session for proper isolation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450001000,
+            "description": "TC-01.1: Communication Control in DEFAULT Session - Expect NRC 0x7F"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450002000,
+            "description": "TC-01.2: Switch to EXTENDED Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450003000,
+            "description": "TC-01.3: Enable RX and TX (0x01) in EXTENDED - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450004000,
+            "description": "TC-01.4: Switch to PROGRAMMING Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450005000,
+            "description": "TC-01.5: Communication Control in PROGRAMMING - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450005500,
+            "description": "[SETUP] Reset to Default for TC-02"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450006000,
+            "description": "TC-02.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                1
+            ],
+            "timestamp": 1734450007000,
+            "description": "TC-02.2: Control Type 0x01 + Normal Messages (0x01) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                2
+            ],
+            "timestamp": 1734450008000,
+            "description": "TC-02.3: Control Type 0x01 + NM Messages (0x02) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450009000,
+            "description": "TC-02.4: Control Type 0x01 + Both (0x03) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                0
+            ],
+            "timestamp": 1734450010000,
+            "description": "TC-02.5: Communication Type 0x00 (invalid) - Expect NRC 0x31"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                4
+            ],
+            "timestamp": 1734450011000,
+            "description": "TC-02.6: Communication Type 0x04 (invalid) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450011500,
+            "description": "[SETUP] Reset to Default for TC-03"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450012000,
+            "description": "TC-03.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 0,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450013000,
+            "description": "TC-03.2: Control Type 0x00 (Enable RX, Disable TX) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450014000,
+            "description": "TC-03.3: Control Type 0x01 (Enable RX and TX) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 2,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450015000,
+            "description": "TC-03.4: Control Type 0x02 (Disable RX, Enable TX) - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 3,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450016000,
+            "description": "TC-03.5: Control Type 0x03 (Disable RX and TX) - Expect NRC 0x33 (No Security)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450016500,
+            "description": "[SETUP] Reset to Default for TC-04"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450017000,
+            "description": "TC-04.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450018000,
+            "description": "TC-04.2: Request Seed for Security"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450019000,
+            "description": "TC-04.3: Send Correct Key - Unlock Security"
+        },
+        {
+            "sid": 40,
+            "subFunction": 0,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450020000,
+            "description": "TC-04.4: Control Type 0x00 with Security - Expect Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 2,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450021000,
+            "description": "TC-04.5: Control Type 0x02 with Security - Expect Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 3,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450022000,
+            "description": "TC-04.6: Control Type 0x03 with Security - Expect Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 4,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450023000,
+            "description": "TC-04.7: Control Type 0x04 (Enhanced) - Expect Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 5,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450024000,
+            "description": "TC-04.8: Control Type 0x05 (Enhanced) - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450024500,
+            "description": "[SETUP] Reset to Default for TC-05"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450025000,
+            "description": "TC-05.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 6,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450026000,
+            "description": "TC-05.2: Control Type 0x06 (invalid) - Expect NRC 0x12"
+        },
+        {
+            "sid": 40,
+            "subFunction": 255,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450027000,
+            "description": "TC-05.3: Control Type 0xFF (invalid) - Expect NRC 0x12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450027500,
+            "description": "[SETUP] Reset to Default for TC-06"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450028000,
+            "description": "TC-06.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450029000,
+            "description": "TC-06.2: No Communication Type - Expect NRC 0x13"
+        },
+        {
+            "sid": 40,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450030000,
+            "description": "TC-06.3: No SubFunction - Expect NRC 0x13"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3,
+                240
+            ],
+            "timestamp": 1734450031000,
+            "description": "TC-06.4: Partial Node ID (2 bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734450032000,
+            "description": "TC-06.5: Extra bytes (5 bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450032500,
+            "description": "[SETUP] Reset to Default for TC-07"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450033000,
+            "description": "TC-07.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450034000,
+            "description": "TC-07.2: Request Seed for Security"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450035000,
+            "description": "TC-07.3: Unlock Security"
+        },
+        {
+            "sid": 40,
+            "subFunction": 3,
+            "data": [
+                3,
+                240,
+                0
+            ],
+            "timestamp": 1734450036000,
+            "description": "TC-07.4: Target Subnet 0xF000 - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 3,
+            "data": [
+                3,
+                240,
+                16
+            ],
+            "timestamp": 1734450037000,
+            "description": "TC-07.5: Target Node 0xF010 - Success"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450038000,
+            "description": "TC-07.6: Global Enable (no node ID) - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450038500,
+            "description": "[SETUP] Reset to Default for TC-08"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450039000,
+            "description": "TC-08.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450040000,
+            "description": "TC-08.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                18,
+                52,
+                86,
+                120
+            ],
+            "timestamp": 1734450041000,
+            "description": "TC-08.3: Unlock Security"
+        },
+        {
+            "sid": 40,
+            "subFunction": 129,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450042000,
+            "description": "TC-08.4: Suppress Response Bit (0x81) - No Response Expected"
+        },
+        {
+            "sid": 40,
+            "subFunction": 131,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450043000,
+            "description": "TC-08.5: Control 0x03 + Suppress Bit (0x83) - No Response"
+        },
+        {
+            "sid": 40,
+            "subFunction": 1,
+            "data": [
+                3
+            ],
+            "timestamp": 1734450044000,
+            "description": "TC-08.6: Verify State Restored (0x01) - Response Expected"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450044500,
+            "description": "[FINAL] Reset to Default Session"
+        }
+    ],
+    "createdAt": 1734450000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 9.5 compliant test suite for SID 0x28 (CommunicationControl) with comprehensive coverage of control types, communication types, subnet targeting, session validation, security validation, and all 6 NRCs.",
+        "tags": [
+            "SID28",
+            "Communication Control",
+            "CommunicationControl",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "Session Validation",
+            "Security Validation",
+            "Subnet Targeting"
+        ],
+        "duration": 44500,
+        "totalRequests": 56,
+        "successRate": 100
+    },
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 0x28 (CommunicationControl). Tests 8 categories: (TC-01) Session validation in DEFAULT/EXTENDED/PROGRAMMING sessions, (TC-02) Communication type validation (0x01, 0x02, 0x03 valid, 0x00 and 0x04 invalid), (TC-03) Control type validation without security (0x00-0x02 success, 0x03 requires security), (TC-04) Control types with security lock (0x00, 0x02, 0x03, 0x04, 0x05 all succeed), (TC-05) Invalid control types (0x06, 0xFF return NRC 0x12), (TC-06) Message length validation (missing data, partial node ID, extra bytes), (TC-07) Subnet/node targeting (specific subnet 0xF000, specific node 0xF010, global control), (TC-08) Suppress positive response bit handling (0x80). Validates NRC handling for 0x12 (SubFunctionNotSupported), 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x7F (ServiceNotSupportedInActiveSession)."
+}

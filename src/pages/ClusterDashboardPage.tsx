@@ -18,7 +18,6 @@ import React, { useState } from 'react';
 import type { JSX } from 'react';
 import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
-import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
 import DTCManagementPanel from '../components/DTCManagementPanel';
 import { useUDS } from '../context/UDSContext';
@@ -542,6 +541,10 @@ export const ClusterDashboardPage: React.FC = () => {
         updateDTCStatus
     } = useUDS();
 
+    React.useEffect(() => {
+        console.log('[ClusterDashboardPage] Mounted');
+    }, []);
+
     // Map powerState to ignitionStatus for display
     const mapPowerStateToIgnition = (ps: typeof powerState): IgnitionStatus => {
         switch (ps) {
@@ -887,11 +890,6 @@ export const ClusterDashboardPage: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Power Supply Dashboard - Bottom */}
-                    <div className="power-supply-dashboard mt-4">
-                        <PowerSupplyDashboard />
                     </div>
 
                     {/* DTC Management Panel - SID 19 Support */}

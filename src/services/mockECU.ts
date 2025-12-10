@@ -5,6 +5,7 @@
 
 import {
   ServiceId,
+  DiagnosticSessionType,
   type ECUConfig,
   type DataIdentifier,
   type DTCInfo,
@@ -21,6 +22,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     description: 'Active Diagnostic Session',
     value: [0x01],
     format: 'hex',
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING, DiagnosticSessionType.SAFETY],
+    requiredSecurity: 0, // Public DID - no security needed
   },
   {
     id: 0xF190,
@@ -28,6 +31,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     description: 'Vehicle Identification Number',
     value: generateMockVIN(),
     format: 'ascii',
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
+    requiredSecurity: 0, // Public DID - no security needed
   },
   {
     id: 0xF191,
@@ -35,6 +40,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     description: 'ECU Hardware Number',
     value: 'HW123456789',
     format: 'ascii',
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
+    requiredSecurity: 0, // Public DID - no security needed
   },
   {
     id: 0xF194,
@@ -42,6 +49,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     description: 'ECU Software Number',
     value: 'SW987654321',
     format: 'ascii',
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
+    requiredSecurity: 0, // Public DID - no security needed
   },
   {
     id: 0xF195,
@@ -49,6 +58,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     description: 'ECU Manufacturing Date',
     value: '20240315',
     format: 'ascii',
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED],
+    requiredSecurity: 0, // Public DID - no security needed
   },
   {
     id: 0x010C,
@@ -57,6 +68,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 0,
     unit: 'RPM',
     format: 'dec',
+    requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
+    requiredSecurity: 0, // No security needed
   },
   {
     id: 0x010D,
@@ -65,6 +78,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 0,
     unit: 'km/h',
     format: 'dec',
+    requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
+    requiredSecurity: 0, // No security needed
   },
   {
     id: 0x0105,
@@ -73,6 +88,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 0,
     unit: '°C',
     format: 'dec',
+    requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
+    requiredSecurity: 0, // No security needed
   },
   {
     id: 0x0142,
@@ -81,6 +98,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 0,
     unit: 'V',
     format: 'dec',
+    requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
+    requiredSecurity: 0, // No security needed
   },
   {
     id: 0x0110,
@@ -89,6 +108,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 0,
     unit: 'g/s',
     format: 'dec',
+    requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
+    requiredSecurity: 0, // No security needed
   },
 ];
 
@@ -832,15 +853,59 @@ const mockRoutines: Routine[] = [
 ];
 
 const mockMemoryMap: MemoryAddress[] = [
+  // Reserved Region - Not accessible
   {
+    name: 'Reserved',
     address: 0x00000000,
-    size: 256,
-    data: Array.from({ length: 256 }, (_, i) => i & 0xFF),
-  },
+    size: 0x00001000,  // 4KB
+    accessible: false,
+    securityLevel: 0,
+    description: 'Reserved memory region (inaccessible)',
+  } as any,
+
+  // Flash Code - Security Level 1 required
   {
-    address: 0x00010000,
-    size: 1024,
-  },
+    name: 'Flash Code',
+    address: 0x00001000,
+    size: 0x000FF000,  // ~1020KB
+    accessible: true,
+    securityLevel: 1,
+    description: 'Application flash memory (read-only, security required)',
+    data: Array.from({ length: 256 }, (_, i) => 0x10 + (i & 0xFF)),  // Sample data pattern
+  } as any,
+
+  // Public Calibration Data - No security required
+  {
+    name: 'Calibration Public',
+    address: 0x00100000,
+    size: 0x00100000,  // 1MB
+    accessible: true,
+    securityLevel: 0,
+    description: 'Public calibration parameters (read without security)',
+    data: Array.from({ length: 512 }, (_, i) => 0x20 + (i & 0xFF)),  // Sample calibration data
+  } as any,
+
+  // OEM Calibration Data - Security Level 1 required
+  {
+    name: 'Calibration OEM',
+    address: 0x00200000,
+    size: 0x00100000,  // 1MB
+    accessible: true,
+    securityLevel: 1,
+    description: 'OEM-specific calibration data (security required)',
+    data: Array.from({ length: 256 }, (_, i) => 0x30 + (i & 0xFF)),
+  } as any,
+
+  // RAM - Security Level 1 required
+  {
+    name: 'RAM',
+    address: 0x00300000,
+    size: 0x00100000,  // 1MB
+    accessible: true,
+    securityLevel: 1,
+    description: 'Runtime RAM data (security required)',
+    data: Array.from({ length: 1024 }, (_, i) => 0x40 + (i & 0xFF)),
+  } as any,
 ];
 
 export const mockECUConfig: ECUConfig = {

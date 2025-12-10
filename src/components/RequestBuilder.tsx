@@ -238,12 +238,44 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
         }
       }
 
-      const request = {
-        sid: requestData[0] as ServiceId,
-        subFunction: requestData.length > 1 ? requestData[1] : undefined,
-        data: requestData.slice(2), // Always start from index 2 (after SID and sub-function)
-        timestamp: Date.now(),
-      };
+      // Services that use sub-function as second byte
+      const servicesWithSubFunction = [
+        0x10, // Diagnostic Session Control
+        0x11, // ECU Reset
+        0x19, // Read DTC Information
+        0x27, // Security Access
+        0x28, // Communication Control
+        0x2A, // Read Data By Periodic Identifier
+        0x31, // Routine Control
+        0x3E, // Tester Present
+        0x85  // Control DTC Setting
+      ];
+
+      const sid = requestData[0] as ServiceId;
+      const hasSubFunction = servicesWithSubFunction.includes(sid);
+
+      // Build request object based on whether service uses sub-function
+      const request = hasSubFunction
+        ? {
+          sid,
+          subFunction: requestData.length > 1 ? requestData[1] : undefined,
+          data: requestData.slice(2), // Data starts after SID and sub-function
+          timestamp: Date.now(),
+        }
+        : {
+          sid,
+          data: requestData.slice(1), // Data starts immediately after SID
+          timestamp: Date.now(),
+        };
+
+      console.log('[RequestBuilder] 📤 Sending request:');
+      console.log('  - SID:', `0x${sid.toString(16).toUpperCase().padStart(2, '0')}`);
+      console.log('  - Has Sub-Function:', hasSubFunction);
+      if (hasSubFunction) {
+        console.log('  - Sub-Function:', request.subFunction !== undefined ? `0x${request.subFunction.toString(16).toUpperCase().padStart(2, '0')}` : 'none');
+      }
+      console.log('  - Data:', request.data);
+      console.log('  - Data Length:', request.data?.length);
 
       await sendRequest(request);
 

@@ -1,0 +1,1853 @@
+{
+  "id": "exported_1765379302303",
+  "name": "UDS Session Export (12/10/2025)",
+  "description": "Exported UDS session with 71 requests",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "UDS Simulator",
+    "description": "Exported session with 71 requests, 72% success rate",
+    "tags": [
+      "exported",
+      "session"
+    ],
+    "duration": 58500,
+    "totalRequests": 71,
+    "successRate": 72
+  },
+  "requests": [
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450000000,
+      "description": "[SETUP] Reset to Default Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144
+      ],
+      "timestamp": 1734450001000,
+      "description": "TC-01.1: Read VIN (0xF190) in DEFAULT Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        145
+      ],
+      "timestamp": 1734450002000,
+      "description": "TC-01.2: Read ECU HW Number (0xF191) in DEFAULT Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        148
+      ],
+      "timestamp": 1734450003000,
+      "description": "TC-01.3: Read ECU SW Number (0xF194) in DEFAULT Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        149
+      ],
+      "timestamp": 1734450004000,
+      "description": "TC-01.4: Read Manufacturing Date (0xF195) in DEFAULT Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        134
+      ],
+      "timestamp": 1734450005000,
+      "description": "TC-01.5: Read Active Session (0xF186) in DEFAULT Session"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450005500,
+      "description": "[SETUP] Reset to Default Session for TC-02"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145
+      ],
+      "timestamp": 1734450006000,
+      "description": "TC-02.1: Multi-DID - VIN + HW Number (2 DIDs)"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145,
+        241,
+        148
+      ],
+      "timestamp": 1734450007000,
+      "description": "TC-02.2: Multi-DID - VIN + HW + SW (3 DIDs)"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145,
+        241,
+        148,
+        241,
+        149
+      ],
+      "timestamp": 1734450008000,
+      "description": "TC-02.3: Multi-DID - VIN + HW + SW + Date (4 DIDs)"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        134,
+        241,
+        144
+      ],
+      "timestamp": 1734450009000,
+      "description": "TC-02.4: Multi-DID - Active Session + VIN"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450009500,
+      "description": "[SETUP] Reset to Default Session for TC-03"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450010000,
+      "description": "TC-03.1: Read Coolant Temp (0x0105) in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        12
+      ],
+      "timestamp": 1734450011000,
+      "description": "TC-03.2: Read Engine RPM (0x010C) in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        13
+      ],
+      "timestamp": 1734450012000,
+      "description": "TC-03.3: Read Vehicle Speed (0x010D) in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        66
+      ],
+      "timestamp": 1734450013000,
+      "description": "TC-03.4: Read Battery Voltage (0x0142) in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        16
+      ],
+      "timestamp": 1734450014000,
+      "description": "TC-03.5: Read MAF (0x0110) in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450014500,
+      "description": "[SETUP] Reset to Default Session for TC-04"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450015000,
+      "description": "TC-04.1: Enter EXTENDED Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450016000,
+      "description": "TC-04.2: Read Coolant Temp (0x0105) in EXTENDED - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        12
+      ],
+      "timestamp": 1734450017000,
+      "description": "TC-04.3: Read Engine RPM (0x010C) in EXTENDED - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        13
+      ],
+      "timestamp": 1734450018000,
+      "description": "TC-04.4: Read Vehicle Speed (0x010D) in EXTENDED - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        66
+      ],
+      "timestamp": 1734450019000,
+      "description": "TC-04.5: Read Battery Voltage (0x0142) in EXTENDED - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        16
+      ],
+      "timestamp": 1734450020000,
+      "description": "TC-04.6: Read MAF (0x0110) in EXTENDED - Valid"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450020500,
+      "description": "[SETUP] Reset to Default Session for TC-05"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450021000,
+      "description": "TC-05.1: Enter EXTENDED Session for Multi-Sensor Test"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5,
+        1,
+        12
+      ],
+      "timestamp": 1734450022000,
+      "description": "TC-05.2: Multi-DID Sensors - Temp + RPM in EXTENDED"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5,
+        1,
+        12,
+        1,
+        13
+      ],
+      "timestamp": 1734450023000,
+      "description": "TC-05.3: Multi-DID Sensors - Temp + RPM + Speed (3 DIDs)"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        12,
+        1,
+        13,
+        1,
+        66,
+        1,
+        16
+      ],
+      "timestamp": 1734450024000,
+      "description": "TC-05.4: Multi-DID All Sensors (4 DIDs)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450024500,
+      "description": "[SETUP] Reset to Default Session for TC-06"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        1,
+        5
+      ],
+      "timestamp": 1734450025000,
+      "description": "TC-06.1: Mixed DIDs - VIN (OK) + Temp (Session Fail) - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        145,
+        1,
+        12
+      ],
+      "timestamp": 1734450026000,
+      "description": "TC-06.2: Mixed DIDs - HW (OK) + RPM (Session Fail) - Expect NRC 0x7F"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145,
+        1,
+        5
+      ],
+      "timestamp": 1734450027000,
+      "description": "TC-06.3: Mixed 3 DIDs - VIN + HW (OK) + Temp (Fail) - Expect NRC 0x7F"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450027500,
+      "description": "[SETUP] Reset to Default Session for TC-07"
+    },
+    {
+      "sid": 34,
+      "data": [
+        153,
+        153
+      ],
+      "timestamp": 1734450028000,
+      "description": "TC-07.1: Invalid DID 0x9999 - Expect NRC 0x31"
+    },
+    {
+      "sid": 34,
+      "data": [
+        255,
+        255
+      ],
+      "timestamp": 1734450029000,
+      "description": "TC-07.2: Invalid DID 0xFFFF - Expect NRC 0x31"
+    },
+    {
+      "sid": 34,
+      "data": [
+        0,
+        0
+      ],
+      "timestamp": 1734450030000,
+      "description": "TC-07.3: Invalid DID 0x0000 - Expect NRC 0x31"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        153,
+        153
+      ],
+      "timestamp": 1734450031000,
+      "description": "TC-07.4: Multi-DID - VIN (OK) + 0x9999 (Invalid) - Expect NRC 0x31"
+    },
+    {
+      "sid": 34,
+      "data": [
+        153,
+        153,
+        241,
+        144
+      ],
+      "timestamp": 1734450032000,
+      "description": "TC-07.5: Multi-DID - 0x9999 (Invalid) + VIN (OK) - Expect NRC 0x31"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145,
+        255,
+        255
+      ],
+      "timestamp": 1734450033000,
+      "description": "TC-07.6: Multi-DID - 2 Valid + 1 Invalid - Expect NRC 0x31"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450033500,
+      "description": "[SETUP] Reset to Default Session for TC-08"
+    },
+    {
+      "sid": 34,
+      "data": [],
+      "timestamp": 1734450034000,
+      "description": "TC-08.1: Empty Data (No DIDs) - Expect NRC 0x13"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241
+      ],
+      "timestamp": 1734450035000,
+      "description": "TC-08.2: Incomplete DID (1 byte) - Expect NRC 0x13"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241
+      ],
+      "timestamp": 1734450036000,
+      "description": "TC-08.3: Incomplete Multi-DID (3 bytes) - Expect NRC 0x13"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144,
+        241,
+        145,
+        241
+      ],
+      "timestamp": 1734450037000,
+      "description": "TC-08.4: Incomplete Multi-DID (5 bytes) - Expect NRC 0x13"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450037500,
+      "description": "[SETUP] Reset to Default Session for TC-09"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450038000,
+      "description": "TC-09.1: Enter PROGRAMMING Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144
+      ],
+      "timestamp": 1734450039000,
+      "description": "TC-09.2: Read VIN in PROGRAMMING - Valid (Public DID)"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        145
+      ],
+      "timestamp": 1734450040000,
+      "description": "TC-09.3: Read HW Number in PROGRAMMING - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        148
+      ],
+      "timestamp": 1734450041000,
+      "description": "TC-09.4: Read SW Number in PROGRAMMING - Valid"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450042000,
+      "description": "TC-09.5: Read Coolant Temp in PROGRAMMING - Expect NRC 0x7F (Requires EXTENDED)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450042500,
+      "description": "[SETUP] Reset to Default Session for TC-10"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144
+      ],
+      "timestamp": 1734450043000,
+      "description": "TC-10.1: Read VIN - Baseline"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450044000,
+      "description": "TC-10.2: Enter EXTENDED Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144
+      ],
+      "timestamp": 1734450045000,
+      "description": "TC-10.3: Read VIN in EXTENDED - Valid (Public DID)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450046000,
+      "description": "TC-10.4: Enter PROGRAMMING Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        144
+      ],
+      "timestamp": 1734450047000,
+      "description": "TC-10.5: Read VIN in PROGRAMMING - Valid (Public DID)"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450047500,
+      "description": "[SETUP] Reset to Default Session for TC-11"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450048000,
+      "description": "TC-11.1: Enter EXTENDED Session for Transition Test"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450049000,
+      "description": "TC-11.2: Read Temp in EXTENDED - Baseline"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450050000,
+      "description": "TC-11.3: Return to DEFAULT Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450051000,
+      "description": "TC-11.4: Read Temp in DEFAULT - Expect NRC 0x7F"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450052000,
+      "description": "TC-11.5: Re-enter EXTENDED Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        1,
+        5
+      ],
+      "timestamp": 1734450053000,
+      "description": "TC-11.6: Read Temp in EXTENDED Again - Valid"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450053500,
+      "description": "[SETUP] Reset to Default Session for TC-12"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        134
+      ],
+      "timestamp": 1734450054000,
+      "description": "TC-12.1: Read Active Session in DEFAULT - Expect 0x01"
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1734450055000,
+      "description": "TC-12.2: Enter EXTENDED Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        134
+      ],
+      "timestamp": 1734450056000,
+      "description": "TC-12.3: Read Active Session in EXTENDED - Expect 0x03"
+    },
+    {
+      "sid": 16,
+      "subFunction": 2,
+      "data": [],
+      "timestamp": 1734450057000,
+      "description": "TC-12.4: Enter PROGRAMMING Session"
+    },
+    {
+      "sid": 34,
+      "data": [
+        241,
+        134
+      ],
+      "timestamp": 1734450058000,
+      "description": "TC-12.5: Read Active Session in PROGRAMMING - Expect 0x02"
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1734450058500,
+      "description": "[SETUP] Final Reset to Default Session"
+    }
+  ],
+  "responses": [
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379118293,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379119321,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        145,
+        72,
+        87,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "timestamp": 1765379120330,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        148,
+        83,
+        87,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49
+      ],
+      "timestamp": 1765379122051,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        149,
+        50,
+        48,
+        50,
+        52,
+        48,
+        51,
+        49,
+        53
+      ],
+      "timestamp": 1765379123313,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        134,
+        1
+      ],
+      "timestamp": 1765379123853,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379124896,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69,
+        241,
+        145,
+        72,
+        87,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "timestamp": 1765379125940,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69,
+        241,
+        145,
+        72,
+        87,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        241,
+        148,
+        83,
+        87,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49
+      ],
+      "timestamp": 1765379126995,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69,
+        241,
+        145,
+        72,
+        87,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        241,
+        148,
+        83,
+        87,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49,
+        241,
+        149,
+        50,
+        48,
+        50,
+        52,
+        48,
+        51,
+        49,
+        53
+      ],
+      "timestamp": 1765379128058,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        134,
+        1,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379128640,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379129725,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379130804,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379131894,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379132981,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379134066,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379134651,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379135700,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379136771,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        5,
+        130
+      ],
+      "timestamp": 1765379137840,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        12,
+        4,
+        10
+      ],
+      "timestamp": 1765379138900,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        13,
+        112
+      ],
+      "timestamp": 1765379139959,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        66,
+        4,
+        204
+      ],
+      "timestamp": 1765379141014,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        16,
+        0,
+        0
+      ],
+      "timestamp": 1765379141612,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379142709,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379143802,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        5,
+        122,
+        1,
+        12,
+        9,
+        208
+      ],
+      "timestamp": 1765379144897,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        5,
+        121,
+        1,
+        12,
+        10,
+        164,
+        1,
+        13,
+        86
+      ],
+      "timestamp": 1765379145998,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        12,
+        11,
+        234,
+        1,
+        13,
+        25,
+        1,
+        66,
+        5,
+        14,
+        1,
+        16,
+        0,
+        0
+      ],
+      "timestamp": 1765379146624,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379147690,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379148760,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379149823,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379150401,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379151555,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379152648,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379153779,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379154920,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379156100,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379157268,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        49
+      ],
+      "timestamp": 1765379157907,
+      "isNegative": true,
+      "nrc": 49
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379159060,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        19
+      ],
+      "timestamp": 1765379160256,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        19
+      ],
+      "timestamp": 1765379161451,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        19
+      ],
+      "timestamp": 1765379162643,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        19
+      ],
+      "timestamp": 1765379163342,
+      "isNegative": true,
+      "nrc": 19
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379164474,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379165557,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379167175,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        145,
+        72,
+        87,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "timestamp": 1765379170058,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        148,
+        83,
+        87,
+        57,
+        56,
+        55,
+        54,
+        53,
+        52,
+        51,
+        50,
+        49
+      ],
+      "timestamp": 1765379172168,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379174047,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379177060,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379179187,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379182057,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379185057,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379187188,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        144,
+        70,
+        51,
+        66,
+        67,
+        82,
+        49,
+        85,
+        80,
+        85,
+        89,
+        54,
+        75,
+        78,
+        74,
+        56,
+        90,
+        69
+      ],
+      "timestamp": 1765379189215,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379192053,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379195051,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        5,
+        102
+      ],
+      "timestamp": 1765379197226,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379200058,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        127,
+        34,
+        127
+      ],
+      "timestamp": 1765379202224,
+      "isNegative": true,
+      "nrc": 127
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379204274,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        1,
+        5,
+        90
+      ],
+      "timestamp": 1765379206170,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379208221,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        134,
+        1
+      ],
+      "timestamp": 1765379211052,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765379213254,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        134,
+        3
+      ],
+      "timestamp": 1765379215173,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        2,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379217243,
+      "isNegative": false
+    },
+    {
+      "sid": 34,
+      "data": [
+        98,
+        241,
+        134,
+        2
+      ],
+      "timestamp": 1765379219162,
+      "isNegative": false
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765379221245,
+      "isNegative": false
+    }
+  ],
+  "timings": [
+    0,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000,
+    500,
+    500,
+    1000,
+    1000,
+    1000,
+    1000,
+    500
+  ],
+  "createdAt": 1765379302303,
+  "notes": "Exported on 2025-12-10T15:08:22.303Z"
+}

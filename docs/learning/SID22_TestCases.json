@@ -1,0 +1,738 @@
+{
+    "id": "sid22-read-data-by-identifier-test-suite",
+    "name": "SID 22 Read Data By Identifier Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 22 (ReadDataByIdentifier) based on ISO 14229-1:2020. Covers single DID reads, multi-DID reads, session validation (DEFAULT/EXTENDED/PROGRAMMING), security access validation, error handling (NRC 0x13, 0x14, 0x31, 0x7F, 0x33), and all-or-nothing processing. Each test category starts from Default Session to ensure proper isolation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450001000,
+            "description": "TC-01.1: Read VIN (0xF190) in DEFAULT Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                145
+            ],
+            "timestamp": 1734450002000,
+            "description": "TC-01.2: Read ECU HW Number (0xF191) in DEFAULT Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                148
+            ],
+            "timestamp": 1734450003000,
+            "description": "TC-01.3: Read ECU SW Number (0xF194) in DEFAULT Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                149
+            ],
+            "timestamp": 1734450004000,
+            "description": "TC-01.4: Read Manufacturing Date (0xF195) in DEFAULT Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450005000,
+            "description": "TC-01.5: Read Active Session (0xF186) in DEFAULT Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450005500,
+            "description": "[SETUP] Reset to Default Session for TC-02"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145
+            ],
+            "timestamp": 1734450006000,
+            "description": "TC-02.1: Multi-DID - VIN + HW Number (2 DIDs)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241,
+                148
+            ],
+            "timestamp": 1734450007000,
+            "description": "TC-02.2: Multi-DID - VIN + HW + SW (3 DIDs)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241,
+                148,
+                241,
+                149
+            ],
+            "timestamp": 1734450008000,
+            "description": "TC-02.3: Multi-DID - VIN + HW + SW + Date (4 DIDs)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134,
+                241,
+                144
+            ],
+            "timestamp": 1734450009000,
+            "description": "TC-02.4: Multi-DID - Active Session + VIN"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450009500,
+            "description": "[SETUP] Reset to Default Session for TC-03"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450010000,
+            "description": "TC-03.1: Read Coolant Temp (0x0105) in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12
+            ],
+            "timestamp": 1734450011000,
+            "description": "TC-03.2: Read Engine RPM (0x010C) in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                13
+            ],
+            "timestamp": 1734450012000,
+            "description": "TC-03.3: Read Vehicle Speed (0x010D) in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                66
+            ],
+            "timestamp": 1734450013000,
+            "description": "TC-03.4: Read Battery Voltage (0x0142) in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                16
+            ],
+            "timestamp": 1734450014000,
+            "description": "TC-03.5: Read MAF (0x0110) in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450014500,
+            "description": "[SETUP] Reset to Default Session for TC-04"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450015000,
+            "description": "TC-04.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450016000,
+            "description": "TC-04.2: Read Coolant Temp (0x0105) in EXTENDED - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12
+            ],
+            "timestamp": 1734450017000,
+            "description": "TC-04.3: Read Engine RPM (0x010C) in EXTENDED - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                13
+            ],
+            "timestamp": 1734450018000,
+            "description": "TC-04.4: Read Vehicle Speed (0x010D) in EXTENDED - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                66
+            ],
+            "timestamp": 1734450019000,
+            "description": "TC-04.5: Read Battery Voltage (0x0142) in EXTENDED - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                16
+            ],
+            "timestamp": 1734450020000,
+            "description": "TC-04.6: Read MAF (0x0110) in EXTENDED - Valid"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450020500,
+            "description": "[SETUP] Reset to Default Session for TC-05"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450021000,
+            "description": "TC-05.1: Enter EXTENDED Session for Multi-Sensor Test"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5,
+                1,
+                12
+            ],
+            "timestamp": 1734450022000,
+            "description": "TC-05.2: Multi-DID Sensors - Temp + RPM in EXTENDED"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5,
+                1,
+                12,
+                1,
+                13
+            ],
+            "timestamp": 1734450023000,
+            "description": "TC-05.3: Multi-DID Sensors - Temp + RPM + Speed (3 DIDs)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12,
+                1,
+                13,
+                1,
+                66,
+                1,
+                16
+            ],
+            "timestamp": 1734450024000,
+            "description": "TC-05.4: Multi-DID All Sensors (4 DIDs)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450024500,
+            "description": "[SETUP] Reset to Default Session for TC-06"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                1,
+                5
+            ],
+            "timestamp": 1734450025000,
+            "description": "TC-06.1: Mixed DIDs - VIN (OK) + Temp (Session Fail) - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                145,
+                1,
+                12
+            ],
+            "timestamp": 1734450026000,
+            "description": "TC-06.2: Mixed DIDs - HW (OK) + RPM (Session Fail) - Expect NRC 0x7F"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                1,
+                5
+            ],
+            "timestamp": 1734450027000,
+            "description": "TC-06.3: Mixed 3 DIDs - VIN + HW (OK) + Temp (Fail) - Expect NRC 0x7F"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450027500,
+            "description": "[SETUP] Reset to Default Session for TC-07"
+        },
+        {
+            "sid": 34,
+            "data": [
+                153,
+                153
+            ],
+            "timestamp": 1734450028000,
+            "description": "TC-07.1: Invalid DID 0x9999 - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                255,
+                255
+            ],
+            "timestamp": 1734450029000,
+            "description": "TC-07.2: Invalid DID 0xFFFF - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                0,
+                0
+            ],
+            "timestamp": 1734450030000,
+            "description": "TC-07.3: Invalid DID 0x0000 - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                153,
+                153
+            ],
+            "timestamp": 1734450031000,
+            "description": "TC-07.4: Multi-DID - VIN (OK) + 0x9999 (Invalid) - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                153,
+                153,
+                241,
+                144
+            ],
+            "timestamp": 1734450032000,
+            "description": "TC-07.5: Multi-DID - 0x9999 (Invalid) + VIN (OK) - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                255,
+                255
+            ],
+            "timestamp": 1734450033000,
+            "description": "TC-07.6: Multi-DID - 2 Valid + 1 Invalid - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450033500,
+            "description": "[SETUP] Reset to Default Session for TC-08"
+        },
+        {
+            "sid": 34,
+            "data": [],
+            "timestamp": 1734450034000,
+            "description": "TC-08.1: Empty Data (No DIDs) - Expect NRC 0x13"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241
+            ],
+            "timestamp": 1734450035000,
+            "description": "TC-08.2: Incomplete DID (1 byte) - Expect NRC 0x13"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241
+            ],
+            "timestamp": 1734450036000,
+            "description": "TC-08.3: Incomplete Multi-DID (3 bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241
+            ],
+            "timestamp": 1734450037000,
+            "description": "TC-08.4: Incomplete Multi-DID (5 bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450037500,
+            "description": "[SETUP] Reset to Default Session for TC-09"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450038000,
+            "description": "TC-09.1: Enter PROGRAMMING Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450039000,
+            "description": "TC-09.2: Read VIN in PROGRAMMING - Valid (Public DID)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                145
+            ],
+            "timestamp": 1734450040000,
+            "description": "TC-09.3: Read HW Number in PROGRAMMING - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                148
+            ],
+            "timestamp": 1734450041000,
+            "description": "TC-09.4: Read SW Number in PROGRAMMING - Valid"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450042000,
+            "description": "TC-09.5: Read Coolant Temp in PROGRAMMING - Expect NRC 0x7F (Requires EXTENDED)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450042500,
+            "description": "[SETUP] Reset to Default Session for TC-10"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450043000,
+            "description": "TC-10.1: Read VIN - Baseline"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450044000,
+            "description": "TC-10.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450045000,
+            "description": "TC-10.3: Read VIN in EXTENDED - Valid (Public DID)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450046000,
+            "description": "TC-10.4: Enter PROGRAMMING Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450047000,
+            "description": "TC-10.5: Read VIN in PROGRAMMING - Valid (Public DID)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450047500,
+            "description": "[SETUP] Reset to Default Session for TC-11"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450048000,
+            "description": "TC-11.1: Enter EXTENDED Session for Transition Test"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450049000,
+            "description": "TC-11.2: Read Temp in EXTENDED - Baseline"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450050000,
+            "description": "TC-11.3: Return to DEFAULT Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450051000,
+            "description": "TC-11.4: Read Temp in DEFAULT - Expect NRC 0x7F"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450052000,
+            "description": "TC-11.5: Re-enter EXTENDED Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450053000,
+            "description": "TC-11.6: Read Temp in EXTENDED Again - Valid"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450053500,
+            "description": "[SETUP] Reset to Default Session for TC-12"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450054000,
+            "description": "TC-12.1: Read Active Session in DEFAULT - Expect 0x01"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450055000,
+            "description": "TC-12.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450056000,
+            "description": "TC-12.3: Read Active Session in EXTENDED - Expect 0x03"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450057000,
+            "description": "TC-12.4: Enter PROGRAMMING Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450058000,
+            "description": "TC-12.5: Read Active Session in PROGRAMMING - Expect 0x02"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450058500,
+            "description": "[SETUP] Final Reset to Default Session"
+        }
+    ],
+    "createdAt": 1734450000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 compliant test suite for SID 22 (ReadDataByIdentifier) with comprehensive coverage of single/multi-DID reads, session validation, error handling, and all-or-nothing processing",
+        "tags": [
+            "SID22",
+            "Read Data",
+            "ReadDataByIdentifier",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "Multi-DID",
+            "Session Validation",
+            "Data Identifiers"
+        ],
+        "duration": 59000,
+        "totalRequests": 73,
+        "successRate": 100
+    },
+    "timings": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        500
+    ],
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 22 (ReadDataByIdentifier). Tests 12 categories: (TC-01) Single DID reads of public data, (TC-02) Multi-DID read combinations (2-4 DIDs), (TC-03) Session validation failures in DEFAULT session, (TC-04) Session validation success in EXTENDED session, (TC-05) Multi-DID sensor reads in EXTENDED, (TC-06) Mixed DID tests demonstrating all-or-nothing behavior, (TC-07) Invalid DID error handling (NRC 0x31), (TC-08) Message length validation (NRC 0x13), (TC-09) PROGRAMMING session validation, (TC-10) Public DID access across all sessions, (TC-11) Session transition validation, (TC-12) Active session DID verification. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x31 (RequestOutOfRange), 0x7F (ServiceNotSupportedInActiveSession). Tests 10 unique DIDs: 0xF186 (Active Session), 0xF190 (VIN), 0xF191 (HW Number), 0xF194 (SW Number), 0xF195 (Mfg Date), 0x0105 (Coolant Temp), 0x010C (Engine RPM), 0x010D (Vehicle Speed), 0x0142 (Battery Voltage), 0x0110 (MAF)."
+}

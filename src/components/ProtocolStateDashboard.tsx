@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { DiagnosticSessionType } from '../types/uds';
 
@@ -57,6 +57,12 @@ const ProtocolStateDashboard: React.FC = () => {
     ? Math.min(100, (remainingTime / protocolState.sessionTimeout) * 100)
     : 0;
 
+  // Memoize random heights for data bus visualization to prevent re-render cascade
+  // This fixes the cluster page freeze caused by Math.random() in render cycle
+  const dataBusHeights = useMemo(() =>
+    Array(12).fill(0).map(() => Math.random() * 100),
+    [ecuPower]);
+
   // Display remaining seconds or '--' for default session
   const timeoutDisplay = remainingTime !== null
     ? `${Math.ceil(remainingTime / 1000)}s`
@@ -74,8 +80,8 @@ const ProtocolStateDashboard: React.FC = () => {
           <button
             onClick={toggleEcuPower}
             className={`w-12 h-12 rounded-lg flex items-center justify-center border transition-all duration-300 hover:scale-105 active:scale-95 ${ecuPower
-                ? 'border-emerald-400 dark:border-emerald-500/50 bg-emerald-100 dark:bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                : 'border-red-300 dark:border-red-500/50 bg-red-100 dark:bg-red-500/10'
+              ? 'border-emerald-400 dark:border-emerald-500/50 bg-emerald-100 dark:bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+              : 'border-red-300 dark:border-red-500/50 bg-red-100 dark:bg-red-500/10'
               }`}
           >
             <svg className={`w-6 h-6 transition-colors duration-300 ${ecuPower ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,12 +102,12 @@ const ProtocolStateDashboard: React.FC = () => {
         {/* SYS UP/DOWN Indicator */}
         <div className="flex-1 w-full lg:w-auto flex items-center justify-center gap-4 px-4">
           <div className={`w-12 h-12 rounded-lg flex items-center justify-center border transition-all duration-300 ${ecuPower
-              ? 'border-emerald-400 dark:border-emerald-500/50 bg-emerald-100 dark:bg-emerald-500/10'
-              : 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800'
+            ? 'border-emerald-400 dark:border-emerald-500/50 bg-emerald-100 dark:bg-emerald-500/10'
+            : 'border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800'
             }`}>
             <div className={`w-3 h-3 rounded-full transition-all duration-300 ${ecuPower
-                ? 'bg-emerald-500 dark:bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                : 'bg-gray-400 dark:bg-gray-600'
+              ? 'bg-emerald-500 dark:bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+              : 'bg-gray-400 dark:bg-gray-600'
               }`} />
           </div>
           <div>
@@ -219,8 +225,8 @@ const ProtocolStateDashboard: React.FC = () => {
             </div>
           </div>
           <div className={`h-10 flex items-end gap-0.5 w-24 transition-opacity duration-300 ${!ecuPower ? 'opacity-20 grayscale' : 'opacity-50'}`}>
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className={`flex-1 transition-all duration-300 ${!ecuPower ? 'bg-gray-600 h-1' : 'bg-blue-600 dark:bg-cyber-blue'}`} style={{ height: !ecuPower ? '4px' : `${Math.random() * 100}%` }} />
+            {dataBusHeights.map((height, i) => (
+              <div key={i} className={`flex-1 transition-all duration-300 ${!ecuPower ? 'bg-gray-600 h-1' : 'bg-blue-600 dark:bg-cyber-blue'}`} style={{ height: !ecuPower ? '4px' : `${height}%` }} />
             ))}
           </div>
         </div>

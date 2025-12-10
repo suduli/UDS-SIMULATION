@@ -158,6 +158,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [simulator] = useState(() => new UDSSimulator(mockECUConfig));
   const [protocolState, setProtocolState] = useState<ProtocolState>(simulator.getState());
 
+  // DEBUG: Log initialization
+  React.useEffect(() => {
+    console.log('[UDSContext] initialized');
+  }, []);
+
   // Initialize with demo data for first-time users
   const getInitialHistory = (): Array<{ request: UDSRequest; response: UDSResponse }> => {
     const hasSeenDemo = localStorage.getItem('uds_demo_seen');
@@ -274,28 +279,33 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // Sync legacy ecuPower with powerState
   React.useEffect(() => {
+    console.log('[UDSContext] Power State Changed:', powerState);
     setEcuPower(powerState !== 'OFF');
   }, [powerState]);
 
   // Simulate power physics
   React.useEffect(() => {
     const interval = setInterval(() => {
-      // 1. Handle Faults
+      // 1. Handle Faults with smooth transitions
       if (faultState === 'SHORT_GND') {
-        setVoltage(0);
+        // Smooth drop to 0V using exponential easing
+        setVoltage(prev => prev * 0.7); // Quick decay to 0
         setCurrent(Math.random() * 5 + 15); // Spike > 15A
         return;
       }
       if (faultState === 'OPEN_CIRCUIT') {
-        setVoltage(targetVoltage); // Voltage might still be present at terminals, but no current
+        // Voltage might still be present at terminals, but no current
+        // Smooth transition to target voltage
+        setVoltage(prev => prev + (targetVoltage - prev) * 0.3);
         setCurrent(0);
         return;
       }
 
       // 2. Handle Power States
       if (powerState === 'OFF') {
-        setVoltage(0);
-        setCurrent(0);
+        // Smooth transition to 0V when turning off
+        setVoltage(prev => Math.max(0, prev * 0.7));
+        setCurrent(prev => Math.max(0, prev * 0.7));
         return;
       }
 
@@ -339,10 +349,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         newVoltage = newVoltage * (currentLimit / (baseCurrent + 0.001));
       }
 
-      setVoltage(newVoltage);
-      setCurrent(newCurrent);
+      // Smooth transitions to new values using exponential easing
+      setVoltage(prev => prev + (newVoltage - prev) * 0.3);
+      setCurrent(prev => prev + (newCurrent - prev) * 0.3);
 
-    }, 100); // 10Hz update for smoothness
+    }, 1000); // 1Hz update - easing provides smoothness (was 50ms/20Hz)
 
     return () => clearInterval(interval);
   }, [powerState, faultState, targetVoltage, currentLimit, systemVoltage]);
@@ -549,8 +560,20 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   }, [requestHistory]);
 
   const sendRequest = useCallback(async (request: UDSRequest): Promise<UDSResponse> => {
-    // Check for ECU Power
-    if (!ecuPower) {
+    // DEBUG: Log incoming request
+    console.log('[UDSContext] 📥 sendRequest called with:');
+    console.log('  - SID:', `0x${request.sid.toString(16).toUpperCase()}`);
+    console.log('  - Data:', request.data);
+    console.log('  - Data Length:', request.data?.length);
+    console.log('  - Data Type:', typeof request.data, Array.isArray(request.data) ? '(Array)' : '(Not Array)');
+    if (request.data) {
+      console.log('  - Data Bytes:', request.data.map(b => `0x${b.toString(16).toUpperCase().padStart(2, '0')}`).join(' '));
+    }
+
+    // Check for ECU Power - check powerState directly to avoid race condition
+    // (ecuPower is synced via useEffect which may not have run yet)
+    const isEcuPowered = powerState !== 'OFF';
+    if (!isEcuPowered) {
       // Simulate timeout delay (client waiting for response that never comes)
       await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -569,7 +592,18 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Pass ignition state (ON or CRANKING considered ON for UDS)
       // Pass voltage parameters for power condition validation (SID 11)
       const ignitionOn = powerState === 'ON' || powerState === 'CRANKING';
+
+      console.log('[UDSContext] 🔄 Passing to simulator.processRequest...');
+      console.log('  - Request data before simulator:', request.data?.length, 'bytes');
+
       const response = await simulator.processRequest(request, ignitionOn, voltage, systemVoltage);
+
+      console.log('[UDSContext] 📤 Received response from simulator:');
+      console.log('  - Is Negative:', response.isNegative);
+      console.log('  - Response Data:', response.data);
+      if (response.nrc) {
+        console.log('  - NRC:', `0x${response.nrc.toString(16).toUpperCase().padStart(2, '0')}`);
+      }
 
       setRequestHistory(prev => [...prev, { request, response }]);
       setProtocolState(simulator.getState());
@@ -636,7 +670,7 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       });
       throw error;
     }
-  }, [simulator, emitToast, ecuPower, powerState, voltage, systemVoltage]);
+  }, [simulator, emitToast, powerState, voltage, systemVoltage]);
 
   const clearHistory = useCallback(() => {
     setRequestHistory([]);

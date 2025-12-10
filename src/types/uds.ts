@@ -89,6 +89,43 @@ export const SecurityAccessType = {
 
 export type SecurityAccessType = typeof SecurityAccessType[keyof typeof SecurityAccessType];
 
+// Communication Control Types (SID 0x28)
+export const CommunicationControlType = {
+  ENABLE_RX_DISABLE_TX: 0x00,
+  ENABLE_RX_AND_TX: 0x01,
+  DISABLE_RX_ENABLE_TX: 0x02,
+  DISABLE_RX_AND_TX: 0x03,
+  ENABLE_RX_DISABLE_TX_ENHANCED: 0x04,
+  ENABLE_RX_AND_TX_ENHANCED: 0x05,
+} as const;
+
+export type CommunicationControlType = typeof CommunicationControlType[keyof typeof CommunicationControlType];
+
+// Communication Types (what to control)
+export const CommunicationType = {
+  NORMAL_COMMUNICATION_MESSAGES: 0x01,
+  NETWORK_MANAGEMENT_MESSAGES: 0x02,
+  BOTH_COMMUNICATION_AND_NM: 0x03,
+} as const;
+
+export type CommunicationType = typeof CommunicationType[keyof typeof CommunicationType];
+
+// Communication State (RX/TX status for a communication type)
+export interface CommunicationState {
+  rxEnabled: boolean;
+  txEnabled: boolean;
+}
+
+// Complete communication control state tracking
+export interface CommunicationControlState {
+  normalMessages: CommunicationState;  // 0x01 - Application messages
+  networkManagement: CommunicationState;  // 0x02 - NM messages
+  subnets: Map<number, {  // Subnet-specific states (optional node ID)
+    normalMessages: CommunicationState;
+    networkManagement: CommunicationState;
+  }>;
+}
+
 // DTC Categories
 export type DTCCategory = 'powertrain' | 'chassis' | 'body' | 'network';
 
@@ -173,6 +210,8 @@ export interface DataIdentifier {
   value: string | number | number[];
   unit?: string;
   format: 'hex' | 'dec' | 'ascii' | 'binary';
+  requiredSession?: DiagnosticSessionType[];  // Sessions that allow this DID (undefined = all sessions)
+  requiredSecurity?: number;                   // Security level required (0 or undefined = no security needed)
 }
 
 // DTC Information
@@ -221,6 +260,7 @@ export interface ProtocolState {
   lastActivityTime: number;
   sessionTimeout: number;
   communicationEnabled: boolean;
+  communicationControlState: CommunicationControlState;  // SID 0x28 state tracking
   activePeriodicIds: number[];
   downloadInProgress: boolean;
   uploadInProgress: boolean;
@@ -228,6 +268,13 @@ export interface ProtocolState {
   // Rapid Power Shutdown (RPS) state - SID 11 subfunction 0x04/0x05
   rpsEnabled: boolean;
   rpsPowerDownTime: number;  // Power-down time in 10ms units (0-255)
+  // Security Access timing and state tracking (SID 0x27)
+  lastSeedRequestTime: number;        // Timestamp of last seed request
+  lastSeedRequestLevel: number;       // Level (odd sub-function) of last seed request
+  lastInvalidKeyTime: number;         // Timestamp of last invalid key attempt
+  securityDelayActive: boolean;       // Whether 10s delay is active
+  seedTimeout: number;                // Seed validity timeout (5000ms)
+  securityDelayDuration: number;      // Delay after invalid key (10000ms)
 }
 
 // Memory Address Interface
@@ -236,6 +283,16 @@ export interface MemoryAddress {
   size: number;
   data?: number[];
 }
+
+// Memory Region Interface (extends MemoryAddress with security and access control)
+// Used by SID 0x23 (Read Memory By Address) for region validation
+export interface MemoryRegion extends MemoryAddress {
+  name: string;
+  securityLevel: number;  // 0 = public, 1+ = requires security unlock
+  accessible: boolean;    // false for reserved/forbidden regions
+  description: string;
+}
+
 
 // Routine Interface
 export interface Routine {
