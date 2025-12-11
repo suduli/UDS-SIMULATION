@@ -153,10 +153,12 @@ export class ReportAnalyzer {
         const nrcCount = responses.filter((r) => r.isNegative).length;
         const successRate = totalResponses > 0 ? (successCount / totalResponses) * 100 : 0;
 
-        // Calculate duration
-        const timestamps = [...requests.map((r) => r.timestamp), ...responses.map((r) => r.timestamp)];
-        const startTime = Math.min(...timestamps);
-        const endTime = Math.max(...timestamps);
+        // Calculate duration using only request timestamps
+        // Note: We use only request timestamps because response timestamps may be real execution times
+        // while request timestamps may be synthetic/relative test times
+        const requestTimestamps = requests.map((r) => r.timestamp);
+        const startTime = requestTimestamps.length > 0 ? Math.min(...requestTimestamps) : 0;
+        const endTime = requestTimestamps.length > 0 ? Math.max(...requestTimestamps) : 0;
         const duration = endTime - startTime;
 
         // Build NRC breakdown
