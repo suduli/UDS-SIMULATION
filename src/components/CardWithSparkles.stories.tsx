@@ -67,6 +67,7 @@ export const Default: Story = {
         minSize: 0.3,
         maxSize: 0.8,
         speed: 1.5,
+        children: undefined as any, // Children provided in render
     },
     render: (args) => (
         <div className="bg-dark-950 p-12 rounded-xl">

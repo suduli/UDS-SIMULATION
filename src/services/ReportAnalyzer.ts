@@ -7,8 +7,6 @@ import type {
     TestReport,
     TestAnalysisResult,
     NRCDescription,
-    TestRequest,
-    TestResponse,
 } from '../types/uds';
 
 /**

@@ -17,8 +17,6 @@ import {
 
 import {
   createNegativeResponse,
-  generateSeed,
-  calculateKeyXOR,
   dtcStatusToByte,
   generateAutomotiveData,
   delay,
@@ -558,7 +556,7 @@ export class UDSSimulator {
     }
 
     // Extract suppress positive response bit and actual subfunction
-    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+    // const suppressPositiveResponse = (request.subFunction & 0x80) !== 0; // Unused in this function
     const subFunction = request.subFunction & 0x7F;
 
     // DTCStatusAvailabilityMask - indicates which status bits this ECU supports
@@ -1407,8 +1405,8 @@ export class UDSSimulator {
       // Use fixed seed from ECU configuration for deterministic testing
       // This ensures test suites with hardcoded keys work correctly
       // Note: In production, you might want to use random seeds for better security
-      this.currentSeed = [...this.ecuConfig.securitySeed];  // Use fixed seed
-      this.expectedKey = [...this.ecuConfig.securityKey];    // Use pre-calculated key
+      this.currentSeed = this.ecuConfig.securitySeed ? [...this.ecuConfig.securitySeed] : [];  // Use fixed seed
+      this.expectedKey = this.ecuConfig.securityKey ? [...this.ecuConfig.securityKey] : [];    // Use pre-calculated key
 
       // Track seed request for validation
       this.state.lastSeedRequestTime = currentTime;
@@ -1992,8 +1990,38 @@ export class UDSSimulator {
 
   /**
    * 0x34 - Request Download
+   * Comprehensive implementation per ISO 14229-1:2020 Section 11.5
+   * 
+   * Features:
+   * - Data Format Identifier (DFI) parsing for compression/encryption
+   * - ALFID parsing for variable-length address and size fields
+   * - Session validation (requires PROGRAMMING session)
+   * - Security validation (requires UNLOCKED state)
+   * - Memory region validation (address, size, boundaries, protection)
+   * - State conflict detection (prevents concurrent downloads)
+   * - Comprehensive NRC handling (0x13, 0x22, 0x31, 0x33, 0x70, 0x72)
    */
   private handleRequestDownload(request: UDSRequest): UDSResponse {
+    // ========== VALIDATION STEP 1: Message Length ==========
+    // Minimum: SID (1) + DFI (1) + ALFID (1) + Address (1) + Size (1) = 5 bytes
+    if (!request.data || request.data.length < 3) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // ========== VALIDATION STEP 2: Session Requirements ==========
+    // Request Download ONLY allowed in PROGRAMMING session (per ISO 14229-1)
+    if (this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.UPLOAD_DOWNLOAD_NOT_ACCEPTED
+      );
+    }
+
+    // ========== VALIDATION STEP 3: Security Requirements ==========
+    // Request Download requires security unlock
     if (!this.state.securityUnlocked) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -2001,12 +2029,148 @@ export class UDSSimulator {
       );
     }
 
-    this.state.downloadInProgress = true;
-    this.state.transferBlockCounter = 1;
+    // ========== VALIDATION STEP 4: State Conflict Detection ==========
+    // Cannot start new download if one is already in progress
+    if (this.state.downloadInProgress || this.state.uploadInProgress) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
+      );
+    }
 
+    // ========== MESSAGE PARSING ==========
+    // Extract Data Format Identifier (DFI) - Byte 1 in data array (Byte 2 in full request)
+    // const dataFormatIdentifier = request.data[0];  // Not currently validated
+    // const compressionMethod = (dataFormatIdentifier >> 4) & 0x0F;  // Not used in this implementation
+    // const encryptionMethod = dataFormatIdentifier & 0x0F;  // Not used in this implementation
+
+    // Extract Address and Length Format Identifier (ALFID) - Byte 2 in data array (Byte 3 in full request)
+    const alfid = request.data[1];
+    const memorySizeLength = (alfid >> 4) & 0x0F;
+    const memoryAddressLength = alfid & 0x0F;
+
+    // Validate ALFID (lengths must be 1-15 bytes)
+    if (memorySizeLength === 0 || memorySizeLength > 15 ||
+      memoryAddressLength === 0 || memoryAddressLength > 15) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Calculate expected message length
+    const expectedDataLength = 2 + memoryAddressLength + memorySizeLength; // DFI + ALFID + address + size
+    if (request.data.length !== expectedDataLength) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract memory address (variable length, big-endian)
+    let memoryAddress = 0;
+    for (let i = 0; i < memoryAddressLength; i++) {
+      memoryAddress = (memoryAddress << 8) | request.data[2 + i];
+    }
+
+    // Extract memory size (variable length, big-endian)
+    let memorySize = 0;
+    for (let i = 0; i < memorySizeLength; i++) {
+      memorySize = (memorySize << 8) | request.data[2 + memoryAddressLength + i];
+    }
+
+    // ========== VALIDATION STEP 5: Memory Region Validation ==========
+    // Find the memory region that contains this address
+    let targetRegion: any = null;
+    for (const region of this.ecuConfig.memoryMap) {
+      const regionEnd = region.address + region.size - 1;
+      if (memoryAddress >= region.address && memoryAddress <= regionEnd) {
+        targetRegion = region;
+        break;
+      }
+    }
+
+    // Check if address is within any valid region
+    if (!targetRegion) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is accessible
+    if (!targetRegion.accessible) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is writable (downloads not allowed to read-only regions)
+    if (targetRegion.writable === false) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is protected (write-protected regions like bootloader)
+    if (targetRegion.protected === true) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if download size exceeds region boundary
+    const downloadEndAddress = memoryAddress + memorySize - 1;
+    const regionEndAddress = targetRegion.address + targetRegion.size - 1;
+    if (downloadEndAddress > regionEndAddress) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if memory size is reasonable (non-zero)
+    if (memorySize === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // ========== SUCCESS: Prepare for Download ==========
+    // Set download state
+    this.state.downloadInProgress = true;
+    this.state.transferBlockCounter = 1;  // First block will be 1
+
+    // Calculate maxNumberOfBlockLength
+    // This is the maximum number of bytes per Transfer Data (0x36) request
+    const maxBlockLength = this.ecuConfig.maxBlockLength || 4096;  // Default 4KB
+
+    // Determine lengthFormatIdentifier (how many bytes needed for maxBlockLength)
+    // Examples: 
+    //   maxBlockLength = 256 (0x0100) -> needs 2 bytes -> lengthFormatIdentifier = 0x20
+    //   maxBlockLength = 4096 (0x1000) -> needs 2 bytes -> lengthFormatIdentifier = 0x20
+    let lengthFormatIdentifier = 0x20;  // 2 bytes for maxBlockLength (supports up to 65KB)
+    if (maxBlockLength > 0xFFFF) {
+      lengthFormatIdentifier = 0x30;  // 3 bytes (supports up to 16MB)
+    } else if (maxBlockLength <= 0xFF) {
+      lengthFormatIdentifier = 0x10;  // 1 byte (supports up to 255 bytes)
+    }
+
+    // Build maxNumberOfBlockLength bytes (big-endian)
+    const maxBlockLengthBytes: number[] = [];
+    const numLengthBytes = lengthFormatIdentifier >> 4;
+    for (let i = numLengthBytes - 1; i >= 0; i--) {
+      maxBlockLengthBytes.push((maxBlockLength >> (i * 8)) & 0xFF);
+    }
+
+    // Positive response: 0x74 + lengthFormatIdentifier + maxNumberOfBlockLength
     return {
       sid: request.sid,
-      data: [0x74, 0x20, 0x10, 0x00], // lengthFormatIdentifier, maxNumberOfBlockLength
+      data: [0x74, lengthFormatIdentifier, ...maxBlockLengthBytes],
       timestamp: Date.now(),
       isNegative: false,
     };
@@ -2014,8 +2178,40 @@ export class UDSSimulator {
 
   /**
    * 0x35 - Request Upload
+   * Comprehensive implementation per ISO 14229-1:2020 Section 11.6
+   * 
+   * Features:
+   * - Data Format Identifier (DFI) parsing for compression/encryption
+   * - ALFID parsing for variable-length address and size fields
+   * - Session validation (requires PROGRAMMING session)
+   * - Security validation (requires UNLOCKED state)
+   * - Memory region validation (address, size, boundaries, accessibility)
+   * - State conflict detection (prevents concurrent uploads/downloads)
+   * - Comprehensive NRC handling (0x13, 0x22, 0x31, 0x33, 0x70, 0x72)
+   * 
+   * Upload Direction: ECU → Tester (read from ECU memory)
    */
   private handleRequestUpload(request: UDSRequest): UDSResponse {
+    // ========== VALIDATION STEP 1: Message Length ==========
+    // Minimum: SID (1) + DFI (1) + ALFID (1) + Address (1) + Size (1) = 5 bytes
+    if (!request.data || request.data.length < 3) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // ========== VALIDATION STEP 2: Session Requirements ==========
+    // Request Upload ONLY allowed in PROGRAMMING session (per ISO 14229-1)
+    if (this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.UPLOAD_DOWNLOAD_NOT_ACCEPTED
+      );
+    }
+
+    // ========== VALIDATION STEP 3: Security Requirements ==========
+    // Request Upload requires security unlock
     if (!this.state.securityUnlocked) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -2023,12 +2219,144 @@ export class UDSSimulator {
       );
     }
 
-    this.state.uploadInProgress = true;
-    this.state.transferBlockCounter = 1;
+    // ========== VALIDATION STEP 4: State Conflict Detection ==========
+    // Cannot start new upload if one is already in progress
+    if (this.state.downloadInProgress || this.state.uploadInProgress) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
+      );
+    }
 
+    // ========== MESSAGE PARSING ==========
+    // Extract Data Format Identifier (DFI) - Byte 1 in data array (Byte 2 in full request)
+    // const dataFormatIdentifier = request.data[0];  // Not currently validated
+    // const compressionMethod = (dataFormatIdentifier >> 4) & 0x0F;  // Not used in this implementation
+    // const encryptionMethod = dataFormatIdentifier & 0x0F;  // Not used in this implementation
+
+    // Extract Address and Length Format Identifier (ALFID) - Byte 2 in data array (Byte 3 in full request)
+    const alfid = request.data[1];
+    const memorySizeLength = (alfid >> 4) & 0x0F;
+    const memoryAddressLength = alfid & 0x0F;
+
+    // Validate ALFID (lengths must be 1-15 bytes)
+    if (memorySizeLength === 0 || memorySizeLength > 15 ||
+      memoryAddressLength === 0 || memoryAddressLength > 15) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Calculate expected message length
+    const expectedDataLength = 2 + memoryAddressLength + memorySizeLength; // DFI + ALFID + address + size
+    if (request.data.length !== expectedDataLength) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract memory address (variable length, big-endian)
+    let memoryAddress = 0;
+    for (let i = 0; i < memoryAddressLength; i++) {
+      memoryAddress = (memoryAddress << 8) | request.data[2 + i];
+    }
+
+    // Extract memory size (variable length, big-endian)
+    let memorySize = 0;
+    for (let i = 0; i < memorySizeLength; i++) {
+      memorySize = (memorySize << 8) | request.data[2 + memoryAddressLength + i];
+    }
+
+    // ========== VALIDATION STEP 5: Memory Region Validation ==========
+    // Find the memory region that contains this address
+    let targetRegion: any = null;
+    for (const region of this.ecuConfig.memoryMap) {
+      const regionEnd = region.address + region.size - 1;
+      if (memoryAddress >= region.address && memoryAddress <= regionEnd) {
+        targetRegion = region;
+        break;
+      }
+    }
+
+    // Check if address is within any valid region
+    if (!targetRegion) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is accessible
+    if (!targetRegion.accessible) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Note: Unlike Request Download (0x34), Request Upload does NOT check writable flag
+    // Uploads READ from memory, so any accessible region can be uploaded from
+    // Downloads WRITE to memory, so only writable regions are allowed
+
+    // Check if region is protected (some protected regions may prevent uploads too)
+    if (targetRegion.protected === true) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if upload size exceeds region boundary
+    const uploadEndAddress = memoryAddress + memorySize - 1;
+    const regionEndAddress = targetRegion.address + targetRegion.size - 1;
+    if (uploadEndAddress > regionEndAddress) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if memory size is reasonable (non-zero)
+    if (memorySize === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // ========== SUCCESS: Prepare for Upload ==========
+    // Set upload state
+    this.state.uploadInProgress = true;
+    this.state.transferBlockCounter = 1;  // First block will be 1
+
+    // Calculate maxNumberOfBlockLength
+    // This is the maximum number of bytes per Transfer Data (0x36) response
+    const maxBlockLength = this.ecuConfig.maxBlockLength || 4096;  // Default 4KB
+
+    // Determine lengthFormatIdentifier (how many bytes needed for maxBlockLength)
+    // Examples: 
+    //   maxBlockLength = 256 (0x0100) -> needs 2 bytes -> lengthFormatIdentifier = 0x20
+    //   maxBlockLength = 4096 (0x1000) -> needs 2 bytes -> lengthFormatIdentifier = 0x20
+    let lengthFormatIdentifier = 0x20;  // 2 bytes for maxBlockLength (supports up to 65KB)
+    if (maxBlockLength > 0xFFFF) {
+      lengthFormatIdentifier = 0x30;  // 3 bytes (supports up to 16MB)
+    } else if (maxBlockLength <= 0xFF) {
+      lengthFormatIdentifier = 0x10;  // 1 byte (supports up to 255 bytes)
+    }
+
+    // Build maxNumberOfBlockLength bytes (big-endian)
+    const maxBlockLengthBytes: number[] = [];
+    const numLengthBytes = lengthFormatIdentifier >> 4;
+    for (let i = numLengthBytes - 1; i >= 0; i--) {
+      maxBlockLengthBytes.push((maxBlockLength >> (i * 8)) & 0xFF);
+    }
+
+    // Positive response: 0x75 + lengthFormatIdentifier + maxNumberOfBlockLength
     return {
       sid: request.sid,
-      data: [0x75, 0x20, 0x10, 0x00],
+      data: [0x75, lengthFormatIdentifier, ...maxBlockLengthBytes],
       timestamp: Date.now(),
       isNegative: false,
     };

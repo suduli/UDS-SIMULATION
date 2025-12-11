@@ -145,7 +145,7 @@ export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredData.map((pair, index) => {
+                        {filteredData.map((pair) => {
                             const originalIndex = analysis.requestResponsePairs.indexOf(pair);
                             const isExpanded = expandedRow === originalIndex;
                             const isSuccess = pair.status === 'success';
