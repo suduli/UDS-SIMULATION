@@ -275,6 +275,9 @@ export interface ProtocolState {
   securityDelayActive: boolean;       // Whether 10s delay is active
   seedTimeout: number;                // Seed validity timeout (5000ms)
   securityDelayDuration: number;      // Delay after invalid key (10000ms)
+  // Routine Control state tracking (SID 0x31)
+  activeRoutineId?: number;           // Currently running routine RID (undefined if none)
+  activeRoutineStartTime?: number;    // When routine started (for timeout tracking)
 }
 
 // Memory Address Interface
@@ -301,6 +304,14 @@ export interface Routine {
   description: string;
   status: 'idle' | 'running' | 'completed' | 'failed';
   results?: number[];
+  // Session/Security Requirements (SID 0x31 validation)
+  requiredSession?: DiagnosticSessionType | DiagnosticSessionType[];  // Session(s) allowing this routine
+  requiredSecurity?: number;  // Security level required (0 or undefined = none, 1+ = unlock required)
+  supportedSubFunctions?: number[];  // Which subfunctions work (default: [0x01, 0x02, 0x03])
+  // Execution State (for long-running routines)
+  executionTime?: number;  // Expected execution time in milliseconds
+  progress?: number;  // Current progress percentage (0-100) for running routines
+  failureReason?: string;  // Reason for failure if status is 'failed'
 }
 
 // ECU Configuration
@@ -349,4 +360,87 @@ export interface FormatConverter {
   fromHex: (hex: HexString) => number[];
   toASCII: (data: number[]) => string;
   fromASCII: (ascii: string) => number[];
+}
+
+// ========================================
+// Test Report Types
+// ========================================
+
+// Test report metadata
+export interface TestReportMetadata {
+  author: string;
+  description: string;
+  tags: string[];
+  duration: number;
+  totalRequests: number;
+  successRate: number;
+}
+
+// Test request entry
+export interface TestRequest {
+  sid: number;
+  subFunction?: number;
+  data: number[];
+  timestamp: number;
+  description: string;
+}
+
+// Test response entry
+export interface TestResponse {
+  sid: number;
+  data: number[];
+  timestamp: number;
+  isNegative: boolean;
+  nrc?: number;
+}
+
+// Complete test report structure
+export interface TestReport {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+  metadata: TestReportMetadata;
+  requests: TestRequest[];
+  responses: TestResponse[];
+}
+
+// Analysis results from report analyzer
+export interface TestAnalysisResult {
+  summary: {
+    totalRequests: number;
+    totalResponses: number;
+    successCount: number;
+    nrcCount: number;
+    successRate: number;
+    duration: number;
+    startTime: number;
+    endTime: number;
+  };
+  nrcBreakdown: Map<number, {
+    count: number;
+    description: string;
+    percentage: number;
+  }>;
+  timeline: Array<{
+    timestamp: number;
+    isSuccess: boolean;
+    nrc?: number;
+    description: string;
+    requestIndex: number;
+  }>;
+  requestResponsePairs: Array<{
+    request: TestRequest;
+    response: TestResponse;
+    duration: number;
+    status: 'success' | 'nrc' | 'timeout';
+  }>;
+}
+
+// NRC description mapping
+export interface NRCDescription {
+  code: number;
+  name: string;
+  description: string;
+  severity: 'info' | 'warning' | 'error' | 'critical';
 }

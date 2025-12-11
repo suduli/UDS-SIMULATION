@@ -4,6 +4,7 @@ import { UDSProvider } from './context/UDSContext';
 import { HomePage } from './pages/HomePage';
 import { LearningPage } from './pages/LearningPage';
 import { ClusterDashboardPage } from './pages/ClusterDashboardPage';
+import { ReportAnalysisPage } from './pages/ReportAnalysisPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/learn" element={<LearningPage />} />
             <Route path="/cluster" element={<ClusterDashboardPage />} />
+            <Route path="/report" element={<ReportAnalysisPage />} />
           </Routes>
 
         </UDSProvider>
@@ -23,3 +25,4 @@ function App() {
 }
 
 export default App;
+

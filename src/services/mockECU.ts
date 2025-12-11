@@ -822,33 +822,161 @@ const mockDTCs: DTCInfo[] = [
 ];
 
 const mockRoutines: Routine[] = [
+  // ===== BASIC/READ-ONLY ROUTINES (DEFAULT session, no security) =====
+  {
+    id: 0x0100,
+    name: 'readECUInformation',
+    description: 'Read ECU System Information',
+    status: 'idle',
+    results: [0x01, 0x00, 0x00],  // Version 1.0.0
+    requiredSession: DiagnosticSessionType.DEFAULT,
+    requiredSecurity: 0,
+  },
+  {
+    id: 0x0101,
+    name: 'getSystemStatus',
+    description: 'Get System Health Status',
+    status: 'idle',
+    results: [0x00],  // 0x00 = Healthy
+    requiredSession: DiagnosticSessionType.DEFAULT,
+    requiredSecurity: 0,
+  },
+
+  // ===== DIAGNOSTIC TESTS (EXTENDED session, no security) =====
   {
     id: 0x0203,
     name: 'checkProgrammingDependencies',
     description: 'Check Programming Dependencies',
     status: 'idle',
-    results: [0x00],
+    results: [0x00],  // 0x00 = All OK
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 0,
+  },
+  {
+    id: 0x0F01,
+    name: 'fuelPumpRelayTest',
+    description: 'Test Fuel Pump Relay activation',
+    status: 'idle',
+    results: [0x01],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 0,
+    executionTime: 2000,  // 2 seconds
+  },
+  {
+    id: 0x0F02,
+    name: 'hornTest',
+    description: 'Test Horn Output',
+    status: 'idle',
+    results: [0x01],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 0,
+    executionTime: 1000,  // 1 second
+  },
+  {
+    id: 0x0F03,
+    name: 'headlightTest',
+    description: 'Test Headlight Circuit',
+    status: 'idle',
+    results: [0x01],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 0,
+    executionTime: 1500,  // 1.5 seconds
+  },
+
+  // ===== ACTUATOR TESTS (EXTENDED session, security required) =====
+  {
+    id: 0xF012,
+    name: 'injectorCylinder1Test',
+    description: 'Injector Cylinder 1 Test',
+    status: 'idle',
+    results: [0x01, 0x00],  // 0x01 = PASS, 0x00 = No errors
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 3000,  // 3 seconds
+  },
+  {
+    id: 0xF013,
+    name: 'throttleBodyTest',
+    description: 'Throttle Body Actuator Test',
+    status: 'idle',
+    results: [0x01, 0x00],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 5000,  // 5 seconds
+  },
+  {
+    id: 0xABCD,
+    name: 'throttleCalibration',
+    description: 'Throttle Position Calibration (Long-Running)',
+    status: 'idle',
+    results: [0x01, 0x64],  // 0x01 = PASS, 0x64 = 100% complete
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 30000,  // 30 seconds
+  },
+
+  // ===== SENSOR TESTS (EXTENDED session, security required) =====
+  {
+    id: 0xF156,
+    name: 'o2SensorTest',
+    description: 'Oxygen Sensor Test',
+    status: 'idle',
+    results: [0x01, 0x00],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 10000,  // 10 seconds
+  },
+  {
+    id: 0x99AA,
+    name: 'lambdaSensorTest',
+    description: 'Lambda Sensor Test (Can Fail)',
+    status: 'idle',
+    results: [0x01],  // 0x01 = PASS (or can be set to 'failed' for testing)
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 8000,  // 8 seconds
+  },
+
+  // ===== PROGRAMMING OPERATIONS (PROGRAMMING session, security required) =====
+  {
+    id: 0x0202,
+    name: 'ecuSelfTest',
+    description: 'ECU Self Test',
+    status: 'idle',
+    results: [0x01, 0xFF],  // 0x01 = PASS, 0xFF = All systems OK
+    requiredSession: [DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
+    requiredSecurity: 1,
+    executionTime: 15000,  // 15 seconds
   },
   {
     id: 0xFF00,
-    name: 'eraseMemory',
+    name: 'eraseFlashMemory',
     description: 'Erase Flash Memory',
     status: 'idle',
-    results: [0x00],
+    results: [0x00],  // 0x00 = Erase complete
+    requiredSession: DiagnosticSessionType.PROGRAMMING,
+    requiredSecurity: 1,
+    supportedSubFunctions: [0x01, 0x03],  // Only START and REQUEST_RESULTS (no STOP for erase)
+    executionTime: 10000,  // 10 seconds
   },
   {
     id: 0xFF01,
     name: 'checkProgrammingIntegrity',
     description: 'Check Programming Integrity',
     status: 'idle',
-    results: [0x00, 0x01, 0x02, 0x03],
+    results: [0x01, 0x01, 0x02, 0x03],  // 0x01 = PASS, integrity bytes
+    requiredSession: DiagnosticSessionType.PROGRAMMING,
+    requiredSecurity: 1,
   },
   {
-    id: 0x0202,
-    name: 'selfTest',
-    description: 'ECU Self Test',
+    id: 0xFF02,
+    name: 'verifyProgramming',
+    description: 'Verify Flash Programming',
     status: 'idle',
-    results: [0x00, 0xFF],
+    results: [0x01, 0x00],  // 0x01 = PASS, 0x00 = No CRC errors
+    requiredSession: DiagnosticSessionType.PROGRAMMING,
+    requiredSecurity: 1,
+    executionTime: 20000,  // 20 seconds
   },
 ];
 

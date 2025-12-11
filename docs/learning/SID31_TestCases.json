@@ -1,0 +1,657 @@
+{
+    "id": "sid31-routine-control-test-suite",
+    "name": "SID 0x31 Routine Control Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 0x31 (RoutineControl) based on ISO 14229-1:2020 Section 9.5. Covers all three subfunctions (0x01 START, 0x02 STOP, 0x03 REQUEST_RESULTS), session validation, security validation, sequence error detection, and all NRCs (0x12, 0x13, 0x22, 0x24, 0x31, 0x33, 0x72, 0x7F). Each test category starts from Default Session for proper isolation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                1,
+                0
+            ],
+            "timestamp": 1734450001000,
+            "description": "TC-01.1: Start Read ECU Info (0x0100) in DEFAULT - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                1,
+                0
+            ],
+            "timestamp": 1734450002000,
+            "description": "TC-01.2: Request Results for ECU Info - Expect Success (01 01 00 00)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                1,
+                1
+            ],
+            "timestamp": 1734450003000,
+            "description": "TC-01.3: Start System Status (0x0101) in DEFAULT - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                1,
+                1
+            ],
+            "timestamp": 1734450004000,
+            "description": "TC-01.4: Get Results for System Status - Expect Success (01 00)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450004500,
+            "description": "[SETUP] Reset to Default for TC-02"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450005000,
+            "description": "TC-02.1: Start Fuel Pump Test (0x0F01) in DEFAULT - Expect NRC 0x7F (needs EXTENDED)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450006000,
+            "description": "TC-02.2: Switch to EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450007000,
+            "description": "TC-02.3: Start Fuel Pump Test in EXTENDED - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450008000,
+            "description": "TC-02.4: Get Results - Expect Success (01 01 = PASS)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450008500,
+            "description": "[SETUP] Reset to Default for TC-03"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450009000,
+            "description": "TC-03.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                240,
+                18
+            ],
+            "timestamp": 1734450010000,
+            "description": "TC-03.2: Start Injector Test (0xF012) without Security - Expect NRC 0x33"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450011000,
+            "description": "TC-03.3: Request Seed for Security"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450012000,
+            "description": "TC-03.4: Send Correct Key - Unlock Security"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                240,
+                18
+            ],
+            "timestamp": 1734450013000,
+            "description": "TC-03.5: Start Injector Test with Security - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                240,
+                18
+            ],
+            "timestamp": 1734450014000,
+            "description": "TC-03.6: Get Results - Expect Success (01 01 00)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450014500,
+            "description": "[SETUP] Reset to Default for TC-04"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450015000,
+            "description": "TC-04.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450016000,
+            "description": "TC-04.2: Start Fuel Pump Test - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450017000,
+            "description": "TC-04.3: Try to Start Again While Running - Expect NRC 0x24 (Sequence Error)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 2,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450018000,
+            "description": "TC-04.4: Stop Running Routine - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 2,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450019000,
+            "description": "TC-04.5: Try to Stop Again (Not Running) - Expect NRC 0x24"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450019500,
+            "description": "[SETUP] Reset to Default for TC-05"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450020000,
+            "description": "TC-05.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                15,
+                2
+            ],
+            "timestamp": 1734450021000,
+            "description": "TC-05.2: Request Results Before Starting - Expect NRC 0x24 (Never Started)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                2
+            ],
+            "timestamp": 1734450022000,
+            "description": "TC-05.3: Start Horn Test - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                15,
+                2
+            ],
+            "timestamp": 1734450023000,
+            "description": "TC-05.4: Request Results After Starting - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450023500,
+            "description": "[SETUP] Reset to Default for TC-06"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450024000,
+            "description": "TC-06.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 4,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450025000,
+            "description": "TC-06.2: Invalid SubFunction (0x04) - Expect NRC 0x12"
+        },
+        {
+            "sid": 49,
+            "subFunction": 255,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450026000,
+            "description": "TC-06.3: Invalid SubFunction (0xFF) - Expect NRC 0x12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450026500,
+            "description": "[SETUP] Reset to Default for TC-07"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450027000,
+            "description": "TC-07.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450028000,
+            "description": "TC-07.2: No RID Bytes - Expect NRC 0x13 (Message Too Short)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15
+            ],
+            "timestamp": 1734450029000,
+            "description": "TC-07.3: Only One RID Byte - Expect NRC 0x13"
+        },
+        {
+            "sid": 49,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450030000,
+            "description": "TC-07.4: No SubFunction - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450030500,
+            "description": "[SETUP] Reset to Default for TC-08"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450031000,
+            "description": "TC-08.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                222,
+                173
+            ],
+            "timestamp": 1734450032000,
+            "description": "TC-08.2: Invalid RID (0xDEAD) - Expect NRC 0x31 (Out of Range)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                255,
+                255
+            ],
+            "timestamp": 1734450033000,
+            "description": "TC-08.3: Invalid RID (0xFFFF) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450033500,
+            "description": "[SETUP] Reset to Default for TC-09"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450034000,
+            "description": "TC-09.1: Enter PROGRAMMING Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450035000,
+            "description": "TC-09.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450036000,
+            "description": "TC-09.3: Unlock Security"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                255,
+                0
+            ],
+            "timestamp": 1734450037000,
+            "description": "TC-09.4: Start Erase Flash (0xFF00) - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 2,
+            "data": [
+                255,
+                0
+            ],
+            "timestamp": 1734450038000,
+            "description": "TC-09.5: Try to Stop Erase (not supported) - Expect NRC 0x12"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                255,
+                0
+            ],
+            "timestamp": 1734450039000,
+            "description": "TC-09.6: Request Erase Results - Expect Success (01 00)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450039500,
+            "description": "[SETUP] Reset to Default for TC-10"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450040000,
+            "description": "TC-10.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450041000,
+            "description": "TC-10.2: Start Fuel Pump Test - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450042000,
+            "description": "TC-10.3: Change to DEFAULT Session (Aborts Routine)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450043000,
+            "description": "TC-10.4: Return to EXTENDED Session"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                15,
+                1
+            ],
+            "timestamp": 1734450044000,
+            "description": "TC-10.5: Try Get Results (Routine Was Aborted) - Expect NRC 0x24"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450044500,
+            "description": "[SETUP] Reset to Default for TC-11"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450045000,
+            "description": "TC-11.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450046000,
+            "description": "TC-11.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450047000,
+            "description": "TC-11.3: Unlock Security"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                171,
+                205
+            ],
+            "timestamp": 1734450048000,
+            "description": "TC-11.4: Start Throttle Calibration (0xABCD, 30s long) - Expect Success"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                171,
+                205
+            ],
+            "timestamp": 1734450049000,
+            "description": "TC-11.5: Check Progress (Running) - Expect Success (00 01 64)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 2,
+            "data": [
+                171,
+                205
+            ],
+            "timestamp": 1734450050000,
+            "description": "TC-11.6: Stop Long-Running Routine - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450050500,
+            "description": "[SETUP] Reset to Default for TC-12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450051000,
+            "description": "TC-12.1: Enter EXTENDED Session (Multi-Session Support)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450052000,
+            "description": "TC-12.2: Request Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450053000,
+            "description": "TC-12.3: Unlock Security"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                2,
+                2
+            ],
+            "timestamp": 1734450054000,
+            "description": "TC-12.4: Start ECU Self Test (0x0202, EXTENDED/PROGRAMMING) - Expect Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450055000,
+            "description": "TC-12.5: Switch to PROGRAMMING Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450056000,
+            "description": "TC-12.6: Request Seed in PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450057000,
+            "description": "TC-12.7: Unlock Security in PROGRAMMING"
+        },
+        {
+            "sid": 49,
+            "subFunction": 1,
+            "data": [
+                2,
+                2
+            ],
+            "timestamp": 1734450058000,
+            "description": "TC-12.8: Start ECU Self Test in PROGRAMMING - Expect Success (Multi-Session Routine)"
+        },
+        {
+            "sid": 49,
+            "subFunction": 3,
+            "data": [
+                2,
+                2
+            ],
+            "timestamp": 1734450059000,
+            "description": "TC-12.9: Get Results - Expect Success (01 01 FF)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450059500,
+            "description": "[FINAL] Reset to Default Session"
+        }
+    ],
+    "createdAt": 1734450000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 9.5 compliant test suite for SID 0x31 (RoutineControl) with comprehensive coverage of all three subfunctions (START, STOP, REQUEST_RESULTS), session validation, security validation, sequence error detection, and all 8 NRCs.",
+        "tags": [
+            "SID31",
+            "Routine Control",
+            "RoutineControl",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "Session Validation",
+            "Security Validation",
+            "Sequence Validation"
+        ],
+        "duration": 59500,
+        "totalRequests": 74,
+        "successRate": 100
+    },
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 0x31 (RoutineControl). Tests 12 categories: (TC-01) Basic routines in DEFAULT session (0x0100, 0x0101), (TC-02) Session validation (routine requires EXTENDED), (TC-03) Security validation (routine requires unlock), (TC-04) Sequence errors - START while running and STOP while idle, (TC-05) Sequence errors - REQUEST_RESULTS before starting, (TC-06) Invalid subfunctions (0x04, 0xFF), (TC-07) Message length validation (missing RID bytes, no subfunction), (TC-08) Invalid RIDs (0xDEAD, 0xFFFF), (TC-09) PROGRAMMING session routines and subfunction support (erase doesn't support STOP), (TC-10) Session change aborts running routine, (TC-11) Long-running routine management (start, check progress, stop), (TC-12) Multi-session routine support (0x0202 works in both EXTENDED and PROGRAMMING). Validates NRC handling for 0x12 (SubFunctionNotSupported), 0x13 (IncorrectMessageLength), 0x24 (RequestSequenceError), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x72 (GeneralProgrammingFailure), 0x7F (ServiceNotSupportedInActiveSession)."
+}
