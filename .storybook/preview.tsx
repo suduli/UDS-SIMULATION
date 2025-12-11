@@ -1,5 +1,4 @@
 import type { Preview } from "@storybook/react";
-import { withThemeByClassName } from "@storybook/addon-themes";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "../src/context/ThemeContext";
@@ -57,15 +56,6 @@ const preview: Preview = {
         },
     },
     decorators: [
-        withThemeByClassName({
-            themes: {
-                light: "light",
-                dark: "dark",
-                "high-contrast-dark": "high-contrast-dark",
-                "high-contrast-light": "high-contrast-light",
-            },
-            defaultTheme: "dark",
-        }),
         (Story) => (
             <BrowserRouter>
                 <ThemeProvider>
