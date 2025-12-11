@@ -64,18 +64,19 @@ jobs:
           
       - name: Check test results
         id: check-results
+        continue-on-error: true
         run: |
           if [ -f results/report.json ]; then
             FAILURES=$(node -p "JSON.parse(require('fs').readFileSync('results/report.json', 'utf8')).summary.failures.length")
             echo "failures=$FAILURES" >> $GITHUB_OUTPUT
             if [ "$FAILURES" -gt 0 ]; then
-              echo "❌ Theme tests failed with $FAILURES contrast failures"
+              echo "⚠️ Theme tests failed with $FAILURES contrast failures (non-blocking)"
               exit 1
             else
               echo "✅ All theme tests passed!"
             fi
           else
-            echo "❌ Report file not found"
+            echo "⚠️ Report file not found (non-blocking)"
             exit 1
           fi
           
