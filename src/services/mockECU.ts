@@ -23,7 +23,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: [0x01],
     format: 'hex',
     requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING, DiagnosticSessionType.SAFETY],
-    requiredSecurity: 0, // Public DID - no security needed
+    requiredSecurity: 0, // Public DID
+    readonly: true, // Read-only status
   },
   {
     id: 0xF190,
@@ -32,7 +33,10 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: generateMockVIN(),
     format: 'ascii',
     requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
-    requiredSecurity: 0, // Public DID - no security needed
+    requiredSecurity: 0, // Public Read
+    writeSecurity: 1, // Secure Write
+    writeSession: [DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
+    size: 17, // 17 char VIN
   },
   {
     id: 0xF191,
@@ -41,7 +45,8 @@ const mockDataIdentifiers: DataIdentifier[] = [
     value: 'HW123456789',
     format: 'ascii',
     requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED, DiagnosticSessionType.PROGRAMMING],
-    requiredSecurity: 0, // Public DID - no security needed
+    requiredSecurity: 0,
+    readonly: true, // Hardware number usually fixed
   },
   {
     id: 0xF194,
@@ -70,6 +75,7 @@ const mockDataIdentifiers: DataIdentifier[] = [
     format: 'dec',
     requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
     requiredSecurity: 0, // No security needed
+    size: 2, // 2 bytes
   },
   {
     id: 0x010D,
@@ -80,6 +86,7 @@ const mockDataIdentifiers: DataIdentifier[] = [
     format: 'dec',
     requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
     requiredSecurity: 0, // No security needed
+    size: 1, // 1 byte
   },
   {
     id: 0x0105,
@@ -1079,6 +1086,9 @@ export const mockECUConfig: ECUConfig = {
     ServiceId.REQUEST_UPLOAD,
     ServiceId.TRANSFER_DATA,
     ServiceId.REQUEST_TRANSFER_EXIT,
+    ServiceId.TESTER_PRESENT,
+    ServiceId.ACCESS_TIMING_PARAMETER,
+    ServiceId.CONTROL_DTC_SETTING,
   ],
   dataIdentifiers: mockDataIdentifiers,
   dtcs: mockDTCs,

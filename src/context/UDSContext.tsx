@@ -10,7 +10,7 @@ import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
 import { parseNRC } from '../utils/nrcLookup';
 import { mockECUConfig } from '../services/mockECU';
-import { NegativeResponseCode as NegativeResponseCodeMap } from '../types/uds';
+import { NegativeResponseCode as NegativeResponseCodeMap, ServiceId } from '../types/uds';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode, ECUConfig } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
@@ -161,7 +161,28 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // DEBUG: Log initialization
   React.useEffect(() => {
     console.log('[UDSContext] initialized');
-  }, []);
+
+    // Register callback for periodic events (SID 0x2A)
+    simulator.setResponseCallback((response) => {
+      // Create a synthetic request entry for the periodic response
+      // This ensures it appears in the logs
+      const syntheticRequest: UDSRequest = {
+        sid: ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER,
+        // Extract PDID from response (Byte 1) if available, otherwise empty
+        data: response.data.length > 1 ? [response.data[1]] : [],
+        timestamp: response.timestamp,
+      };
+
+      setRequestHistory(prev => [...prev, {
+        request: syntheticRequest,
+        response: response
+      }]);
+    });
+
+    return () => {
+      simulator.cleanup();
+    };
+  }, [simulator]);
 
   // Initialize with demo data for first-time users
   const getInitialHistory = (): Array<{ request: UDSRequest; response: UDSResponse }> => {

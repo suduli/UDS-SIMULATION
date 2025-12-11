@@ -293,6 +293,25 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
     example: 'Request: 37 → Exit transfer after all blocks sent',
     exampleHex: '37'
   },
+  '0x3E': {
+    serviceId: '0x3E',
+    serviceName: 'Tester Present',
+    description: 'Indicates to the ECU that the tester is still present and active. Used to maintain non-default sessions and unlock states.',
+    useCases: [
+      'Keep session active (prevent timeout)',
+      'Maintain security unlock state',
+      'Periodic heartbeat during idle times'
+    ],
+    parameters: [
+      'Sub-function: 0x00 (Response Required), 0x80 (Suppress Response)'
+    ],
+    example: 'Request: 3E 00 → "I am here, please confirm"',
+    exampleHex: '3E 00',
+    quickExamples: [
+      { label: 'With Response', hex: '3E 00' },
+      { label: 'Suppress Response', hex: '3E 80' }
+    ]
+  },
   '0x3D': {
     serviceId: '0x3D',
     serviceName: 'Write Memory By Address',

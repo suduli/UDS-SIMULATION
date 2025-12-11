@@ -21,7 +21,11 @@ export const ServiceId = {
   REQUEST_UPLOAD: 0x35,
   TRANSFER_DATA: 0x36,
   REQUEST_TRANSFER_EXIT: 0x37,
+  TESTER_PRESENT: 0x3E,
+  ACCESS_TIMING_PARAMETER: 0x83,
+  CONTROL_DTC_SETTING: 0x85,
 } as const;
+
 
 export type ServiceId = typeof ServiceId[keyof typeof ServiceId];
 
@@ -212,6 +216,10 @@ export interface DataIdentifier {
   format: 'hex' | 'dec' | 'ascii' | 'binary';
   requiredSession?: DiagnosticSessionType[];  // Sessions that allow this DID (undefined = all sessions)
   requiredSecurity?: number;                   // Security level required (0 or undefined = no security needed)
+  readonly?: boolean;                          // If true, write operations are rejected (NRC 0x31/0x7F)
+  writeSecurity?: number;                      // Security level required for WRITE (overrides requiredSecurity)
+  writeSession?: DiagnosticSessionType[];      // Sessions that allow WRITING this DID (overrides requiredSession)
+  size?: number;                               // Expected data size in bytes (for length validation)
 }
 
 // DTC Information
@@ -261,7 +269,11 @@ export interface ProtocolState {
   sessionTimeout: number;
   communicationEnabled: boolean;
   communicationControlState: CommunicationControlState;  // SID 0x28 state tracking
-  activePeriodicIds: number[];
+  activePeriodicTasks: {
+    id: number;
+    rate: number; // Interval in ms
+    lastSent: number; // Timestamp of last transmission
+  }[];
   downloadInProgress: boolean;
   uploadInProgress: boolean;
   transferBlockCounter: number;
@@ -278,7 +290,19 @@ export interface ProtocolState {
   // Routine Control state tracking (SID 0x31)
   activeRoutineId?: number;           // Currently running routine RID (undefined if none)
   activeRoutineStartTime?: number;    // When routine started (for timeout tracking)
+  // Access Timing Parameters (SID 0x83)
+  p2Server: number;                   // Current P2 timeout in ms (default: 50)
+  p2StarServer: number;               // Current P2* timeout in ms (default: 5000)
+  // Control DTC Setting (SID 0x85)
+  dtcRecordingEnabled: boolean;       // DTC recording state (default: true)
 }
+
+// Periodic Data Transmission Rates
+export const PeriodicRate = {
+  SLOW: 1000,   // Mode 0x01
+  MEDIUM: 500,  // Mode 0x02 (Updated to 500ms based on doc flow, though doc says 100ms in one place. Using 500ms for distinction)
+  FAST: 100,    // Mode 0x03
+} as const;
 
 // Memory Address Interface
 export interface MemoryAddress {

@@ -1,0 +1,511 @@
+{
+    "id": "sid83-access-timing-parameter-automotive-test-suite",
+    "name": "SID 0x83 Access Timing Parameter - Automotive Production Test Suite",
+    "description": "Production-grade comprehensive test suite for UDS Service ID 0x83 (AccessTimingParameter) based on ISO 14229-1:2020 Section 9.4. This suite simulates real ECU testing in automotive environments, covering all sub-functions, NRC validations, session interactions, error recovery, timing persistence, edge cases, and multi-service workflows.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510000000,
+            "description": "[SETUP] TC-00: Reset to Default Session - Clean slate for testing"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510001000,
+            "description": "[BASELINE] TC-01: Read Currently Active Timing in DEFAULT Session - Expect C3 03 01 00 32 13 88 (P2=50ms, P2*=5000ms)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510002000,
+            "description": "[BASELINE] TC-02: Read Extended Timing Parameter Set - Query ECU timing capabilities - Expect C3 01 01 with P2_max/P2*_max values"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                200,
+                39,
+                16
+            ],
+            "timestamp": 1734510003000,
+            "description": "[CORE] TC-03: Set Valid Timing P2=200ms (0x00C8), P2*=10000ms (0x2710) - Expect Positive Response C3 02"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510004000,
+            "description": "[CORE] TC-04: Verify Set Timing Persistence - Read Current should return P2=200ms, P2*=10000ms exactly"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                25,
+                3,
+                232
+            ],
+            "timestamp": 1734510005000,
+            "description": "[PRODUCTION] TC-05: Set Fast ECU Timing P2=25ms (0x0019), P2*=1000ms (0x03E8) - Production line optimization"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510006000,
+            "description": "[PRODUCTION] TC-06: Verify Fast Timing Applied - Read Current should return P2=25ms, P2*=1000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                1,
+                244,
+                117,
+                48
+            ],
+            "timestamp": 1734510007000,
+            "description": "[FLASH PREP] TC-07: Set Flash Programming Timing P2=500ms (0x01F4), P2*=30000ms (0x7530) - Required for ECU flashing"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510008000,
+            "description": "[FLASH PREP] TC-08: Verify Flash Programming Timing - Read Current should return P2=500ms, P2*=30000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                100,
+                19,
+                136
+            ],
+            "timestamp": 1734510009000,
+            "description": "[SLOW ECU] TC-09: Set Slow ECU Timing P2=100ms (0x0064), P2*=5000ms (0x1388) - For ECUs that frequently return NRC 0x78"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510010000,
+            "description": "[SLOW ECU] TC-10: Verify Slow ECU Timing - Expect P2=100ms, P2*=5000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734510011000,
+            "description": "[NRC 0x12] TC-11: Invalid Sub-function 0x04 - Expect NRC 0x12 (Sub-function Not Supported)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734510012000,
+            "description": "[NRC 0x12] TC-12: Invalid Sub-function 0x00 - Expect NRC 0x12 (Sub-function Not Supported)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 127,
+            "data": [],
+            "timestamp": 1734510013000,
+            "description": "[NRC 0x12] TC-13: Invalid Sub-function 0x7F (max before suppress bit) - Expect NRC 0x12"
+        },
+        {
+            "sid": 131,
+            "subFunction": 5,
+            "data": [],
+            "timestamp": 1734510014000,
+            "description": "[NRC 0x12] TC-14: Invalid Sub-function 0x05 - Expect NRC 0x12"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1
+            ],
+            "timestamp": 1734510015000,
+            "description": "[NRC 0x13] TC-15: Incorrect Message Length for Set - Only 1 data byte (needs 5) - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50
+            ],
+            "timestamp": 1734510016000,
+            "description": "[NRC 0x13] TC-16: Incorrect Message Length for Set - Only 3 data bytes (needs 5) - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19
+            ],
+            "timestamp": 1734510017000,
+            "description": "[NRC 0x13] TC-17: Incorrect Message Length for Set - Only 4 data bytes (needs 5) - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [
+                255
+            ],
+            "timestamp": 1734510018000,
+            "description": "[NRC 0x13] TC-18: Incorrect Message Length for Read Current - Extra data byte - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 1,
+            "data": [
+                1,
+                2,
+                3
+            ],
+            "timestamp": 1734510019000,
+            "description": "[NRC 0x13] TC-19: Incorrect Message Length for Read Extended - Extra data bytes - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734510020000,
+            "description": "[NRC 0x13] TC-20: Incorrect Message Length for Set - Zero data bytes - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734510021000,
+            "description": "[NRC 0x31] TC-21: Out of Range - P2=0ms (below minimum 1ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                255,
+                255,
+                0,
+                1
+            ],
+            "timestamp": 1734510022000,
+            "description": "[NRC 0x31] TC-22: Out of Range - P2=65535ms (above maximum 5000ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                19,
+                137,
+                0,
+                1
+            ],
+            "timestamp": 1734510023000,
+            "description": "[NRC 0x31] TC-23: Out of Range - P2=5001ms (just above max 5000ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                1,
+                0,
+                49
+            ],
+            "timestamp": 1734510024000,
+            "description": "[NRC 0x31] TC-24: Out of Range - P2*=49ms (below minimum 50ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                100,
+                0,
+                50
+            ],
+            "timestamp": 1734510025000,
+            "description": "[NRC 0x31] TC-25: Out of Range - P2*=50ms < P2=100ms (P2* must be >= P2) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                100,
+                0,
+                99
+            ],
+            "timestamp": 1734510026000,
+            "description": "[NRC 0x31] TC-26: Out of Range - P2*=99ms < P2=100ms (boundary test) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                100,
+                0,
+                100
+            ],
+            "timestamp": 1734510027000,
+            "description": "[BOUNDARY] TC-27: Valid Boundary - P2=100ms, P2*=100ms (P2* equals P2) - Expect Positive Response C3 02"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510028000,
+            "description": "[BOUNDARY] TC-28: Verify Boundary Values Applied - P2=100ms, P2*=100ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                1,
+                0,
+                50
+            ],
+            "timestamp": 1734510029000,
+            "description": "[BOUNDARY] TC-29: Valid Minimum - P2=1ms (absolute min), P2*=50ms (min) - Expect Positive Response"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510030000,
+            "description": "[BOUNDARY] TC-30: Verify Minimum Values Applied - P2=1ms, P2*=50ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                19,
+                136,
+                255,
+                255
+            ],
+            "timestamp": 1734510031000,
+            "description": "[BOUNDARY] TC-31: Valid Maximum - P2=5000ms (max), P2*=65535ms (max) - Expect Positive Response"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510032000,
+            "description": "[BOUNDARY] TC-32: Verify Maximum Values Applied - P2=5000ms, P2*=65535ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136
+            ],
+            "timestamp": 1734510033000,
+            "description": "[RECOVERY] TC-33: Restore Default Timing P2=50ms, P2*=5000ms after boundary tests"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510034000,
+            "description": "[RECOVERY] TC-34: Confirm Default Timing Restored - P2=50ms (0x0032), P2*=5000ms (0x1388)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510035000,
+            "description": "[SESSION] TC-35: Enter Extended Diagnostic Session 0x03 - Test timing across sessions"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                200,
+                39,
+                16
+            ],
+            "timestamp": 1734510036000,
+            "description": "[SESSION] TC-36: Set Custom Timing P2=200ms, P2*=10000ms in EXTENDED Session"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510037000,
+            "description": "[SESSION] TC-37: Verify Custom Timing in EXTENDED Session - P2=200ms, P2*=10000ms"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510038000,
+            "description": "[SESSION CHANGE] TC-38: Switch back to DEFAULT Session - ISO 14229 states timing may reset on session change"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510039000,
+            "description": "[SESSION CHANGE] TC-39: Read Timing After Session Change - Per ISO, timing should reset to default (P2=50ms, P2*=5000ms)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734510040000,
+            "description": "[TESTER PRESENT] TC-40: Send Tester Present 0x3E 0x00 - Session timeout coordination test"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510041000,
+            "description": "[TESTER PRESENT] TC-41: Verify Timing After Tester Present - Should remain unchanged"
+        },
+        {
+            "sid": 131,
+            "subFunction": 129,
+            "data": [],
+            "timestamp": 1734510042000,
+            "description": "[SUPPRESS] TC-42: Suppress Positive Response (0x81) for Read Extended - Expect No Response (bit 7 set)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 130,
+            "data": [
+                1,
+                0,
+                75,
+                7,
+                208
+            ],
+            "timestamp": 1734510043000,
+            "description": "[SUPPRESS] TC-43: Suppress Positive Response (0x82) for Set P2=75ms, P2*=2000ms - Expect No Response"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510044000,
+            "description": "[SUPPRESS] TC-44: Verify Suppressed Set Was Still Applied - P2=75ms, P2*=2000ms should be active"
+        },
+        {
+            "sid": 131,
+            "subFunction": 131,
+            "data": [],
+            "timestamp": 1734510045000,
+            "description": "[SUPPRESS] TC-45: Suppress Positive Response (0x83) for Read Current - Expect No Response"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136
+            ],
+            "timestamp": 1734510046000,
+            "description": "[FINAL RECOVERY] TC-46: Final Restore to Default Timing P2=50ms, P2*=5000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510047000,
+            "description": "[FINAL RECOVERY] TC-47: Final Verification of Default Timing"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510048000,
+            "description": "[CLEANUP] TC-48: Final Reset to Default Session - Suite complete"
+        }
+    ],
+    "createdAt": 1734510000000,
+    "version": "2.0.0",
+    "metadata": {
+        "author": "UDS Simulator - Automotive Production Grade",
+        "description": "ISO 14229-1:2020 Section 9.4 compliant automotive-grade test suite for SID 0x83. Validates all sub-functions (0x01 read extended, 0x02 set values, 0x03 read current), comprehensive NRC handling (0x12 sub-function not supported, 0x13 incorrect length, 0x31 out of range), session interaction patterns, timing persistence verification, boundary value testing, error recovery workflows, suppress positive response bit handling, Tester Present coordination, and multi-ECU timing scenarios.",
+        "tags": [
+            "SID83",
+            "AccessTimingParameter",
+            "ISO14229",
+            "P2Server",
+            "P2StarServer",
+            "AutomotiveTesting",
+            "ProductionGrade",
+            "ECU",
+            "DiagnosticTiming",
+            "NRC",
+            "SessionManagement",
+            "ErrorRecovery"
+        ],
+        "testCategories": {
+            "baseline": "TC-01 to TC-02: Read default timing parameters",
+            "core_set_verify": "TC-03 to TC-10: Set and verify various timing configurations",
+            "nrc_0x12": "TC-11 to TC-14: Invalid sub-function validation",
+            "nrc_0x13": "TC-15 to TC-20: Message length validation",
+            "nrc_0x31": "TC-21 to TC-26: Timing value range validation",
+            "boundary_values": "TC-27 to TC-32: Boundary value testing (min/max/edge)",
+            "recovery": "TC-33 to TC-34: Error recovery and state restoration",
+            "session_interaction": "TC-35 to TC-39: Cross-session timing behavior",
+            "tester_present": "TC-40 to TC-41: Tester Present coordination",
+            "suppress_response": "TC-42 to TC-45: Suppress positive response bit handling",
+            "final_cleanup": "TC-46 to TC-48: Final state restoration"
+        },
+        "duration": 48000,
+        "totalRequests": 49,
+        "expectedSuccessRate": 100,
+        "nrcExpected": {
+            "0x12": 4,
+            "0x13": 6,
+            "0x31": 6
+        }
+    },
+    "notes": "Test Suite v2.0.0 - Automotive Production Grade: This comprehensive suite covers real-world ECU testing scenarios including: (1) BASELINE: Verify default timing parameters. (2) PRODUCTION LINE: Fast ECU timing for high-throughput testing. (3) FLASH PROGRAMMING: Extended timeouts for programming operations. (4) SLOW ECU ADAPTATION: Settings for ECUs that frequently return NRC 0x78. (5) NRC VALIDATION: Complete coverage of 0x12 (sub-function), 0x13 (length), 0x31 (range). (6) BOUNDARY TESTING: Min/max values and edge cases. (7) SESSION INTERACTION: Timing behavior across session changes (per ISO 14229, timing may reset). (8) TESTER PRESENT: P3Server coordination testing. (9) SUPPRESS BIT: Bit 7 handling for all sub-functions. (10) ERROR RECOVERY: State restoration after failures. All 49 test cases simulate actual automotive diagnostic workflows."
+}

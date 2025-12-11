@@ -1,0 +1,562 @@
+{
+    "id": "sid2E-write-data-by-identifier-comprehensive-test-suite",
+    "name": "SID 0x2E WriteDataByIdentifier - Production-Grade Test Suite",
+    "description": "Comprehensive ISO 14229-1:2020 compliant test suite for UDS SID 0x2E. Covers all NRCs (0x13, 0x22, 0x31, 0x33, 0x7F), session validation, security access, service interactions (0x10, 0x27, 0x22, 0x3E), and error recovery patterns. Designed for real ECU validation in automotive sector.",
+    "version": "2.0",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600100000,
+            "description": "[SETUP] Reset to DEFAULT Session (0x01)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81
+            ],
+            "timestamp": 1734600101000,
+            "description": "TC-01: SESSION - Write VIN in DEFAULT session - Expect NRC 0x22 (Conditions Not Correct)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                12,
+                0,
+                100
+            ],
+            "timestamp": 1734600102000,
+            "description": "TC-02: SESSION - Write Engine RPM in DEFAULT session - Expect NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734600110000,
+            "description": "[SETUP] Enter EXTENDED Session (0x03)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81
+            ],
+            "timestamp": 1734600111000,
+            "description": "TC-03: SECURITY - Write VIN (secured DID) without unlock - Expect NRC 0x33 (Security Access Denied)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600120000,
+            "description": "[SETUP] Security Access - Request Seed (Level 1)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734600121000,
+            "description": "[SETUP] Security Access - Send Key (Unlock Level 1)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                0,
+                0
+            ],
+            "timestamp": 1734600130000,
+            "description": "TC-04: LENGTH - Write VIN with only 2 data bytes (expects 17) - Expect NRC 0x13 (Incorrect Message Length)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83
+            ],
+            "timestamp": 1734600131000,
+            "description": "TC-05: LENGTH - Write VIN with 19 data bytes (expects 17) - Expect NRC 0x13"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                12,
+                0
+            ],
+            "timestamp": 1734600132000,
+            "description": "TC-06: LENGTH - Write Engine RPM with 1 byte (expects 2) - Expect NRC 0x13"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                13,
+                0,
+                55
+            ],
+            "timestamp": 1734600133000,
+            "description": "TC-07: LENGTH - Write Vehicle Speed with 2 bytes (expects 1) - Expect NRC 0x13"
+        },
+        {
+            "sid": 46,
+            "data": [
+                222,
+                173,
+                0
+            ],
+            "timestamp": 1734600140000,
+            "description": "TC-08: DID - Write to non-existent DID 0xDEAD - Expect NRC 0x31 (Request Out Of Range)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                255,
+                255,
+                0
+            ],
+            "timestamp": 1734600141000,
+            "description": "TC-09: DID - Write to reserved DID 0xFFFF - Expect NRC 0x31"
+        },
+        {
+            "sid": 46,
+            "data": [
+                0,
+                1,
+                0
+            ],
+            "timestamp": 1734600142000,
+            "description": "TC-10: DID - Write to invalid DID 0x0001 - Expect NRC 0x31"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                145,
+                72,
+                87,
+                48,
+                48,
+                49
+            ],
+            "timestamp": 1734600150000,
+            "description": "TC-11: READONLY - Write to 0xF191 (ECU Hardware Number) - Expect NRC 0x7F (Service Not Supported)"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                134,
+                3
+            ],
+            "timestamp": 1734600151000,
+            "description": "TC-12: READONLY - Write to 0xF186 (Active Diagnostic Session) - Expect NRC 0x7F"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                84,
+                69,
+                83,
+                84,
+                86,
+                73,
+                78,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                48
+            ],
+            "timestamp": 1734600160000,
+            "description": "TC-13: SUCCESS - Write VIN 'TESTVIN1234567890' (17 bytes ASCII) - Expect Positive Response 0x6E"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734600161000,
+            "description": "[VERIFY] Read back VIN (0xF190) to confirm write"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                12,
+                15,
+                160
+            ],
+            "timestamp": 1734600170000,
+            "description": "TC-14: SUCCESS - Write Engine RPM 0x0FA0 (4000 RPM) - Expect Positive Response 0x6E"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12
+            ],
+            "timestamp": 1734600171000,
+            "description": "[VERIFY] Read back Engine RPM (0x010C) to confirm write"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                13,
+                120
+            ],
+            "timestamp": 1734600180000,
+            "description": "TC-15: SUCCESS - Write Vehicle Speed 120 km/h (1 byte) - Expect Positive Response 0x6E"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                13
+            ],
+            "timestamp": 1734600181000,
+            "description": "[VERIFY] Read back Vehicle Speed (0x010D) to confirm write"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734600190000,
+            "description": "[KEEPALIVE] TesterPresent to maintain session"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                87,
+                86,
+                87,
+                90,
+                90,
+                90,
+                49,
+                75,
+                90,
+                66,
+                87,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54
+            ],
+            "timestamp": 1734600200000,
+            "description": "TC-16: WORKFLOW - Write new VIN 'WVWZZZ1KZBW12345' after TesterPresent - Expect Success"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734600201000,
+            "description": "[VERIFY] Read-after-write verification for VIN"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600210000,
+            "description": "[SETUP] Switch to PROGRAMMING Session (0x02)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600211000,
+            "description": "[SETUP] Re-request Seed after session change"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734600212000,
+            "description": "[SETUP] Re-send Key to unlock in PROGRAMMING"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                80,
+                82,
+                79,
+                71,
+                86,
+                73,
+                78,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                48
+            ],
+            "timestamp": 1734600220000,
+            "description": "TC-17: SESSION - Write VIN in PROGRAMMING session - Expect Positive Response 0x6E"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                12,
+                19,
+                136
+            ],
+            "timestamp": 1734600230000,
+            "description": "TC-18: BATCH - Write Engine RPM (5000 RPM) - Part 1 of batch"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                13,
+                80
+            ],
+            "timestamp": 1734600231000,
+            "description": "TC-19: BATCH - Write Vehicle Speed (80 km/h) - Part 2 of batch"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734600232000,
+            "description": "[KEEPALIVE] TesterPresent during batch operation"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12
+            ],
+            "timestamp": 1734600233000,
+            "description": "[VERIFY] Verify Engine RPM after batch write"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                13
+            ],
+            "timestamp": 1734600234000,
+            "description": "[VERIFY] Verify Vehicle Speed after batch write"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600240000,
+            "description": "[SETUP] Return to DEFAULT session"
+        },
+        {
+            "sid": 46,
+            "data": [
+                1,
+                12,
+                0,
+                100
+            ],
+            "timestamp": 1734600241000,
+            "description": "TC-20: RECOVERY - Attempt write after returning to DEFAULT - Expect NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734600250000,
+            "description": "[RECOVERY] Re-enter EXTENDED session"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                82,
+                69,
+                67,
+                79,
+                86,
+                69,
+                82,
+                89,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57
+            ],
+            "timestamp": 1734600251000,
+            "description": "TC-21: RECOVERY - Write VIN after session recovery (no security) - Expect NRC 0x33"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600252000,
+            "description": "[RECOVERY] Re-request Seed after session recovery"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734600253000,
+            "description": "[RECOVERY] Re-send Key to unlock"
+        },
+        {
+            "sid": 46,
+            "data": [
+                241,
+                144,
+                82,
+                69,
+                67,
+                79,
+                86,
+                69,
+                82,
+                89,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57
+            ],
+            "timestamp": 1734600254000,
+            "description": "TC-22: RECOVERY - Write VIN after full recovery - Expect Positive Response 0x6E"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734600255000,
+            "description": "[FINAL] Final verification - Read VIN"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                12
+            ],
+            "timestamp": 1734600256000,
+            "description": "[FINAL] Final verification - Read Engine RPM"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                13
+            ],
+            "timestamp": 1734600257000,
+            "description": "[FINAL] Final verification - Read Vehicle Speed"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600260000,
+            "description": "[CLEANUP] Return to DEFAULT session - Test Suite Complete"
+        }
+    ]
+}

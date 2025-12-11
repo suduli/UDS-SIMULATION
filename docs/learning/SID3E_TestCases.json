@@ -1,0 +1,120 @@
+{
+    "id": "sid3e-tester-present-test-suite",
+    "name": "SID 0x3E Tester Present Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 0x3E (TesterPresent) based on ISO 14229-1:2020 Section 9.3. Covers positive response, suppressed response, sub-function validation, message length validation, and session maintenance scenarios.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734510001000,
+            "description": "TC-01: Tester Present with Zero Sub-function (0x00) - Expect Positive Response (0x7E 00)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734510002000,
+            "description": "TC-02: Tester Present with Suppress Response (0x80) - Expect No Response"
+        },
+        {
+            "sid": 62,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510003000,
+            "description": "TC-03: Invalid Sub-function (0x01) - Expect NRC 0x12 (Sub-function Not Supported)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734510004000,
+            "description": "TC-04: Invalid Sub-function (0x02) - Expect NRC 0x12 (Sub-function Not Supported)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [
+                255
+            ],
+            "timestamp": 1734510005000,
+            "description": "TC-05: Incorrect Message Length (Extra Byte: 3E 00 FF) - Expect NRC 0x13"
+        },
+        {
+            "sid": 62,
+            "data": [],
+            "timestamp": 1734510006000,
+            "description": "TC-06: Incorrect Message Length (Missing Sub-function: 3E) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734510007000,
+            "description": "TC-07.1: Switch to EXTENDED session (Session Maintenance Test)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734510009000,
+            "description": "TC-07.2: Tester Present (0x80) to maintain session (T+2s)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734510011000,
+            "description": "TC-07.3: Tester Present (0x80) to maintain session (T+4s)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734510013000,
+            "description": "TC-07.4: Tester Present (0x80) to maintain session (T+6s)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734510014000,
+            "description": "TC-07.5: Read Data (SID 22) F1 90 - Expect Success (Session should still be valid after >5s total time)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734510015000,
+            "description": "[FINAL] Reset to Default Session"
+        }
+    ],
+    "createdAt": 1734510000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 9.3 compliant test suite for SID 0x3E (TesterPresent). Validates response behavior (suppressed/normal), negative response codes (0x12, 0x13), and session maintenance capability.",
+        "tags": [
+            "SID3E",
+            "Tester Present",
+            "TesterPresent",
+            "ISO 14229",
+            "Test Suite",
+            "Session Maintenance",
+            "Heartbeat"
+        ],
+        "duration": 15000,
+        "totalRequests": 13,
+        "successRate": 100
+    },
+    "notes": "Test Suite v1.0.0: Comprehensive coverage for SID 0x3E. Verification includes: (TC-01) Normal response 0x3E 00 -> 0x7E 00. (TC-02) Suppressed response 0x3E 80 -> No response. (TC-03/04) Invalid sub-functions return NRC 0x12. (TC-05/06) Invalid message lengths (too short/long) return NRC 0x13. (TC-07) Session maintenance verification in Extended session."
+}

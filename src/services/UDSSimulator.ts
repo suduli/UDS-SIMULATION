@@ -13,6 +13,7 @@ import {
   type UDSResponse,
   type ProtocolState,
   type ECUConfig,
+  PeriodicRate,
 } from '../types/uds';
 
 import {
@@ -28,6 +29,8 @@ export class UDSSimulator {
   private ecuConfig: ECUConfig;
   private currentSeed: number[] = [];
   private expectedKey: number[] = [];
+  private onResponseCallback?: (response: UDSResponse) => void;
+  private schedulerInterval?: number;
 
   constructor(ecuConfig: ECUConfig) {
     this.ecuConfig = ecuConfig;
@@ -44,7 +47,7 @@ export class UDSSimulator {
         networkManagement: { rxEnabled: true, txEnabled: true },
         subnets: new Map(),
       },
-      activePeriodicIds: [],
+      activePeriodicTasks: [],
       downloadInProgress: false,
       uploadInProgress: false,
       transferBlockCounter: 0,
@@ -58,6 +61,95 @@ export class UDSSimulator {
       securityDelayActive: false,
       seedTimeout: 5000,           // 5 seconds
       securityDelayDuration: 10000, // 10 seconds
+      // Access Timing Parameters (SID 0x83)
+      p2Server: 50,               // Default P2 timeout: 50ms
+      p2StarServer: 5000,         // Default P2* timeout: 5000ms
+      // Control DTC Setting (SID 0x85)
+      dtcRecordingEnabled: true,  // DTC recording enabled by default
+    };
+
+
+    // Start periodic scheduler
+    this.startPeriodicScheduler();
+  }
+
+  public setResponseCallback(callback: (response: UDSResponse) => void) {
+    this.onResponseCallback = callback;
+  }
+
+  private startPeriodicScheduler() {
+    if (this.schedulerInterval) return;
+
+    // Check every 50ms (resolution of FAST rate)
+    this.schedulerInterval = window.setInterval(() => {
+      this.processPeriodicTasks();
+    }, 50);
+  }
+
+  public cleanup() {
+    if (this.schedulerInterval) {
+      clearInterval(this.schedulerInterval);
+      this.schedulerInterval = undefined;
+    }
+  }
+
+  private processPeriodicTasks() {
+    const now = Date.now();
+
+    this.state.activePeriodicTasks.forEach(task => {
+      if (now - task.lastSent >= task.rate) {
+        // Time to send
+        const response = this.generatePeriodicResponse(task.id);
+        if (response && this.onResponseCallback) {
+          this.onResponseCallback(response);
+          task.lastSent = now;
+        }
+      }
+    });
+  }
+
+  private generatePeriodicResponse(pdid: number): UDSResponse | null {
+    // Mapping PDID to DID
+    let did: number | undefined;
+
+    // Explicit mappings
+    switch (pdid) {
+      case 0x01: did = 0x010C; break; // RPM
+      case 0x02: did = 0x010D; break; // Speed
+      case 0x03: did = 0x0105; break; // Coolant
+      case 0x04: did = 0x0110; break; // MAF
+      case 0x0A: did = 0x0142; break; // Voltage
+      default:
+        const candidate = 0x0100 | pdid;
+        if (this.ecuConfig.dataIdentifiers.some(d => d.id === candidate)) {
+          did = candidate;
+        }
+    }
+
+    if (!did) return null;
+
+    const didObj = this.ecuConfig.dataIdentifiers.find(d => d.id === did);
+    if (!didObj) return null;
+
+    let valData: number[] = [];
+    if (Array.isArray(didObj.value)) {
+      valData = didObj.value;
+    } else if (typeof didObj.value === 'number') {
+      if (didObj.id === 0x010C) { // RPM
+        valData = [(didObj.value >> 8) & 0xFF, didObj.value & 0xFF];
+      } else {
+        valData = [didObj.value & 0xFF];
+      }
+    } else {
+      // String to ascii
+      valData = Array.from(String(didObj.value)).map(c => c.charCodeAt(0));
+    }
+
+    return {
+      sid: ServiceId.READ_DATA_BY_PERIODIC_IDENTIFIER,
+      data: [0x6A, pdid, ...valData],
+      timestamp: Date.now(),
+      isNegative: false
     };
   }
 
@@ -137,6 +229,20 @@ export class UDSSimulator {
         return response;
       }
 
+      case ServiceId.TESTER_PRESENT: {
+        const response = this.handleTesterPresent(request);
+        if (response === null) {
+          return {
+            sid: request.sid,
+            data: [],
+            timestamp: Date.now(),
+            isNegative: false,
+            suppressedResponse: true,
+          } as UDSResponse;
+        }
+        return response;
+      }
+
       case ServiceId.CLEAR_DIAGNOSTIC_INFORMATION:
         return this.handleClearDTC(request);
 
@@ -178,6 +284,23 @@ export class UDSSimulator {
 
       case ServiceId.REQUEST_TRANSFER_EXIT:
         return this.handleTransferExit(request);
+
+      case ServiceId.ACCESS_TIMING_PARAMETER:
+        return this.handleAccessTimingParameter(request);
+
+      case ServiceId.CONTROL_DTC_SETTING: {
+        const response = this.handleControlDTCSetting(request);
+        if (response === null) {
+          return {
+            sid: request.sid,
+            data: [],
+            timestamp: Date.now(),
+            isNegative: false,
+            suppressedResponse: true,
+          } as UDSResponse;
+        }
+        return response;
+      }
 
       default:
         return this.createNegativeResponseObj(
@@ -262,10 +385,11 @@ export class UDSSimulator {
 
     // Reset security when changing session (per ISO 14229-1, security is always locked on session change)
     // Only exception: re-entering the same session
-    if (sessionType !== currentSession) {
+    if (currentSession !== sessionType) {
       this.state.securityUnlocked = false;
       this.state.securityLevel = 0;
       this.state.securityAttempts = 0;
+      this.state.activePeriodicTasks = []; // Stop periodic transmission on session change
       this.state.lastSeedRequestTime = 0;
       this.state.lastSeedRequestLevel = 0;
       this.state.lastInvalidKeyTime = 0;
@@ -290,6 +414,10 @@ export class UDSSimulator {
       this.state.downloadInProgress = false;
       this.state.uploadInProgress = false;
       this.state.transferBlockCounter = 0;
+
+      // SID 0x85: Auto-reset DTC recording to ENABLED on session change
+      // Per ISO 14229-1, DTC setting returns to default (ON) on session transition
+      this.state.dtcRecordingEnabled = true;
     }
 
     // Reset activity timestamp for session timeout
@@ -456,7 +584,7 @@ export class UDSSimulator {
       this.state.currentSession = DiagnosticSessionType.DEFAULT;
       this.state.securityUnlocked = false;
       this.state.securityLevel = 0;
-      this.state.activePeriodicIds = [];
+      this.state.activePeriodicTasks = [];
 
       // Clear transfer state on reset
       this.state.downloadInProgress = false;
@@ -483,6 +611,53 @@ export class UDSSimulator {
       isNegative: false,
       resetType, // Include reset type for power effect coordination
     } as UDSResponse;
+  }
+
+  /**
+   * 0x3E - Tester Present
+   * Indicates that the diagnostic tester is still active to prevent session timeout.
+   */
+  private handleTesterPresent(request: UDSRequest): UDSResponse | null {
+    // Check if subfunction is missing
+    if (request.subFunction === undefined) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+    const subFunction = request.subFunction & 0x7F;
+
+    // Validate subfunction - only 0x00 is allowed (Zero Sub-function)
+    if (subFunction !== 0x00) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+      );
+    }
+
+    // Validate message length - data must be empty
+    if (request.data && request.data.length > 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Note: Session timeout reset is handled in processRequest via this.state.lastActivityTime = Date.now()
+    // which is called before this handler.
+
+    if (suppressPositiveResponse) {
+      return null;
+    }
+
+    return {
+      sid: request.sid,
+      data: [0x00], // Echo sub-function
+      timestamp: Date.now(),
+      isNegative: false,
+    };
   }
 
   /**
@@ -833,13 +1008,14 @@ export class UDSSimulator {
 
           responseData.push(statusAvailabilityMask);
 
-          const filteredDTCs = this.ecuConfig.dtcs.filter(dtc => {
-            const dtcStatus = dtcStatusToByte(dtc.status);
-            const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
-            const statusMatch = statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
-            const severityMatch = severityMask === 0x00 || (dtcSeverity & severityMask) !== 0;
-            return statusMatch && severityMatch;
-          });
+          const filteredDTCs = this.ecuConfig.dtcs
+            .filter(dtc => {
+              const dtcStatus = dtcStatusToByte(dtc.status);
+              const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
+              const statusMatch = statusMask === 0x00 || (dtcStatus & statusMask) !== 0;
+              const severityMatch = severityMask === 0x00 || (dtcSeverity & severityMask) !== 0;
+              return statusMatch && severityMatch;
+            });
 
           filteredDTCs.forEach(dtc => {
             const dtcSeverity = dtc.severityByte || this.getSeverityByte(dtc.severity);
@@ -1693,7 +1869,7 @@ export class UDSSimulator {
       }
     }
 
-    // If suppress positive response bit is set, return null (no response)
+    // If suppress positive response bit is set, return { suppressedResponse: true }
     if (suppressPositiveResponse) {
       return {
         sid: request.sid,
@@ -1717,7 +1893,9 @@ export class UDSSimulator {
    * 0x2A - Read Data By Periodic Identifier
    */
   private handlePeriodicData(request: UDSRequest): UDSResponse {
-    if (!request.subFunction || !request.data) {
+    // 1. Validate Message Length
+    // Minimum 1 byte (TransmissionMode)
+    if (!request.subFunction) { // subFunction holds transmissionMode
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
@@ -1726,22 +1904,118 @@ export class UDSSimulator {
 
     const transmissionMode = request.subFunction;
 
-    if (transmissionMode === 0x01) {
-      // Start sending
-      this.state.activePeriodicIds = request.data;
-    } else if (transmissionMode === 0x02) {
-      // Stop sending
-      this.state.activePeriodicIds = this.state.activePeriodicIds.filter(
-        id => !request.data!.includes(id)
+    // 2. Validate Session (Must be EXTENDED 0x03)
+    if (this.state.currentSession !== DiagnosticSessionType.EXTENDED) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
       );
-    } else if (transmissionMode === 0x03 || transmissionMode === 0x04) {
-      // Stop all
-      this.state.activePeriodicIds = [];
     }
+
+    // 3. Handle Modes
+    // Mode 04: Stop Sending (Stop ALL)
+    if (transmissionMode === 0x04) {
+      this.state.activePeriodicTasks = [];
+      return {
+        sid: request.sid,
+        data: [0x6A], // Positive response 0x6A (request was 0x2A)
+        timestamp: Date.now(),
+        isNegative: false,
+      };
+    }
+
+    // Modes 01, 02, 03 require PDID(s) in data
+    if (!request.data || request.data.length === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Determine Rate
+    let rate: number;
+    switch (transmissionMode) {
+      case 0x01: rate = PeriodicRate.SLOW; break;
+      case 0x02: rate = PeriodicRate.MEDIUM; break;
+      case 0x03: rate = PeriodicRate.FAST; break;
+      default:
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+        );
+    }
+
+    // Process PDIDs
+    // Validate each PDID.
+    // Spec often says "if one fails, all fail" for SID 22, but for 2A it might be similar.
+    // Doc Workflow 2: "Step 2: Attempt to Request Protected PDID -> NRC 0x33".
+
+    const newTasks: typeof this.state.activePeriodicTasks = [];
+
+    for (const pdid of request.data) {
+      // Map PDID to DID check
+      let didId: number | undefined;
+      // Replicate logic from generatePeriodicResponse or ideally extract it.
+      // For validation we check existence and security.
+      switch (pdid) {
+        case 0x01: didId = 0x010C; break;
+        case 0x02: didId = 0x010D; break;
+        case 0x03: didId = 0x0105; break;
+        case 0x04: didId = 0x0110; break;
+        case 0x0A: didId = 0x0142; break;
+        default:
+          const candidate = 0x0100 | pdid;
+          if (this.ecuConfig.dataIdentifiers.some(d => d.id === candidate)) {
+            didId = candidate;
+          }
+      }
+
+      if (!didId) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+
+      const didObj = this.ecuConfig.dataIdentifiers.find(d => d.id === didId);
+      if (!didObj) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+
+      // Security Check
+      const reqSecurity = didObj.requiredSecurity || 0;
+      if (reqSecurity > 0 && this.state.securityLevel < reqSecurity) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SECURITY_ACCESS_DENIED
+        );
+      }
+
+      newTasks.push({
+        id: pdid,
+        rate: rate,
+        lastSent: 0 // Will send immediately next tick
+      });
+    }
+
+    // If we got here, all valid.
+    // Update active tasks.
+    // Strategy: Replace existing task for same ID, append new ones.
+    newTasks.forEach(newTask => {
+      const existingIdx = this.state.activePeriodicTasks.findIndex(t => t.id === newTask.id);
+      if (existingIdx >= 0) {
+        this.state.activePeriodicTasks[existingIdx] = newTask;
+      } else {
+        this.state.activePeriodicTasks.push(newTask);
+      }
+    });
 
     return {
       sid: request.sid,
-      data: [0x6A, transmissionMode],
+      data: [0x6A],
       timestamp: Date.now(),
       isNegative: false,
     };
@@ -1751,13 +2025,8 @@ export class UDSSimulator {
    * 0x2E - Write Data By Identifier
    */
   private handleWriteDataById(request: UDSRequest): UDSResponse {
-    if (!this.state.securityUnlocked) {
-      return this.createNegativeResponseObj(
-        request.sid,
-        NegativeResponseCode.SECURITY_ACCESS_DENIED
-      );
-    }
-
+    // 1. Validate Message Length (Min 3 bytes: DID_HI + DID_LO + at least 1 byte data)
+    // Note: ISO 14229 allows writing 0 bytes? Usually not useful. Assuming min 1 byte data.
     if (!request.data || request.data.length < 3) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -1768,6 +2037,7 @@ export class UDSSimulator {
     const did = (request.data[0] << 8) | request.data[1];
     const dataId = this.ecuConfig.dataIdentifiers.find(d => d.id === did);
 
+    // 2. Validate DID Existence
     if (!dataId) {
       return this.createNegativeResponseObj(
         request.sid,
@@ -1775,8 +2045,83 @@ export class UDSSimulator {
       );
     }
 
-    // Update value
-    dataId.value = request.data.slice(2);
+    // 3. Validate Write Permission (Read-only check)
+    if (dataId.readonly) {
+      // NRC 0x7F per spec doc provided (Service Not Supported (Active) | DID is read-only)
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
+      );
+    }
+
+    // 4. Validate Session Requirements
+    // Use writeSession if defined, otherwise default to Extended/Programming for all writes as per spec
+    // We do NOT fall back to 'requiredSession' because that is typically for Read access (which might be allowed in Default)
+    // Writing in Default session is non-standard and should be explicitly enabled via writeSession if needed.
+    const allowedSessions = dataId.writeSession || [
+      DiagnosticSessionType.EXTENDED,
+      DiagnosticSessionType.PROGRAMMING
+    ];
+
+    // Check if current session is allowed
+    const isSessionAllowed = allowedSessions.includes(this.state.currentSession);
+
+    if (!isSessionAllowed) {
+      // Return NRC 0x31 or 0x7F?
+      // Spec table says "NRC 0x22: Wrong session/state".
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
+      );
+    }
+
+    // 5. Validate Security Requirements
+    const requiredSecurity = dataId.writeSecurity !== undefined
+      ? dataId.writeSecurity
+      : (dataId.requiredSecurity || 0);
+
+    if (requiredSecurity > 0) {
+      if (!this.state.securityUnlocked || this.state.securityLevel < requiredSecurity) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SECURITY_ACCESS_DENIED
+        );
+      }
+    }
+
+    // 6. Validate Data Length against DID definition
+    const payloadStart = 2; // Byte 0,1 = DID
+    const payload = request.data.slice(payloadStart);
+
+    // Check explicit size if defined
+    if (dataId.size !== undefined) {
+      if (payload.length !== dataId.size) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+        );
+      }
+    } else if (Array.isArray(dataId.value)) {
+      // Infer from existing value length (if array)
+      if (payload.length !== dataId.value.length) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+        );
+      }
+    }
+    // If value is number/string and size is undefined, we can't strictly validate length 
+    // without more metadata. We proceed assuming user knows what they are doing.
+
+    // 7. Perform Write
+    // Update the value
+    // If the original value was a number, we should try to maintain type if possible, 
+    // but UDS is byte-oriented. 
+    // For simulation, storing as byte array is safest. 
+    // If 'handlePeriodicData' expects number, we might need logic.
+    // However, handlePeriodicData checks 'Array.isArray(didObj.value)' first.
+    // So converting to array is safe.
+    dataId.value = payload;
 
     return {
       sid: request.sid,
@@ -1787,31 +2132,216 @@ export class UDSSimulator {
   }
 
   /**
-   * 0x3D - Write Memory By Address
-   */
+ * 0x3D - Write Memory By Address
+ * Comprehensive implementation per ISO 14229-1:2020 Section 11.4
+ * 
+ * Features:
+ * - Dynamic ALFID parsing (supports 1-8 byte addresses and sizes)
+ * - Session validation (requires Extended or Programming session)
+ * - Security access validation for protected memory regions
+ * - Memory region writable validation
+ * - Memory region boundary validation
+ * - Data persistence to simulated memory
+ * - Comprehensive NRC handling (0x13, 0x22, 0x31, 0x33, 0x72, 0x7F)
+ */
   private handleWriteMemory(request: UDSRequest): UDSResponse {
-    if (!this.state.securityUnlocked) {
+    // Validate session - requires Extended (0x03) or Programming (0x02)
+    if (this.state.currentSession !== DiagnosticSessionType.EXTENDED &&
+      this.state.currentSession !== DiagnosticSessionType.PROGRAMMING) {
       return this.createNegativeResponseObj(
         request.sid,
-        NegativeResponseCode.SECURITY_ACCESS_DENIED
+        NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
       );
     }
 
-    if (!request.data || request.data.length < 7) {
+    // Validate minimum request length (at least ALFID byte)
+    if (!request.data || request.data.length < 1) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
       );
     }
 
-    return {
-      sid: request.sid,
-      data: [0x7D],
-      timestamp: Date.now(),
-      isNegative: false,
-    };
-  }
+    // Parse ALFID manually (can't use parseALFID since it expects exact length match for ReadMemory)
+    const alfidByte = request.data[0];
+    const addressFieldLength = alfidByte & 0x0F;           // Low nibble = address length
+    const sizeFieldLength = (alfidByte >> 4) & 0x0F;       // High nibble = size length
 
+    // Validate ALFID (lengths must be 1-8 bytes)
+    if (addressFieldLength === 0 || addressFieldLength > 8) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    if (sizeFieldLength === 0 || sizeFieldLength > 8) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Minimum length check: ALFID(1) + Address(N) + Size(M) + at least 1 byte data
+    const minLength = 1 + addressFieldLength + sizeFieldLength + 1;
+    if (request.data.length < minLength) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Parse address (big-endian)
+    let address = 0;
+    for (let i = 0; i < addressFieldLength; i++) {
+      address = (address << 8) | request.data[1 + i];
+    }
+
+    // Parse size (big-endian)
+    let size = 0;
+    for (let i = 0; i < sizeFieldLength; i++) {
+      size = (size << 8) | request.data[1 + addressFieldLength + i];
+    }
+
+    // Validate size is not zero
+    if (size === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Calculate expected total message length: ALFID(1) + Address(N) + Size(M) + Data(size)
+    const dataStartIndex = 1 + addressFieldLength + sizeFieldLength;
+    const expectedLength = dataStartIndex + size;
+
+    if (request.data.length !== expectedLength) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract the data to write
+    const writeData = request.data.slice(dataStartIndex, dataStartIndex + size);
+
+    // Check for address overflow
+    const maxAddress = 0xFFFFFFFF; // 32-bit max
+    if (address > maxAddress || address + size > maxAddress || address + size < address) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+    // Find memory region containing the requested address
+    let targetRegion: any = null;
+
+    for (const region of this.ecuConfig.memoryMap) {
+      const regionEnd = region.address + region.size;
+      const requestEnd = address + size;
+
+      // Check if request falls within this region
+      if (address >= region.address && address < regionEnd) {
+        // Check if entire write stays within the region
+        if (requestEnd <= regionEnd) {
+          targetRegion = region;
+          break;
+        } else {
+          // Write crosses region boundary
+          return this.createNegativeResponseObj(
+            request.sid,
+            NegativeResponseCode.REQUEST_OUT_OF_RANGE
+          );
+        }
+      }
+    }
+
+    // No matching region found
+    if (!targetRegion) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is accessible
+    if (targetRegion.accessible === false) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is writable
+    if (targetRegion.writable === false) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if region is protected (e.g., bootloader - cannot be written even if writable flag is true)
+    if (targetRegion.protected === true) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.CONDITIONS_NOT_CORRECT
+      );
+    }
+
+    // Check security access requirements
+    const requiredSecurityLevel = targetRegion.securityLevel || 0;
+    if (requiredSecurityLevel > 0 && !this.state.securityUnlocked) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SECURITY_ACCESS_DENIED
+      );
+    }
+
+    // Perform the write operation
+    try {
+      // Calculate offset within the region
+      const offsetInRegion = address - targetRegion.address;
+
+      // Ensure region has a data array to write to
+      if (!targetRegion.data) {
+        targetRegion.data = [];
+      }
+
+      // Expand data array if needed
+      const requiredLength = offsetInRegion + size;
+      if (targetRegion.data.length < requiredLength) {
+        const expansion = new Array(requiredLength - targetRegion.data.length).fill(0xFF);
+        targetRegion.data = [...targetRegion.data, ...expansion];
+      }
+
+      // Write the data
+      for (let i = 0; i < size; i++) {
+        targetRegion.data[offsetInRegion + i] = writeData[i];
+      }
+
+      // Build positive response: 0x7D + ALFID + Address (echoed)
+      const responseData: number[] = [0x7D, alfidByte];
+
+      // Echo the address bytes from the request
+      for (let i = 0; i < addressFieldLength; i++) {
+        responseData.push(request.data[1 + i]);
+      }
+
+      return {
+        sid: request.sid,
+        data: responseData,
+        timestamp: Date.now(),
+        isNegative: false,
+      };
+
+    } catch (error) {
+      // Return NRC 0x72 for unexpected errors during write
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.GENERAL_PROGRAMMING_FAILURE
+      );
+    }
+  }
   /**
    * 0x31 - Routine Control
    * Comprehensive implementation per ISO 14229-1:2020 Section 9.5
@@ -2625,6 +3155,199 @@ export class UDSSimulator {
   }
 
   /**
+   * 0x83 - Access Timing Parameter
+   * Per ISO 14229-1:2020 Section 9.4
+   * 
+   * Sub-functions:
+   * - 0x01: Read Extended Timing Parameter Set (capabilities)
+   * - 0x02: Set Timing Parameters to Given Values
+   * - 0x03: Read Currently Active Timing Parameters
+   * 
+   * Timing Parameters:
+   * - P2Server: Normal response timeout (default: 50ms)
+   * - P2*Server: Extended response timeout (default: 5000ms)
+   * 
+   * NRCs:
+   * - 0x12: Sub-function not supported
+   * - 0x13: Incorrect message length
+   * - 0x31: Request out of range (timing values invalid)
+   */
+  private handleAccessTimingParameter(request: UDSRequest): UDSResponse {
+    // Check if subfunction is missing
+    if (request.subFunction === undefined) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract suppress positive response bit (bit 7)
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+
+    // Get actual sub-function (lower 7 bits)
+    const subFunction = request.subFunction & 0x7F;
+
+    // Validate sub-function - must be 0x01, 0x02, or 0x03
+    const validSubFunctions = [0x01, 0x02, 0x03];
+    if (!validSubFunctions.includes(subFunction)) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+      );
+    }
+
+    // Timing parameter limits (configurable ranges)
+    const P2_MIN = 1;      // 1ms minimum
+    const P2_MAX = 5000;   // 5000ms maximum
+    const P2_STAR_MIN = 50;    // 50ms minimum
+    const P2_STAR_MAX = 65535; // Max value for 2-byte field
+
+    // Process based on sub-function
+    switch (subFunction) {
+      case 0x01: // Read Extended Timing Parameter Set (capabilities)
+        {
+          // Validate message length - should be exactly 0 data bytes
+          if (request.data && request.data.length > 0) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          if (suppressPositiveResponse) {
+            return {
+              sid: request.sid,
+              data: [],
+              timestamp: Date.now(),
+              isNegative: false,
+              suppressedResponse: true,
+            } as UDSResponse;
+          }
+
+          // Response: C3 01 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          // Type 0x01 = timing parameter access type
+          // Return the ECU's default/extended timing capabilities
+          const p2Default = 50;   // Default P2Server: 50ms
+          const p2StarDefault = 5000; // Default P2*Server: 5000ms
+
+          return {
+            sid: request.sid,
+            data: [
+              0xC3, subFunction,
+              0x01, // Timing parameter access type
+              (p2Default >> 8) & 0xFF,
+              p2Default & 0xFF,
+              (p2StarDefault >> 8) & 0xFF,
+              p2StarDefault & 0xFF
+            ],
+            timestamp: Date.now(),
+            isNegative: false,
+          };
+        }
+
+      case 0x02: // Set Timing Parameters to Given Values
+        {
+          // Validate message length - must have 5 data bytes: [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          if (!request.data || request.data.length !== 5) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          // Parse timing values
+          // const timingType = request.data[0]; // Type byte (0x01 typically)
+          const p2Value = (request.data[1] << 8) | request.data[2];
+          const p2StarValue = (request.data[3] << 8) | request.data[4];
+
+          // Validate P2 range
+          if (p2Value < P2_MIN || p2Value > P2_MAX) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Validate P2* range (must be >= P2)
+          if (p2StarValue < p2Value || p2StarValue < P2_STAR_MIN || p2StarValue > P2_STAR_MAX) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.REQUEST_OUT_OF_RANGE
+            );
+          }
+
+          // Apply new timing values
+          this.state.p2Server = p2Value;
+          this.state.p2StarServer = p2StarValue;
+
+          if (suppressPositiveResponse) {
+            return {
+              sid: request.sid,
+              data: [],
+              timestamp: Date.now(),
+              isNegative: false,
+              suppressedResponse: true,
+            } as UDSResponse;
+          }
+
+          // Response: C3 02 (simple acknowledgment)
+          return {
+            sid: request.sid,
+            data: [0xC3, subFunction],
+            timestamp: Date.now(),
+            isNegative: false,
+          };
+        }
+
+      case 0x03: // Read Currently Active Timing Parameters
+        {
+          // Validate message length - should be exactly 0 data bytes
+          if (request.data && request.data.length > 0) {
+            return this.createNegativeResponseObj(
+              request.sid,
+              NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+            );
+          }
+
+          if (suppressPositiveResponse) {
+            return {
+              sid: request.sid,
+              data: [],
+              timestamp: Date.now(),
+              isNegative: false,
+              suppressedResponse: true,
+            } as UDSResponse;
+          }
+
+          // Response: C3 03 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          const currentP2 = this.state.p2Server;
+          const currentP2Star = this.state.p2StarServer;
+
+          return {
+            sid: request.sid,
+            data: [
+              0xC3, subFunction,
+              0x01, // Timing parameter access type
+              (currentP2 >> 8) & 0xFF,
+              currentP2 & 0xFF,
+              (currentP2Star >> 8) & 0xFF,
+              currentP2Star & 0xFF
+            ],
+            timestamp: Date.now(),
+            isNegative: false,
+          };
+        }
+
+      default:
+        // Should not reach here due to earlier validation
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+        );
+    }
+  }
+
+  /**
    * Helper to create negative response object
    */
   private createNegativeResponseObj(sid: ServiceId, nrc: NegativeResponseCode): UDSResponse {
@@ -2634,6 +3357,87 @@ export class UDSSimulator {
       timestamp: Date.now(),
       isNegative: true,
       nrc,
+    };
+  }
+
+  /**
+   * 0x85 - Control DTC Setting
+   * Controls the storage/recording of diagnostic trouble codes during maintenance operations.
+   * Per ISO 14229-1:2020 Section 9.7:
+   * - Sub-function 0x01: ON (enable DTC recording)
+   * - Sub-function 0x02: OFF (disable DTC recording)
+   * - Optional DTCSettingType byte in data for selective control
+   * - Session validation: EXTENDED or PROGRAMMING required
+   * - Auto-resets to ON on session change
+   */
+  private handleControlDTCSetting(request: UDSRequest): UDSResponse | null {
+    // Check if subfunction is missing
+    if (request.subFunction === undefined) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    // Extract suppress positive response bit (bit 7)
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
+
+    // Get actual sub-function (lower 7 bits)
+    const subFunction = request.subFunction & 0x7F;
+
+    // Validate sub-function: only 0x01 (ON) and 0x02 (OFF) are valid
+    if (subFunction !== 0x01 && subFunction !== 0x02) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED
+      );
+    }
+
+    // Session validation: SID 0x85 is NOT supported in DEFAULT session
+    // Only EXTENDED (0x03) and PROGRAMMING (0x02) sessions are allowed
+    if (this.state.currentSession === DiagnosticSessionType.DEFAULT) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION
+      );
+    }
+
+    // Validate DTCSettingType if present (optional byte in data)
+    // Valid values: 0x00 (All), 0x01 (Emissions), 0x02 (Safety), 0x03+ (Manufacturer-specific)
+    if (request.data && request.data.length > 0) {
+      const dtcSettingType = request.data[0];
+      // For this simulator, we support 0x00-0x02
+      // 0xFF and other high values are typically invalid
+      if (dtcSettingType > 0x02 && dtcSettingType < 0x80) {
+        // Manufacturer-specific range not supported in simulator
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+      if (dtcSettingType >= 0x80) {
+        // Invalid/reserved range
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        );
+      }
+    }
+
+    // Update DTC recording state
+    this.state.dtcRecordingEnabled = (subFunction === 0x01);
+
+    // If suppress positive response bit is set, return null (no response)
+    if (suppressPositiveResponse) {
+      return null;
+    }
+
+    // Positive response: 0xC5 + sub-function
+    return {
+      sid: request.sid,
+      data: [0xC5, subFunction],
+      timestamp: Date.now(),
+      isNegative: false,
     };
   }
 
@@ -2661,7 +3465,7 @@ export class UDSSimulator {
         networkManagement: { rxEnabled: true, txEnabled: true },
         subnets: new Map(),
       },
-      activePeriodicIds: [],
+      activePeriodicTasks: [],
       downloadInProgress: false,
       uploadInProgress: false,
       transferBlockCounter: 0,
@@ -2673,6 +3477,11 @@ export class UDSSimulator {
       securityDelayActive: false,
       seedTimeout: 5000,
       securityDelayDuration: 10000,
+      // Access Timing Parameters (SID 0x83)
+      p2Server: 50,
+      p2StarServer: 5000,
+      // Control DTC Setting (SID 0x85)
+      dtcRecordingEnabled: true,
     };
     this.currentSeed = [];
     this.expectedKey = [];

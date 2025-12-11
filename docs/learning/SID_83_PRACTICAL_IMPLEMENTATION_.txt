@@ -1,0 +1,343 @@
+# SID 0x83: Practical Implementation Guide
+
+**Document Version**: 2.0  
+**Last Updated**:  December 11, 2025  
+**Format**: Visual Diagrams (No Code)  
+**ISO Reference**: ISO 14229-1:2020 Section 9.4
+
+---
+
+## Table of Contents
+
+1. [Request Processing Flow](#request-processing-flow)
+2. [Timing Value Encoding/Decoding](#timing-value-encoding-decoding)
+3. [NRC Decision Trees](#nrc-decision-trees)
+4. [State Machine Diagrams](#state-machine-diagrams)
+5. [Testing Scenarios](#testing-scenarios)
+6. [Integration Patterns](#integration-patterns)
+7. [Debugging Guide](#debugging-guide)
+8. [Best Practices](#best-practices)
+
+---
+
+## Request Processing Flow
+
+### High-Level Processing Flowchart
+
+```
+                    ┌──────────────────┐
+                    │ Receive Request  │
+                    │   (SID 0x83)     │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Parse            │
+                    │ Sub-function     │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+         ┌────────┐     ┌────────┐    ┌────────┐
+         │Sub=0x01│     │Sub=0x02│    │Sub=0x03│
+         │ (Read  │     │ (Set   │    │ (Read  │
+         │Extended)     │ Values)│    │Current)│
+         └────┬───┘     └───┬────┘    └───┬────┘
+              │             │              │
+              ▼             ▼              ▼
+    ┌─────────────┐  ┌──────────────┐ ┌──────────────┐
+    │Return       │  │Validate      │ │Return        │
+    │Extended     │  │Timing Values │ │Current       │
+    │Parameter Set│  └──────┬───────┘ │Active Values │
+    └─────────────┘         │         └──────────────┘
+                            │
+                       ┌────┴────┐
+                      Valid   Invalid
+                       │         │
+                       ▼         ▼
+                 ┌──────────┐ ┌────────┐
+                 │Apply     │ │NRC 0x31│
+                 │New Timing│ │(Out of │
+                 │Values    │ │Range)  │
+                 └──────────┘ └────────┘
+```
+
+### Detailed Sub-function 0x02 (Set) Processing
+
+```
+         ┌─────────────────────┐
+         │ Receive 83 02       │
+         │ + Timing Data       │
+         └──────────┬──────────┘
+                    │
+                    ▼
+         ┌─────────────────────┐
+         │ Validate Length     │
+         │ (min 6 bytes)       │
+         └──────────┬──────────┘
+                    │
+              ┌─────┴─────┐
+             NO           YES
+              │             │
+              ▼             ▼
+        ┌──────────┐  ┌──────────────┐
+        │NRC 0x13  │  │ Parse Timing │
+        │(Length)  │  │ Values       │
+        └──────────┘  └──────┬───────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ P2 Value Valid?   │
+                    │ (range check)    │
+                    └────────┬─────────┘
+                             │
+                        ┌────┴────┐
+                       NO        YES
+                        │          │
+                        ▼          ▼
+                  ┌──────────┐  ┌────────────┐
+                  │NRC 0x31  │  │ P2* Valid?  │
+                  │(Out of   │  └─────┬──────┘
+                  │ Range)   │        │
+                  └──────────┘   ┌────┴────┐
+                                NO        YES
+                                 │          │
+                                 ▼          ▼
+                           ┌──────────┐  ┌──────────┐
+                           │NRC 0x31  │  │Apply     │
+                           └──────────┘  │Values    │
+                                         │Send 0xC3 │
+                                         └──────────┘
+```
+
+---
+
+## Timing Value Encoding/Decoding
+
+### Big-Endian 2-Byte Format
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              TIMING VALUE ENCODING                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Format: 2 bytes, big-endian, milliseconds                  │
+│                                                             │
+│  Structure:                                                 │
+│  ┌─────────────┬─────────────┐                             │
+│  │  Byte N     │  Byte N+1   │                             │
+│  │  (High)     │  (Low)      │                             │
+│  └─────────────┴─────────────┘                             │
+│                                                             │
+│  Formula:                                                    │
+│  Value (ms) = (HighByte × 256) + LowByte                    │
+│                                                             │
+│  Examples:                                                  │
+│                                                             │
+│  Example 1: P2 = 50ms                                       │
+│  ┌──────────────────────────────────┐                      │
+│  │ Decimal:  50                      │                      │
+│  │ Hex:  0x0032                      │                      │
+│  │ High Byte: 0x00                  │                      │
+│  │ Low Byte:   0x32                  │                      │
+│  │ Message: [...  00 32 ...]         │                      │
+│  └──────────────────────────────────┘                      │
+│                                                             │
+│  Example 2: P2* = 5000ms                                    │
+│  ┌──────────────────────────────────┐                      │
+│  │ Decimal: 5000                    │                      │
+│  │ Hex: 0x1388                      │                      │
+│  │ High Byte: 0x13                  │                      │
+│  │ Low Byte:  0x88                  │                      │
+│  │ Message:  [... 13 88 ...]         │                      │
+│  └──────────────────────────────────┘                      │
+│                                                             │
+│  Example 3: P2* = 30000ms (30 seconds)                      │
+│  ┌──────────────────────────────────┐                      │
+│  │ Decimal: 30000                   │                      │
+│  │ Hex: 0x7530                      │                      │
+│  │ High Byte: 0x75                  │                      │
+│  │ Low Byte:  0x30                  │                      │
+│  │ Message:  [... 75 30 ...]         │                      │
+│  └──────────────────────────────────┘                      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Encoding Reference Table
+
+```
+┌──────────────┬─────────┬──────────┬──────────────────┐
+│ Value (ms)   │ Decimal │ Hex      │ Bytes (Hi/Lo)    │
+├──────────────┼─────────┼──────────┼──────────────────┤
+│ 10 ms        │ 10      │ 0x000A   │ 0x00 0x0A        │
+│ 25 ms        │ 25      │ 0x0019   │ 0x00 0x19        │
+│ 50 ms        │ 50      │ 0x0032   │ 0x00 0x32        │
+│ 100 ms       │ 100     │ 0x0064   │ 0x00 0x64        │
+│ 200 ms       │ 200     │ 0x00C8   │ 0x00 0xC8        │
+│ 500 ms       │ 500     │ 0x01F4   │ 0x01 0xF4        │
+│ 1000 ms (1s) │ 1000    │ 0x03E8   │ 0x03 0xE8        │
+│ 5000 ms (5s) │ 5000    │ 0x1388   │ 0x13 0x88        │
+│ 10000 ms     │ 10000   │ 0x2710   │ 0x27 0x10        │
+│ 30000 ms     │ 30000   │ 0x7530   │ 0x75 0x30        │
+│ 50000 ms     │ 50000   │ 0xC350   │ 0xC3 0x50        │
+│ 60000 ms     │ 60000   │ 0xEA60   │ 0xEA 0x60        │
+│ 65535 ms     │ 65535   │ 0xFFFF   │ 0xFF 0xFF        │
+│ (max)        │         │          │                  │
+└──────────────┴─────────┴──────────┴──────────────────┘
+```
+
+### Complete Message Format Example
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│         COMPLETE SET TIMING MESSAGE BREAKDOWN               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Set P2=200ms, P2*=10000ms                                  │
+│                                                             │
+│  Step 1: Convert values to hex                              │
+│  • P2 = 200ms = 0x00C8                                      │
+│  • P2* = 10000ms = 0x2710                                   │
+│                                                             │
+│  Step 2: Build message                                      │
+│  ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐       │
+│  │Byte 0│Byte 1│Byte 2│Byte 3│Byte 4│Byte 5│Byte 6│       │
+│  ├──────┼──────┼──────┼──────┼──────┼──────┼──────┤       │
+│  │ 0x83 │ 0x02 │ 0x01 │ 0x00 │ 0xC8 │ 0x27 │ 0x10 │       │
+│  └──────┴──────┴──────┴──────┴──────┴──────┴──────┘       │
+│    │      │      │      │      │      │      │             │
+│    │      │      │      │      │      │      └─ P2* Low    │
+│    │      │      │      │      │      └──────── P2* High   │
+│    │      │      │      │      └────────────── P2 Low      │
+│    │      │      │      └──────────────────── P2 High      │
+│    │      │      └──────────────────────────── Type (0x01) │
+│    │      └─────────────────────────────────── Sub-fn      │
+│    └────────────────────────────────────────── SID         │
+│                                                             │
+│  Total Length: 7 bytes                                      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Decoding Response Example
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              DECODE RESPONSE MESSAGE                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Received: C3 03 01 00 32 13 88                             │
+│                                                             │
+│  Step 1: Identify message                                   │
+│  • 0xC3 = Response to 0x83                                  │
+│  • 0x03 = Sub-function (Read Current)                       │
+│                                                             │
+│  Step 2: Extract P2Server                                   │
+│  • Bytes 3-4: 0x00 0x32                                     │
+│  • Calculation: (0x00 × 256) + 0x32 = 0 + 50 = 50           │
+│  • Result: P2Server = 50ms                                  │
+│                                                             │
+│  Step 3: Extract P2*Server                                  │
+│  • Bytes 5-6: 0x13 0x88                                     │
+│  • Calculation: (0x13 × 256) + 0x88 = 4864 + 136 = 5000     │
+│  • Result: P2*Server = 5000ms                               │
+│                                                             │
+│  Summary:                                                    │
+│  • P2Server:  50 milliseconds                                │
+│  • P2*Server: 5000 milliseconds (5 seconds)                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## NRC Decision Trees
+
+### Master NRC Decision Tree
+
+```
+                        Start Processing 0x83
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │ Sub-function     │
+               ┌────┤ Valid?           │────┐
+              NO    │ (0x01/0x02/0x03) │   YES
+               │    └──────────────────┘    │
+               ▼                             ▼
+          NRC 0x12              ┌────────────────────┐
+       (Sub-fn Not              │ Message Length     │
+        Supported)          ┌───┤ Correct for        │───┐
+                           NO   │ Sub-function?      │  YES
+                            │   └────────────────────┘   │
+                            ▼                            ▼
+                       NRC 0x13             ┌──────────────────┐
+                    (Length Error)          │ If Sub-fn = 0x02:  │
+                                        ┌───┤ Timing Values     │───┐
+                                       NO   │ In Range?         │  YES
+                                        │   └──────────────────┘   │
+                                        ▼                          ▼
+                                   NRC 0x31              ┌──────────────┐
+                                (Out of Range)           │ If requires  │
+                                                    ┌────┤ security:     │────┐
+                                                   NO    │ Unlocked?    │   YES
+                                                    │    └──────────────┘    │
+                                                    ▼                        ▼
+                                               NRC 0x33              Positive Response
+                                          (Security Denied)               0xC3
+```
+
+### Sub-function Validation Decision Tree
+
+```
+         Sub-function Byte Value
+                  │
+    ┌─────────────┼─────────────┐
+    │             │             │
+   0x01          0x02          0x03          Other
+    │             │             │             │
+    ▼             ▼             ▼             ▼
+┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐
+│ Valid  │   │ Valid  │   │ Valid  │   │NRC 0x12│
+│Read Ext│   │Set     │   │Read Cur│   │        │
+└────────┘   └────┬───┘   └────────┘   └────────┘
+                  │
+          ┌───────┴───────┐
+          │               │
+     Length ≥ 6      Length < 6
+          │               │
+          ▼               ▼
+    ┌────────┐      ┌────────┐
+    │ Valid  │      │NRC 0x13│
+    └────────┘      └────────┘
+```
+
+### Timing Value Range Validation
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              TIMING VALUE VALIDATION LOGIC                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Input: P2 value, P2* value                                 │
+│                                                             │
+│  Check 1: P2 Minimum Bound                                  │
+│  ┌──────────────────────────────┐                          │
+│  │ P2 < Min (e.g., 1ms)?        │                          │
+│  │  YES → NRC 0x31              │                          │
+│  │  NO  → Continue              │                          │
+│  └──────────────────────────────┘                          │
+│                                                             │
+│  Check 2: P2 Maximum Bound                                  │
+│  ┌──────────────────────────────┐                          │
+│  │ P2 > Max (e.g., 5000ms)?     │                          │
+│  │  YES → NRC 0x31              │                          │
+│  │  NO  → Continue              │                          │
+│  └──────────────────────────────┘                          │
+│                                                             │
+│  Check 3: P2* Minimum Bound                                 │
+│  ┌──────────────────────────────┐                          │
+│  │ P2* < P2?                     │                          │
+│  │  YES → NRC 0x31 (

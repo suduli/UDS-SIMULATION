@@ -111,9 +111,13 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
     { id: ServiceId.WRITE_DATA_BY_IDENTIFIER, name: '0x2E - Write Data By Identifier' },
     { id: ServiceId.ROUTINE_CONTROL, name: '0x31 - Routine Control' },
     { id: ServiceId.REQUEST_DOWNLOAD, name: '0x34 - Request Download' },
+    { id: ServiceId.REQUEST_UPLOAD, name: '0x35 - Request Upload' },
     { id: ServiceId.TRANSFER_DATA, name: '0x36 - Transfer Data' },
     { id: ServiceId.REQUEST_TRANSFER_EXIT, name: '0x37 - Transfer Exit' },
+    { id: ServiceId.TESTER_PRESENT, name: '0x3E - Tester Present' },
     { id: ServiceId.WRITE_MEMORY_BY_ADDRESS, name: '0x3D - Write Memory' },
+    { id: ServiceId.ACCESS_TIMING_PARAMETER, name: '0x83 - Access Timing Parameter' },
+    { id: ServiceId.CONTROL_DTC_SETTING, name: '0x85 - Control DTC Setting' },
   ];
 
   // Service metadata: icons, colors, and descriptions
@@ -193,10 +197,25 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
       color: 'text-emerald-400',
       description: 'Terminate data transfer and verify integrity'
     },
+    [ServiceId.TESTER_PRESENT]: {
+      icon: '💓',
+      color: 'text-amber-400',
+      description: 'Keep diagnostic session active (Heartbeat)'
+    },
     [ServiceId.WRITE_MEMORY_BY_ADDRESS]: {
       icon: '💿',
       color: 'text-rose-400',
       description: 'Write data directly to ECU memory addresses'
+    },
+    [ServiceId.ACCESS_TIMING_PARAMETER]: {
+      icon: '⏳',
+      color: 'text-orange-400',
+      description: 'Read and modify ECU timing parameters (P2, P2*)'
+    },
+    [ServiceId.CONTROL_DTC_SETTING]: {
+      icon: '🔇',
+      color: 'text-gray-400',
+      description: 'Enable or disable DTC storage during maintenance'
     },
   };
 

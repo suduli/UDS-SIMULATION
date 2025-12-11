@@ -1,0 +1,1185 @@
+{
+    "id": "sid3d-write-memory-by-address-comprehensive-test-suite",
+    "name": "SID 3D Write Memory By Address - Comprehensive Automotive Test Suite",
+    "version": "2.0.0",
+    "description": "Production-grade test suite for UDS Service ID 3D (WriteMemoryByAddress) based on ISO 14229-1:2020 Section 11.4. Covers full validation chain, service interactions, error recovery, timing scenarios, edge cases, and multi-service workflows as documented in SID_3D_WRITE_MEMORY_BY_ADDRESS.md, SID_3D_PRACTICAL_IMPLEMENTATION.md, and SID_3D_SERVICE_INTERACTIONS.md.",
+    "categories": [
+        "Session Validation",
+        "Security Validation",
+        "ALFID Parsing",
+        "Message Length Validation",
+        "Memory Region Validation",
+        "Boundary Conditions",
+        "Protected Regions",
+        "Service Interactions",
+        "Write Verification",
+        "Error Recovery",
+        "Edge Cases"
+    ],
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460000000,
+            "description": "=== CATEGORY 1: SESSION VALIDATION === [SETUP] Reset to DEFAULT Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734460001000,
+            "description": "TC-01: Write in DEFAULT session - Expect NRC 0x7F (ServiceNotSupportedInActiveSession)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460002000,
+            "description": "TC-02.1: Enter EXTENDED Session for service enablement"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734460003000,
+            "description": "TC-02.2: Write to Public Calibration (0x00100000) - securityLevel=0, no security required - Success"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460004000,
+            "description": "TC-02.3: Read back Public Calibration to verify write - Expect 0x11 0x22 0x33 0x44"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460005000,
+            "description": "=== CATEGORY 2: SECURITY ACCESS VALIDATION === [SETUP] Reset to DEFAULT"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460006000,
+            "description": "TC-03.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                85,
+                102,
+                119,
+                136
+            ],
+            "timestamp": 1734460007000,
+            "description": "TC-03.2: Write to OEM Calibration (0x00200000, securityLevel=1) WITHOUT unlock - Expect NRC 0x33"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460008000,
+            "description": "TC-03.3: Request Security Seed (SID 0x27 0x01) for Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460009000,
+            "description": "TC-03.4: Send Security Key to unlock Level 1"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                85,
+                102,
+                119,
+                136
+            ],
+            "timestamp": 1734460010000,
+            "description": "TC-03.5: Write to OEM Calibration AFTER security unlock - Expect Success"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460011000,
+            "description": "TC-03.6: Read back OEM Calibration to verify write - Expect 0x55 0x66 0x77 0x88"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460012000,
+            "description": "=== CATEGORY 3: MESSAGE LENGTH / ALFID VALIDATION === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460013000,
+            "description": "TC-04.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [],
+            "timestamp": 1734460014000,
+            "description": "TC-04.2: Empty data (no ALFID) - Expect NRC 0x13 (IncorrectMessageLength)"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68
+            ],
+            "timestamp": 1734460015000,
+            "description": "TC-04.3: Only ALFID byte, missing address/size/data - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0
+            ],
+            "timestamp": 1734460016000,
+            "description": "TC-04.4: ALFID 0x44 but only 4 bytes total (missing size field and data) - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                170,
+                187
+            ],
+            "timestamp": 1734460017000,
+            "description": "TC-04.5: Size field says 4 bytes but only 2 data bytes provided - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                170,
+                187,
+                204,
+                221,
+                238,
+                255
+            ],
+            "timestamp": 1734460018000,
+            "description": "TC-04.6: Size field says 4 bytes but 6 data bytes provided (extra bytes) - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734460019000,
+            "description": "TC-04.7: Invalid ALFID 0x00 (addressSize=0, sizeLength=0) - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                240,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734460020000,
+            "description": "TC-04.8: Invalid ALFID 0xF0 (addressSize=0) - Expect NRC 0x13"
+        },
+        {
+            "sid": 61,
+            "data": [
+                15,
+                0,
+                1
+            ],
+            "timestamp": 1734460021000,
+            "description": "TC-04.9: Invalid ALFID 0x0F (sizeLength=0) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460022000,
+            "description": "=== CATEGORY 4: ADDRESS VALIDATION / OUT OF RANGE === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460023000,
+            "description": "TC-05.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                255,
+                255,
+                255,
+                255,
+                0,
+                0,
+                0,
+                4,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734460024000,
+            "description": "TC-05.2: Invalid address 0xFFFFFFFF (unmapped) - Expect NRC 0x31 (RequestOutOfRange)"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734460025000,
+            "description": "TC-05.3: Address 0x01000000 (gap in memory map) - Expect NRC 0x31"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734460026000,
+            "description": "TC-05.4: Reserved region 0x00000000 (not accessible) - Expect NRC 0x31"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734460027000,
+            "description": "TC-05.5: Size = 0 bytes (zero-length write) - Expect NRC 0x13 or 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460028000,
+            "description": "=== CATEGORY 5: NON-WRITABLE REGION TESTS === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460029000,
+            "description": "TC-06.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460030000,
+            "description": "TC-06.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460031000,
+            "description": "TC-06.3: Unlock Security"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734460032000,
+            "description": "TC-06.4: Write to RAM (0x00300000) which has writable=false - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460033000,
+            "description": "=== CATEGORY 6: PROTECTED REGION (BOOTLOADER) === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460034000,
+            "description": "TC-07.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460035000,
+            "description": "TC-07.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460036000,
+            "description": "TC-07.3: Unlock Security"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                64,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                1,
+                2,
+                3,
+                4
+            ],
+            "timestamp": 1734460037000,
+            "description": "TC-07.4: Write to Bootloader (0x00400000, protected=true) - Expect NRC 0x22 or 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460038000,
+            "description": "=== CATEGORY 7: PROGRAMMING SESSION + FLASH CODE === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460039000,
+            "description": "TC-08.1: Enter PROGRAMMING Session (required for Flash)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460040000,
+            "description": "TC-08.2: Request Security Seed in PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460041000,
+            "description": "TC-08.3: Unlock Security in PROGRAMMING"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                4,
+                255,
+                238,
+                221,
+                204
+            ],
+            "timestamp": 1734460042000,
+            "description": "TC-08.4: Write to Flash Code region (0x00001000) in PROGRAMMING - Expect Success"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460043000,
+            "description": "TC-08.5: Read back Flash Code to verify write - Expect 0xFF 0xEE 0xDD 0xCC"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460044000,
+            "description": "=== CATEGORY 8: ALFID VARIANT TESTS === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460045000,
+            "description": "TC-09.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                17,
+                16,
+                1,
+                255
+            ],
+            "timestamp": 1734460046000,
+            "description": "TC-09.2: ALFID 0x11 (1-byte addr=0x10, 1-byte size=1, data=0xFF) - Address not in map - Expect NRC 0x31"
+        },
+        {
+            "sid": 61,
+            "data": [
+                34,
+                0,
+                16,
+                0,
+                4,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734460047000,
+            "description": "TC-09.3: ALFID 0x22 (2-byte addr=0x0010, 2-byte size=4) - Address not in map - Expect NRC 0x31"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                16,
+                0,
+                0,
+                0,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "timestamp": 1734460048000,
+            "description": "TC-09.4: Write 8 bytes to Public Calibration at offset 0x10 (addr=0x00100010) - Success"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                16,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734460049000,
+            "description": "TC-09.5: Read back 8 bytes from Public Calibration offset 0x10 - Verify write"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460050000,
+            "description": "=== CATEGORY 9: BOUNDARY CONDITIONS === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460051000,
+            "description": "TC-10.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                170
+            ],
+            "timestamp": 1734460052000,
+            "description": "TC-10.2: Minimum write - 1 byte to first address of Public Calibration - Success"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734460053000,
+            "description": "TC-10.3: Verify 1-byte write"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                255,
+                255,
+                0,
+                0,
+                0,
+                1,
+                187
+            ],
+            "timestamp": 1734460054000,
+            "description": "TC-10.4: Write to last address of Public Calibration region (0x0010FFFF) - Check boundary"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460055000,
+            "description": "=== CATEGORY 10: SERVICE INTERACTION - WRITE + VERIFY PATTERN === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460056000,
+            "description": "TC-11.1: Enter EXTENDED Session for complete workflow"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460057000,
+            "description": "TC-11.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460058000,
+            "description": "TC-11.3: Send Security Key"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                32,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460059000,
+            "description": "TC-11.4: Read BEFORE write - Get original value from OEM Calibration offset 0x20"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                32,
+                0,
+                0,
+                0,
+                4,
+                222,
+                173,
+                190,
+                239
+            ],
+            "timestamp": 1734460060000,
+            "description": "TC-11.5: Write new value (0xDEADBEEF) to OEM Calibration offset 0x20"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                32,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460061000,
+            "description": "TC-11.6: Read AFTER write - Verify value changed to 0xDEADBEEF"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460062000,
+            "description": "=== CATEGORY 11: TESTER PRESENT INTEGRATION === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460063000,
+            "description": "TC-12.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460064000,
+            "description": "TC-12.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460065000,
+            "description": "TC-12.3: Send Security Key"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734460066000,
+            "description": "TC-12.4: Send TesterPresent (0x3E 0x00) to reset S3 timer"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                64,
+                0,
+                0,
+                0,
+                4,
+                202,
+                254,
+                186,
+                190
+            ],
+            "timestamp": 1734460067000,
+            "description": "TC-12.5: Write after TesterPresent - Session should still be active"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734460068000,
+            "description": "TC-12.6: Another TesterPresent before verification"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                64,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734460069000,
+            "description": "TC-12.7: Verify write - Read back written data"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460070000,
+            "description": "=== CATEGORY 12: SECURITY LOST AFTER SESSION CHANGE === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460071000,
+            "description": "TC-13.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460072000,
+            "description": "TC-13.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460073000,
+            "description": "TC-13.3: Unlock Security"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                48,
+                0,
+                0,
+                0,
+                4,
+                17,
+                17,
+                17,
+                17
+            ],
+            "timestamp": 1734460074000,
+            "description": "TC-13.4: Write to protected area while security unlocked - Should succeed"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460075000,
+            "description": "TC-13.5: Change to PROGRAMMING session (security gets reset)"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                48,
+                0,
+                0,
+                0,
+                4,
+                34,
+                34,
+                34,
+                34
+            ],
+            "timestamp": 1734460076000,
+            "description": "TC-13.6: Try write immediately after session change - Expect NRC 0x33 (security locked)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460077000,
+            "description": "TC-13.7: Re-request Security Seed after session change"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460078000,
+            "description": "TC-13.8: Re-unlock Security"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                48,
+                0,
+                0,
+                0,
+                4,
+                34,
+                34,
+                34,
+                34
+            ],
+            "timestamp": 1734460079000,
+            "description": "TC-13.9: Write after re-unlock - Should succeed now"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460080000,
+            "description": "=== CATEGORY 13: MULTIPLE WRITES - BATCH CALIBRATION UPDATE === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460081000,
+            "description": "TC-14.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460082000,
+            "description": "TC-14.2: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460083000,
+            "description": "TC-14.3: Unlock Security"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                128,
+                0,
+                0,
+                0,
+                4,
+                1,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734460084000,
+            "description": "TC-14.4: Batch Write #1 - Fuel map calibration (offset 0x80)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734460085000,
+            "description": "TC-14.5: TesterPresent to keep session alive"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                132,
+                0,
+                0,
+                0,
+                4,
+                2,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734460086000,
+            "description": "TC-14.6: Batch Write #2 - Ignition map calibration (offset 0x84)"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                136,
+                0,
+                0,
+                0,
+                4,
+                3,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734460087000,
+            "description": "TC-14.7: Batch Write #3 - Timing map calibration (offset 0x88)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734460088000,
+            "description": "TC-14.8: TesterPresent before verification"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                128,
+                0,
+                0,
+                0,
+                12
+            ],
+            "timestamp": 1734460089000,
+            "description": "TC-14.9: Verify all 3 writes - Read 12 bytes from offset 0x80"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460090000,
+            "description": "=== CATEGORY 14: LARGE DATA WRITES === [SETUP] Reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460091000,
+            "description": "TC-15.1: Enter EXTENDED Session"
+        },
+        {
+            "sid": 61,
+            "data": [
+                132,
+                0,
+                16,
+                0,
+                192,
+                0,
+                0,
+                0,
+                8,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "timestamp": 1734460092000,
+            "description": "TC-15.2: ALFID 0x84 - Write 8 bytes (larger size field) to offset 0xC0"
+        },
+        {
+            "sid": 35,
+            "data": [
+                132,
+                0,
+                16,
+                0,
+                192,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734460093000,
+            "description": "TC-15.3: Verify 8-byte write"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460094000,
+            "description": "=== END OF COMPREHENSIVE TEST SUITE ==="
+        }
+    ]
+}
