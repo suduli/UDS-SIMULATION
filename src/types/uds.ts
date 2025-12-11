@@ -288,11 +288,13 @@ export interface MemoryAddress {
 }
 
 // Memory Region Interface (extends MemoryAddress with security and access control)
-// Used by SID 0x23 (Read Memory By Address) for region validation
+// Used by SID 0x23 (Read Memory By Address) and SID 0x34/0x35 (Download/Upload)
 export interface MemoryRegion extends MemoryAddress {
   name: string;
   securityLevel: number;  // 0 = public, 1+ = requires security unlock
   accessible: boolean;    // false for reserved/forbidden regions
+  writable?: boolean;     // true if region supports downloads (SID 0x34), default: false
+  protected?: boolean;    // true if region is write-protected (e.g., bootloader), default: false
   description: string;
 }
 
@@ -325,6 +327,7 @@ export interface ECUConfig {
   memoryMap: MemoryAddress[];
   securitySeed?: number[];
   securityKey?: number[];
+  maxBlockLength?: number;  // Max bytes per Transfer Data (0x36), default 4096
 }
 
 // Scenario for save/load
