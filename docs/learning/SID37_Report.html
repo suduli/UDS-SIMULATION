@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)file:///C:/Users/sudul/Downloads/terminal_report_1765459861208_analysis_1765459906509.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Output Report (12/11/2025, 7:01:01 PM) - UDS Test Report</title>
+    <style>
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { margin-bottom: 3rem; text-align: center; }
+        h1 { font-size: 2.5rem; color: #00f3ff; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.1rem; color: #94a3b8; margin-bottom: 1rem; }
+        .metadata { display: flex; gap: 2rem; justify-content: center; font-size: 0.9rem; color: #64748b; }
+        
+        h2 { font-size: 1.8rem; color: #00f3ff; margin-bottom: 1.5rem; }
+        
+        section { 
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card.success { border-color: rgba(16, 185, 129, 0.5); }
+        .stat-card.error { border-color: rgba(239, 68, 68, 0.5); }
+        .stat-value { 
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00f3ff;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card.success .stat-value { color: #10b981; }
+        .stat-card.error .stat-value { color: #ef4444; }
+        .stat-label { color: #94a3b8; font-size: 0.9rem; }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .data-table th {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+            color: #00f3ff;
+        }
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        .data-table tr:hover { background: rgba(0, 243, 255, 0.05); }
+        .data-table tr.success { border-left: 3px solid #10b981; }
+        .data-table tr.error { border-left: 3px solid #ef4444; }
+        
+        code { 
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00f3ff;
+        }
+        
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            height: 8px;
+            overflow: hidden;
+            display: inline-block;
+            width: 100px;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .percentage { font-size: 0.9rem; color: #94a3b8; }
+        
+        .severity {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .severity.info { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .severity.warning { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .severity.error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .severity.critical { background: rgba(220, 38, 38, 0.2); color: #dc2626; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status-badge.success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .status-badge.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        .timeline-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid #64748b;
+        }
+        .timeline-item.success { border-left-color: #10b981; }
+        .timeline-item.error { border-left-color: #ef4444; }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #64748b;
+            flex-shrink: 0;
+        }
+        .timeline-item.success .timeline-dot { background: #10b981; }
+        .timeline-item.error .timeline-dot { background: #ef4444; }
+        .timeline-content { flex: 1; }
+        .timeline-description { color: #e2e8f0; margin-bottom: 0.25rem; }
+        .timeline-time { font-size: 0.85rem; color: #64748b; }
+        .timeline-status {
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .timeline-item.success .timeline-status { color: #10b981; }
+        .timeline-item.error .timeline-status { color: #ef4444; }
+        
+        .table-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .table-controls input,
+        .table-controls select {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .table-controls input { flex: 1; }
+        .table-controls input:focus,
+        .table-controls select:focus {
+            outline: 2px solid #00f3ff;
+            border-color: #00f3ff;
+        }
+        
+        .table-wrapper { overflow-x: auto; }
+        .description { max-width: 400px; }
+        .no-data { text-align: center; color: #64748b; padding: 2rem; }
+        .note { color: #64748b; font-size: 0.9rem; margin-top: 1rem; text-align: center; }
+        
+        @media print {
+            body { background: white; color: black; }
+            section { border: 1px solid #ccc; background: white; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Terminal Output Report (12/11/2025, 7:01:01 PM)</h1>
+            <p class="subtitle">Generated from current terminal session with 92 requests</p>
+            <div class="metadata">
+                <span>Report ID: terminal_report_1765459861208</span>
+                <span>Version: 1.0.0</span>
+                <span>Generated: 12/11/2025, 7:01:46 PM</span>
+            </div>
+        </header>
+
+        
+        <section class="summary-section">
+            <h2>Test Summary</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">92</div>
+                    <div class="stat-label">Total Requests</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value">77</div>
+                    <div class="stat-label">Successful</div>
+                </div>
+                <div class="stat-card error">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">NRC Errors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">83.7%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1m 31s</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="nrc-section">
+            <h2>NRC Analysis</h2>
+            <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td><code>0x70</code></td>
+                    <td>Upload/Download Not Accepted</td>
+                    <td>5</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33.33333333333333%"></div>
+                        </div>
+                        <span class="percentage">33.3%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x7F</code></td>
+                    <td>Service Not Supported In Active Session</td>
+                    <td>3</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 20%"></div>
+                        </div>
+                        <span class="percentage">20.0%</span>
+                    </td>
+                    <td><span class="severity warning">warning</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x33</code></td>
+                    <td>Security Access Denied</td>
+                    <td>2</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 13.333333333333334%"></div>
+                        </div>
+                        <span class="percentage">13.3%</span>
+                    </td>
+                    <td><span class="severity critical">critical</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x24</code></td>
+                    <td>Request Sequence Error</td>
+                    <td>2</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 13.333333333333334%"></div>
+                        </div>
+                        <span class="percentage">13.3%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x22</code></td>
+                    <td>Conditions Not Correct</td>
+                    <td>2</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 13.333333333333334%"></div>
+                        </div>
+                        <span class="percentage">13.3%</span>
+                    </td>
+                    <td><span class="severity warning">warning</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x73</code></td>
+                    <td>Wrong Block Sequence Counter</td>
+                    <td>1</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 6.666666666666667%"></div>
+                        </div>
+                        <span class="percentage">6.7%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                    </tbody>
+                </table>
+        </section>
+        
+        <section class="timeline-section">
+            <h2>Test Timeline</h2>
+            <div class="timeline-container">
+                
+                <div class="timeline-item success" title="[SETUP] Reset to Default Session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset to Default Session</div>
+                        <div class="timeline-time">2:50:00 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-01: Transfer Exit in DEFAULT session (no transfer active) - Expect NRC 0x70 (Upload Download Not Accepted) (NRC: 0x70)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-01: Transfer Exit in DEFAULT session (no transfer active) - Expect NRC 0x70 (Upload Download Not Accepted)</div>
+                        <div class="timeline-time">2:50:01 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-02">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-02</div>
+                        <div class="timeline-time">2:50:02 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-02.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-02.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:03 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-02.2: Transfer Exit without security unlock - Expect NRC 0x33 (Security Access Denied) (NRC: 0x33)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-02.2: Transfer Exit without security unlock - Expect NRC 0x33 (Security Access Denied)</div>
+                        <div class="timeline-time">2:50:04 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-03">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-03</div>
+                        <div class="timeline-time">2:50:05 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-03.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:06 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-03.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03.2: Request seed</div>
+                        <div class="timeline-time">2:50:07 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-03.3: Send key to unlock security">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03.3: Send key to unlock security</div>
+                        <div class="timeline-time">2:50:08 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-03.4: Transfer Exit without active transfer - Expect NRC 0x24 (Request Sequence Error) (NRC: 0x24)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03.4: Transfer Exit without active transfer - Expect NRC 0x24 (Request Sequence Error)</div>
+                        <div class="timeline-time">2:50:09 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-04">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-04</div>
+                        <div class="timeline-time">2:50:10 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:11 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.2: Request seed</div>
+                        <div class="timeline-time">2:50:12 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.3: Send key</div>
+                        <div class="timeline-time">2:50:13 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.4: Request Download: Addr=0x00100000, Size=0x1000">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.4: Request Download: Addr=0x00100000, Size=0x1000</div>
+                        <div class="timeline-time">2:50:14 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.5: Valid Transfer Exit after Download (no data transferred) - Expect Success (0x77)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.5: Valid Transfer Exit after Download (no data transferred) - Expect Success (0x77)</div>
+                        <div class="timeline-time">2:50:15 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-05">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-05</div>
+                        <div class="timeline-time">2:50:16 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:17 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.2: Request seed</div>
+                        <div class="timeline-time">2:50:18 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.3: Send key</div>
+                        <div class="timeline-time">2:50:19 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.4: Request Upload: Addr=0x00100000, Size=0x0800">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.4: Request Upload: Addr=0x00100000, Size=0x0800</div>
+                        <div class="timeline-time">2:50:20 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.5: Valid Transfer Exit after Upload (no data transferred) - Expect Success (0x77)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.5: Valid Transfer Exit after Upload (no data transferred) - Expect Success (0x77)</div>
+                        <div class="timeline-time">2:50:21 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-06">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-06</div>
+                        <div class="timeline-time">2:50:22 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-06.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:23 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-06.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.2: Request seed</div>
+                        <div class="timeline-time">2:50:24 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-06.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.3: Send key</div>
+                        <div class="timeline-time">2:50:25 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-06.4: Request Download">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.4: Request Download</div>
+                        <div class="timeline-time">2:50:26 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-06.5: Transfer Data Block 1 (NRC: 0x7F)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.5: Transfer Data Block 1</div>
+                        <div class="timeline-time">2:50:27 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-06.6: Transfer Data Block 2 (NRC: 0x7F)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.6: Transfer Data Block 2</div>
+                        <div class="timeline-time">2:50:28 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-06.7: Transfer Data Block 3 (NRC: 0x7F)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.7: Transfer Data Block 3</div>
+                        <div class="timeline-time">2:50:29 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-06.8: Transfer Exit after multiple blocks - Expect Success (0x77) (NRC: 0x70)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-06.8: Transfer Exit after multiple blocks - Expect Success (0x77)</div>
+                        <div class="timeline-time">2:50:30 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-07">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-07</div>
+                        <div class="timeline-time">2:50:31 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-07.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:32 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-07.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.2: Request seed</div>
+                        <div class="timeline-time">2:50:33 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-07.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.3: Send key</div>
+                        <div class="timeline-time">2:50:34 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-07.4: Request Download">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.4: Request Download</div>
+                        <div class="timeline-time">2:50:35 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-07.5: First Transfer Exit - Expect Success (0x77)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.5: First Transfer Exit - Expect Success (0x77)</div>
+                        <div class="timeline-time">2:50:36 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-07.6: Repeated Transfer Exit (already exited) - Expect NRC 0x24 (Request Sequence Error) (NRC: 0x24)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-07.6: Repeated Transfer Exit (already exited) - Expect NRC 0x24 (Request Sequence Error)</div>
+                        <div class="timeline-time">2:50:37 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-08">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-08</div>
+                        <div class="timeline-time">2:50:38 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-08.1: Enter EXTENDED session (not PROGRAMMING)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-08.1: Enter EXTENDED session (not PROGRAMMING)</div>
+                        <div class="timeline-time">2:50:39 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-08.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-08.2: Request seed</div>
+                        <div class="timeline-time">2:50:40 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-08.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-08.3: Send key</div>
+                        <div class="timeline-time">2:50:41 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-08.4: Request Upload in EXTENDED session (NRC: 0x70)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-08.4: Request Upload in EXTENDED session</div>
+                        <div class="timeline-time">2:50:42 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-08.5: Transfer Exit in EXTENDED session - Expect NRC 0x70 (Upload Download Not Accepted) (NRC: 0x70)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-08.5: Transfer Exit in EXTENDED session - Expect NRC 0x70 (Upload Download Not Accepted)</div>
+                        <div class="timeline-time">2:50:43 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Reset for TC-09">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset for TC-09</div>
+                        <div class="timeline-time">2:50:44 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-09.1: Enter PROGRAMMING session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-09.1: Enter PROGRAMMING session</div>
+                        <div class="timeline-time">2:50:45 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-09.2: Request seed">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-09.2: Request seed</div>
+                        <div class="timeline-time">2:50:46 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-09.3: Send key">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-09.3: Send key</div>
+                        <div class="timeline-time">2:50:47 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-09.4: Request Download">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-09.4: Request Download</div>
+                        <div class="timeline-time">2:50:48 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-09.5: Transfer Exit with parameter record (4 bytes: simulated CRC-32) - Expect Success (0x77)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-09.5: Transfer Exit with parameter record (4 bytes: simulated CRC-32) - Expect Success (0x77)</div>
+                        <div class="timeline-time">2:50:49 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+            </div>
+            <p class="note">Showing first 50 items. See detailed log for complete timeline.</p>
+        </section>
+        
+        <section class="log-section">
+            <h2>Detailed Test Log</h2>
+            <div class="table-controls">
+                <input type="text" id="filterInput" placeholder="Filter by description...">
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="success">Success Only</option>
+                    <option value="error">NRC Only</option>
+                </select>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table" id="logTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Time</th>
+                            <th>SID</th>
+                            <th>Sub-Func</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Request Data</th>
+                            <th>Response Data</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr class="success">
+                    <td>1</td>
+                    <td>2:50:00 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset to Default Session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859610065ms</td>
+                </tr>
+                <tr class="error">
+                    <td>2</td>
+                    <td>2:50:01 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-01: Transfer Exit in DEFAULT session (no transfer active) - Expect NRC 0x70 (Upload Download Not Accepted)</td>
+                    <td><span class="status-badge error">NRC 0x70</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 70</code></td>
+                    <td>30859610088ms</td>
+                </tr>
+                <tr class="success">
+                    <td>3</td>
+                    <td>2:50:02 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-02</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859610089ms</td>
+                </tr>
+                <tr class="success">
+                    <td>4</td>
+                    <td>2:50:03 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-02.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859610807ms</td>
+                </tr>
+                <tr class="error">
+                    <td>5</td>
+                    <td>2:50:04 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-02.2: Transfer Exit without security unlock - Expect NRC 0x33 (Security Access Denied)</td>
+                    <td><span class="status-badge error">NRC 0x33</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 33</code></td>
+                    <td>30859611824ms</td>
+                </tr>
+                <tr class="success">
+                    <td>6</td>
+                    <td>2:50:05 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-03</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859612840ms</td>
+                </tr>
+                <tr class="success">
+                    <td>7</td>
+                    <td>2:50:06 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-03.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859614801ms</td>
+                </tr>
+                <tr class="success">
+                    <td>8</td>
+                    <td>2:50:07 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-03.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859615832ms</td>
+                </tr>
+                <tr class="success">
+                    <td>9</td>
+                    <td>2:50:08 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-03.3: Send key to unlock security</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859616830ms</td>
+                </tr>
+                <tr class="error">
+                    <td>10</td>
+                    <td>2:50:09 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-03.4: Transfer Exit without active transfer - Expect NRC 0x24 (Request Sequence Error)</td>
+                    <td><span class="status-badge error">NRC 0x24</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 24</code></td>
+                    <td>30859618796ms</td>
+                </tr>
+                <tr class="success">
+                    <td>11</td>
+                    <td>2:50:10 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-04</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859619829ms</td>
+                </tr>
+                <tr class="success">
+                    <td>12</td>
+                    <td>2:50:11 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-04.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859621807ms</td>
+                </tr>
+                <tr class="success">
+                    <td>13</td>
+                    <td>2:50:12 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-04.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859622839ms</td>
+                </tr>
+                <tr class="success">
+                    <td>14</td>
+                    <td>2:50:13 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-04.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859623839ms</td>
+                </tr>
+                <tr class="success">
+                    <td>15</td>
+                    <td>2:50:14 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-04.4: Request Download: Addr=0x00100000, Size=0x1000</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859624834ms</td>
+                </tr>
+                <tr class="success">
+                    <td>16</td>
+                    <td>2:50:15 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-04.5: Valid Transfer Exit after Download (no data transferred) - Expect Success (0x77)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859626793ms</td>
+                </tr>
+                <tr class="success">
+                    <td>17</td>
+                    <td>2:50:16 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-05</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859627839ms</td>
+                </tr>
+                <tr class="success">
+                    <td>18</td>
+                    <td>2:50:17 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-05.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859628838ms</td>
+                </tr>
+                <tr class="success">
+                    <td>19</td>
+                    <td>2:50:18 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-05.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859630803ms</td>
+                </tr>
+                <tr class="success">
+                    <td>20</td>
+                    <td>2:50:19 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-05.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859632799ms</td>
+                </tr>
+                <tr class="success">
+                    <td>21</td>
+                    <td>2:50:20 PM</td>
+                    <td><code>0x35</code></td>
+                    <td>-</td>
+                    <td class="description">TC-05.4: Request Upload: Addr=0x00100000, Size=0x0800</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 08 00</code></td>
+                    <td><code>75 20 10 00</code></td>
+                    <td>30859634808ms</td>
+                </tr>
+                <tr class="success">
+                    <td>22</td>
+                    <td>2:50:21 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-05.5: Valid Transfer Exit after Upload (no data transferred) - Expect Success (0x77)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859635853ms</td>
+                </tr>
+                <tr class="success">
+                    <td>23</td>
+                    <td>2:50:22 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-06</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859637807ms</td>
+                </tr>
+                <tr class="success">
+                    <td>24</td>
+                    <td>2:50:23 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-06.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859639798ms</td>
+                </tr>
+                <tr class="success">
+                    <td>25</td>
+                    <td>2:50:24 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-06.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859640798ms</td>
+                </tr>
+                <tr class="success">
+                    <td>26</td>
+                    <td>2:50:25 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-06.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859642802ms</td>
+                </tr>
+                <tr class="success">
+                    <td>27</td>
+                    <td>2:50:26 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-06.4: Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859644801ms</td>
+                </tr>
+                <tr class="error">
+                    <td>28</td>
+                    <td>2:50:27 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-06.5: Transfer Data Block 1</td>
+                    <td><span class="status-badge error">NRC 0x7F</span></td>
+                    <td><code>01 AA BB CC DD</code></td>
+                    <td><code>7F 36 7F</code></td>
+                    <td>30859699804ms</td>
+                </tr>
+                <tr class="error">
+                    <td>29</td>
+                    <td>2:50:28 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-06.6: Transfer Data Block 2</td>
+                    <td><span class="status-badge error">NRC 0x7F</span></td>
+                    <td><code>02 11 22 33 44</code></td>
+                    <td><code>7F 36 7F</code></td>
+                    <td>30859759567ms</td>
+                </tr>
+                <tr class="error">
+                    <td>30</td>
+                    <td>2:50:29 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-06.7: Transfer Data Block 3</td>
+                    <td><span class="status-badge error">NRC 0x7F</span></td>
+                    <td><code>03 55 66 77 88</code></td>
+                    <td><code>7F 36 7F</code></td>
+                    <td>30859759641ms</td>
+                </tr>
+                <tr class="error">
+                    <td>31</td>
+                    <td>2:50:30 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-06.8: Transfer Exit after multiple blocks - Expect Success (0x77)</td>
+                    <td><span class="status-badge error">NRC 0x70</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 70</code></td>
+                    <td>30859759728ms</td>
+                </tr>
+                <tr class="success">
+                    <td>32</td>
+                    <td>2:50:31 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-07</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859759803ms</td>
+                </tr>
+                <tr class="success">
+                    <td>33</td>
+                    <td>2:50:32 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-07.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859759883ms</td>
+                </tr>
+                <tr class="success">
+                    <td>34</td>
+                    <td>2:50:33 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-07.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859759971ms</td>
+                </tr>
+                <tr class="success">
+                    <td>35</td>
+                    <td>2:50:34 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-07.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859760054ms</td>
+                </tr>
+                <tr class="success">
+                    <td>36</td>
+                    <td>2:50:35 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-07.4: Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859760131ms</td>
+                </tr>
+                <tr class="success">
+                    <td>37</td>
+                    <td>2:50:36 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-07.5: First Transfer Exit - Expect Success (0x77)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859760210ms</td>
+                </tr>
+                <tr class="error">
+                    <td>38</td>
+                    <td>2:50:37 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-07.6: Repeated Transfer Exit (already exited) - Expect NRC 0x24 (Request Sequence Error)</td>
+                    <td><span class="status-badge error">NRC 0x24</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 24</code></td>
+                    <td>30859760301ms</td>
+                </tr>
+                <tr class="success">
+                    <td>39</td>
+                    <td>2:50:38 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-08</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859760409ms</td>
+                </tr>
+                <tr class="success">
+                    <td>40</td>
+                    <td>2:50:39 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">TC-08.1: Enter EXTENDED session (not PROGRAMMING)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30859760484ms</td>
+                </tr>
+                <tr class="success">
+                    <td>41</td>
+                    <td>2:50:40 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-08.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859760577ms</td>
+                </tr>
+                <tr class="success">
+                    <td>42</td>
+                    <td>2:50:41 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-08.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859760667ms</td>
+                </tr>
+                <tr class="error">
+                    <td>43</td>
+                    <td>2:50:42 PM</td>
+                    <td><code>0x35</code></td>
+                    <td>-</td>
+                    <td class="description">TC-08.4: Request Upload in EXTENDED session</td>
+                    <td><span class="status-badge error">NRC 0x70</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 08 00</code></td>
+                    <td><code>7F 35 70</code></td>
+                    <td>30859760756ms</td>
+                </tr>
+                <tr class="error">
+                    <td>44</td>
+                    <td>2:50:43 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-08.5: Transfer Exit in EXTENDED session - Expect NRC 0x70 (Upload Download Not Accepted)</td>
+                    <td><span class="status-badge error">NRC 0x70</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 70</code></td>
+                    <td>30859760846ms</td>
+                </tr>
+                <tr class="success">
+                    <td>45</td>
+                    <td>2:50:44 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-09</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859760961ms</td>
+                </tr>
+                <tr class="success">
+                    <td>46</td>
+                    <td>2:50:45 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-09.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859761083ms</td>
+                </tr>
+                <tr class="success">
+                    <td>47</td>
+                    <td>2:50:46 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-09.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859761180ms</td>
+                </tr>
+                <tr class="success">
+                    <td>48</td>
+                    <td>2:50:47 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-09.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859761273ms</td>
+                </tr>
+                <tr class="success">
+                    <td>49</td>
+                    <td>2:50:48 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-09.4: Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859761380ms</td>
+                </tr>
+                <tr class="success">
+                    <td>50</td>
+                    <td>2:50:49 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-09.5: Transfer Exit with parameter record (4 bytes: simulated CRC-32) - Expect Success (0x77)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>A1 B2 C3 D4</code></td>
+                    <td><code>77</code></td>
+                    <td>30859761480ms</td>
+                </tr>
+                <tr class="success">
+                    <td>51</td>
+                    <td>2:50:50 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-10</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859761583ms</td>
+                </tr>
+                <tr class="success">
+                    <td>52</td>
+                    <td>2:50:51 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-10.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859761673ms</td>
+                </tr>
+                <tr class="success">
+                    <td>53</td>
+                    <td>2:50:52 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-10.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859761799ms</td>
+                </tr>
+                <tr class="success">
+                    <td>54</td>
+                    <td>2:50:53 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-10.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859761898ms</td>
+                </tr>
+                <tr class="success">
+                    <td>55</td>
+                    <td>2:50:54 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-10.4: Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859761988ms</td>
+                </tr>
+                <tr class="success">
+                    <td>56</td>
+                    <td>2:50:55 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-10.5: Transfer Data Block 1</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 AA BB</code></td>
+                    <td><code>76 01</code></td>
+                    <td>30859762092ms</td>
+                </tr>
+                <tr class="success">
+                    <td>57</td>
+                    <td>2:50:56 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-10.6: Switch to DEFAULT session (interrupts transfer)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859762195ms</td>
+                </tr>
+                <tr class="error">
+                    <td>58</td>
+                    <td>2:50:57 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-10.7: Transfer Exit after session change - Expect NRC 0x70 (Upload Download Not Accepted)</td>
+                    <td><span class="status-badge error">NRC 0x70</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 70</code></td>
+                    <td>30859762278ms</td>
+                </tr>
+                <tr class="success">
+                    <td>59</td>
+                    <td>2:50:58 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-11</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859762382ms</td>
+                </tr>
+                <tr class="success">
+                    <td>60</td>
+                    <td>2:50:59 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-11.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859762433ms</td>
+                </tr>
+                <tr class="success">
+                    <td>61</td>
+                    <td>2:51:00 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-11.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859762517ms</td>
+                </tr>
+                <tr class="success">
+                    <td>62</td>
+                    <td>2:51:01 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-11.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859762598ms</td>
+                </tr>
+                <tr class="error">
+                    <td>63</td>
+                    <td>2:51:02 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-11.4: Request Download</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>7F 34 22</code></td>
+                    <td>30859762676ms</td>
+                </tr>
+                <tr class="success">
+                    <td>64</td>
+                    <td>2:51:03 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-11.5: Reset to DEFAULT (clears security)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859762756ms</td>
+                </tr>
+                <tr class="success">
+                    <td>65</td>
+                    <td>2:51:04 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-11.6: Back to PROGRAMMING (but security cleared)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859762840ms</td>
+                </tr>
+                <tr class="error">
+                    <td>66</td>
+                    <td>2:51:05 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-11.7: Transfer Exit without security (session changed cleared it) - Expect NRC 0x33 (Security Access Denied)</td>
+                    <td><span class="status-badge error">NRC 0x33</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 37 33</code></td>
+                    <td>30859762919ms</td>
+                </tr>
+                <tr class="success">
+                    <td>67</td>
+                    <td>2:51:06 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-12</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859763014ms</td>
+                </tr>
+                <tr class="success">
+                    <td>68</td>
+                    <td>2:51:07 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-12.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859763093ms</td>
+                </tr>
+                <tr class="success">
+                    <td>69</td>
+                    <td>2:51:08 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-12.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859763177ms</td>
+                </tr>
+                <tr class="success">
+                    <td>70</td>
+                    <td>2:51:09 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-12.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859763265ms</td>
+                </tr>
+                <tr class="error">
+                    <td>71</td>
+                    <td>2:51:10 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-12.4: Request Download</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>7F 34 22</code></td>
+                    <td>30859763349ms</td>
+                </tr>
+                <tr class="error">
+                    <td>72</td>
+                    <td>2:51:11 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-12.5: Transfer Data Block 1</td>
+                    <td><span class="status-badge error">NRC 0x73</span></td>
+                    <td><code>01 00 00</code></td>
+                    <td><code>7F 36 73</code></td>
+                    <td>30859763437ms</td>
+                </tr>
+                <tr class="success">
+                    <td>73</td>
+                    <td>2:51:12 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-12.6: Transfer Data Block 2</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02 00 00</code></td>
+                    <td><code>76 02</code></td>
+                    <td>30859763538ms</td>
+                </tr>
+                <tr class="success">
+                    <td>74</td>
+                    <td>2:51:13 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-12.7: Transfer Exit - Verify downloadInProgress flag cleared</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859763629ms</td>
+                </tr>
+                <tr class="success">
+                    <td>75</td>
+                    <td>2:51:14 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-13</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859763716ms</td>
+                </tr>
+                <tr class="success">
+                    <td>76</td>
+                    <td>2:51:15 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-13.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859763848ms</td>
+                </tr>
+                <tr class="success">
+                    <td>77</td>
+                    <td>2:51:16 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-13.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859763992ms</td>
+                </tr>
+                <tr class="success">
+                    <td>78</td>
+                    <td>2:51:17 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-13.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859764118ms</td>
+                </tr>
+                <tr class="success">
+                    <td>79</td>
+                    <td>2:51:18 PM</td>
+                    <td><code>0x35</code></td>
+                    <td>-</td>
+                    <td class="description">TC-13.4: Request Upload</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 08 00</code></td>
+                    <td><code>75 20 10 00</code></td>
+                    <td>30859764311ms</td>
+                </tr>
+                <tr class="success">
+                    <td>80</td>
+                    <td>2:51:19 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-13.5: Transfer Data Block 1</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 00 00</code></td>
+                    <td><code>76 01</code></td>
+                    <td>30859764423ms</td>
+                </tr>
+                <tr class="success">
+                    <td>81</td>
+                    <td>2:51:20 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-13.6: Transfer Exit - Verify uploadInProgress flag cleared</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859764553ms</td>
+                </tr>
+                <tr class="success">
+                    <td>82</td>
+                    <td>2:51:21 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset for TC-14</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859764664ms</td>
+                </tr>
+                <tr class="success">
+                    <td>83</td>
+                    <td>2:51:22 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-14.1: Enter PROGRAMMING session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30859764759ms</td>
+                </tr>
+                <tr class="success">
+                    <td>84</td>
+                    <td>2:51:23 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-14.2: Request seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30859764870ms</td>
+                </tr>
+                <tr class="success">
+                    <td>85</td>
+                    <td>2:51:24 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-14.3: Send key</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>B7 6E A6 77</code></td>
+                    <td><code>67 02</code></td>
+                    <td>30859764966ms</td>
+                </tr>
+                <tr class="success">
+                    <td>86</td>
+                    <td>2:51:25 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.4: Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859765082ms</td>
+                </tr>
+                <tr class="success">
+                    <td>87</td>
+                    <td>2:51:26 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.5: Transfer Data Block 1 (BSC=1)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 00</code></td>
+                    <td><code>76 01</code></td>
+                    <td>30859765176ms</td>
+                </tr>
+                <tr class="success">
+                    <td>88</td>
+                    <td>2:51:27 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.6: Transfer Exit - Verify BSC counter reset to 0</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859765233ms</td>
+                </tr>
+                <tr class="success">
+                    <td>89</td>
+                    <td>2:51:28 PM</td>
+                    <td><code>0x34</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.7: New Request Download</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>00 44 00 10 00 00 00 00 10 00</code></td>
+                    <td><code>74 20 10 00</code></td>
+                    <td>30859765352ms</td>
+                </tr>
+                <tr class="success">
+                    <td>90</td>
+                    <td>2:51:29 PM</td>
+                    <td><code>0x36</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.8: Transfer Data should start at BSC=1 (counter was reset) - Expect Success</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 00</code></td>
+                    <td><code>76 01</code></td>
+                    <td>30859765466ms</td>
+                </tr>
+                <tr class="success">
+                    <td>91</td>
+                    <td>2:51:30 PM</td>
+                    <td><code>0x37</code></td>
+                    <td>-</td>
+                    <td class="description">TC-14.9: Transfer Exit cleanup</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>77</code></td>
+                    <td>30859765567ms</td>
+                </tr>
+                <tr class="success">
+                    <td>92</td>
+                    <td>2:51:31 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[FINAL] Reset to Default Session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30859765722ms</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        
+        // Filter functionality
+        const filterInput = document.getElementById('filterInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const logTable = document.getElementById('logTable');
+        
+        function filterTable() {
+            const filterText = filterInput.value.toLowerCase();
+            const statusValue = statusFilter.value;
+            const rows = logTable.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const description = row.querySelector('.description').textContent.toLowerCase();
+                const matchesText = description.includes(filterText);
+                const matchesStatus = statusValue === 'all' || row.classList.contains(statusValue);
+                
+                row.style.display = (matchesText && matchesStatus) ? '' : 'none';
+            });
+        }
+        
+        if (filterInput && statusFilter) {
+            filterInput.addEventListener('input', filterTable);
+            statusFilter.addEventListener('change', filterTable);
+        }
+    
+    </script>
+
+</body></html>

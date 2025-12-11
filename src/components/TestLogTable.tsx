@@ -4,14 +4,16 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import type { TestAnalysisResult } from '../types/uds';
+import type { TestAnalysisResult, TestReport } from '../types/uds';
 import { reportAnalyzer } from '../services/ReportAnalyzer';
+import { csvExporter } from '../services/CSVExporter';
 
 interface TestLogTableProps {
     analysis: TestAnalysisResult;
+    report: TestReport;
 }
 
-export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
+export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis, report }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'nrc'>('all');
     const [sortColumn, setSortColumn] = useState<'index' | 'time' | 'duration'>('index');
@@ -28,7 +30,8 @@ export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
             // Search filter
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
-                return pair.request.description.toLowerCase().includes(query);
+                const description = String(pair.request.description || '');
+                return description.toLowerCase().includes(query);
             }
 
             return true;
@@ -92,7 +95,7 @@ export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
                         placeholder="Search by description..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyber-blue transition-colors"
+                        className="w-full px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyber-blue transition-colors"
                     />
                 </div>
 
@@ -100,20 +103,18 @@ export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
                 <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value as any)}
-                    className="px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-200 focus:outline-none focus:border-cyber-blue transition-colors cursor-pointer"
+                    className="px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-cyber-blue transition-colors cursor-pointer"
                 >
                     <option value="all">All Status</option>
                     <option value="success">Success Only</option>
                     <option value="nrc">NRC Only</option>
                 </select>
 
-                {/* Export button placeholder */}
+                {/* Export CSV button */}
                 <button
-                    onClick={() => {
-                        // CSV export would go here
-                        alert('CSV export functionality can be added here');
-                    }}
+                    onClick={() => csvExporter.exportTestLogToCSV(report, analysis)}
                     className="px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-200 hover:bg-dark-700 hover:border-cyber-blue transition-all duration-200 whitespace-nowrap"
+                    title="Export test log as CSV"
                 >
                     📥 Export CSV
                 </button>
@@ -178,15 +179,15 @@ export const TestLogTable: React.FC<TestLogTableProps> = ({ analysis }) => {
                                         <td className="py-3 px-4 text-gray-300">{pair.request.description}</td>
                                         <td className="py-3 px-4">
                                             {isSuccess ? (
-                                                <span className="px-3 py-1 bg-cyber-green/20 text-cyber-green rounded-full text-xs font-bold">
+                                                <span className="px-3 py-1 bg-cyber-green/20 text-white rounded-full text-xs font-bold">
                                                     SUCCESS
                                                 </span>
                                             ) : pair.response.nrc ? (
-                                                <span className="px-3 py-1 bg-red-500/20 text-red-500 rounded-full text-xs font-bold font-mono">
+                                                <span className="px-3 py-1 bg-red-500/20 text-white rounded-full text-xs font-bold font-mono">
                                                     NRC 0x{pair.response.nrc.toString(16).toUpperCase().padStart(2, '0')}
                                                 </span>
                                             ) : (
-                                                <span className="px-3 py-1 bg-gray-500/20 text-gray-500 rounded-full text-xs font-bold">
+                                                <span className="px-3 py-1 bg-gray-500/20 text-white rounded-full text-xs font-bold">
                                                     TIMEOUT
                                                 </span>
                                             )}

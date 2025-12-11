@@ -1,0 +1,64 @@
+﻿2025-12-11T06:39:27.1230881Z ##[debug]Evaluating condition for step: 'Post Checkout code'
+2025-12-11T06:39:27.1231649Z ##[debug]Evaluating: always()
+2025-12-11T06:39:27.1231965Z ##[debug]Evaluating always:
+2025-12-11T06:39:27.1232255Z ##[debug]=> true
+2025-12-11T06:39:27.1232530Z ##[debug]Result: true
+2025-12-11T06:39:27.1232904Z ##[debug]Starting: Post Checkout code
+2025-12-11T06:39:27.1255072Z ##[debug]Loading inputs
+2025-12-11T06:39:27.1256592Z ##[debug]Evaluating: github.repository
+2025-12-11T06:39:27.1256877Z ##[debug]Evaluating Index:
+2025-12-11T06:39:27.1257102Z ##[debug]..Evaluating github:
+2025-12-11T06:39:27.1257373Z ##[debug]..=> Object
+2025-12-11T06:39:27.1257735Z ##[debug]..Evaluating String:
+2025-12-11T06:39:27.1257979Z ##[debug]..=> 'repository'
+2025-12-11T06:39:27.1258260Z ##[debug]=> 'suduli/UDS-SIMULATION'
+2025-12-11T06:39:27.1258529Z ##[debug]Result: 'suduli/UDS-SIMULATION'
+2025-12-11T06:39:27.1259745Z ##[debug]Evaluating: github.token
+2025-12-11T06:39:27.1259993Z ##[debug]Evaluating Index:
+2025-12-11T06:39:27.1260260Z ##[debug]..Evaluating github:
+2025-12-11T06:39:27.1260497Z ##[debug]..=> Object
+2025-12-11T06:39:27.1260699Z ##[debug]..Evaluating String:
+2025-12-11T06:39:27.1260910Z ##[debug]..=> 'token'
+2025-12-11T06:39:27.1261312Z ##[debug]=> '***'
+2025-12-11T06:39:27.1261591Z ##[debug]Result: '***'
+2025-12-11T06:39:27.1268112Z ##[debug]Loading env
+2025-12-11T06:39:27.1271461Z Post job cleanup.
+2025-12-11T06:39:27.2147818Z ##[debug]Getting git version
+2025-12-11T06:39:27.2157463Z [command]/usr/bin/git version
+2025-12-11T06:39:27.2194288Z git version 2.52.0
+2025-12-11T06:39:27.2214659Z ##[debug]0
+2025-12-11T06:39:27.2216317Z ##[debug]git version 2.52.0
+2025-12-11T06:39:27.2216720Z ##[debug]
+2025-12-11T06:39:27.2217867Z ##[debug]Set git useragent to: git/2.52.0 (github-actions-checkout)
+2025-12-11T06:39:27.2220205Z ::add-mask::***
+2025-12-11T06:39:27.2235856Z Temporarily overriding HOME='/home/runner/work/_temp/3d32c118-4b37-4689-8473-2165ea2de230' before making global git config changes
+2025-12-11T06:39:27.2238985Z Adding repository directory to the temporary git global config as a safe directory
+2025-12-11T06:39:27.2244056Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/UDS-SIMULATION/UDS-SIMULATION
+2025-12-11T06:39:27.2278270Z ##[debug]0
+2025-12-11T06:39:27.2279579Z ##[debug]
+2025-12-11T06:39:27.2286179Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-12-11T06:39:27.2310761Z ##[debug]1
+2025-12-11T06:39:27.2311685Z ##[debug]
+2025-12-11T06:39:27.2317764Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-12-11T06:39:27.2496613Z ##[debug]0
+2025-12-11T06:39:27.2497882Z ##[debug]
+2025-12-11T06:39:27.2505764Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-12-11T06:39:27.2526772Z http.https://github.com/.extraheader
+2025-12-11T06:39:27.2531604Z ##[debug]0
+2025-12-11T06:39:27.2532762Z ##[debug]http.https://github.com/.extraheader
+2025-12-11T06:39:27.2533184Z ##[debug]
+2025-12-11T06:39:27.2538979Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-12-11T06:39:27.2562193Z ##[debug]0
+2025-12-11T06:39:27.2563431Z ##[debug]
+2025-12-11T06:39:27.2568087Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-12-11T06:39:27.2736879Z ##[debug]0
+2025-12-11T06:39:27.2738204Z ##[debug]
+2025-12-11T06:39:27.2744059Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-12-11T06:39:27.2766691Z ##[debug]1
+2025-12-11T06:39:27.2767793Z ##[debug]
+2025-12-11T06:39:27.2773330Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-12-11T06:39:27.2942013Z ##[debug]0
+2025-12-11T06:39:27.2943856Z ##[debug]
+2025-12-11T06:39:27.2944358Z ##[debug]Unsetting HOME override
+2025-12-11T06:39:27.2994195Z ##[debug]Node Action run completed with exit code 0
+2025-12-11T06:39:27.2996358Z ##[debug]Finishing: Post Checkout code

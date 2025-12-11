@@ -3,7 +3,8 @@
  * Analyze and visualize UDS test session reports
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
 import { ReportSummaryCards } from '../components/ReportSummaryCards';
@@ -12,14 +13,52 @@ import { ResponseTimeline } from '../components/ResponseTimeline';
 import { TestLogTable } from '../components/TestLogTable';
 import { reportAnalyzer } from '../services/ReportAnalyzer';
 import { htmlReportExporter } from '../services/HTMLReportExporter';
+import { csvExporter } from '../services/CSVExporter';
 import type { TestReport, TestAnalysisResult } from '../types/uds';
 
 export const ReportAnalysisPage: React.FC = () => {
+    const location = useLocation();
     const [report, setReport] = useState<TestReport | null>(null);
     const [analysis, setAnalysis] = useState<TestAnalysisResult | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [dragOver, setDragOver] = useState(false);
+
+    /**
+     * Auto-load report from navigation state or sessionStorage
+     */
+    useEffect(() => {
+        // First, check if report was passed via navigation state
+        const stateReport = (location.state as { reportData?: TestReport })?.reportData;
+        if (stateReport) {
+            try {
+                setReport(stateReport);
+                const analysisResult = reportAnalyzer.analyzeReport(stateReport);
+                setAnalysis(analysisResult);
+                // Clear sessionStorage after loading
+                sessionStorage.removeItem('currentReport');
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Failed to load report from navigation');
+            }
+            return;
+        }
+
+        // Second, check sessionStorage for report
+        const storedReport = sessionStorage.getItem('currentReport');
+        if (storedReport) {
+            try {
+                const reportData = JSON.parse(storedReport) as TestReport;
+                setReport(reportData);
+                const analysisResult = reportAnalyzer.analyzeReport(reportData);
+                setAnalysis(analysisResult);
+                // Clear sessionStorage after loading
+                sessionStorage.removeItem('currentReport');
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Failed to load report from sessionStorage');
+            }
+        }
+    }, [location.state]);
+
 
     /**
      * Handle file upload
@@ -100,6 +139,14 @@ export const ReportAnalysisPage: React.FC = () => {
         const html = htmlReportExporter.exportToHTML(report, analysis);
         const filename = `${report.id}_analysis_${Date.now()}.html`;
         htmlReportExporter.downloadHTML(html, filename);
+    }, [report, analysis]);
+
+    /**
+     * Export to CSV
+     */
+    const handleExportCSV = useCallback(() => {
+        if (!report || !analysis) return;
+        csvExporter.exportCompleteToCSV(report, analysis);
     }, [report, analysis]);
 
     /**
@@ -200,6 +247,13 @@ export const ReportAnalysisPage: React.FC = () => {
                                     Export as HTML
                                 </button>
                                 <button
+                                    onClick={handleExportCSV}
+                                    className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold hover:scale-105 transition-transform duration-200 flex items-center gap-2"
+                                >
+                                    <span>📊</span>
+                                    Export as CSV
+                                </button>
+                                <button
                                     onClick={handleClear}
                                     className="px-6 py-3 bg-dark-800 border border-dark-600 text-gray-300 rounded-lg font-bold hover:bg-dark-700 hover:border-cyber-blue transition-all duration-200"
                                 >
@@ -220,7 +274,7 @@ export const ReportAnalysisPage: React.FC = () => {
                             </div>
 
                             {/* Detailed Log Table */}
-                            <TestLogTable analysis={analysis} />
+                            <TestLogTable analysis={analysis} report={report} />
                         </div>
                     )}
                 </main>

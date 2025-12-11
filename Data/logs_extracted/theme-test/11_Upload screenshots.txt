@@ -1,0 +1,89 @@
+﻿2025-12-11T06:39:26.2071015Z ##[debug]Evaluating condition for step: 'Upload screenshots'
+2025-12-11T06:39:26.2073225Z ##[debug]Evaluating: always()
+2025-12-11T06:39:26.2073781Z ##[debug]Evaluating always:
+2025-12-11T06:39:26.2074296Z ##[debug]=> true
+2025-12-11T06:39:26.2074791Z ##[debug]Result: true
+2025-12-11T06:39:26.2077684Z ##[debug]Starting: Upload screenshots
+2025-12-11T06:39:26.2104297Z ##[debug]Loading inputs
+2025-12-11T06:39:26.2108695Z ##[debug]Loading env
+2025-12-11T06:39:26.2114498Z ##[group]Run actions/upload-artifact@v4
+2025-12-11T06:39:26.2114906Z with:
+2025-12-11T06:39:26.2115183Z   name: theme-screenshots
+2025-12-11T06:39:26.2115791Z   path: results/*.png
+results/diffs/*.png
+
+2025-12-11T06:39:26.2116222Z   retention-days: 30
+2025-12-11T06:39:26.2116559Z   if-no-files-found: warn
+2025-12-11T06:39:26.2116910Z   compression-level: 6
+2025-12-11T06:39:26.2117248Z   overwrite: false
+2025-12-11T06:39:26.2117589Z   include-hidden-files: false
+2025-12-11T06:39:26.2117957Z ##[endgroup]
+2025-12-11T06:39:26.4396657Z ##[debug]followSymbolicLinks 'true'
+2025-12-11T06:39:26.4401826Z ##[debug]implicitDescendants 'true'
+2025-12-11T06:39:26.4402475Z ##[debug]omitBrokenSymbolicLinks 'true'
+2025-12-11T06:39:26.4403144Z ##[debug]excludeHiddenFiles 'true'
+2025-12-11T06:39:26.4423696Z ##[debug]followSymbolicLinks 'true'
+2025-12-11T06:39:26.4428018Z ##[debug]implicitDescendants 'true'
+2025-12-11T06:39:26.4429413Z ##[debug]matchDirectories 'true'
+2025-12-11T06:39:26.4429956Z ##[debug]omitBrokenSymbolicLinks 'true'
+2025-12-11T06:39:26.4430533Z ##[debug]excludeHiddenFiles 'true'
+2025-12-11T06:39:26.4431309Z ##[debug]Search path '/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results'
+2025-12-11T06:39:26.4487416Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/dark-desktop.png was found using the provided searchPath
+2025-12-11T06:39:26.4489039Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/dark-mobile.png was found using the provided searchPath
+2025-12-11T06:39:26.4490627Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/diffs/desktop-diff.png was found using the provided searchPath
+2025-12-11T06:39:26.4492313Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/diffs/mobile-diff.png was found using the provided searchPath
+2025-12-11T06:39:26.4493833Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/light-desktop.png was found using the provided searchPath
+2025-12-11T06:39:26.4495900Z ##[debug]File:/home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results/light-mobile.png was found using the provided searchPath
+2025-12-11T06:39:26.4498658Z With the provided path, there will be 6 files uploaded
+2025-12-11T06:39:26.4502343Z ##[debug]Root artifact directory is /home/runner/work/UDS-SIMULATION/UDS-SIMULATION/results
+2025-12-11T06:39:26.4503170Z Artifact name is valid!
+2025-12-11T06:39:26.4504837Z Root directory input is valid!
+2025-12-11T06:39:26.4517688Z ##[debug]Workflow Run Backend ID: 2bf1ee85-5fed-4358-9206-4761ff1db778
+2025-12-11T06:39:26.4530432Z ##[debug]Workflow Job Run Backend ID: 04da743f-2482-54bf-80f2-58eac3af4f56
+2025-12-11T06:39:26.4536587Z ##[debug][Request] CreateArtifact https://results-receiver.actions.githubusercontent.com/twirp/github.actions.results.api.v1.ArtifactService/CreateArtifact
+2025-12-11T06:39:26.5782877Z ##[debug][Response] - 200
+2025-12-11T06:39:26.5784462Z ##[debug]Headers: {
+2025-12-11T06:39:26.5784807Z ##[debug]  "content-length": "577",
+2025-12-11T06:39:26.5785263Z ##[debug]  "content-type": "application/json",
+2025-12-11T06:39:26.5785937Z ##[debug]  "date": "Thu, 11 Dec 2025 06:39:26 GMT",
+2025-12-11T06:39:26.5786401Z ##[debug]  "x-github-backend": "Kubernetes",
+2025-12-11T06:39:26.5786945Z ##[debug]  "x-github-request-id": "D424:BBE91:3D24D4:49E48B:693A671E"
+2025-12-11T06:39:26.5787438Z ##[debug]}
+2025-12-11T06:39:26.5790719Z ::add-mask::***
+2025-12-11T06:39:26.5792920Z ::add-mask::***
+2025-12-11T06:39:26.5793915Z ##[debug]Body: {
+2025-12-11T06:39:26.5794218Z ##[debug]  "ok": true,
+2025-12-11T06:39:26.5797883Z ##[debug]  "signed_upload_url": "https://productionresultssa7.blob.core.windows.net/actions-results/2bf1ee85-5fed-4358-9206-4761ff1db778/workflow-job-run-04da743f-2482-54bf-80f2-58eac3af4f56/artifacts/dbfb8523a333cdf950187b45c4fc4c54fee4c09e77b386e6a66c2e7b3066248b.zip?se=2025-12-11T07%3A39%3A26Z&sig=***&ske=2025-12-11T16%3A28%3A23Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2025-12-11T04%3A28%3A23Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2025-11-05&sp=cw&spr=https&sr=b&st=2025-12-11T06%3A39%3A21Z&sv=2025-11-05"
+2025-12-11T06:39:26.5801759Z ##[debug]}
+2025-12-11T06:39:26.5802426Z ##[debug]Creating Artifact archive with compressionLevel: 6
+2025-12-11T06:39:26.5823203Z ##[debug]Zip write high watermark value 8388608
+2025-12-11T06:39:26.5824670Z ##[debug]Zip read high watermark value 8388608
+2025-12-11T06:39:26.5870990Z ##[debug]Uploading artifact zip to blob storage with maxConcurrency: 5, bufferSize: 8388608
+2025-12-11T06:39:26.5886508Z Beginning upload of artifact content to blob storage
+2025-12-11T06:39:26.6630550Z ##[debug]Zip stream for upload has ended.
+2025-12-11T06:39:26.6632575Z ##[debug]Zip stream for upload has finished.
+2025-12-11T06:39:26.9596620Z Uploaded bytes 1297061
+2025-12-11T06:39:26.9975706Z Finished uploading artifact content to blob storage!
+2025-12-11T06:39:26.9979211Z SHA256 digest of uploaded artifact zip is a44ac3e00f388b1812f04fc55188a8faa1df562e3fd8b0bbb52d42b3f33ab573
+2025-12-11T06:39:26.9981330Z Finalizing artifact upload
+2025-12-11T06:39:26.9983617Z ##[debug][Request] FinalizeArtifact https://results-receiver.actions.githubusercontent.com/twirp/github.actions.results.api.v1.ArtifactService/FinalizeArtifact
+2025-12-11T06:39:27.1022008Z ##[debug][Response] - 200
+2025-12-11T06:39:27.1024424Z ##[debug]Headers: {
+2025-12-11T06:39:27.1024829Z ##[debug]  "content-length": "38",
+2025-12-11T06:39:27.1025505Z ##[debug]  "content-type": "application/json",
+2025-12-11T06:39:27.1026086Z ##[debug]  "date": "Thu, 11 Dec 2025 06:39:27 GMT",
+2025-12-11T06:39:27.1026628Z ##[debug]  "x-github-backend": "Kubernetes",
+2025-12-11T06:39:27.1027295Z ##[debug]  "x-github-request-id": "D424:BBE91:3D25FF:49E604:693A671E"
+2025-12-11T06:39:27.1027887Z ##[debug]}
+2025-12-11T06:39:27.1028537Z ##[debug]Body: {
+2025-12-11T06:39:27.1028915Z ##[debug]  "ok": true,
+2025-12-11T06:39:27.1029324Z ##[debug]  "artifact_id": "4834127288"
+2025-12-11T06:39:27.1029776Z ##[debug]}
+2025-12-11T06:39:27.1030815Z Artifact theme-screenshots.zip successfully finalized. Artifact ID 4834127288
+2025-12-11T06:39:27.1047395Z Artifact theme-screenshots has been successfully uploaded! Final size is 1297061 bytes. Artifact ID is 4834127288
+2025-12-11T06:39:27.1048933Z Artifact download URL: https://github.com/suduli/UDS-SIMULATION/actions/runs/20124254787/artifacts/4834127288
+2025-12-11T06:39:27.1098483Z ##[debug]Node Action run completed with exit code 0
+2025-12-11T06:39:27.1100969Z ##[debug]Set output artifact-id = 4834127288
+2025-12-11T06:39:27.1101681Z ##[debug]Set output artifact-digest = a44ac3e00f388b1812f04fc55188a8faa1df562e3fd8b0bbb52d42b3f33ab573
+2025-12-11T06:39:27.1102755Z ##[debug]Set output artifact-url = https://github.com/suduli/UDS-SIMULATION/actions/runs/20124254787/artifacts/4834127288
+2025-12-11T06:39:27.1103803Z ##[debug]Finishing: Upload screenshots

@@ -1,0 +1,5 @@
+﻿2025-12-11T06:39:25.2749224Z ##[debug]Evaluating condition for step: 'Wait for server'
+2025-12-11T06:39:25.2750336Z ##[debug]Evaluating: success()
+2025-12-11T06:39:25.2750637Z ##[debug]Evaluating success:
+2025-12-11T06:39:25.2750958Z ##[debug]=> false
+2025-12-11T06:39:25.2751221Z ##[debug]Result: false

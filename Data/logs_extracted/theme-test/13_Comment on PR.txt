@@ -1,0 +1,16 @@
+﻿2025-12-11T06:39:27.1127590Z ##[debug]Evaluating condition for step: 'Comment on PR'
+2025-12-11T06:39:27.1130247Z ##[debug]Evaluating: ((github.event_name == 'pull_request') && always())
+2025-12-11T06:39:27.1130972Z ##[debug]Evaluating And:
+2025-12-11T06:39:27.1131336Z ##[debug]..Evaluating Equal:
+2025-12-11T06:39:27.1131635Z ##[debug]....Evaluating Index:
+2025-12-11T06:39:27.1131935Z ##[debug]......Evaluating github:
+2025-12-11T06:39:27.1132263Z ##[debug]......=> Object
+2025-12-11T06:39:27.1132555Z ##[debug]......Evaluating String:
+2025-12-11T06:39:27.1132862Z ##[debug]......=> 'event_name'
+2025-12-11T06:39:27.1133211Z ##[debug]....=> 'push'
+2025-12-11T06:39:27.1133491Z ##[debug]....Evaluating String:
+2025-12-11T06:39:27.1133787Z ##[debug]....=> 'pull_request'
+2025-12-11T06:39:27.1134059Z ##[debug]..=> false
+2025-12-11T06:39:27.1134301Z ##[debug]=> false
+2025-12-11T06:39:27.1134751Z ##[debug]Expanded: (('push' == 'pull_request') && always())
+2025-12-11T06:39:27.1135132Z ##[debug]Result: false

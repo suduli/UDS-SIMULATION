@@ -987,18 +987,22 @@ const mockMemoryMap: MemoryAddress[] = [
     address: 0x00000000,
     size: 0x00001000,  // 4KB
     accessible: false,
+    writable: false,
+    protected: true,
     securityLevel: 0,
     description: 'Reserved memory region (inaccessible)',
   } as any,
 
-  // Flash Code - Security Level 1 required
+  // Flash Code - Security Level 1 required, writable for programming
   {
     name: 'Flash Code',
     address: 0x00001000,
     size: 0x000FF000,  // ~1020KB
     accessible: true,
+    writable: true,  // Can be flashed
+    protected: false,
     securityLevel: 1,
-    description: 'Application flash memory (read-only, security required)',
+    description: 'Application flash memory (programmable with security)',
     data: Array.from({ length: 256 }, (_, i) => 0x10 + (i & 0xFF)),  // Sample data pattern
   } as any,
 
@@ -1008,6 +1012,8 @@ const mockMemoryMap: MemoryAddress[] = [
     address: 0x00100000,
     size: 0x00100000,  // 1MB
     accessible: true,
+    writable: true,  // Can be updated
+    protected: false,
     securityLevel: 0,
     description: 'Public calibration parameters (read without security)',
     data: Array.from({ length: 512 }, (_, i) => 0x20 + (i & 0xFF)),  // Sample calibration data
@@ -1019,20 +1025,37 @@ const mockMemoryMap: MemoryAddress[] = [
     address: 0x00200000,
     size: 0x00100000,  // 1MB
     accessible: true,
+    writable: true,  // Can be updated with security
+    protected: false,
     securityLevel: 1,
     description: 'OEM-specific calibration data (security required)',
     data: Array.from({ length: 256 }, (_, i) => 0x30 + (i & 0xFF)),
   } as any,
 
-  // RAM - Security Level 1 required
+  // RAM - Security Level 1 required, not writable via download (volatile)
   {
     name: 'RAM',
     address: 0x00300000,
     size: 0x00100000,  // 1MB
     accessible: true,
+    writable: false,  // Cannot download to RAM (use Write Memory instead)
+    protected: false,
     securityLevel: 1,
     description: 'Runtime RAM data (security required)',
     data: Array.from({ length: 1024 }, (_, i) => 0x40 + (i & 0xFF)),
+  } as any,
+
+  // Bootloader - Protected, cannot be overwritten
+  {
+    name: 'Bootloader',
+    address: 0x00400000,
+    size: 0x00010000,  // 64KB
+    accessible: true,
+    writable: false,
+    protected: true,  // Write-protected (bootloader must not be touched)
+    securityLevel: 1,
+    description: 'Bootloader code (read-only, protected)',
+    data: Array.from({ length: 128 }, (_, i) => 0xB0 + (i & 0xFF)),
   } as any,
 ];
 
@@ -1063,4 +1086,5 @@ export const mockECUConfig: ECUConfig = {
   memoryMap: mockMemoryMap,
   securitySeed: [0x12, 0x34, 0x56, 0x78],
   securityKey: [0xB7, 0x6E, 0xA6, 0x77],
+  maxBlockLength: 4096,  // 4KB per Transfer Data block
 };

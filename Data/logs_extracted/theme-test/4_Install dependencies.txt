@@ -1,0 +1,119 @@
+﻿2025-12-11T06:38:56.5058634Z ##[debug]Evaluating condition for step: 'Install dependencies'
+2025-12-11T06:38:56.5060123Z ##[debug]Evaluating: success()
+2025-12-11T06:38:56.5060426Z ##[debug]Evaluating success:
+2025-12-11T06:38:56.5060852Z ##[debug]=> true
+2025-12-11T06:38:56.5061124Z ##[debug]Result: true
+2025-12-11T06:38:56.5061596Z ##[debug]Starting: Install dependencies
+2025-12-11T06:38:56.5069277Z ##[debug]Loading inputs
+2025-12-11T06:38:56.5070151Z ##[debug]Loading env
+2025-12-11T06:38:56.5085657Z ##[group]Run npm ci
+2025-12-11T06:38:56.5085928Z [36;1mnpm ci[0m
+2025-12-11T06:38:56.5086261Z [36;1mnpm install --save-dev playwright pngjs pixelmatch[0m
+2025-12-11T06:38:56.5086629Z [36;1mnpx playwright install chromium[0m
+2025-12-11T06:38:56.5113105Z shell: /usr/bin/bash -e {0}
+2025-12-11T06:38:56.5113352Z ##[endgroup]
+2025-12-11T06:38:56.5167699Z ##[debug]/usr/bin/bash -e /home/runner/work/_temp/1172e9bf-e44f-4bd5-aef3-a87944eb2908.sh
+2025-12-11T06:38:57.2433260Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:38:57.2434392Z npm warn EBADENGINE   package: '@vitejs/plugin-react@5.1.2',
+2025-12-11T06:38:57.2435592Z npm warn EBADENGINE   required: { node: '^20.19.0 || >=22.12.0' },
+2025-12-11T06:38:57.2436624Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:38:57.2437324Z npm warn EBADENGINE }
+2025-12-11T06:38:57.2464288Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:38:57.2464986Z npm warn EBADENGINE   package: 'react-docgen@8.0.2',
+2025-12-11T06:38:57.2465840Z npm warn EBADENGINE   required: { node: '^20.9.0 || >=22' },
+2025-12-11T06:38:57.2466582Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:38:57.2467119Z npm warn EBADENGINE }
+2025-12-11T06:38:57.2480885Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:38:57.2481715Z npm warn EBADENGINE   package: 'react-router@7.10.1',
+2025-12-11T06:38:57.2482384Z npm warn EBADENGINE   required: { node: '>=20.0.0' },
+2025-12-11T06:38:57.2483103Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:38:57.2483685Z npm warn EBADENGINE }
+2025-12-11T06:38:57.2493766Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:38:57.2494491Z npm warn EBADENGINE   package: 'react-router-dom@7.10.1',
+2025-12-11T06:38:57.2495230Z npm warn EBADENGINE   required: { node: '>=20.0.0' },
+2025-12-11T06:38:57.2496521Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:38:57.2497182Z npm warn EBADENGINE }
+2025-12-11T06:38:57.2515415Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:38:57.2516156Z npm warn EBADENGINE   package: 'vite@7.2.7',
+2025-12-11T06:38:57.2516989Z npm warn EBADENGINE   required: { node: '^20.19.0 || >=22.12.0' },
+2025-12-11T06:38:57.2517922Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:38:57.2518586Z npm warn EBADENGINE }
+2025-12-11T06:39:02.7688647Z 
+2025-12-11T06:39:02.7690341Z added 511 packages, and audited 512 packages in 6s
+2025-12-11T06:39:02.7691016Z 
+2025-12-11T06:39:02.7692110Z 178 packages are looking for funding
+2025-12-11T06:39:02.7692954Z   run `npm fund` for details
+2025-12-11T06:39:02.7705511Z 
+2025-12-11T06:39:02.7706845Z found 0 vulnerabilities
+2025-12-11T06:39:04.0946036Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:39:04.0949148Z npm warn EBADENGINE   package: '@vitejs/plugin-react@5.1.2',
+2025-12-11T06:39:04.0950204Z npm warn EBADENGINE   required: { node: '^20.19.0 || >=22.12.0' },
+2025-12-11T06:39:04.0951045Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:39:04.0951704Z npm warn EBADENGINE }
+2025-12-11T06:39:04.0992259Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:39:04.0992911Z npm warn EBADENGINE   package: 'react-docgen@8.0.2',
+2025-12-11T06:39:04.0993678Z npm warn EBADENGINE   required: { node: '^20.9.0 || >=22' },
+2025-12-11T06:39:04.0994428Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:39:04.0994969Z npm warn EBADENGINE }
+2025-12-11T06:39:04.0999841Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:39:04.1002203Z npm warn EBADENGINE   package: 'react-router@7.10.1',
+2025-12-11T06:39:04.1002860Z npm warn EBADENGINE   required: { node: '>=20.0.0' },
+2025-12-11T06:39:04.1003617Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:39:04.1004213Z npm warn EBADENGINE }
+2025-12-11T06:39:04.1004689Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:39:04.1005519Z npm warn EBADENGINE   package: 'react-router-dom@7.10.1',
+2025-12-11T06:39:04.1006220Z npm warn EBADENGINE   required: { node: '>=20.0.0' },
+2025-12-11T06:39:04.1006973Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:39:04.1007543Z npm warn EBADENGINE }
+2025-12-11T06:39:04.1012586Z npm warn EBADENGINE Unsupported engine {
+2025-12-11T06:39:04.1014147Z npm warn EBADENGINE   package: 'vite@7.2.7',
+2025-12-11T06:39:04.1014801Z npm warn EBADENGINE   required: { node: '^20.19.0 || >=22.12.0' },
+2025-12-11T06:39:04.1015713Z npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+2025-12-11T06:39:04.1016248Z npm warn EBADENGINE }
+2025-12-11T06:39:04.5378411Z 
+2025-12-11T06:39:04.5379800Z up to date, audited 512 packages in 2s
+2025-12-11T06:39:04.5394207Z 
+2025-12-11T06:39:04.5394682Z 178 packages are looking for funding
+2025-12-11T06:39:04.5395137Z   run `npm fund` for details
+2025-12-11T06:39:04.5395906Z 
+2025-12-11T06:39:04.5396210Z found 0 vulnerabilities
+2025-12-11T06:39:05.4565944Z Downloading Chromium 143.0.7499.4 (playwright build v1200) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1200/chromium-linux.zip
+2025-12-11T06:39:05.6482674Z |                                                                                |   0% of 164.7 MiB
+2025-12-11T06:39:06.0224081Z |■■■■■■■■                                                                        |  10% of 164.7 MiB
+2025-12-11T06:39:06.2223699Z |■■■■■■■■■■■■■■■■                                                                |  20% of 164.7 MiB
+2025-12-11T06:39:06.5016601Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 164.7 MiB
+2025-12-11T06:39:06.7458700Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 164.7 MiB
+2025-12-11T06:39:07.0189296Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 164.7 MiB
+2025-12-11T06:39:07.1520123Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 164.7 MiB
+2025-12-11T06:39:07.3887254Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 164.7 MiB
+2025-12-11T06:39:07.5721713Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 164.7 MiB
+2025-12-11T06:39:07.7951189Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 164.7 MiB
+2025-12-11T06:39:08.0918598Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 164.7 MiB
+2025-12-11T06:39:10.9943966Z Chromium 143.0.7499.4 (playwright build v1200) downloaded to /home/runner/.cache/ms-playwright/chromium-1200
+2025-12-11T06:39:10.9949040Z Downloading FFMPEG playwright build v1011 from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+2025-12-11T06:39:11.1598580Z |                                                                                |   0% of 2.3 MiB
+2025-12-11T06:39:11.1652567Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+2025-12-11T06:39:11.1681040Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+2025-12-11T06:39:11.1708218Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+2025-12-11T06:39:11.1734811Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+2025-12-11T06:39:11.1757261Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+2025-12-11T06:39:11.1776449Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+2025-12-11T06:39:11.1797949Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+2025-12-11T06:39:11.1817830Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+2025-12-11T06:39:11.1835549Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+2025-12-11T06:39:11.1857665Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+2025-12-11T06:39:11.2490032Z FFMPEG playwright build v1011 downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+2025-12-11T06:39:11.2494777Z Downloading Chromium Headless Shell 143.0.7499.4 (playwright build v1200) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1200/chromium-headless-shell-linux.zip
+2025-12-11T06:39:11.4092360Z |                                                                                |   0% of 109.7 MiB
+2025-12-11T06:39:11.5295944Z |■■■■■■■■                                                                        |  10% of 109.7 MiB
+2025-12-11T06:39:11.6143716Z |■■■■■■■■■■■■■■■■                                                                |  20% of 109.7 MiB
+2025-12-11T06:39:11.6972106Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 109.7 MiB
+2025-12-11T06:39:11.7751547Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 109.7 MiB
+2025-12-11T06:39:11.8467093Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 109.7 MiB
+2025-12-11T06:39:11.9015560Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 109.7 MiB
+2025-12-11T06:39:11.9561124Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 109.7 MiB
+2025-12-11T06:39:12.0114906Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 109.7 MiB
+2025-12-11T06:39:12.0606430Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 109.7 MiB
+2025-12-11T06:39:12.1096290Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 109.7 MiB
+2025-12-11T06:39:14.2464728Z Chromium Headless Shell 143.0.7499.4 (playwright build v1200) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1200
+2025-12-11T06:39:14.2610114Z ##[debug]Finishing: Install dependencies

@@ -1,0 +1,5 @@
+﻿2025-12-11T06:39:25.2754525Z ##[debug]Evaluating condition for step: 'Run theme tests'
+2025-12-11T06:39:25.2755689Z ##[debug]Evaluating: success()
+2025-12-11T06:39:25.2755985Z ##[debug]Evaluating success:
+2025-12-11T06:39:25.2756285Z ##[debug]=> false
+2025-12-11T06:39:25.2756548Z ##[debug]Result: false

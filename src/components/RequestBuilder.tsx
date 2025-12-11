@@ -437,7 +437,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                 id="service-select"
                 value={selectedService}
                 onChange={(e) => setSelectedService(e.target.value ? Number(e.target.value) as ServiceId : '')}
-                className="w-full cyber-input"
+                className="w-full cyber-input !text-gray-100 dark:!text-gray-100"
                 aria-label="Select UDS service"
               >
                 <option value="">Select a service...</option>
@@ -464,7 +464,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                 value={subFunction}
                 onChange={(e) => setSubFunction(e.target.value)}
                 placeholder="e.g., 01, 02, 03..."
-                className="w-full cyber-input font-mono"
+                className="w-full cyber-input font-mono !text-white dark:!text-white"
                 aria-label="Sub-function parameter in hexadecimal"
               />
             </div>
@@ -478,7 +478,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
               value={dataInput}
               onChange={(e) => handleDataInputChange(e.target.value)}
               placeholder="e.g., F1 90 or 00 01 02 03"
-              className={`w-full cyber-input font-mono ${validationError && dataInput ? 'border-cyber-pink' : ''}`}
+              className={`w-full cyber-input font-mono !text-white dark:!text-white ${validationError && dataInput ? 'border-cyber-pink' : ''}`}
               aria-label="Data input in hexadecimal format"
               aria-invalid={!!validationError && !!dataInput}
             />

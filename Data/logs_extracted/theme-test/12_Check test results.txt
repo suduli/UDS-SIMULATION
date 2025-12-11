@@ -1,0 +1,5 @@
+﻿2025-12-11T06:39:27.1113360Z ##[debug]Evaluating condition for step: 'Check test results'
+2025-12-11T06:39:27.1115657Z ##[debug]Evaluating: success()
+2025-12-11T06:39:27.1116238Z ##[debug]Evaluating success:
+2025-12-11T06:39:27.1116864Z ##[debug]=> false
+2025-12-11T06:39:27.1117404Z ##[debug]Result: false

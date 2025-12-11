@@ -218,7 +218,7 @@
   /* ========================================
      WCAG AA CONTRAST FIXES (4.5:1 minimum)
      ======================================== */
-  
+
   /* Fix 1: Dark theme - Primary button text on cyber-green background */
   /* Issue: #f3f4f6 on #00ff9f = 1.21:1 (FAIL) */
   /* Fix: Use dark text #0f172a on #00ff9f = 13.44:1 (PASS) */
@@ -227,16 +227,14 @@
     color: #0f172a !important;
   }
 
-  /* Fix 2: Dark theme - Input text must be dark on white background */
-  /* Issue: #f3f4f6 on #ffffff = 1.1:1 (FAIL) */
-  /* Fix: Force dark text color for inputs in dark theme when bg is white */
+  /* Fix 2: Dark theme - Input text must be white on dark background */
   [data-theme="dark"] input[type="text"],
   [data-theme="dark"] input[type="email"],
   [data-theme="dark"] input[type="password"],
   [data-theme="dark"] input[type="search"],
   [data-theme="dark"] select,
   [data-theme="dark"] textarea {
-    color: #0f172a !important;
+    color: #ffffff !important;
   }
 
   [data-theme="dark"] input::placeholder,
@@ -1316,6 +1314,49 @@ select option {
 [data-theme="light"] .cyber-button {
   @apply bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary-light hover:text-primary-light;
 }
+
+/* Ensure input, select, and textarea elements properly apply cyber-input styles */
+input.cyber-input,
+select.cyber-input,
+textarea.cyber-input {
+  background-color: rgb(19 19 24 / 0.5) !important;
+  /* dark-800 with opacity */
+  color: #ffffff !important;
+  /* Pure white */
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+[data-theme="light"] input.cyber-input,
+[data-theme="light"] select.cyber-input,
+[data-theme="light"] textarea.cyber-input {
+  background-color: white !important;
+  color: rgb(30 41 59) !important;
+  /* slate-800 */
+  -webkit-text-fill-color: rgb(30 41 59) !important;
+}
+
+/* Prevent browser autofill from changing background */
+input.cyber-input:-webkit-autofill,
+input.cyber-input:-webkit-autofill:hover,
+input.cyber-input:-webkit-autofill:focus,
+textarea.cyber-input:-webkit-autofill,
+textarea.cyber-input:-webkit-autofill:hover,
+textarea.cyber-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px rgb(19 19 24) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="light"] input.cyber-input:-webkit-autofill,
+[data-theme="light"] input.cyber-input:-webkit-autofill:hover,
+[data-theme="light"] input.cyber-input:-webkit-autofill:focus,
+[data-theme="light"] textarea.cyber-input:-webkit-autofill,
+[data-theme="light"] textarea.cyber-input:-webkit-autofill:hover,
+[data-theme="light"] textarea.cyber-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: rgb(30 41 59) !important;
+}
+
 
 /* ========================================
    TERMINAL OUTPUT STYLES (Cyber-Diagnostic)

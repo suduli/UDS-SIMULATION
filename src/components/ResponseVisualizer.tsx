@@ -4,6 +4,7 @@
  */
 
 import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUDS } from '../context/UDSContext';
 import { toHex, getNRCDescription } from '../utils/udsHelpers';
 import type { UDSRequest, UDSResponse, NegativeResponseCode } from '../types/uds';
@@ -231,6 +232,7 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 
 const ResponseVisualizer: React.FC = () => {
   const { requestHistory, clearHistory, recordNRCResolution, ecuPower } = useUDS();
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const lastHistoryLengthRef = useRef(0);
 
@@ -245,6 +247,60 @@ const ResponseVisualizer: React.FC = () => {
     totalResponses: 0,
     activeFlow: false
   });
+
+  /**
+   * Generate report from current terminal data and navigate to report page
+   */
+  const handleGenerateReport = () => {
+    if (requestHistory.length === 0) {
+      alert('No terminal data to generate report. Please send some UDS requests first.');
+      return;
+    }
+
+    // Extract requests and responses from history
+    const requests = requestHistory.map(item => item.request);
+    const responses = requestHistory.map(item => item.response);
+
+    // Calculate timings between requests
+    const timings: number[] = requests.map((req, idx) => {
+      if (idx === 0) return 0;
+      return Math.max(0, req.timestamp - requests[idx - 1].timestamp);
+    });
+
+    // Calculate success rate
+    const successCount = responses.filter(r => !r.isNegative).length;
+    const successRate = responses.length > 0 ? Math.round((successCount / responses.length) * 100) : 0;
+
+    // Calculate duration
+    const duration = requests.length > 1 ? requests[requests.length - 1].timestamp - requests[0].timestamp : 0;
+
+    // Create report data in the format expected by ReportAnalysisPage
+    const reportData = {
+      id: `terminal_report_${Date.now()}`,
+      name: `Terminal Output Report (${new Date().toLocaleString()})`,
+      description: `Generated from current terminal session with ${requests.length} requests`,
+      version: '1.0.0',
+      metadata: {
+        author: 'UDS Simulator',
+        description: `Terminal session with ${requests.length} requests, ${successRate}% success rate`,
+        tags: ['terminal', 'live-session'],
+        duration: duration,
+        totalRequests: requests.length,
+        successRate: successRate,
+        createdAt: Date.now(),
+      },
+      requests: requests,
+      responses: responses,
+      timings: timings,
+      createdAt: Date.now(),
+    };
+
+    // Store in sessionStorage for the report page to pick up
+    sessionStorage.setItem('currentReport', JSON.stringify(reportData));
+
+    // Navigate to report page
+    navigate('/report', { state: { reportData } });
+  };
 
   // Monitor request history for new packets
   useEffect(() => {
@@ -405,6 +461,14 @@ const ResponseVisualizer: React.FC = () => {
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>TX: {flowStats.totalRequests}</span>
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>RX: {flowStats.totalResponses}</span>
           </div>
+          <button
+            onClick={handleGenerateReport}
+            className="text-[10px] font-mono text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-2 py-1 rounded transition-colors uppercase"
+            disabled={requestHistory.length === 0}
+            title="Generate report from current terminal data"
+          >
+            REPORT
+          </button>
           <button
             onClick={clearHistory}
             className="text-[10px] font-mono text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 px-2 py-1 rounded transition-colors uppercase"

@@ -1,0 +1,16 @@
+﻿2025-12-11T06:39:27.1140766Z ##[debug]Evaluating condition for step: 'Cleanup'
+2025-12-11T06:39:27.1141661Z ##[debug]Evaluating: always()
+2025-12-11T06:39:27.1141987Z ##[debug]Evaluating always:
+2025-12-11T06:39:27.1142290Z ##[debug]=> true
+2025-12-11T06:39:27.1142574Z ##[debug]Result: true
+2025-12-11T06:39:27.1142958Z ##[debug]Starting: Cleanup
+2025-12-11T06:39:27.1148579Z ##[debug]Loading inputs
+2025-12-11T06:39:27.1149334Z ##[debug]Loading env
+2025-12-11T06:39:27.1152347Z ##[group]Run if [ -f preview.pid ]; then
+2025-12-11T06:39:27.1152622Z [36;1mif [ -f preview.pid ]; then[0m
+2025-12-11T06:39:27.1152874Z [36;1m  kill $(cat preview.pid) || true[0m
+2025-12-11T06:39:27.1153104Z [36;1mfi[0m
+2025-12-11T06:39:27.1171906Z shell: /usr/bin/bash -e {0}
+2025-12-11T06:39:27.1172130Z ##[endgroup]
+2025-12-11T06:39:27.1192636Z ##[debug]/usr/bin/bash -e /home/runner/work/_temp/0a4f74c3-3be0-4088-8cc7-a940b7bf1a30.sh
+2025-12-11T06:39:27.1215840Z ##[debug]Finishing: Cleanup

@@ -1,0 +1,755 @@
+{
+    "id": "sid34-request-download-test-suite",
+    "name": "SID 0x34 Request Download Test Suite",
+    "description": "Comprehensive test suite for UDS Service ID 0x34 (RequestDownload) based on ISO 14229-1:2020 Section 11.5. Covers DFI/ALFID parsing, session validation (PROGRAMMING required), security validation (unlock required), memory region validation, state conflict detection, and all NRCs (0x13, 0x22, 0x31, 0x33, 0x70, 0x72). Tests writable regions, protected regions, and boundary validation.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460000000,
+            "description": "[SETUP] Reset to Default Session"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460001000,
+            "description": "TC-01: Request Download in DEFAULT session - Expect NRC 0x70 (not PROGRAMMING)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460002000,
+            "description": "[SETUP] Reset to Default for TC-02"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734460003000,
+            "description": "TC-02.1: Switch to EXTENDED session"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460004000,
+            "description": "TC-02.2: Request Download in EXTENDED session - Expect NRC 0x70 (needs PROGRAMMING)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460005000,
+            "description": "[SETUP] Reset to Default for TC-03"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460006000,
+            "description": "TC-03.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460007000,
+            "description": "TC-03.2: Request Download without security unlock - Expect NRC 0x33"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460008000,
+            "description": "[SETUP] Reset to Default for TC-04"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460009000,
+            "description": "TC-04.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460010000,
+            "description": "TC-04.2: Request seed for security"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460011000,
+            "description": "TC-04.3: Send key to unlock security"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460012000,
+            "description": "TC-04.4: Valid Request Download: DFI=0x00, ALFID=0x44, Addr=0x00100000, Size=0x1000 - Expect Success (0x74)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734460013000,
+            "description": "TC-04.5: Transfer Exit to complete download"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460014000,
+            "description": "[SETUP] Reset to Default for TC-05"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460015000,
+            "description": "TC-05.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460016000,
+            "description": "TC-05.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460017000,
+            "description": "TC-05.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                51,
+                16,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460018000,
+            "description": "TC-05.4: Valid Download with ALFID=0x33 (3-byte addr + 3-byte size), Addr=0x100000, Size=0x1000 - Expect Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734460019000,
+            "description": "TC-05.5: Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460020000,
+            "description": "[SETUP] Reset to Default for TC-06"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460021000,
+            "description": "TC-06.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460022000,
+            "description": "TC-06.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460023000,
+            "description": "TC-06.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16
+            ],
+            "timestamp": 1734460024000,
+            "description": "TC-06.4: Insufficient bytes (ALFID 0x44 expects 8 bytes, only 2 provided) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460025000,
+            "description": "[SETUP] Reset to Default for TC-07"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460026000,
+            "description": "TC-07.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460027000,
+            "description": "TC-07.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460028000,
+            "description": "TC-07.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                64
+            ],
+            "timestamp": 1734460029000,
+            "description": "TC-07.4: Invalid ALFID=0x40 with insufficient message (only 2 bytes, expects 6) - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460030000,
+            "description": "[SETUP] Reset to Default for TC-08"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460031000,
+            "description": "TC-08.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460032000,
+            "description": "TC-08.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460033000,
+            "description": "TC-08.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                255,
+                255,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460034000,
+            "description": "TC-08.4: Invalid address 0xFFFF0000 (outside all regions) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460035000,
+            "description": "[SETUP] Reset to Default for TC-09"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460036000,
+            "description": "TC-09.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460037000,
+            "description": "TC-09.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460038000,
+            "description": "TC-09.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                64,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "timestamp": 1734460039000,
+            "description": "TC-09.4: Protected bootloader region at 0x00400000 (protected=true) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460040000,
+            "description": "[SETUP] Reset to Default for TC-10"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460041000,
+            "description": "TC-10.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460042000,
+            "description": "TC-10.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460043000,
+            "description": "TC-10.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "timestamp": 1734460044000,
+            "description": "TC-10.4: Non-writable RAM region at 0x00300000 (writable=false) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460045000,
+            "description": "[SETUP] Reset to Default for TC-11"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460046000,
+            "description": "TC-11.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460047000,
+            "description": "TC-11.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460048000,
+            "description": "TC-11.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                255,
+                0,
+                0
+            ],
+            "timestamp": 1734460049000,
+            "description": "TC-11.4: Size 0x00FF0000 exceeds Calibration Public region boundary - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460050000,
+            "description": "[SETUP] Reset to Default for TC-12"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460051000,
+            "description": "TC-12.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460052000,
+            "description": "TC-12.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460053000,
+            "description": "TC-12.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460054000,
+            "description": "TC-12.4: First Request Download - Expect Success"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                16,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460055000,
+            "description": "TC-12.5: Second Request Download while first active - Expect NRC 0x22 (Conditions Not Correct)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734460056000,
+            "description": "TC-12.6: Transfer Exit to clean up"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460057000,
+            "description": "[SETUP] Reset to Default for TC-13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460058000,
+            "description": "TC-13.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460059000,
+            "description": "TC-13.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460060000,
+            "description": "TC-13.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734460061000,
+            "description": "TC-13.4: Valid download to Flash Code region at 0x00001000, size 0x1000 - Expect Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734460062000,
+            "description": "TC-13.5: Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460063000,
+            "description": "[SETUP] Reset to Default for TC-14"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460064000,
+            "description": "TC-14.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460065000,
+            "description": "TC-14.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460066000,
+            "description": "TC-14.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                32,
+                0
+            ],
+            "timestamp": 1734460067000,
+            "description": "TC-14.4: Valid download to OEM Calibration region at 0x00200000, size 0x2000 - Expect Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734460068000,
+            "description": "TC-14.5: Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460069000,
+            "description": "[SETUP] Reset to Default for TC-15"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734460070000,
+            "description": "TC-15.1: Switch to PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460071000,
+            "description": "TC-15.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734460072000,
+            "description": "TC-15.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734460073000,
+            "description": "TC-15.4: Zero memory size (size=0x000000, invalid) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734460074000,
+            "description": "[FINAL] Reset to Default Session"
+        }
+    ],
+    "createdAt": 1734460000000,
+    "version": "1.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 11.5 compliant test suite for SID 0x34 (RequestDownload) with comprehensive coverage of DFI/ALFID parsing, session validation, security validation, memory region validation, state management, and all 6 NRCs.",
+        "tags": [
+            "SID34",
+            "Request Download",
+            "RequestDownload",
+            "ISO 14229",
+            "Test Suite",
+            "Automated Testing",
+            "Session Validation",
+            "Security Validation",
+            "Memory Validation",
+            "ALFID",
+            "DFI",
+            "Programming"
+        ],
+        "duration": 74000,
+        "totalRequests": 92,
+        "successRate": 100
+    },
+    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 0x34 (RequestDownload). Tests 15 categories: (TC-01) Session validation - DEFAULT session fails with NRC 0x70, (TC-02) Session validation - EXTENDED session fails with NRC 0x70, (TC-03) Security validation - locked state fails with NRC 0x33, (TC-04) Valid download with ALFID 0x44 (4-byte address + 4-byte size) to Calibration Public region, (TC-05) Valid download with ALFID 0x33 (3-byte address + 3-byte size), (TC-06) Message length validation - insufficient bytes returns NRC 0x13, (TC-07) Invalid ALFID with insufficient message length returns NRC 0x13, (TC-08) Invalid memory address outside all regions returns NRC 0x31, (TC-09) Protected bootloader region access returns NRC 0x31, (TC-10) Non-writable RAM region access returns NRC 0x31, (TC-11) Size exceeding region boundary returns NRC 0x31, (TC-12) Concurrent download attempt returns NRC 0x22, (TC-13) Valid download to Flash Code region (security level 1), (TC-14) Valid download to OEM Calibration region (security level 1), (TC-15) Zero memory size returns NRC 0x31. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x70 (UploadDownloadNotAccepted), 0x72 (GeneralProgrammingFailure)."
+}

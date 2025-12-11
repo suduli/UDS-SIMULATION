@@ -1,0 +1,28 @@
+﻿2025-12-11T06:39:14.2616044Z ##[debug]Evaluating condition for step: 'Build application'
+2025-12-11T06:39:14.2618087Z ##[debug]Evaluating: success()
+2025-12-11T06:39:14.2618400Z ##[debug]Evaluating success:
+2025-12-11T06:39:14.2618891Z ##[debug]=> true
+2025-12-11T06:39:14.2619173Z ##[debug]Result: true
+2025-12-11T06:39:14.2619676Z ##[debug]Starting: Build application
+2025-12-11T06:39:14.2625246Z ##[debug]Loading inputs
+2025-12-11T06:39:14.2627329Z ##[debug]Loading env
+2025-12-11T06:39:14.2630852Z ##[group]Run npm run build
+2025-12-11T06:39:14.2631087Z [36;1mnpm run build[0m
+2025-12-11T06:39:14.2650196Z shell: /usr/bin/bash -e {0}
+2025-12-11T06:39:14.2650434Z ##[endgroup]
+2025-12-11T06:39:14.2670693Z ##[debug]/usr/bin/bash -e /home/runner/work/_temp/0a459b17-8d9f-4ec4-aa88-161075683ebd.sh
+2025-12-11T06:39:14.3822809Z 
+2025-12-11T06:39:14.3824280Z > uds-protocol-simulator@0.0.0 build
+2025-12-11T06:39:14.3825206Z > tsc -b && vite build
+2025-12-11T06:39:14.3826050Z 
+2025-12-11T06:39:24.9672801Z ##[error]src/components/CardWithSparkles.stories.tsx(64,5): error TS2322: Type '{ sparkleColor: string; particleDensity: number; minSize: number; maxSize: number; speed: number; }' is not assignable to type 'Partial<{ children: ReactNode; className?: string | undefined; sparkleColor?: string | undefined; lightThemeColor?: string | undefined; particleDensity?: number | undefined; minSize?: number | undefined; maxSize?: number | undefined; speed?: number | undefined; }> & { ...; }'.
+2025-12-11T06:39:24.9688571Z   Property 'children' is missing in type '{ sparkleColor: string; particleDensity: number; minSize: number; maxSize: number; speed: number; }' but required in type '{ children: ReactNode; className?: string | undefined; sparkleColor?: string | undefined; lightThemeColor?: string | undefined; particleDensity?: number | undefined; minSize?: number | undefined; maxSize?: number | undefined; speed?: number | undefined; }'.
+2025-12-11T06:39:24.9692605Z ##[error]src/components/TestLogTable.tsx(148,50): error TS6133: 'index' is declared but its value is never read.
+2025-12-11T06:39:24.9722348Z ##[error]src/services/ReportAnalyzer.ts(10,5): error TS6196: 'TestRequest' is declared but never used.
+2025-12-11T06:39:24.9725099Z ##[error]src/services/ReportAnalyzer.ts(11,5): error TS6196: 'TestResponse' is declared but never used.
+2025-12-11T06:39:24.9727625Z ##[error]src/services/UDSSimulator.ts(20,3): error TS6133: 'generateSeed' is declared but its value is never read.
+2025-12-11T06:39:24.9730394Z ##[error]src/services/UDSSimulator.ts(21,3): error TS6133: 'calculateKeyXOR' is declared but its value is never read.
+2025-12-11T06:39:24.9733007Z ##[error]src/services/UDSSimulator.ts(561,11): error TS6133: 'suppressPositiveResponse' is declared but its value is never read.
+2025-12-11T06:39:24.9736182Z ##[error]src/services/UDSSimulator.ts(1410,30): error TS2488: Type 'number[] | undefined' must have a '[Symbol.iterator]()' method that returns an iterator.
+2025-12-11T06:39:25.2713511Z ##[error]Process completed with exit code 2.
+2025-12-11T06:39:25.2721157Z ##[debug]Finishing: Build application

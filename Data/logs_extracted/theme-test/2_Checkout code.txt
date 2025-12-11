@@ -1,0 +1,191 @@
+﻿2025-12-11T06:38:51.2718530Z ##[debug]Evaluating condition for step: 'Checkout code'
+2025-12-11T06:38:51.2754859Z ##[debug]Evaluating: success()
+2025-12-11T06:38:51.2760411Z ##[debug]Evaluating success:
+2025-12-11T06:38:51.2775695Z ##[debug]=> true
+2025-12-11T06:38:51.2781426Z ##[debug]Result: true
+2025-12-11T06:38:51.2804280Z ##[debug]Starting: Checkout code
+2025-12-11T06:38:51.2890500Z ##[debug]Register post job cleanup for action: actions/checkout@v4
+2025-12-11T06:38:51.2973940Z ##[debug]Loading inputs
+2025-12-11T06:38:51.2982964Z ##[debug]Evaluating: github.repository
+2025-12-11T06:38:51.2984464Z ##[debug]Evaluating Index:
+2025-12-11T06:38:51.2987236Z ##[debug]..Evaluating github:
+2025-12-11T06:38:51.2988791Z ##[debug]..=> Object
+2025-12-11T06:38:51.2994058Z ##[debug]..Evaluating String:
+2025-12-11T06:38:51.2995533Z ##[debug]..=> 'repository'
+2025-12-11T06:38:51.3000148Z ##[debug]=> 'suduli/UDS-SIMULATION'
+2025-12-11T06:38:51.3002959Z ##[debug]Result: 'suduli/UDS-SIMULATION'
+2025-12-11T06:38:51.3009928Z ##[debug]Evaluating: github.token
+2025-12-11T06:38:51.3011706Z ##[debug]Evaluating Index:
+2025-12-11T06:38:51.3012892Z ##[debug]..Evaluating github:
+2025-12-11T06:38:51.3014224Z ##[debug]..=> Object
+2025-12-11T06:38:51.3015117Z ##[debug]..Evaluating String:
+2025-12-11T06:38:51.3016198Z ##[debug]..=> 'token'
+2025-12-11T06:38:51.3017477Z ##[debug]=> '***'
+2025-12-11T06:38:51.3018481Z ##[debug]Result: '***'
+2025-12-11T06:38:51.3040489Z ##[debug]Loading env
+2025-12-11T06:38:51.3114986Z ##[group]Run actions/checkout@v4
+2025-12-11T06:38:51.3116267Z with:
+2025-12-11T06:38:51.3116971Z   repository: suduli/UDS-SIMULATION
+2025-12-11T06:38:51.3118152Z   token: ***
+2025-12-11T06:38:51.3118811Z   ssh-strict: true
+2025-12-11T06:38:51.3119509Z   ssh-user: git
+2025-12-11T06:38:51.3120215Z   persist-credentials: true
+2025-12-11T06:38:51.3121006Z   clean: true
+2025-12-11T06:38:51.3121717Z   sparse-checkout-cone-mode: true
+2025-12-11T06:38:51.3122580Z   fetch-depth: 1
+2025-12-11T06:38:51.3123268Z   fetch-tags: false
+2025-12-11T06:38:51.3123966Z   show-progress: true
+2025-12-11T06:38:51.3124709Z   lfs: false
+2025-12-11T06:38:51.3125457Z   submodules: false
+2025-12-11T06:38:51.3126199Z   set-safe-directory: true
+2025-12-11T06:38:51.3127169Z ##[endgroup]
+2025-12-11T06:38:51.4079329Z ##[debug]GITHUB_WORKSPACE = '/home/runner/work/UDS-SIMULATION/UDS-SIMULATION'
+2025-12-11T06:38:51.4083559Z ##[debug]qualified repository = 'suduli/UDS-SIMULATION'
+2025-12-11T06:38:51.4086785Z ##[debug]ref = 'refs/heads/main'
+2025-12-11T06:38:51.4089411Z ##[debug]commit = 'c323e79f5ed33abd3828d9b98ac52b9abe553178'
+2025-12-11T06:38:51.4092071Z ##[debug]clean = true
+2025-12-11T06:38:51.4094225Z ##[debug]filter = undefined
+2025-12-11T06:38:51.4096647Z ##[debug]fetch depth = 1
+2025-12-11T06:38:51.4098915Z ##[debug]fetch tags = false
+2025-12-11T06:38:51.4101149Z ##[debug]show progress = true
+2025-12-11T06:38:51.4103427Z ##[debug]lfs = false
+2025-12-11T06:38:51.4105863Z ##[debug]submodules = false
+2025-12-11T06:38:51.4108235Z ##[debug]recursive submodules = false
+2025-12-11T06:38:51.4110658Z ##[debug]GitHub Host URL = 
+2025-12-11T06:38:51.4114321Z ::add-matcher::/home/runner/work/_actions/actions/checkout/v4/dist/problem-matcher.json
+2025-12-11T06:38:51.4226421Z ##[debug]Added matchers: 'checkout-git'. Problem matchers scan action output for known warning or error strings and report these inline.
+2025-12-11T06:38:51.4233113Z Syncing repository: suduli/UDS-SIMULATION
+2025-12-11T06:38:51.4235892Z ::group::Getting Git version info
+2025-12-11T06:38:51.4237691Z ##[group]Getting Git version info
+2025-12-11T06:38:51.4239385Z Working directory is '/home/runner/work/UDS-SIMULATION/UDS-SIMULATION'
+2025-12-11T06:38:51.4241411Z ##[debug]Getting git version
+2025-12-11T06:38:51.4242391Z [command]/usr/bin/git version
+2025-12-11T06:38:51.4304075Z git version 2.52.0
+2025-12-11T06:38:51.4327072Z ##[debug]0
+2025-12-11T06:38:51.4330252Z ##[debug]git version 2.52.0
+2025-12-11T06:38:51.4332088Z ##[debug]
+2025-12-11T06:38:51.4334491Z ##[debug]Set git useragent to: git/2.52.0 (github-actions-checkout)
+2025-12-11T06:38:51.4338061Z ::endgroup::
+2025-12-11T06:38:51.4339228Z ##[endgroup]
+2025-12-11T06:38:51.4346151Z ::add-mask::***
+2025-12-11T06:38:51.4351495Z Temporarily overriding HOME='/home/runner/work/_temp/9c9d1003-b2ea-4063-af1c-225c5bb8c5dd' before making global git config changes
+2025-12-11T06:38:51.4356425Z Adding repository directory to the temporary git global config as a safe directory
+2025-12-11T06:38:51.4369570Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/UDS-SIMULATION/UDS-SIMULATION
+2025-12-11T06:38:51.4400326Z ##[debug]0
+2025-12-11T06:38:51.4403409Z ##[debug]
+2025-12-11T06:38:51.4407151Z Deleting the contents of '/home/runner/work/UDS-SIMULATION/UDS-SIMULATION'
+2025-12-11T06:38:51.4410969Z ::group::Initializing the repository
+2025-12-11T06:38:51.4412655Z ##[group]Initializing the repository
+2025-12-11T06:38:51.4417261Z [command]/usr/bin/git init /home/runner/work/UDS-SIMULATION/UDS-SIMULATION
+2025-12-11T06:38:51.4491383Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-12-11T06:38:51.4494488Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2025-12-11T06:38:51.4498469Z hint: to use in all of your new repositories, which will suppress this warning,
+2025-12-11T06:38:51.4500484Z hint: call:
+2025-12-11T06:38:51.4501635Z hint:
+2025-12-11T06:38:51.4503025Z hint: 	git config --global init.defaultBranch <name>
+2025-12-11T06:38:51.4504671Z hint:
+2025-12-11T06:38:51.4506464Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-12-11T06:38:51.4509120Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-12-11T06:38:51.4511200Z hint:
+2025-12-11T06:38:51.4512306Z hint: 	git branch -m <name>
+2025-12-11T06:38:51.4513523Z hint:
+2025-12-11T06:38:51.4515127Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-12-11T06:38:51.4518248Z Initialized empty Git repository in /home/runner/work/UDS-SIMULATION/UDS-SIMULATION/.git/
+2025-12-11T06:38:51.4522245Z ##[debug]0
+2025-12-11T06:38:51.4525102Z ##[debug]Initialized empty Git repository in /home/runner/work/UDS-SIMULATION/UDS-SIMULATION/.git/
+2025-12-11T06:38:51.4527701Z ##[debug]
+2025-12-11T06:38:51.4529555Z [command]/usr/bin/git remote add origin https://github.com/suduli/UDS-SIMULATION
+2025-12-11T06:38:51.4543569Z ##[debug]0
+2025-12-11T06:38:51.4546975Z ##[debug]
+2025-12-11T06:38:51.4548979Z ::endgroup::
+2025-12-11T06:38:51.4550259Z ##[endgroup]
+2025-12-11T06:38:51.4552530Z ::group::Disabling automatic garbage collection
+2025-12-11T06:38:51.4554318Z ##[group]Disabling automatic garbage collection
+2025-12-11T06:38:51.4556980Z [command]/usr/bin/git config --local gc.auto 0
+2025-12-11T06:38:51.4578908Z ##[debug]0
+2025-12-11T06:38:51.4581840Z ##[debug]
+2025-12-11T06:38:51.4583818Z ::endgroup::
+2025-12-11T06:38:51.4584964Z ##[endgroup]
+2025-12-11T06:38:51.4587201Z ::group::Setting up auth
+2025-12-11T06:38:51.4588752Z ##[group]Setting up auth
+2025-12-11T06:38:51.4591374Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-12-11T06:38:51.4611900Z ##[debug]1
+2025-12-11T06:38:51.4614772Z ##[debug]
+2025-12-11T06:38:51.4620760Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-12-11T06:38:51.4895942Z ##[debug]0
+2025-12-11T06:38:51.4899574Z ##[debug]
+2025-12-11T06:38:51.4904031Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-12-11T06:38:51.4926615Z ##[debug]1
+2025-12-11T06:38:51.4929775Z ##[debug]
+2025-12-11T06:38:51.4934206Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-12-11T06:38:51.5100363Z ##[debug]0
+2025-12-11T06:38:51.5103912Z ##[debug]
+2025-12-11T06:38:51.5109475Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-12-11T06:38:51.5131646Z ##[debug]1
+2025-12-11T06:38:51.5134800Z ##[debug]
+2025-12-11T06:38:51.5139037Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-12-11T06:38:51.5327965Z ##[debug]0
+2025-12-11T06:38:51.5330473Z ##[debug]
+2025-12-11T06:38:51.5333746Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-12-11T06:38:51.5349508Z ##[debug]0
+2025-12-11T06:38:51.5352579Z ##[debug]
+2025-12-11T06:38:51.5358545Z ::endgroup::
+2025-12-11T06:38:51.5359705Z ##[endgroup]
+2025-12-11T06:38:51.5363611Z ::group::Fetching the repository
+2025-12-11T06:38:51.5366000Z ##[group]Fetching the repository
+2025-12-11T06:38:51.5372043Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c323e79f5ed33abd3828d9b98ac52b9abe553178:refs/remotes/origin/main
+2025-12-11T06:38:52.1540000Z From https://github.com/suduli/UDS-SIMULATION
+2025-12-11T06:38:52.1541957Z  * [new ref]         c323e79f5ed33abd3828d9b98ac52b9abe553178 -> origin/main
+2025-12-11T06:38:52.1570951Z ##[debug]0
+2025-12-11T06:38:52.1572287Z ##[debug]
+2025-12-11T06:38:52.1573540Z ::endgroup::
+2025-12-11T06:38:52.1573933Z ##[endgroup]
+2025-12-11T06:38:52.1574933Z ::group::Determining the checkout info
+2025-12-11T06:38:52.1575676Z ##[group]Determining the checkout info
+2025-12-11T06:38:52.1577054Z ::endgroup::
+2025-12-11T06:38:52.1577453Z ##[endgroup]
+2025-12-11T06:38:52.1581975Z [command]/usr/bin/git sparse-checkout disable
+2025-12-11T06:38:52.1615143Z ##[debug]0
+2025-12-11T06:38:52.1617568Z ##[debug]
+2025-12-11T06:38:52.1623748Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-12-11T06:38:52.1648608Z ##[debug]0
+2025-12-11T06:38:52.1652707Z ##[debug]
+2025-12-11T06:38:52.1653694Z ::group::Checking out the ref
+2025-12-11T06:38:52.1654226Z ##[group]Checking out the ref
+2025-12-11T06:38:52.1655192Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-12-11T06:38:52.2210371Z Switched to a new branch 'main'
+2025-12-11T06:38:52.2212907Z branch 'main' set up to track 'origin/main'.
+2025-12-11T06:38:52.2224059Z ##[debug]0
+2025-12-11T06:38:52.2227473Z ##[debug]branch 'main' set up to track 'origin/main'.
+2025-12-11T06:38:52.2228145Z ##[debug]
+2025-12-11T06:38:52.2237896Z ::endgroup::
+2025-12-11T06:38:52.2238381Z ##[endgroup]
+2025-12-11T06:38:52.2281363Z ##[debug]0
+2025-12-11T06:38:52.2284800Z ##[debug]commit c323e79f5ed33abd3828d9b98ac52b9abe553178
+2025-12-11T06:38:52.2286365Z ##[debug]Author: suduli <suduliray@gmail.com>
+2025-12-11T06:38:52.2287077Z ##[debug]Date:   Thu Dec 11 12:03:42 2025 +0530
+2025-12-11T06:38:52.2287709Z ##[debug]
+2025-12-11T06:38:52.2288272Z ##[debug]    Upgrade Storybook to 10.1.6 for Vite 7 compatibility
+2025-12-11T06:38:52.2288968Z ##[debug]    
+2025-12-11T06:38:52.2289529Z ##[debug]    - Upgraded from Storybook 8.6.14 to 10.1.6
+2025-12-11T06:38:52.2290367Z ##[debug]    - Removed 6 obsolete addon packages now bundled in Storybook 10
+2025-12-11T06:38:52.2291412Z ##[debug]    - Converted .storybook/main.ts to ESM syntax for SB 10 compatibility
+2025-12-11T06:38:52.2292408Z ##[debug]    - Removed @storybook/addon-themes dependency from preview.tsx
+2025-12-11T06:38:52.2293381Z ##[debug]    - Resolves ERESOLVE peer dependency conflicts with Vite 7.2.7
+2025-12-11T06:38:52.2294302Z ##[debug]    - Verified: npm install, storybook dev, and build-storybook all succeed
+2025-12-11T06:38:52.2295047Z ##[debug]
+2025-12-11T06:38:52.2307159Z [command]/usr/bin/git log -1 --format=%H
+2025-12-11T06:38:52.2335705Z c323e79f5ed33abd3828d9b98ac52b9abe553178
+2025-12-11T06:38:52.2346123Z ##[debug]0
+2025-12-11T06:38:52.2349782Z ##[debug]c323e79f5ed33abd3828d9b98ac52b9abe553178
+2025-12-11T06:38:52.2350385Z ##[debug]
+2025-12-11T06:38:52.2362400Z ##[debug]Unsetting HOME override
+2025-12-11T06:38:52.2379937Z ::remove-matcher owner=checkout-git::
+2025-12-11T06:38:52.2395739Z ##[debug]Removed matchers: 'checkout-git'
+2025-12-11T06:38:52.2481641Z ##[debug]Node Action run completed with exit code 0
+2025-12-11T06:38:52.2528598Z ##[debug]Save intra-action state isPost = true
+2025-12-11T06:38:52.2529486Z ##[debug]Save intra-action state setSafeDirectory = true
+2025-12-11T06:38:52.2530450Z ##[debug]Save intra-action state repositoryPath = /home/runner/work/UDS-SIMULATION/UDS-SIMULATION
+2025-12-11T06:38:52.2536062Z ##[debug]Set output commit = c323e79f5ed33abd3828d9b98ac52b9abe553178
+2025-12-11T06:38:52.2537542Z ##[debug]Set output ref = refs/heads/main
+2025-12-11T06:38:52.2544631Z ##[debug]Finishing: Checkout code
