@@ -214,7 +214,56 @@
       z-index: 0;
     }
   }
+
+  /* ========================================
+     WCAG AA CONTRAST FIXES (4.5:1 minimum)
+     ======================================== */
+  
+  /* Fix 1: Dark theme - Primary button text on cyber-green background */
+  /* Issue: #f3f4f6 on #00ff9f = 1.21:1 (FAIL) */
+  /* Fix: Use dark text #0f172a on #00ff9f = 13.44:1 (PASS) */
+  .bg-cyber-green,
+  .bg-status-success-dark {
+    color: #0f172a !important;
+  }
+
+  /* Fix 2: Dark theme - Input text must be dark on white background */
+  /* Issue: #f3f4f6 on #ffffff = 1.1:1 (FAIL) */
+  /* Fix: Force dark text color for inputs in dark theme when bg is white */
+  [data-theme="dark"] input[type="text"],
+  [data-theme="dark"] input[type="email"],
+  [data-theme="dark"] input[type="password"],
+  [data-theme="dark"] input[type="search"],
+  [data-theme="dark"] select,
+  [data-theme="dark"] textarea {
+    color: #0f172a !important;
+  }
+
+  [data-theme="dark"] input::placeholder,
+  [data-theme="dark"] textarea::placeholder {
+    color: #64748b !important;
+  }
+
+  /* Fix 3: Light theme - Header text must be visible on background */
+  /* Issue: #0f172a on #000000 = 1.18:1 (FAIL) */
+  /* Fix: Use white text on dark backgrounds in light theme */
+  [data-theme="light"] header,
+  [data-theme="light"] .header {
+    color: #ffffff !important;
+  }
+
+  /* Ensure cyber-green buttons always have dark text for contrast */
+  button.bg-cyber-green,
+  .btn-cyber-green {
+    color: #0f172a !important;
+  }
+
+  button.bg-cyber-green:hover,
+  .btn-cyber-green:hover {
+    color: #0f172a !important;
+  }
 }
+
 
 .glass-card::after {
   content: '';
