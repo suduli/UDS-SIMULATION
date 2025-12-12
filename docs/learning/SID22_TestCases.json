@@ -636,14 +636,476 @@
             "subFunction": 1,
             "data": [],
             "timestamp": 1734450058500,
-            "description": "[SETUP] Final Reset to Default Session"
+            "description": "[SETUP] Reset to Default Session for TC-13"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241,
+                148,
+                241,
+                149,
+                241,
+                134,
+                241,
+                144,
+                241,
+                145,
+                241,
+                148,
+                241,
+                149,
+                241,
+                134
+            ],
+            "timestamp": 1734450059000,
+            "description": "TC-13.1: Request 10 DIDs at once (5 unique x2) - Test response size limit"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241,
+                148,
+                241,
+                149,
+                241,
+                134
+            ],
+            "timestamp": 1734450060000,
+            "description": "TC-13.2: Request 5 DIDs - Should fit in response buffer"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                144,
+                241,
+                144
+            ],
+            "timestamp": 1734450061000,
+            "description": "TC-13.3: Request same DID (VIN) 3 times - Duplicate handling test"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145
+            ],
+            "timestamp": 1734450062000,
+            "description": "TC-13.4: Request 2 DIDs (split test) - First half OK"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450062500,
+            "description": "[SETUP] Reset to Default Session for TC-14"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450063000,
+            "description": "TC-14.1: Workflow - Enter EXTENDED Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450064000,
+            "description": "TC-14.2: Workflow - Read Coolant Temp after session change"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450065000,
+            "description": "TC-14.3: Workflow - Verify session is EXTENDED (0x03)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450066000,
+            "description": "TC-14.4: Workflow - Return to DEFAULT"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450067000,
+            "description": "TC-14.5: Workflow - Verify session is DEFAULT (0x01)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450068000,
+            "description": "TC-14.6: Workflow - Read VIN in DEFAULT (baseline for next test)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450069000,
+            "description": "TC-14.7: Workflow - Enter EXTENDED for diagnostic scan"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                145,
+                241,
+                148
+            ],
+            "timestamp": 1734450070000,
+            "description": "TC-14.8: Workflow - Diagnostic Scan: VIN + HW + SW"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5,
+                1,
+                12,
+                1,
+                13
+            ],
+            "timestamp": 1734450071000,
+            "description": "TC-14.9: Workflow - Diagnostic Scan: Sensors (Temp + RPM + Speed)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                66,
+                1,
+                16
+            ],
+            "timestamp": 1734450072000,
+            "description": "TC-14.10: Workflow - Diagnostic Scan: Battery + MAF"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450073000,
+            "description": "TC-14.11: Workflow - Enter PROGRAMMING Session"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450074000,
+            "description": "TC-14.12: Workflow - Verify PROGRAMMING session (0x02)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                148
+            ],
+            "timestamp": 1734450075000,
+            "description": "TC-14.13: Workflow - Read VIN + SW in PROGRAMMING"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450076000,
+            "description": "TC-14.14: Workflow - Return to DEFAULT from PROGRAMMING"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450077000,
+            "description": "TC-14.15: Workflow - Final session verification (0x01)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450077500,
+            "description": "[SETUP] Reset to Default Session for TC-15"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450078000,
+            "description": "TC-15.1: Error Recovery - Read sensor in DEFAULT (expect NRC 0x7F)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734450079000,
+            "description": "TC-15.2: Error Recovery - Check current session (diagnostic step)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450080000,
+            "description": "TC-15.3: Error Recovery - Fix by entering EXTENDED"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450081000,
+            "description": "TC-15.4: Error Recovery - Retry sensor read (should pass now)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450082000,
+            "description": "TC-15.5: Error Recovery - Return to DEFAULT"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                1,
+                5
+            ],
+            "timestamp": 1734450083000,
+            "description": "TC-15.6: Error Recovery - Mixed DIDs fail (expect NRC 0x7F)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450084000,
+            "description": "TC-15.7: Error Recovery - Split request: Valid DID only"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450085000,
+            "description": "TC-15.8: Error Recovery - Enter EXTENDED for sensor"
+        },
+        {
+            "sid": 34,
+            "data": [
+                1,
+                5
+            ],
+            "timestamp": 1734450086000,
+            "description": "TC-15.9: Error Recovery - Split request: Sensor DID"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450087000,
+            "description": "TC-15.10: Error Recovery - Complete: Return to DEFAULT"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450087500,
+            "description": "[SETUP] Reset to Default Session for TC-16"
+        },
+        {
+            "sid": 34,
+            "data": [
+                0,
+                1
+            ],
+            "timestamp": 1734450088000,
+            "description": "TC-16.1: Boundary - Minimum DID (0x0001) - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                255,
+                254
+            ],
+            "timestamp": 1734450089000,
+            "description": "TC-16.2: Boundary - Maximum DID (0xFFFE) - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450090000,
+            "description": "TC-16.3: Boundary - Exactly 1 valid DID - Should pass"
+        },
+        {
+            "sid": 34,
+            "data": [
+                255,
+                0
+            ],
+            "timestamp": 1734450091000,
+            "description": "TC-16.4: Boundary - Reserved range 0xFF00 - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                244,
+                0
+            ],
+            "timestamp": 1734450092000,
+            "description": "TC-16.5: Boundary - OBD range 0xF400 - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                244,
+                255
+            ],
+            "timestamp": 1734450093000,
+            "description": "TC-16.6: Boundary - OBD range 0xF4FF - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                135
+            ],
+            "timestamp": 1734450094000,
+            "description": "TC-16.7: Boundary - DID 0xF187 (near F186) - Expect NRC 0x31"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                133
+            ],
+            "timestamp": 1734450095000,
+            "description": "TC-16.8: Boundary - DID 0xF185 (near F186) - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450095500,
+            "description": "[SETUP] Reset to Default Session for TC-17"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144,
+                241,
+                144
+            ],
+            "timestamp": 1734450096000,
+            "description": "TC-17.1: Edge Case - Same DID requested twice (VIN x2)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                145,
+                241,
+                144
+            ],
+            "timestamp": 1734450097000,
+            "description": "TC-17.2: Edge Case - Reverse order (HW, VIN vs VIN, HW)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450098000,
+            "description": "TC-17.3: Edge Case - Rapid read #1"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450098100,
+            "description": "TC-17.4: Edge Case - Rapid read #2 (100ms apart)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734450098200,
+            "description": "TC-17.5: Edge Case - Rapid read #3 (100ms apart)"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134,
+                241,
+                144,
+                241,
+                145,
+                241,
+                148,
+                241,
+                149
+            ],
+            "timestamp": 1734450099000,
+            "description": "TC-17.6: Edge Case - All 5 public DIDs in single request"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450099500,
+            "description": "[CLEANUP] Final Reset to Default Session"
         }
     ],
     "createdAt": 1734450000000,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "metadata": {
         "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 compliant test suite for SID 22 (ReadDataByIdentifier) with comprehensive coverage of single/multi-DID reads, session validation, error handling, and all-or-nothing processing",
+        "description": "Production-grade ISO 14229-1:2020 compliant test suite for SID 22 (ReadDataByIdentifier). Comprehensive coverage including single/multi-DID reads, session validation, security framework, error handling, service interactions, error recovery, boundary testing, and edge cases.",
         "tags": [
             "SID22",
             "Read Data",
@@ -653,10 +1115,14 @@
             "Automated Testing",
             "Multi-DID",
             "Session Validation",
-            "Data Identifiers"
+            "Data Identifiers",
+            "Production Grade",
+            "Automotive",
+            "Error Recovery",
+            "Boundary Testing"
         ],
-        "duration": 59000,
-        "totalRequests": 73,
+        "duration": 100000,
+        "totalRequests": 118,
         "successRate": 100
     },
     "timings": [
@@ -732,7 +1198,54 @@
         1000,
         1000,
         1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        500,
+        1000,
+        1000,
+        100,
+        100,
+        1000,
         500
     ],
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 22 (ReadDataByIdentifier). Tests 12 categories: (TC-01) Single DID reads of public data, (TC-02) Multi-DID read combinations (2-4 DIDs), (TC-03) Session validation failures in DEFAULT session, (TC-04) Session validation success in EXTENDED session, (TC-05) Multi-DID sensor reads in EXTENDED, (TC-06) Mixed DID tests demonstrating all-or-nothing behavior, (TC-07) Invalid DID error handling (NRC 0x31), (TC-08) Message length validation (NRC 0x13), (TC-09) PROGRAMMING session validation, (TC-10) Public DID access across all sessions, (TC-11) Session transition validation, (TC-12) Active session DID verification. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x31 (RequestOutOfRange), 0x7F (ServiceNotSupportedInActiveSession). Tests 10 unique DIDs: 0xF186 (Active Session), 0xF190 (VIN), 0xF191 (HW Number), 0xF194 (SW Number), 0xF195 (Mfg Date), 0x0105 (Coolant Temp), 0x010C (Engine RPM), 0x010D (Vehicle Speed), 0x0142 (Battery Voltage), 0x0110 (MAF)."
+    "notes": "Test Suite v2.0.0 - Production Grade: Comprehensive 17-category test coverage for SID 22 (ReadDataByIdentifier). Categories: (TC-01) Single DID reads, (TC-02) Multi-DID combinations, (TC-03) Session validation failures, (TC-04) Session success in EXTENDED, (TC-05) Multi-DID sensors, (TC-06) All-or-nothing behavior, (TC-07) Invalid DID handling (NRC 0x31), (TC-08) Message length validation (NRC 0x13), (TC-09) PROGRAMMING session, (TC-10) Cross-session DID access, (TC-11) Session transitions, (TC-12) Active session verification, (TC-13) Response size testing, (TC-14) Service interaction workflows, (TC-15) Error recovery patterns, (TC-16) Boundary value testing, (TC-17) Edge cases. Tests 10 unique DIDs across 3 sessions. Based on ISO 14229-1:2020 Section 9.2 and SID 22 documentation analysis."
 }

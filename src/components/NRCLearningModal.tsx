@@ -30,7 +30,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
   if (!isOpen) return null;
 
   const lesson = NRC_LESSONS[nrc];
-  
+
   if (!lesson) {
     return (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
@@ -50,10 +50,9 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
   }
 
   const handleCopyExample = (index: number, example: UDSRequest) => {
-    const hexString = `${example.sid.toString(16).padStart(2, '0')} ${
-      example.subFunction ? example.subFunction.toString(16).padStart(2, '0') + ' ' : ''
-    }${example.data?.map(b => b.toString(16).padStart(2, '0')).join(' ') || ''}`.trim();
-    
+    const hexString = `${example.sid.toString(16).padStart(2, '0')} ${example.subFunction ? example.subFunction.toString(16).padStart(2, '0') + ' ' : ''
+      }${example.data?.map(b => b.toString(16).padStart(2, '0')).join(' ') || ''}`.trim();
+
     navigator.clipboard.writeText(hexString);
     setCopiedExample(index);
     setTimeout(() => setCopiedExample(null), 2000);
@@ -67,8 +66,8 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-slate-900 border-2 border-cyan-500/50 rounded-lg max-w-4xl w-full my-8 shadow-2xl shadow-cyan-500/20">
+    <div className="fixed inset-0 bg-black/80 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 overflow-hidden">
+      <div className="bg-slate-900 border-t-2 sm:border-2 border-cyan-500/50 rounded-t-2xl sm:rounded-xl w-full max-w-4xl max-h-[85vh] sm:max-h-[90vh] shadow-2xl shadow-cyan-500/20 flex flex-col">
         {/* Header */}
         <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-6 rounded-t-lg">
           <div className="flex items-start justify-between">
@@ -83,7 +82,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
                 <p className="text-cyan-100">NRC: 0x{nrc.toString(16).toUpperCase().padStart(2, '0')}</p>
               </div>
             </div>
-            <button 
+            <button
               onClick={onClose}
               className="text-white/80 hover:text-white transition-colors"
             >
@@ -95,15 +94,14 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="border-b border-slate-700 bg-slate-800/50">
-          <div className="flex gap-1 p-2">
+        <div className="border-b border-slate-700 bg-slate-800/50 flex-shrink-0">
+          <div className="flex gap-1 p-2 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'overview'
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === 'overview'
                   ? 'bg-cyan-600 text-white'
                   : 'text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
+                }`}
             >
               <svg className="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -112,11 +110,10 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('troubleshooting')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'troubleshooting'
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === 'troubleshooting'
                   ? 'bg-cyan-600 text-white'
                   : 'text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
+                }`}
             >
               <svg className="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -125,11 +122,10 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('examples')}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'examples'
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${activeTab === 'examples'
                   ? 'bg-cyan-600 text-white'
                   : 'text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
+                }`}
             >
               <svg className="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -140,7 +136,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 overscroll-contain">
           {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div className="space-y-6">
@@ -237,7 +233,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
                 {lesson.examples.map((example, index) => (
                   <div key={index} className="mb-6 bg-slate-800/50 border border-slate-700 rounded-lg p-4">
                     <p className="text-slate-300 mb-4">{example.explanation}</p>
-                    
+
                     <div className="grid md:grid-cols-2 gap-4">
                       {/* Incorrect Example */}
                       <div className="border border-red-500/30 bg-red-900/10 rounded-lg p-4">
@@ -250,7 +246,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
                         <code className="text-sm text-red-300 font-mono block">
                           {example.incorrect.sid.toString(16).toUpperCase().padStart(2, '0')}
                           {example.incorrect.subFunction && ' ' + example.incorrect.subFunction.toString(16).toUpperCase().padStart(2, '0')}
-                          {example.incorrect.data && example.incorrect.data.length > 0 && 
+                          {example.incorrect.data && example.incorrect.data.length > 0 &&
                             ' ' + example.incorrect.data.map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
                         </code>
                       </div>
@@ -283,7 +279,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
                         <code className="text-sm text-green-300 font-mono block">
                           {example.correct.sid.toString(16).toUpperCase().padStart(2, '0')}
                           {example.correct.subFunction && ' ' + example.correct.subFunction.toString(16).toUpperCase().padStart(2, '0')}
-                          {example.correct.data && example.correct.data.length > 0 && 
+                          {example.correct.data && example.correct.data.length > 0 &&
                             ' ' + example.correct.data.map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}
                         </code>
                         <button
@@ -302,7 +298,7 @@ export const NRCLearningModal: React.FC<NRCLearningModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-slate-700 bg-slate-800/50 p-4 rounded-b-lg flex items-center justify-between">
+        <div className="border-t border-slate-700 bg-slate-800/50 p-4 flex-shrink-0 flex items-center justify-between safe-area-bottom">
           <div className="text-sm text-slate-400">
             💡 Learning UDS? Encountering errors is the best way to learn!
           </div>

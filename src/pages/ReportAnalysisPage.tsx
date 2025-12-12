@@ -238,24 +238,24 @@ export const ReportAnalysisPage: React.FC = () => {
                     {report && analysis && (
                         <div className="space-y-6">
                             {/* Action buttons */}
-                            <div className="flex justify-end gap-3">
+                            <div className="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 sm:gap-3">
                                 <button
                                     onClick={handleExportHTML}
-                                    className="px-6 py-3 bg-gradient-to-r from-cyber-blue to-purple-500 text-white rounded-lg font-bold hover:scale-105 transition-transform duration-200 flex items-center gap-2"
+                                    className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-cyber-blue to-purple-500 text-white rounded-lg font-bold hover:scale-105 transition-transform duration-200 flex items-center justify-center gap-2 text-sm sm:text-base"
                                 >
                                     <span>📥</span>
                                     Export as HTML
                                 </button>
                                 <button
                                     onClick={handleExportCSV}
-                                    className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold hover:scale-105 transition-transform duration-200 flex items-center gap-2"
+                                    className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold hover:scale-105 transition-transform duration-200 flex items-center justify-center gap-2 text-sm sm:text-base"
                                 >
                                     <span>📊</span>
                                     Export as CSV
                                 </button>
                                 <button
                                     onClick={handleClear}
-                                    className="px-6 py-3 bg-dark-800 border border-dark-600 text-gray-300 rounded-lg font-bold hover:bg-dark-700 hover:border-cyber-blue transition-all duration-200"
+                                    className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-dark-800 border border-dark-600 text-gray-300 rounded-lg font-bold hover:bg-dark-700 hover:border-cyber-blue transition-all duration-200 text-sm sm:text-base"
                                 >
                                     Load Different Report
                                 </button>

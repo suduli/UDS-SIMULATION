@@ -112,20 +112,20 @@ export const PowerSupplyDashboard: React.FC = () => {
     return (
         <div className="bg-white dark:bg-dark-800/60 backdrop-blur-md border border-slate-200 dark:border-gray-700 rounded-xl p-4 mb-6 relative overflow-hidden shadow-lg dark:shadow-none">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-gray-700 pb-3">
-                <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-4 border-b border-slate-200 dark:border-gray-700 pb-3 gap-3 sm:gap-0">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-lg shadow-emerald-500/50" />
-                    <h2 className="text-lg font-bold text-slate-800 dark:text-gray-100 font-mono tracking-tight">
+                    <h2 className="text-lg font-bold text-slate-800 dark:text-gray-100 font-mono tracking-tight flex-1 sm:flex-none">
                         DC POWER SUPPLY
                         <span className="text-xs text-slate-400 dark:text-gray-500 ml-2 font-normal">PPS-3005 PRO</span>
                     </h2>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full sm:w-auto justify-end">
                     <button
                         onClick={() => setSystemVoltage(12)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${systemVoltage === 12
-                                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                                : 'bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-700'
+                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                            : 'bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-700'
                             }`}
                     >
                         12V SYS
@@ -133,8 +133,8 @@ export const PowerSupplyDashboard: React.FC = () => {
                     <button
                         onClick={() => setSystemVoltage(24)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${systemVoltage === 24
-                                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                                : 'bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-700'
+                            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+                            : 'bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-700'
                             }`}
                     >
                         24V SYS
@@ -148,24 +148,24 @@ export const PowerSupplyDashboard: React.FC = () => {
                     {/* Status Icons */}
                     <div className="absolute top-3 right-3 flex gap-1.5">
                         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${isCC
-                                ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/50'
-                                : 'text-slate-400 dark:text-gray-600'
+                            ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/50'
+                            : 'text-slate-400 dark:text-gray-600'
                             }`}>CC</span>
                         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${!isCC && powerState !== 'OFF'
-                                ? 'bg-emerald-100 dark:bg-green-500/20 text-emerald-600 dark:text-green-400 border border-emerald-300 dark:border-green-500/50'
-                                : 'text-slate-400 dark:text-gray-600'
+                            ? 'bg-emerald-100 dark:bg-green-500/20 text-emerald-600 dark:text-green-400 border border-emerald-300 dark:border-green-500/50'
+                            : 'text-slate-400 dark:text-gray-600'
                             }`}>CV</span>
                         <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${isOVP
-                                ? 'bg-red-500 text-white animate-pulse'
-                                : 'text-slate-400 dark:text-gray-600'
+                            ? 'bg-red-500 text-white animate-pulse'
+                            : 'text-slate-400 dark:text-gray-600'
                             }`}>OVP</span>
                         {/* RPS Status Indicator */}
                         <span
                             className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${rpsCountdown !== null
-                                    ? 'bg-orange-500 text-white animate-pulse'
-                                    : rpsEnabled
-                                        ? 'bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-500/50'
-                                        : 'text-slate-400 dark:text-gray-600'
+                                ? 'bg-orange-500 text-white animate-pulse'
+                                : rpsEnabled
+                                    ? 'bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-500/50'
+                                    : 'text-slate-400 dark:text-gray-600'
                                 }`}
                             title={rpsEnabled ? `RPS Enabled: ${rpsPowerDownTime * 10}ms` : 'RPS Disabled'}
                         >
@@ -261,20 +261,47 @@ export const PowerSupplyDashboard: React.FC = () => {
                     </div>
 
                     {/* Ignition Toggle */}
-                    <div className="flex items-center justify-between bg-slate-100 dark:bg-gray-800/50 p-4 rounded-xl border border-slate-200 dark:border-gray-700">
-                        <span className="text-sm font-bold text-slate-700 dark:text-gray-300">IGNITION (KL15)</span>
-                        <button
-                            onClick={() => setPowerState(powerState === 'OFF' ? 'ON' : 'OFF')}
-                            className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 ${powerState !== 'OFF'
-                                    ? 'bg-emerald-500 shadow-lg shadow-emerald-500/30'
-                                    : 'bg-slate-300 dark:bg-gray-700'
-                                }`}
-                        >
-                            <span
-                                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${powerState !== 'OFF' ? 'translate-x-6' : 'translate-x-1'
-                                    }`}
-                            />
-                        </button>
+                    <div className={`
+                        relative group p-4 rounded-xl border transition-all duration-300 
+                        ${powerState !== 'OFF'
+                            ? 'bg-gradient-to-br from-emerald-500/10 to-transparent border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+                            : 'bg-slate-100 dark:bg-gray-800/30 border-slate-200 dark:border-gray-700/50 hover:border-slate-300 dark:hover:border-gray-600'
+                        }
+                    `}>
+                        <div className="flex items-center justify-between">
+                            <div className="flex flex-col">
+                                <span className={`text-sm font-bold tracking-wide transition-colors ${powerState !== 'OFF' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 dark:text-gray-400'}`}>
+                                    IGNITION (KL15)
+                                </span>
+                                <span className="text-[10px] font-mono text-slate-400 dark:text-gray-500 mt-0.5">
+                                    {powerState !== 'OFF' ? 'POWER SUPPLY ACTIVE' : 'OUTPUT DISABLED'}
+                                </span>
+                            </div>
+
+                            <button
+                                onClick={() => setPowerState(powerState === 'OFF' ? 'ON' : 'OFF')}
+                                className={`
+                                    relative inline-flex h-8 w-14 flex-shrink-0 items-center rounded-full transition-all duration-300 focus:outline-none 
+                                    ${powerState !== 'OFF'
+                                        ? 'bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]'
+                                        : 'bg-slate-300 dark:bg-gray-700 shadow-inner'
+                                    }
+                                `}
+                            >
+                                <span className="sr-only">Toggle Ignition</span>
+                                <span
+                                    className={`
+                                        absolute top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-white shadow-md transition-all duration-300 ease-out
+                                        ${powerState !== 'OFF' ? 'right-1' : 'left-1'}
+                                    `}
+                                />
+                            </button>
+                        </div>
+
+                        {/* Glow effect for active state */}
+                        {powerState !== 'OFF' && (
+                            <div className="absolute inset-0 bg-emerald-500/5 rounded-xl animate-pulse pointer-events-none" />
+                        )}
                     </div>
                 </div>
 
@@ -293,8 +320,8 @@ export const PowerSupplyDashboard: React.FC = () => {
                             onMouseUp={() => setFaultState('NONE')}
                             onMouseLeave={() => setFaultState('NONE')}
                             className={`p-3 rounded-xl border text-xs font-bold transition-all active:scale-95 ${faultState === 'SHORT_GND'
-                                    ? 'bg-red-500 text-white border-red-500 shadow-lg shadow-red-500/30'
-                                    : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-100 dark:hover:bg-red-900/40'
+                                ? 'bg-red-500 text-white border-red-500 shadow-lg shadow-red-500/30'
+                                : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-100 dark:hover:bg-red-900/40'
                                 }`}
                         >
                             SHORT GND
@@ -304,8 +331,8 @@ export const PowerSupplyDashboard: React.FC = () => {
                             onMouseUp={() => setFaultState('NONE')}
                             onMouseLeave={() => setFaultState('NONE')}
                             className={`p-3 rounded-xl border text-xs font-bold transition-all active:scale-95 ${faultState === 'OPEN_CIRCUIT'
-                                    ? 'bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-500/30'
-                                    : 'bg-amber-50 dark:bg-yellow-900/20 text-amber-600 dark:text-yellow-400 border-amber-200 dark:border-yellow-900/50 hover:bg-amber-100 dark:hover:bg-yellow-900/40'
+                                ? 'bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-500/30'
+                                : 'bg-amber-50 dark:bg-yellow-900/20 text-amber-600 dark:text-yellow-400 border-amber-200 dark:border-yellow-900/50 hover:bg-amber-100 dark:hover:bg-yellow-900/40'
                                 }`}
                         >
                             OPEN CIRCUIT

@@ -357,19 +357,49 @@ export class UDSSimulator {
     }
 
     // Session transition validation per ISO 14229-1:2020
-    // Relaxed transition matrix for test simulator to allow flexible session changes
+    // Strict transition matrix enforcing ISO standards:
     // | From → To        | Default | Programming | Extended | Safety |
     // |------------------|---------|-------------|----------|--------|
     // | Default (0x01)   | OK      | OK          | OK       | OK     |
-    // | Programming(0x02)| OK      | OK          | OK       | OK     |
-    // | Extended (0x03)  | OK      | OK          | OK       | OK     |
-    // | Safety (0x04)    | OK      | OK          | OK       | OK     |
+    // | Programming(0x02)| OK      | NRC 0x22    | NRC 0x22 | NRC 0x22|
+    // | Extended (0x03)  | OK      | NRC 0x22    | OK       | NRC 0x22|
+    // | Safety (0x04)    | OK      | NRC 0x22    | NRC 0x22 | OK     |
     const currentSession = this.state.currentSession;
 
     const isTransitionValid = (): boolean => {
-      // For UDS simulator/testing purposes, allow all session transitions
-      // This enables comprehensive testing of service behavior in different sessions
-      // Real ECUs may implement stricter transition rules based on security/safety requirements
+      // Always allow transition TO Default session (from any session)
+      if (sessionType === DiagnosticSessionType.DEFAULT) {
+        return true;
+      }
+
+      // Always allow transition FROM Default session (to any session)
+      if (currentSession === DiagnosticSessionType.DEFAULT) {
+        return true;
+      }
+
+      // Programming session cannot be re-entered (must go to Default first)
+      // Programming cannot transition to any other non-Default session
+      if (currentSession === DiagnosticSessionType.PROGRAMMING) {
+        return false; // Block all transitions from Programming except to Default
+      }
+
+      // Extended session can only re-enter itself, not transition to Programming/Safety
+      if (currentSession === DiagnosticSessionType.EXTENDED) {
+        if (sessionType === DiagnosticSessionType.EXTENDED) {
+          return true; // Allow Extended re-entry
+        }
+        return false; // Block Extended -> Programming/Safety
+      }
+
+      // Safety session can only re-enter itself, not transition to Programming/Extended
+      if (currentSession === DiagnosticSessionType.SAFETY) {
+        if (sessionType === DiagnosticSessionType.SAFETY) {
+          return true; // Allow Safety re-entry
+        }
+        return false; // Block Safety -> Programming/Extended
+      }
+
+      // Default case - allow transition
       return true;
     };
 

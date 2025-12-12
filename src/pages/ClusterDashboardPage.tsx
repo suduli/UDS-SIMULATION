@@ -71,6 +71,7 @@ interface PremiumGaugeProps {
     size?: number;
     redZoneStart?: number;
     isRpm?: boolean;
+    className?: string;
 }
 
 const PremiumGauge: React.FC<PremiumGaugeProps> = ({
@@ -80,10 +81,17 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
     label,
     size = 280,
     redZoneStart,
-    isRpm = false
+    isRpm = false,
+    className
 }) => {
-    const center = size / 2;
-    const outerRadius = size / 2 - 15;
+    const center = 140; // Fixed internal coordinate system
+    const scale = size / 280; // Keep existing prop for backwards compat if needed, but we'll use constrained SVG
+
+    // We'll use a fixed internal coordinate system of 280x280 for the SVG logic
+    // and let CSS handle the actual display size.
+    const internalSize = 280;
+    const internalCenter = internalSize / 2;
+    const outerRadius = internalCenter - 15;
     const innerRadius = outerRadius - 35;
 
     // Angle calculations (270 degree sweep from -225 to +45)
@@ -106,10 +114,10 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
         const tickOuterRadius = outerRadius - 8;
         const tickInnerRadius = tickOuterRadius - (i % 2 === 0 ? 20 : 10);
 
-        const x1 = center + Math.cos(angle) * tickInnerRadius;
-        const y1 = center + Math.sin(angle) * tickInnerRadius;
-        const x2 = center + Math.cos(angle) * tickOuterRadius;
-        const y2 = center + Math.sin(angle) * tickOuterRadius;
+        const x1 = internalCenter + Math.cos(angle) * tickInnerRadius;
+        const y1 = internalCenter + Math.sin(angle) * tickInnerRadius;
+        const x2 = internalCenter + Math.cos(angle) * tickOuterRadius;
+        const y2 = internalCenter + Math.sin(angle) * tickOuterRadius;
 
         ticks.push(
             <line
@@ -125,8 +133,8 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
         // Number labels for major ticks
         if (i % 2 === 0) {
             const labelRadius = tickInnerRadius - 18;
-            const labelX = center + Math.cos(angle) * labelRadius;
-            const labelY = center + Math.sin(angle) * labelRadius;
+            const labelX = internalCenter + Math.cos(angle) * labelRadius;
+            const labelY = internalCenter + Math.sin(angle) * labelRadius;
             const displayValue = isRpm ? tickValue / 1000 : tickValue;
 
             ticks.push(
@@ -155,10 +163,10 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
         const startRad = redStartAngle * (Math.PI / 180);
         const endRad = endAngle * (Math.PI / 180);
 
-        const x1 = center + Math.cos(startRad) * arcRadius;
-        const y1 = center + Math.sin(startRad) * arcRadius;
-        const x2 = center + Math.cos(endRad) * arcRadius;
-        const y2 = center + Math.sin(endRad) * arcRadius;
+        const x1 = internalCenter + Math.cos(startRad) * arcRadius;
+        const y1 = internalCenter + Math.sin(startRad) * arcRadius;
+        const x2 = internalCenter + Math.cos(endRad) * arcRadius;
+        const y2 = internalCenter + Math.sin(endRad) * arcRadius;
 
         const largeArc = (endAngle - redStartAngle) > 180 ? 1 : 0;
 
@@ -176,15 +184,15 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
     // Needle
     const needleAngle = valueAngle * (Math.PI / 180);
     const needleLength = innerRadius + 15;
-    const needleTipX = center + Math.cos(needleAngle) * needleLength;
-    const needleTipY = center + Math.sin(needleAngle) * needleLength;
+    const needleTipX = internalCenter + Math.cos(needleAngle) * needleLength;
+    const needleTipY = internalCenter + Math.sin(needleAngle) * needleLength;
 
     const isInRed = redZoneStart !== undefined && value >= redZoneStart;
     const needleColor = isInRed ? '#ff3b30' : '#00d4ff';
 
     return (
-        <div className="relative cluster-gauge" style={{ width: size, height: size }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="cluster-gauge-svg">
+        <div className={`relative cluster-gauge ${className || ''}`} style={{ width: '100%', maxWidth: size, aspectRatio: '1/1' }}>
+            <svg viewBox={`0 0 ${internalSize} ${internalSize}`} className="w-full h-full cluster-gauge-svg">
                 <defs>
                     {/* Outer ring gradient - Dark theme */}
                     <linearGradient id={`bezel-${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -217,7 +225,7 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
 
                 {/* Outer bezel ring with glow */}
                 <circle
-                    cx={center} cy={center} r={outerRadius + 3}
+                    cx={internalCenter} cy={internalCenter} r={outerRadius + 3}
                     fill="none"
                     className="gauge-bezel-glow"
                     strokeWidth="1"
@@ -226,7 +234,7 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
 
                 {/* Outer bezel */}
                 <circle
-                    cx={center} cy={center} r={outerRadius}
+                    cx={internalCenter} cy={internalCenter} r={outerRadius}
                     className="gauge-outer-bezel"
                     fill={`url(#inner-${label})`}
                     stroke={`url(#bezel-${label})`}
@@ -235,7 +243,7 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
 
                 {/* Inner circle */}
                 <circle
-                    cx={center} cy={center} r={innerRadius - 30}
+                    cx={internalCenter} cy={internalCenter} r={innerRadius - 30}
                     className="gauge-inner-circle"
                     strokeWidth="1"
                 />
@@ -248,8 +256,8 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
 
                 {/* Needle */}
                 <line
-                    x1={center}
-                    y1={center}
+                    x1={internalCenter}
+                    y1={internalCenter}
                     x2={needleTipX}
                     y2={needleTipY}
                     stroke={needleColor}
@@ -260,8 +268,8 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
                 />
 
                 {/* Center hub */}
-                <circle cx={center} cy={center} r="18" className="gauge-center-hub" strokeWidth="3" />
-                <circle cx={center} cy={center} r="8" className="gauge-center-dot" />
+                <circle cx={internalCenter} cy={internalCenter} r="18" className="gauge-center-hub" strokeWidth="3" />
+                <circle cx={internalCenter} cy={internalCenter} r="8" className="gauge-center-dot" />
             </svg>
 
             {/* Label at bottom */}
@@ -404,14 +412,14 @@ const GearSelector: React.FC<GearSelectorProps> = ({ gear, onChange }) => {
     const mainGears: GearPosition[] = ['P', 'R', 'N', 'D'];
 
     return (
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center justify-center gap-4 bg-black/20 rounded-xl px-4 py-2 border border-white/5">
             {mainGears.map((g) => (
                 <button
                     key={g}
                     onClick={() => onChange(g)}
-                    className={`w-12 h-10 flex items-center justify-center text-xl font-bold transition-all duration-200 rounded ${gear === g
-                        ? 'text-green-400 bg-green-500/10 shadow-[0_0_15px_rgba(48,209,88,0.3)]'
-                        : 'cluster-fault-chevron hover:text-gray-400'
+                    className={`w-8 h-8 flex items-center justify-center text-lg font-bold transition-all duration-200 rounded ${gear === g
+                        ? 'text-green-400 bg-green-500/10 shadow-[0_0_15px_rgba(48,209,88,0.3)] scale-110'
+                        : 'cluster-fault-chevron hover:text-gray-400 opacity-50'
                         }`}
                     style={{
                         fontFamily: "'Inter', sans-serif",
@@ -605,6 +613,9 @@ export const ClusterDashboardPage: React.FC = () => {
         (sum, cat) => sum + countFaults(cat as keyof FaultTriggers), 0
     );
 
+    // Mobile specific state
+    const [isFaultPanelOpen, setIsFaultPanelOpen] = useState(false);
+
     // INTEGRATION POINT
     const handleApplyConditions = () => {
         console.log('=== Operating Conditions Applied ===');
@@ -679,35 +690,53 @@ export const ClusterDashboardPage: React.FC = () => {
                             <div
                                 className="relative rounded-[2rem] overflow-hidden cluster-main-panel"
                             >
-                                {/* Top bezel with telltales */}
-                                <div className="flex items-center justify-center gap-8 py-4 border-b cluster-telltales-header">
-                                    <Telltale icon={<EngineIcon />} active={telltales.engine} color="amber" label="Check Engine" />
-                                    <Telltale icon={<ABSIcon />} active={telltales.abs} color="amber" label="ABS" />
-                                    <Telltale icon={<BatteryIcon />} active={telltales.battery} color="red" label="Battery" />
-                                    <Telltale icon={<OilIcon />} active={telltales.oil} color="red" label="Oil" />
-                                    <Telltale icon={<TempIcon />} active={telltales.temp} color="red" label="Temperature" />
-                                    <Telltale icon={<FuelIcon />} active={telltales.fuel} color="amber" label="Fuel" />
-                                    <Telltale icon={<BrakeIcon />} active={telltales.brake} color="red" label="Brake" />
-                                    <Telltale icon={<ESPIcon />} active={telltales.esp} color="amber" label="ESP" />
+                                {/* Mobile Header with Fault Toggle */}
+                                <div className="xl:hidden flex items-center justify-between px-4 py-3 border-b border-white/10">
+                                    <div className="text-sm font-semibold tracking-wider text-cyan-400">CLUSTER V3</div>
+                                    <button
+                                        onClick={() => setIsFaultPanelOpen(true)}
+                                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium active:bg-white/10"
+                                    >
+                                        <span className={totalFaults > 0 ? "text-red-400" : "text-gray-400"}>
+                                            {totalFaults > 0 ? `${totalFaults} Faults` : 'System OK'}
+                                        </span>
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </button>
                                 </div>
 
-                                {/* Main gauge area */}
-                                <div className="flex items-center justify-center py-6 px-4 gap-2 lg:gap-0">
+                                {/* Top bezel with telltales - Horizontal scrollable on mobile */}
+                                <div className="flex items-center justify-start xl:justify-center gap-6 xl:gap-8 px-4 py-4 border-b cluster-telltales-header overflow-x-auto no-scrollbar">
+                                    <div className="flex gap-6 xl:gap-8 min-w-max mx-auto">
+                                        <Telltale icon={<EngineIcon />} active={telltales.engine} color="amber" label="Check Engine" />
+                                        <Telltale icon={<ABSIcon />} active={telltales.abs} color="amber" label="ABS" />
+                                        <Telltale icon={<BatteryIcon />} active={telltales.battery} color="red" label="Battery" />
+                                        <Telltale icon={<OilIcon />} active={telltales.oil} color="red" label="Oil" />
+                                        <Telltale icon={<TempIcon />} active={telltales.temp} color="red" label="Temperature" />
+                                        <Telltale icon={<FuelIcon />} active={telltales.fuel} color="amber" label="Fuel" />
+                                        <Telltale icon={<BrakeIcon />} active={telltales.brake} color="red" label="Brake" />
+                                        <Telltale icon={<ESPIcon />} active={telltales.esp} color="amber" label="ESP" />
+                                    </div>
+                                </div>
+
+                                {/* Main gauge area - Responsive Grid/Stack */}
+                                <div className="flex flex-col xl:flex-row items-center justify-center py-6 px-4 gap-8 xl:gap-0">
                                     {/* Left - RPM Gauge */}
-                                    <div className="flex-shrink-0">
+                                    <div className="flex-shrink-0 w-[200px] xl:w-[260px] order-2 xl:order-1">
                                         <PremiumGauge
                                             value={vehicleState.engineRpm}
                                             min={0}
                                             max={10000}
                                             label="RPM"
-                                            size={260}
                                             redZoneStart={7000}
                                             isRpm={true}
                                         />
                                     </div>
 
                                     {/* Center - Digital Display */}
-                                    <div className="flex-1 flex flex-col items-center justify-center px-4 lg:px-8 min-w-[200px] max-w-[350px]">
+                                    <div className="flex-1 flex flex-col items-center justify-center px-4 lg:px-8 w-full max-w-[350px] order-1 xl:order-2">
                                         {/* Large Speed Display */}
                                         <div className="text-center mb-4">
                                             <div
@@ -763,24 +792,27 @@ export const ClusterDashboardPage: React.FC = () => {
                                     </div>
 
                                     {/* Right - Speed Gauge + PRND */}
-                                    <div className="flex-shrink-0 flex items-center gap-4">
-                                        <PremiumGauge
-                                            value={vehicleState.vehicleSpeedKph}
-                                            min={0}
-                                            max={280}
-                                            label="KM/H"
-                                            size={260}
-                                        />
-                                        <GearSelector
-                                            gear={vehicleState.gearPosition}
-                                            onChange={(g) => updateVehicle('gearPosition', g)}
-                                        />
+                                    <div className="flex-shrink-0 flex flex-col items-center justify-center gap-4 w-full xl:w-auto order-3">
+                                        <div className="w-[200px] xl:w-[260px]">
+                                            <PremiumGauge
+                                                value={vehicleState.vehicleSpeedKph}
+                                                min={0}
+                                                max={280}
+                                                label="KM/H"
+                                            />
+                                        </div>
+                                        <div className="-mt-4 relative z-10">
+                                            <GearSelector
+                                                gear={vehicleState.gearPosition}
+                                                onChange={(g) => updateVehicle('gearPosition', g)}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Bottom controls */}
-                                <div className="px-6 pb-4">
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div className="px-6 pb-6 pt-4 border-t border-white/5 bg-black/20">
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                                         <div className="cluster-control-slider rounded-lg p-3 border">
                                             <label className="text-[10px] cluster-control-label uppercase tracking-wider">Engine RPM</label>
                                             <input
@@ -833,10 +865,31 @@ export const ClusterDashboardPage: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* FAULT TRIGGERS PANEL - 1 column */}
-                        <div className="cluster-fault-panel rounded-xl p-3">
-                            <div className="flex items-center justify-between mb-3">
-                                <h2 className="text-xs font-medium cluster-fault-header uppercase tracking-wider">Faults</h2>
+                        {/* FAULT TRIGGERS PANEL - Desktop Sidebar / Mobile Drawer */}
+                        {/* Mobile Drawer Overlay */}
+                        <div
+                            className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] transition-opacity xl:hidden ${isFaultPanelOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                            onClick={() => setIsFaultPanelOpen(false)}
+                        />
+
+                        {/* Panel Content - Sidebar on desktop, Slide-up drawer on mobile */}
+                        <div className={`
+                            fixed xl:static bottom-0 left-0 right-0 z-[100] 
+                            bg-[#121214] xl:bg-transparent 
+                            border-t xl:border-none border-white/10 
+                            rounded-t-2xl xl:rounded-xl 
+                            p-4 xl:p-3 
+                            cluster-fault-panel 
+                            transform transition-transform duration-300 ease-out xl:transform-none
+                            ${isFaultPanelOpen ? 'translate-y-0' : 'translate-y-full xl:translate-y-0'}
+                            max-h-[80vh] xl:max-h-none overflow-hidden flex flex-col
+                        `}>
+                            <div className="flex items-center justify-between mb-4 xl:mb-3">
+                                <div className='flex items-center gap-2'>
+                                    <h2 className="text-xs font-medium cluster-fault-header uppercase tracking-wider">Fault Injection</h2>
+                                    {/* Mobile Drag Handle */}
+                                    <div className="xl:hidden w-12 h-1 bg-white/10 rounded-full mx-auto absolute left-1/2 -translate-x-1/2 top-3" />
+                                </div>
                                 {totalFaults > 0 && (
                                     <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500/20 text-red-400 rounded">
                                         {totalFaults}

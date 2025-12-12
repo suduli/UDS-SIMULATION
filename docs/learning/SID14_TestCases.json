@@ -1,14 +1,14 @@
 {
-    "id": "sid14-clear-dtc-test-suite",
-    "name": "SID 14 Clear Diagnostic Information Test Suite",
-    "description": "Comprehensive test suite for UDS Service ID 14 (ClearDiagnosticInformation) based on ISO 14229-1:2020. Includes test cases covering valid clear requests, groupOfDTC values, session restrictions, security access, message length validation, conditions not correct, and edge cases. Each test category starts from Default Session to ensure proper isolation.",
+    "id": "sid14-comprehensive-test-suite",
+    "name": "SID 14 Clear Diagnostic Information - Automotive Grade Test Suite",
+    "description": "Production-grade test suite for UDS Service ID 14 (ClearDiagnosticInformation) based on ISO 14229-1:2020. Covers: Valid GroupOfDTC values, NRC validation (0x13, 0x22, 0x31, 0x33, 0x72, 0x78), session matrix, security workflows, service interactions (SID 0x10, 0x19, 0x27, 0x85), error recovery, stress testing, and EOL scenarios. Designed for real ECU validation in automotive sector.",
     "requests": [
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
             "timestamp": 1733440000000,
-            "description": "[SETUP] Reset to Default Session"
+            "description": "[SETUP] TC-01: Reset to Default Session for Valid GroupOfDTC Tests"
         },
         {
             "sid": 20,
@@ -19,7 +19,18 @@
                 255
             ],
             "timestamp": 1733440001000,
-            "description": "TC-01.1: Clear All DTCs (0xFFFFFF) - Valid Request"
+            "description": "TC-01.01: Clear All DTCs (0xFFFFFF) - Mandatory ISO 14229 | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1733440002000,
+            "description": "TC-01.02: Emissions-Related DTCs (0x000000) - OBD-II Compliant | Expect: 0x54"
         },
         {
             "sid": 20,
@@ -29,8 +40,52 @@
                 255,
                 51
             ],
-            "timestamp": 1733440002000,
-            "description": "TC-01.2: Clear Emission-Related DTCs (0xFFFF33) - OEM Specific"
+            "timestamp": 1733440003000,
+            "description": "TC-01.03: Network Communication DTCs (0xFFFF33) - OEM Specific | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                0
+            ],
+            "timestamp": 1733440004000,
+            "description": "TC-01.04: All Powertrain DTCs (0xFFFF00) - OEM Specific | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                192,
+                0,
+                0
+            ],
+            "timestamp": 1733440005000,
+            "description": "TC-01.05: Chassis Group (0xC00000 - High byte) | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                176,
+                0,
+                0
+            ],
+            "timestamp": 1733440006000,
+            "description": "TC-01.06: Body Group (0xB00000 - High byte) | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                64,
+                0,
+                0
+            ],
+            "timestamp": 1733440007000,
+            "description": "TC-01.07: Network Group (0x400000 - High byte) | Expect: 0x54"
         },
         {
             "sid": 20,
@@ -40,8 +95,8 @@
                 0,
                 0
             ],
-            "timestamp": 1733440003000,
-            "description": "TC-01.3: Clear Powertrain Group (0x010000) - OEM Specific"
+            "timestamp": 1733440008000,
+            "description": "TC-01.08: Powertrain Subsystem (0x010000) | Expect: 0x54"
         },
         {
             "sid": 20,
@@ -51,8 +106,8 @@
                 0,
                 0
             ],
-            "timestamp": 1733440004000,
-            "description": "TC-01.4: Clear Chassis Group (0x020000) - OEM Specific"
+            "timestamp": 1733440009000,
+            "description": "TC-01.09: Chassis Subsystem (0x020000) | Expect: 0x54"
         },
         {
             "sid": 20,
@@ -62,8 +117,8 @@
                 0,
                 0
             ],
-            "timestamp": 1733440005000,
-            "description": "TC-01.5: Clear Body/Comfort Group (0x040000) - OEM Specific"
+            "timestamp": 1733440010000,
+            "description": "TC-01.10: Body Subsystem (0x040000) | Expect: 0x54"
         },
         {
             "sid": 20,
@@ -73,75 +128,64 @@
                 0,
                 0
             ],
-            "timestamp": 1733440006000,
-            "description": "TC-01.6: Clear Network/Communication Group (0x080000) - OEM Specific"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                1,
-                1,
-                1
-            ],
-            "timestamp": 1733440007000,
-            "description": "TC-01.7: Clear Single Specific DTC (0x010101)"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                0,
-                0,
-                0
-            ],
-            "timestamp": 1733440008000,
-            "description": "TC-01.8: Clear DTC 0x000000 (Edge Case - No DTCs selected)"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440008500,
-            "description": "[SETUP] Reset to Default Session for TC-02"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255
-            ],
-            "timestamp": 1733440009000,
-            "description": "TC-02.1: Message Too Short (2 bytes groupOfDTC) - Expect NRC 0x13"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255
-            ],
-            "timestamp": 1733440010000,
-            "description": "TC-02.2: Message Too Short (1 byte groupOfDTC) - Expect NRC 0x13"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [],
             "timestamp": 1733440011000,
-            "description": "TC-02.3: Message Too Short (No groupOfDTC) - Expect NRC 0x13"
+            "description": "TC-01.11: Network Subsystem (0x080000) | Expect: 0x54"
         },
         {
             "sid": 20,
             "subFunction": 0,
             "data": [
-                255,
-                255,
-                255,
+                3,
+                1,
                 0
             ],
             "timestamp": 1733440012000,
-            "description": "TC-02.4: Message Too Long (4 bytes groupOfDTC) - Expect NRC 0x13"
+            "description": "TC-01.12: Specific DTC P0301 Equivalent (0x030100) | Expect: 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440013000,
+            "description": "[SETUP] TC-02: Reset for Message Length Validation (NRC 0x13)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1733440014000,
+            "description": "TC-02.01: No GroupOfDTC (0 bytes) | Expect: NRC 0x13"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440015000,
+            "description": "TC-02.02: Too Short (1 byte) | Expect: NRC 0x13"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255
+            ],
+            "timestamp": 1733440016000,
+            "description": "TC-02.03: Too Short (2 bytes) | Expect: NRC 0x13"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255,
+                0
+            ],
+            "timestamp": 1733440017000,
+            "description": "TC-02.04: Too Long (4 bytes) | Expect: NRC 0x13"
         },
         {
             "sid": 20,
@@ -153,22 +197,49 @@
                 0,
                 0
             ],
-            "timestamp": 1733440013000,
-            "description": "TC-02.5: Message Too Long (5 bytes extra) - Expect NRC 0x13"
+            "timestamp": 1733440018000,
+            "description": "TC-02.05: Too Long (5 bytes) | Expect: NRC 0x13"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1733440019000,
+            "description": "TC-02.06: Way Too Long (8 bytes) | Expect: NRC 0x13"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1733440013500,
-            "description": "[SETUP] Reset to Default Session for TC-03"
+            "timestamp": 1733440020000,
+            "description": "[SETUP] TC-03: Reset for Session Validation Matrix"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440021000,
+            "description": "TC-03.01: Clear in Default Session (0x01) | Expect: 0x54 (Allowed)"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1733440014000,
-            "description": "TC-03.1: Enter Extended Session"
+            "timestamp": 1733440022000,
+            "description": "TC-03.02: Enter Extended Session (0x03)"
         },
         {
             "sid": 20,
@@ -178,137 +249,22 @@
                 255,
                 255
             ],
-            "timestamp": 1733440015000,
-            "description": "TC-03.1: Clear All DTCs in Extended Session - Valid"
+            "timestamp": 1733440023000,
+            "description": "TC-03.03: Clear in Extended Session | Expect: 0x54 (Full Access)"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1733440015500,
-            "description": "[SETUP] Return to Default Session"
+            "timestamp": 1733440024000,
+            "description": "[SETUP] Return to Default"
         },
         {
             "sid": 16,
             "subFunction": 2,
             "data": [],
-            "timestamp": 1733440016000,
-            "description": "TC-03.2: Enter Programming Session"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440017000,
-            "description": "TC-03.2: Clear All DTCs in Programming Session - OEM Dependent"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440017500,
-            "description": "[SETUP] Return to Default Session"
-        },
-        {
-            "sid": 16,
-            "subFunction": 4,
-            "data": [],
-            "timestamp": 1733440018000,
-            "description": "TC-03.3: Enter Safety Session"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440019000,
-            "description": "TC-03.3: Clear All DTCs in Safety Session - Usually Blocked (Expect NRC 0x22 or 0x33)"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440019500,
-            "description": "[SETUP] Return to Default Session for TC-04"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                18,
-                52,
-                86
-            ],
-            "timestamp": 1733440020000,
-            "description": "TC-04.1: Unsupported groupOfDTC (0x123456) - Expect NRC 0x31"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                171,
-                205,
-                239
-            ],
-            "timestamp": 1733440021000,
-            "description": "TC-04.2: Unsupported groupOfDTC (0xABCDEF) - Expect NRC 0x31"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                16,
-                32,
-                48
-            ],
-            "timestamp": 1733440022000,
-            "description": "TC-04.3: Unsupported groupOfDTC (0x102030) - Expect NRC 0x31"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440022500,
-            "description": "[SETUP] Reset to Default Session for TC-05"
-        },
-        {
-            "sid": 16,
-            "subFunction": 3,
-            "data": [],
-            "timestamp": 1733440023000,
-            "description": "TC-05.1: Enter Extended Session for Security Test"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440024000,
-            "description": "TC-05.1: Clear All DTCs Without Security Unlock - May Require Security (Expect NRC 0x33 if protected)"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440024500,
-            "description": "[SETUP] Return to Default Session"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
             "timestamp": 1733440025000,
-            "description": "[SETUP] Reset to Default Session for TC-06"
+            "description": "TC-03.04: Enter Programming Session (0x02)"
         },
         {
             "sid": 20,
@@ -319,36 +275,21 @@
                 255
             ],
             "timestamp": 1733440026000,
-            "description": "TC-06.1: Clear DTCs - Verify Blocked if Conditions Not Met (Expect NRC 0x22)"
+            "description": "TC-03.05: Clear in Programming Session | Expect: NRC 0x7F or OEM-dependent"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1733440026500,
-            "description": "[SETUP] Reset to Default Session for TC-07"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
             "timestamp": 1733440027000,
-            "description": "TC-07.1: Clear All DTCs - Verify Response is 0x54 Only (1 byte)"
+            "description": "[SETUP] Return to Default"
         },
         {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                1,
-                1,
-                1
-            ],
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
             "timestamp": 1733440028000,
-            "description": "TC-07.2: Clear Single DTC - Verify Response is 0x54 Only (1 byte)"
+            "description": "TC-03.06: Enter Safety Session (0x04)"
         },
         {
             "sid": 20,
@@ -359,134 +300,21 @@
                 255
             ],
             "timestamp": 1733440029000,
-            "description": "TC-07.3: Clear DTCs When No DTCs Stored - Still Returns 0x54"
+            "description": "TC-03.07: Clear in Safety Session | Expect: NRC 0x22 (Blocked to preserve evidence)"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1733440029500,
-            "description": "[SETUP] Reset to Default Session for TC-08"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                128,
-                0,
-                0
-            ],
             "timestamp": 1733440030000,
-            "description": "TC-08.1: Boundary Value 0x800000"
+            "description": "[SETUP] Return to Default"
         },
         {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                0,
-                128,
-                0
-            ],
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
             "timestamp": 1733440031000,
-            "description": "TC-08.2: Boundary Value 0x008000"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                0,
-                0,
-                128
-            ],
-            "timestamp": 1733440032000,
-            "description": "TC-08.3: Boundary Value 0x000080"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                254,
-                254,
-                254
-            ],
-            "timestamp": 1733440033000,
-            "description": "TC-08.4: Near Max Value 0xFEFEFE"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440033500,
-            "description": "[SETUP] Reset to Default Session for TC-09"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440034000,
-            "description": "TC-09.1: Clear All DTCs (First Request)"
-        },
-        {
-            "sid": 25,
-            "subFunction": 1,
-            "data": [
-                255
-            ],
-            "timestamp": 1733440035000,
-            "description": "TC-09.2: Read DTC Count After Clear (Expect 0 DTCs)"
-        },
-        {
-            "sid": 25,
-            "subFunction": 2,
-            "data": [
-                255
-            ],
-            "timestamp": 1733440036000,
-            "description": "TC-09.3: Read All DTCs After Clear (Expect Empty List)"
-        },
-        {
-            "sid": 16,
-            "subFunction": 1,
-            "data": [],
-            "timestamp": 1733440036500,
-            "description": "[SETUP] Reset to Default Session for TC-10"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440037000,
-            "description": "TC-10.1: Rapid Consecutive Clear Requests - First"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440037100,
-            "description": "TC-10.2: Rapid Consecutive Clear Requests - Second (100ms)"
-        },
-        {
-            "sid": 20,
-            "subFunction": 0,
-            "data": [
-                255,
-                255,
-                255
-            ],
-            "timestamp": 1733440037200,
-            "description": "TC-10.3: Rapid Consecutive Clear Requests - Third (100ms)"
+            "description": "TC-03.08: Extended Session Re-entry Test"
         },
         {
             "sid": 20,
@@ -496,26 +324,874 @@
                 0,
                 0
             ],
+            "timestamp": 1733440032000,
+            "description": "TC-03.09: Clear Powertrain in Extended | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440033000,
+            "description": "TC-03.10: Sequential Clear All in Extended | Expect: 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440034000,
+            "description": "[SETUP] TC-04: Reset for RequestOutOfRange (NRC 0x31)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                18,
+                52,
+                86
+            ],
+            "timestamp": 1733440035000,
+            "description": "TC-04.01: Invalid GroupOfDTC (0x123456) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                171,
+                205,
+                239
+            ],
+            "timestamp": 1733440036000,
+            "description": "TC-04.02: Invalid GroupOfDTC (0xABCDEF) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                16,
+                32,
+                48
+            ],
+            "timestamp": 1733440037000,
+            "description": "TC-04.03: Invalid GroupOfDTC (0x102030) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                0,
+                255
+            ],
             "timestamp": 1733440038000,
-            "description": "TC-10.4: Different Group Clear After All Clear"
+            "description": "TC-04.04: Mixed Pattern (0xFF00FF) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                255,
+                0
+            ],
+            "timestamp": 1733440039000,
+            "description": "TC-04.05: Mixed Pattern (0x00FF00) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                85,
+                170,
+                85
+            ],
+            "timestamp": 1733440040000,
+            "description": "TC-04.06: Alternating Pattern (0x55AA55) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                170,
+                85,
+                170
+            ],
+            "timestamp": 1733440041000,
+            "description": "TC-04.07: Alternating Pattern (0xAA55AA) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                127,
+                127,
+                127
+            ],
+            "timestamp": 1733440042000,
+            "description": "TC-04.08: Half-Max Value (0x7F7F7F) | Expect: NRC 0x31 or OEM accept"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440043000,
+            "description": "[SETUP] TC-05: Reset for Security Access Validation (NRC 0x33)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440044000,
+            "description": "TC-05.01: Enter Extended for Security Test"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440045000,
+            "description": "TC-05.02: Clear Without Unlock - May get NRC 0x33 if ECU requires security"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440046000,
+            "description": "TC-05.03: Request Security Seed Level 1"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1733440047000,
+            "description": "TC-05.04: Send Key (placeholder - will fail with NRC 0x35)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440048000,
+            "description": "TC-05.05: Clear After Failed Unlock Attempt | Depends on ECU config"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440049000,
+            "description": "[SETUP] Reset to Default (clears security state)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440050000,
+            "description": "TC-05.06: Re-enter Extended Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440051000,
+            "description": "TC-05.07: Request Security Seed Level 2"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440052000,
+            "description": "TC-05.08: Clear Without Level 2 Key | May get NRC 0x33"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440053000,
+            "description": "[SETUP] TC-06: Reset for ConditionsNotCorrect Tests (NRC 0x22)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440054000,
+            "description": "TC-06.01: Clear in Normal Conditions | Expect: 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1733440055000,
+            "description": "TC-06.02: Enter Safety Session (Condition blocked)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440056000,
+            "description": "TC-06.03: Clear in Safety - Blocked | Expect: NRC 0x22"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                1,
+                0,
+                0
+            ],
+            "timestamp": 1733440057000,
+            "description": "TC-06.04: Clear Powertrain in Safety | Expect: NRC 0x22"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                192,
+                0,
+                0
+            ],
+            "timestamp": 1733440058000,
+            "description": "TC-06.05: Clear Chassis in Safety | Expect: NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440059000,
+            "description": "[SETUP] Return to Default"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440060000,
+            "description": "TC-06.06: Clear After Exiting Safety | Expect: 0x54 (Conditions OK)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440061000,
+            "description": "[SETUP] TC-07: Reset for Positive Response Validation"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440062000,
+            "description": "TC-07.01: Verify Response is exactly 0x54 (1 byte positive SID+0x40)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                1,
+                1,
+                1
+            ],
+            "timestamp": 1733440063000,
+            "description": "TC-07.02: Single DTC Clear - Response 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1733440064000,
+            "description": "TC-07.03: Zero GroupOfDTC - Response 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440065000,
+            "description": "TC-07.04: Clear When No DTCs Stored - Still 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440066000,
+            "description": "TC-07.05: Consecutive Clear Same Group - Both 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440067000,
+            "description": "TC-07.06: Third Consecutive Clear - Still 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440068000,
+            "description": "[SETUP] TC-08: Reset for Boundary Value Analysis"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1733440069000,
+            "description": "TC-08.01: Minimum Non-Zero (0x000001)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                1,
+                0
+            ],
+            "timestamp": 1733440070000,
+            "description": "TC-08.02: Middle Byte Boundary (0x000100)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                1,
+                0,
+                0
+            ],
+            "timestamp": 1733440071000,
+            "description": "TC-08.03: High Byte Boundary (0x010000)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                128,
+                0,
+                0
+            ],
+            "timestamp": 1733440072000,
+            "description": "TC-08.04: MSB Set (0x800000)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                128,
+                0
+            ],
+            "timestamp": 1733440073000,
+            "description": "TC-08.05: Middle MSB (0x008000)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                0,
+                0,
+                128
+            ],
+            "timestamp": 1733440074000,
+            "description": "TC-08.06: Low MSB (0x000080)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                254,
+                254,
+                254
+            ],
+            "timestamp": 1733440075000,
+            "description": "TC-08.07: Near Max (0xFEFEFE)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                254,
+                255
+            ],
+            "timestamp": 1733440076000,
+            "description": "TC-08.08: One Byte Below Max (0xFFFEFF)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440077000,
+            "description": "[SETUP] TC-09: Reset for Post-Clear Verification with SID 0x19"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440078000,
+            "description": "TC-09.01: Read DTC Count Before Clear (SID 19 01 FF)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440079000,
+            "description": "TC-09.02: Read DTCs Before Clear (SID 19 02 FF)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440080000,
+            "description": "TC-09.03: Execute Clear All DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440081000,
+            "description": "TC-09.04: Read DTC Count After Clear | Expect: 0 DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440082000,
+            "description": "TC-09.05: Read DTCs After Clear | Expect: Empty List"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                1,
+                0,
+                0
+            ],
+            "timestamp": 1733440083000,
+            "description": "TC-09.06: Clear Powertrain Only"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440084000,
+            "description": "TC-09.07: Verify After Powertrain Clear"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                175
+            ],
+            "timestamp": 1733440085000,
+            "description": "TC-09.08: Read DTC Count with Status Mask 0xAF"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440086000,
+            "description": "[SETUP] TC-10: Reset for Stress Testing"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440087000,
+            "description": "TC-10.01: Rapid Clear #1 (0ms gap)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440087050,
+            "description": "TC-10.02: Rapid Clear #2 (50ms gap)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440087100,
+            "description": "TC-10.03: Rapid Clear #3 (50ms gap)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440087150,
+            "description": "TC-10.04: Rapid Clear #4 (50ms gap)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440087200,
+            "description": "TC-10.05: Rapid Clear #5 (50ms gap)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440088000,
+            "description": "TC-10.06: Session Reset After Stress | Verify ECU stable"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440089000,
+            "description": "[SETUP] TC-11: Reset for Service Interaction Workflows"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440090000,
+            "description": "TC-11.01: Workflow 1 - Read DTCs First (SID 0x19)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440091000,
+            "description": "TC-11.02: Enter Extended Session (SID 0x10)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440092000,
+            "description": "TC-11.03: Clear All (SID 0x14)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440093000,
+            "description": "TC-11.04: Verify Clear (SID 0x19)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440094000,
+            "description": "TC-11.05: Return to Default (SID 0x10)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1733440095000,
+            "description": "TC-11.06: Tester Present (SID 0x3E) - Maintain Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440096000,
+            "description": "TC-11.07: Workflow 2 - Selective Clear - Enter Extended"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440097000,
+            "description": "TC-11.08: Read All DTCs Before Selective Clear"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                1,
+                0,
+                0
+            ],
+            "timestamp": 1733440098000,
+            "description": "TC-11.09: Clear Powertrain Only (0x010000)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440099000,
+            "description": "TC-11.10: Verify Non-Powertrain DTCs Remain"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440100000,
+            "description": "TC-11.11: Clear Remaining DTCs"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440101000,
+            "description": "TC-11.12: Return to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440102000,
+            "description": "[SETUP] TC-12: Reset for Error Recovery Scenarios"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255
+            ],
+            "timestamp": 1733440103000,
+            "description": "TC-12.01: Trigger NRC 0x13 (Intentional)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440104000,
+            "description": "TC-12.02: Retry with Correct Length | Expect: 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1733440105000,
+            "description": "TC-12.03: Enter Safety to Trigger NRC 0x22"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440106000,
+            "description": "TC-12.04: Clear in Safety | Expect: NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440107000,
+            "description": "TC-12.05: Exit Safety to Recover"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440108000,
+            "description": "TC-12.06: Retry Clear After Recovery | Expect: 0x54"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                18,
+                52,
+                86
+            ],
+            "timestamp": 1733440109000,
+            "description": "TC-12.07: Trigger with Invalid Group"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440110000,
+            "description": "TC-12.08: Recover with Valid Group | Expect: 0x54"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440111000,
+            "description": "[SETUP] TC-13: Reset for EOL/Production Scenarios"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733440112000,
+            "description": "TC-13.01: EOL - Enter Extended Session"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440113000,
+            "description": "TC-13.02: EOL - Read All DTCs (Manufacturing DTCs)"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733440114000,
+            "description": "TC-13.03: EOL - Clear All DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440115000,
+            "description": "TC-13.04: EOL - Verify 0 DTCs"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733440116000,
+            "description": "TC-13.05: EOL - Return to Default"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733440117000,
+            "description": "TC-13.06: EOL - Final Verification | Expect: No DTCs"
         }
     ],
     "createdAt": 1733440000000,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "metadata": {
-        "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 compliant test suite for SID 14 (ClearDiagnosticInformation) with comprehensive coverage of valid requests, error handling, session validation, and edge cases",
+        "author": "UDS Simulator - Automotive Test Suite Generator",
+        "description": "ISO 14229-1:2020 compliant automotive-grade test suite for SID 14 (ClearDiagnosticInformation). Comprehensive coverage: Valid GroupOfDTC (12), Message Length (6), Session Matrix (10), RequestOutOfRange (8), Security Access (8), ConditionsNotCorrect (6), Positive Response (6), Boundary Values (8), Post-Clear Verification (8), Stress Testing (6), Service Interactions (12), Error Recovery (8), EOL Scenarios (6). Total: 106 test cases.",
         "tags": [
             "SID14",
-            "Clear DTC",
             "ClearDiagnosticInformation",
-            "ISO 14229",
-            "Test Suite",
-            "Automated Testing",
-            "DTC Management"
+            "ISO 14229-1:2020",
+            "Automotive",
+            "Production Grade",
+            "EOL Testing",
+            "Service Interactions",
+            "Error Recovery",
+            "Session Validation",
+            "Security Access"
         ],
-        "duration": 60000,
-        "totalRequests": 52,
+        "duration": 120000,
+        "totalRequests": 106,
         "successRate": 100
     },
     "timings": [
@@ -528,49 +1204,111 @@
         1000,
         1000,
         1000,
-        500,
         1000,
         1000,
         1000,
         1000,
         1000,
-        500,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        500,
         1000,
         1000,
         1000,
         1000,
-        500,
         1000,
         1000,
         1000,
-        500,
         1000,
-        100,
-        100,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        50,
+        50,
+        50,
+        50,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
         1000
     ],
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 14 (ClearDiagnosticInformation). Note: SID 14 does not use subfunctions in the traditional sense - it uses a 3-byte groupOfDTC parameter as the data payload. The subFunction field is set to 0 as a placeholder. Expected responses may vary based on ECU configuration and OEM-specific groupOfDTC mappings."
+    "notes": "Automotive-Grade Test Suite v2.0.0 for SID 14 (ClearDiagnosticInformation). Based on ISO 14229-1:2020 and OEM reference documents. Test Categories: TC-01 Valid Groups, TC-02 Message Length (NRC 0x13), TC-03 Session Matrix, TC-04 RequestOutOfRange (NRC 0x31), TC-05 Security Access (NRC 0x33), TC-06 ConditionsNotCorrect (NRC 0x22), TC-07 Positive Response Format, TC-08 Boundary Analysis, TC-09 Post-Clear Verification (SID 0x19), TC-10 Stress Testing, TC-11 Service Interactions (SID 0x10/0x19/0x3E), TC-12 Error Recovery, TC-13 EOL/Production. Note: SID 14 uses 3-byte GroupOfDTC as data payload, not subfunction. Expected NRCs may vary by OEM configuration."
 }

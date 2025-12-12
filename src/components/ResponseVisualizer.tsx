@@ -431,99 +431,104 @@ const ResponseVisualizer: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 bg-[length:100%_2px,3px_100%] hidden dark:block opacity-20" />
 
       {/* Terminal Header */}
-      <div className="terminal-header flex items-center justify-between px-4 py-3 relative z-10 shrink-0">
-        <div className="flex items-center gap-3">
+      <div className="terminal-header flex flex-wrap sm:flex-nowrap items-center justify-between px-3 sm:px-4 py-2 sm:py-3 relative z-10 shrink-0 gap-2 sm:gap-0">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex gap-1.5">
             {/* Red - Glows when ECU is OFFLINE */}
-            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${!ecuPower
+            <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${!ecuPower
               ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] animate-pulse'
               : 'bg-red-500/30'
               }`} title={ecuPower ? 'Ignition On' : 'Ignition Off'} />
             {/* Yellow - Always dim (standby indicator) */}
-            <div className="w-3 h-3 rounded-full bg-yellow-500/30 transition-all duration-300" title="Standby" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/30 transition-all duration-300" title="Standby" />
             {/* Green - Glows when ECU is ONLINE */}
-            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${ecuPower
+            <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${ecuPower
               ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse'
               : 'bg-green-500/30'
               }`} title={ecuPower ? 'ECU Online' : 'ECU Offline'} />
           </div>
-          <div className="flex items-center gap-2 ml-2">
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center gap-1 sm:gap-2 ml-1 sm:ml-2">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <h2 className="text-sm font-mono text-gray-700 dark:text-gray-300 font-bold tracking-wide">TERMINAL_OUTPUT</h2>
+            <h2 className="text-xs sm:text-sm font-mono text-gray-700 dark:text-gray-300 font-bold tracking-wide">
+              <span className="hidden sm:inline">TERMINAL_OUTPUT</span>
+              <span className="sm:hidden">TERM</span>
+            </h2>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Latency Indicator */}
-          <div className="flex items-center gap-1 px-2 py-1 bg-gray-800/50 border border-gray-700 rounded-md">
-            <span className="text-[10px] text-gray-500">LATENCY</span>
-            <span className="text-[10px] font-mono text-emerald-400">7ms</span>
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap sm:flex-nowrap justify-end">
+          {/* Latency Indicator - hidden on very small screens */}
+          <div className="hidden xs:flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-gray-800/50 border border-gray-700 rounded-md">
+            <span className="text-[8px] sm:text-[10px] text-gray-500">LATENCY</span>
+            <span className="text-[8px] sm:text-[10px] font-mono text-emerald-400">7ms</span>
           </div>
 
-          <div className="flex items-center gap-3 text-[10px] font-mono text-gray-600 dark:text-gray-500">
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>TX: {flowStats.totalRequests}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>RX: {flowStats.totalResponses}</span>
+          <div className="flex items-center gap-2 sm:gap-3 text-[8px] sm:text-[10px] font-mono text-gray-600 dark:text-gray-500">
+            <span className="flex items-center gap-1"><span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-cyan-500"></span>TX: {flowStats.totalRequests}</span>
+            <span className="flex items-center gap-1"><span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-purple-500"></span>RX: {flowStats.totalResponses}</span>
           </div>
           <button
             onClick={handleGenerateReport}
-            className="text-[10px] font-mono text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-2 py-1 rounded transition-colors uppercase"
+            className="text-[8px] sm:text-[10px] font-mono text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded transition-colors uppercase"
             disabled={requestHistory.length === 0}
             title="Generate report from current terminal data"
           >
-            REPORT
+            <span className="hidden sm:inline">REPORT</span>
+            <span className="sm:hidden">📊</span>
           </button>
           <button
             onClick={clearHistory}
-            className="text-[10px] font-mono text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 px-2 py-1 rounded transition-colors uppercase"
+            className="text-[8px] sm:text-[10px] font-mono text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 border border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-900/20 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded transition-colors uppercase"
             disabled={requestHistory.length === 0}
           >
-            CLEAR
+            <span className="hidden sm:inline">CLEAR</span>
+            <span className="sm:hidden">🗑️</span>
           </button>
         </div>
       </div>
 
       {/* Packet Flow - Dual Line (TX & RX) */}
-      <div className="relative py-3 px-4 flex items-center justify-between h-24 !bg-gray-50 dark:!bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 shrink-0">
+      <div className="relative py-2 sm:py-3 px-2 sm:px-4 flex items-center justify-between h-16 sm:h-24 !bg-gray-50 dark:!bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 shrink-0">
         {/* Client Node */}
-        <div className="flex flex-col items-center justify-center gap-2 z-20 h-full">
-          <div className="w-10 h-10 bg-cyan-900/30 rounded-lg flex items-center justify-center border border-cyan-700/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-            <span className="text-xs font-bold text-cyan-500">CLI</span>
+        <div className="flex flex-col items-center justify-center gap-1 sm:gap-2 z-20 h-full">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-cyan-900/30 rounded-lg flex items-center justify-center border border-cyan-700/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+            <span className="text-[10px] sm:text-xs font-bold text-cyan-500">CLI</span>
           </div>
         </div>
 
         {/* Flow Visualization */}
-        <div className="flex-1 flex flex-col justify-center gap-6 mx-4 h-full relative">
+        <div className="flex-1 flex flex-col justify-center gap-3 sm:gap-6 mx-2 sm:mx-4 h-full relative">
 
           {/* TX Line (CLI -> ECU) */}
-          <div className="relative w-full h-4 flex items-center">
-            <div className="absolute left-[-10px] text-[10px] font-mono text-cyan-600/70 font-bold">TX</div>
+          <div className="relative w-full h-3 sm:h-4 flex items-center">
+            <div className="hidden sm:block absolute left-[-10px] text-[10px] font-mono text-cyan-600/70 font-bold">TX</div>
             <div className="w-full h-px bg-gradient-to-r from-cyan-900/50 via-cyan-500/30 to-cyan-900/50 relative">
               {/* Direction Arrows */}
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-cyan-500/50 text-[10px]">▶</div>
-              <div className="absolute left-1/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
-              <div className="absolute left-2/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-cyan-500/50 text-[8px] sm:text-[10px]">▶</div>
+              <div className="hidden sm:block absolute left-1/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
+              <div className="hidden sm:block absolute left-2/3 top-1/2 -translate-y-1/2 text-cyan-500/20 text-[8px]">▶</div>
 
               {/* Request Packets */}
               {activePackets.filter(p => p.direction === 'request').map(p => (
-                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full animate-packet-request" />
+                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)] rounded-full animate-packet-request" />
               ))}
             </div>
           </div>
 
           {/* RX Line (ECU -> CLI) */}
-          <div className="relative w-full h-4 flex items-center">
-            <div className="absolute left-[-10px] text-[10px] font-mono text-purple-600/70 font-bold">RX</div>
+          <div className="relative w-full h-3 sm:h-4 flex items-center">
+            <div className="hidden sm:block absolute left-[-10px] text-[10px] font-mono text-purple-600/70 font-bold">RX</div>
             <div className="w-full h-px bg-gradient-to-r from-purple-900/50 via-purple-500/30 to-purple-900/50 relative">
               {/* Direction Arrows */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 text-purple-500/50 text-[10px]">◀</div>
-              <div className="absolute left-1/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
-              <div className="absolute left-2/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 text-purple-500/50 text-[8px] sm:text-[10px]">◀</div>
+              <div className="hidden sm:block absolute left-1/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
+              <div className="hidden sm:block absolute left-2/3 top-1/2 -translate-y-1/2 text-purple-500/20 text-[8px]">◀</div>
 
               {/* Response Packets */}
               {activePackets.filter(p => p.direction === 'response').map(p => (
-                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full animate-packet-response" />
+                <div key={p.id} className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full animate-packet-response" />
               ))}
             </div>
           </div>
@@ -531,18 +536,18 @@ const ResponseVisualizer: React.FC = () => {
         </div>
 
         {/* ECU Node */}
-        <div className="flex flex-col items-center justify-center gap-2 z-20 h-full">
-          <div className="w-10 h-10 bg-purple-900/30 rounded-lg flex items-center justify-center border border-purple-700/50 relative shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+        <div className="flex flex-col items-center justify-center gap-1 sm:gap-2 z-20 h-full">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-900/30 rounded-lg flex items-center justify-center border border-purple-700/50 relative shadow-[0_0_15px_rgba(168,85,247,0.3)]">
             {flowStats.activeFlow && (
               <div className="absolute inset-0 border border-purple-500 rounded-lg animate-ping opacity-20" />
             )}
-            <span className="text-xs font-bold text-purple-500">ECU</span>
+            <span className="text-[10px] sm:text-xs font-bold text-purple-500">ECU</span>
           </div>
         </div>
       </div>
 
       {/* Terminal Content Area */}
-      <div ref={containerRef} className="h-[400px] overflow-y-auto p-4 font-mono text-sm custom-scrollbar scroll-smooth">
+      <div ref={containerRef} className="h-[250px] sm:h-[350px] lg:h-[400px] overflow-y-auto p-2 sm:p-4 font-mono text-xs sm:text-sm custom-scrollbar scroll-smooth">
         {/* Filter out auto-TP packets (only suppress successful auto-keep-alive, show errors) */}
         {(() => {
           const filteredHistory = requestHistory.filter(item => {

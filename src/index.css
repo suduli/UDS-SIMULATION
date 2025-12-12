@@ -922,6 +922,135 @@
     font-size: 14px;
     padding: 10px 12px;
   }
+
+  /* Hide text labels on very small screens for terminal buttons */
+  .terminal-header .flex.items-center.gap-4 button span:not(svg):not(.w-1\.5) {
+    display: none;
+  }
+}
+
+/* ========================================
+   ENHANCED MOBILE RESPONSIVE STYLES
+   Mobile-first improvements for touch devices
+   ======================================== */
+
+/* Small screens (mobile phones up to 480px) */
+@media (max-width: 480px) {
+
+  /* Prevent horizontal scrolling */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Protocol State Dashboard: Horizontal scroll wrapper */
+  #protocol-dashboard {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  #protocol-dashboard>div>div {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 0.5rem !important;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Request Builder mobile improvements */
+  .glass-panel.cyber-shape {
+    padding: 1rem;
+  }
+
+  /* Terminal header mobile layout */
+  .terminal-header {
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  .terminal-header>div:first-child {
+    flex: 1;
+  }
+
+  /* Terminal REPORT and CLEAR buttons */
+  .terminal-header button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.5rem;
+  }
+
+  /* Terminal content area */
+  .terminal-container>div:last-child {
+    height: 250px !important;
+  }
+
+  /* Response visualizer log entries */
+  .terminal-log-entry {
+    padding: 0.375rem 0.5rem 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .terminal-byte-breakdown {
+    padding-left: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .terminal-byte-row {
+    gap: 0.25rem !important;
+    font-size: 0.65rem;
+  }
+
+  .terminal-byte-index {
+    min-width: 1.25rem;
+    padding: 0.0625rem 0.25rem;
+    font-size: 0.5rem;
+  }
+
+  .terminal-byte-value {
+    min-width: 1.25rem;
+    font-size: 0.65rem;
+  }
+
+  .terminal-byte-interpretation {
+    font-size: 0.6rem;
+  }
+
+  /* Glass cards reduced padding */
+  .glass-card {
+    padding: 0.75rem;
+  }
+
+  /* Modal/dialog improvements */
+  .header-dialog-panel {
+    max-width: calc(100vw - 1rem) !important;
+    margin: 0.5rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
+/* Medium mobile screens (480px - 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+
+  /* Protocol State Dashboard: 2x grid layout */
+  #protocol-dashboard>div>div {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem !important;
+  }
+}
+
+/* Tablet screens (640px - 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+
+  /* Protocol State Dashboard: 3x grid layout */
+  #protocol-dashboard>div>div {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem !important;
+  }
 }
 
 /* Tablet landscape and small desktop (768px - 1024px) */

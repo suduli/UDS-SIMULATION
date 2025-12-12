@@ -1,0 +1,795 @@
+{
+    "id": "sid10-diagnostic-session-control-test-suite",
+    "name": "SID 0x10 Diagnostic Session Control - Comprehensive Test Suite",
+    "description": "Production-grade test suite for UDS Service ID 0x10 (DiagnosticSessionControl) based on ISO 14229-1:2020 Section 9.2. Covers all valid/invalid session transitions, NRC validation, security reset behavior, timing parameters, and complex workflows.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010000000,
+            "description": "[SETUP] TC-01.1: Reset to Default Session - Expect Positive Response (50 01 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010001000,
+            "description": "TC-01.1: Default to Default Re-entry - Expect Positive Response (50 01 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010002000,
+            "description": "TC-01.2: Default to Programming Session - Expect Positive Response (50 02 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010003000,
+            "description": "[SETUP] Reset to Default for next test"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010004000,
+            "description": "TC-01.3: Default to Extended Session - Expect Positive Response (50 03 00 64 01 F4) with P2=100ms"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010005000,
+            "description": "[SETUP] Reset to Default for next test"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010006000,
+            "description": "TC-01.4: Default to Safety Session - Expect Positive Response (50 04 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010007000,
+            "description": "TC-01.5: Safety to Default Session - Expect Positive Response (50 01 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010008000,
+            "description": "[SETUP] Enter Extended for TC-01.6"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010009000,
+            "description": "TC-01.6: Extended to Default Session - Expect Positive Response (50 01 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010010000,
+            "description": "[SETUP] Enter Programming for TC-01.7"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010011000,
+            "description": "TC-01.7: Programming to Default Session - Expect Positive Response (50 01 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010012000,
+            "description": "[SETUP] Enter Extended for TC-01.8"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010013000,
+            "description": "TC-01.8: Extended Re-entry - Expect Positive Response (50 03 00 64 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010014000,
+            "description": "[SETUP] Reset to Default for TC-01.9"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010015000,
+            "description": "[SETUP] Enter Safety for TC-01.9"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010016000,
+            "description": "TC-01.9: Safety Re-entry - Expect Positive Response (50 04 00 32 01 F4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010020000,
+            "description": "[SETUP] Reset to Default for Invalid Transition Tests"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010021000,
+            "description": "[SETUP] Enter Extended for TC-02.1"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010022000,
+            "description": "TC-02.1: Extended to Programming (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010023000,
+            "description": "TC-02.2: Extended to Safety (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010024000,
+            "description": "[SETUP] Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010025000,
+            "description": "[SETUP] Enter Programming for TC-02.3/TC-02.4"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010026000,
+            "description": "TC-02.3: Programming to Extended (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010027000,
+            "description": "TC-02.4: Programming Re-entry (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010028000,
+            "description": "TC-02.5: Programming to Safety (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010029000,
+            "description": "[SETUP] Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010030000,
+            "description": "[SETUP] Enter Safety for TC-02.6/TC-02.7"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010031000,
+            "description": "TC-02.6: Safety to Extended (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010032000,
+            "description": "TC-02.7: Safety to Programming (BLOCKED) - Expect NRC 0x22 (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010040000,
+            "description": "[SETUP] Reset to Default for Subfunction Tests"
+        },
+        {
+            "sid": 16,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734010041000,
+            "description": "TC-03.1: Invalid Subfunction 0x00 - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 5,
+            "data": [],
+            "timestamp": 1734010042000,
+            "description": "TC-03.2a: Reserved ISO Range 0x05 - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 32,
+            "data": [],
+            "timestamp": 1734010043000,
+            "description": "TC-03.2b: Reserved ISO Range 0x20 - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 63,
+            "data": [],
+            "timestamp": 1734010044000,
+            "description": "TC-03.2c: Reserved ISO Range 0x3F - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 64,
+            "data": [],
+            "timestamp": 1734010045000,
+            "description": "TC-03.3a: Manufacturer Range 0x40 - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 95,
+            "data": [],
+            "timestamp": 1734010046000,
+            "description": "TC-03.3b: Manufacturer Range 0x5F - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 96,
+            "data": [],
+            "timestamp": 1734010047000,
+            "description": "TC-03.4a: Supplier Range 0x60 - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 126,
+            "data": [],
+            "timestamp": 1734010048000,
+            "description": "TC-03.4b: Supplier Range 0x7E - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 127,
+            "data": [],
+            "timestamp": 1734010049000,
+            "description": "TC-03.5: Reserved Subfunction 0x7F - Expect NRC 0x12 (7F 10 12)"
+        },
+        {
+            "sid": 16,
+            "data": [],
+            "timestamp": 1734010050000,
+            "description": "TC-04.1: Missing Subfunction (Only SID) - Expect NRC 0x13 (7F 10 13)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [
+                0
+            ],
+            "timestamp": 1734010051000,
+            "description": "TC-04.2: Extra Byte (10 01 00 - 3 bytes) - Expect NRC 0x13 (7F 10 13)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [
+                0,
+                0
+            ],
+            "timestamp": 1734010052000,
+            "description": "TC-04.3: Extra Bytes (10 01 00 00 - 4 bytes) - Expect NRC 0x13 (7F 10 13)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 129,
+            "data": [],
+            "timestamp": 1734010060000,
+            "description": "TC-05.1: Suppress Response for Default (10 81) - Expect No Response, Session=Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 131,
+            "data": [],
+            "timestamp": 1734010061000,
+            "description": "TC-05.2: Suppress Response for Extended (10 83) - Expect No Response, Session=Extended"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010062000,
+            "description": "[VERIFY] Check session changed back to Default (50 01...)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 130,
+            "data": [],
+            "timestamp": 1734010063000,
+            "description": "TC-05.3: Suppress Response for Programming (10 82) - Expect No Response, Session=Programming"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010064000,
+            "description": "[VERIFY] Check session changed back to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010065000,
+            "description": "[SETUP] Enter Extended for TC-05.4"
+        },
+        {
+            "sid": 16,
+            "subFunction": 130,
+            "data": [],
+            "timestamp": 1734010066000,
+            "description": "TC-05.4: Suppress + Invalid Transition (10 82) - Expect NRC 0x22 STILL SENT (7F 10 22)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010070000,
+            "description": "[SETUP] Reset to Default for Security Tests"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010071000,
+            "description": "TC-06.1a: Enter Extended Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010072000,
+            "description": "TC-06.1b: Request Security Seed (27 01)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                255,
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1734010073000,
+            "description": "TC-06.1c: Send Security Key (27 02 FF FF FF FF)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010074000,
+            "description": "TC-06.1d: Change to Default (Security Should RESET)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010075000,
+            "description": "TC-06.2a: Re-enter Extended"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010076000,
+            "description": "TC-06.2b: Request Seed Again - Should get new seed (security was reset)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010077000,
+            "description": "TC-06.2c: Re-enter Extended (Security resets on re-entry too)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010078000,
+            "description": "TC-06.2d: Request Seed Again - Security was reset by re-entry"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010080000,
+            "description": "[SETUP] Reset to Default for Timing Verification"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010081000,
+            "description": "TC-08.1: Verify P2 Timing in Default - P2=0x0032(50ms), P2*=0x01F4(5000ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010082000,
+            "description": "TC-08.2: Verify P2 Timing in Programming - P2=0x0032(50ms), P2*=0x01F4(5000ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010083000,
+            "description": "[SETUP] Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010084000,
+            "description": "TC-08.3: Verify P2 Timing in Extended - P2=0x0064(100ms), P2*=0x01F4(5000ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010085000,
+            "description": "[SETUP] Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010086000,
+            "description": "TC-08.4: Verify P2 Timing in Safety - P2=0x0032(50ms), P2*=0x01F4(5000ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010090000,
+            "description": "[SETUP] TC-09: Error Recovery - Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010091000,
+            "description": "TC-09.1a: Enter Extended Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010092000,
+            "description": "TC-09.1b: Attempt Invalid Transition (Extended->Programming) - Expect NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010093000,
+            "description": "TC-09.1c: RECOVERY - Return to Default First"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010094000,
+            "description": "TC-09.1d: Now Programming Works! - Expect Positive Response (50 02...)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010100000,
+            "description": "[SETUP] TC-10: Workflow Tests - Reset to Default"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734010101000,
+            "description": "TC-10.1a: Read VIN (22 F1 90) in Default Session - Should work"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734010102000,
+            "description": "TC-10.1b: Read Session DID (22 F1 86) - Verify current session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010110000,
+            "description": "TC-10.2a: Enter Extended for Write Workflow"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010111000,
+            "description": "TC-10.2b: Request Security Seed (now available in Extended)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                255,
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1734010112000,
+            "description": "TC-10.2c: Send Security Key - Unlock security"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                144
+            ],
+            "timestamp": 1734010113000,
+            "description": "TC-10.2d: Read VIN in Extended - Should still work"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010114000,
+            "description": "TC-10.2e: Return to Default - Security will reset"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010120000,
+            "description": "[SETUP] TC-11: Edge Cases - Reset to Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010121000,
+            "description": "TC-11.1a: Rapid Session Change 1 - Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010122000,
+            "description": "TC-11.1b: Rapid Session Change 2 - Extended"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010123000,
+            "description": "TC-11.1c: Rapid Session Change 3 - Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010124000,
+            "description": "TC-11.1d: Rapid Session Change 4 - Safety"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010125000,
+            "description": "TC-11.1e: Rapid Session Change 5 - Default (All should succeed)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010130000,
+            "description": "[SETUP] TC-11.2: Session Timeout Prevention"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734010132000,
+            "description": "TC-11.2a: Tester Present at T+2s to reset S3 timer"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734010134000,
+            "description": "TC-11.2b: Tester Present at T+4s to reset S3 timer"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734010136000,
+            "description": "TC-11.2c: Tester Present at T+6s to reset S3 timer"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734010138000,
+            "description": "TC-11.2d: Tester Present at T+8s to reset S3 timer"
+        },
+        {
+            "sid": 34,
+            "data": [
+                241,
+                134
+            ],
+            "timestamp": 1734010139000,
+            "description": "TC-11.2e: Verify Session Still Extended after 9s (Read F186) - S3=5s was bypassed by TP"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010140000,
+            "description": "[SETUP] TC-12: Multi-Session Navigation"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734010141000,
+            "description": "TC-12.1: Default → Extended"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010142000,
+            "description": "TC-12.2: Extended → Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734010143000,
+            "description": "TC-12.3: Default → Programming"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010144000,
+            "description": "TC-12.4: Programming → Default"
+        },
+        {
+            "sid": 16,
+            "subFunction": 4,
+            "data": [],
+            "timestamp": 1734010145000,
+            "description": "TC-12.5: Default → Safety"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010146000,
+            "description": "TC-12.6: Safety → Default (All transitions via Default work correctly)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734010199000,
+            "description": "[FINAL] Reset to Default Session - Test Suite Complete"
+        }
+    ],
+    "createdAt": 1734010000000,
+    "version": "2.0.0",
+    "metadata": {
+        "author": "UDS Simulator",
+        "description": "ISO 14229-1:2020 Section 9.2 compliant production-grade test suite for SID 0x10 (DiagnosticSessionControl). Based on comprehensive analysis of SID_10_DIAGNOSTIC_SESSION_CONTROL.md, SID_10_PRACTICAL_IMPLEMENTATION.md, and SID_10_SERVICE_INTERACTIONS.md.",
+        "tags": [
+            "SID10",
+            "Diagnostic Session Control",
+            "DiagnosticSessionControl",
+            "ISO 14229",
+            "Production Test Suite",
+            "Session Transition",
+            "NRC Validation",
+            "Security Reset",
+            "Timing Parameters"
+        ],
+        "duration": 199000,
+        "totalRequests": 98,
+        "successRate": 100,
+        "testCategories": [
+            "Valid Session Transitions (TC-01)",
+            "Invalid Session Transitions - NRC 0x22 (TC-02)",
+            "Subfunction Validation - NRC 0x12 (TC-03)",
+            "Message Length Validation - NRC 0x13 (TC-04)",
+            "Suppress Positive Response (TC-05)",
+            "Security Reset Behavior (TC-06)",
+            "Timing Parameter Verification (TC-08)",
+            "Error Recovery Procedures (TC-09)",
+            "Service Interaction Workflows (TC-10)",
+            "Edge Cases & Stress Testing (TC-11)",
+            "Multi-Session Navigation (TC-12)"
+        ]
+    },
+    "notes": "Test Suite v2.0.0: Comprehensive production-grade coverage for SID 0x10. Categories: (1) Valid transitions between all 4 sessions including re-entry. (2) Invalid transitions with NRC 0x22 for blocked paths (Extended<->Programming, Programming re-entry, etc.). (3) Subfunction validation covering 0x00, 0x05-0x3F, 0x40-0x5F, 0x60-0x7E, 0x7F. (4) Message length validation. (5) Suppress positive response bit including error case. (6) Security state reset verification on session changes. (7) P2/P2* timing parameter verification. (8) Error recovery from invalid transitions. (9) Service interactions including security access workflow. (10) Edge cases including rapid session changes and S3 timeout prevention. (11) Complete multi-session navigation test.",
+    "testCaseDetails": {
+        "TC-01": "Valid session transitions - all paths from Default to other sessions and back, plus Extended/Safety re-entry. All should return positive response 0x50.",
+        "TC-02": "Invalid session transitions - Extended<->Programming, Programming re-entry, Programming<->Safety, Safety<->Extended. All should return NRC 0x22.",
+        "TC-03": "Subfunction validation - boundary values 0x00, 0x05, 0x20, 0x3F, 0x40, 0x5F, 0x60, 0x7E, 0x7F. All should return NRC 0x12.",
+        "TC-04": "Message length validation - missing subfunction and extra bytes. All should return NRC 0x13.",
+        "TC-05": "Suppress positive response bit - 0x81, 0x82, 0x83 should suppress response. 0x82 from Extended should still return NRC 0x22.",
+        "TC-06": "Security reset behavior - security unlocked in Extended resets when changing to Default or re-entering Extended.",
+        "TC-08": "Timing parameters - verify P2 values: Default=50ms, Extended=100ms, Programming=50ms, Safety=50ms. P2*=5000ms for all.",
+        "TC-09": "Error recovery - demonstrates correct recovery path from blocked transition via Default session.",
+        "TC-10": "Service interaction workflows - read operations, security access sequences, proper session/security handling.",
+        "TC-11": "Edge cases - rapid session changes, S3 timeout prevention with Tester Present, stress testing.",
+        "TC-12": "Multi-session navigation - complete round-trip through all sessions via Default hub."
+    },
+    "sessionTransitionMatrix": {
+        "fromDefault": {
+            "toDefault": "OK (re-enter)",
+            "toProgramming": "OK",
+            "toExtended": "OK",
+            "toSafety": "OK"
+        },
+        "fromProgramming": {
+            "toDefault": "OK",
+            "toProgramming": "NRC 0x22 (blocked)",
+            "toExtended": "NRC 0x22 (blocked)",
+            "toSafety": "NRC 0x22 (blocked)"
+        },
+        "fromExtended": {
+            "toDefault": "OK",
+            "toProgramming": "NRC 0x22 (blocked)",
+            "toExtended": "OK (re-enter)",
+            "toSafety": "NRC 0x22 (blocked)"
+        },
+        "fromSafety": {
+            "toDefault": "OK",
+            "toProgramming": "NRC 0x22 (blocked)",
+            "toExtended": "NRC 0x22 (blocked)",
+            "toSafety": "OK (re-enter)"
+        }
+    }
+}

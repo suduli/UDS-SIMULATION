@@ -186,14 +186,14 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
 
     // Quick action buttons
     const QuickActions = () => (
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 no-scrollbar -mx-2 px-2">
             <button
                 onClick={() => {
                     console.log('[DTCManagementPanel] Clicked Count All');
                     handleReadDTCs(0x01, 0xFF);
                 }}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-primary"
+                className="dtc-action-btn dtc-action-btn-primary whitespace-nowrap flex-shrink-0"
             >
                 Count All
             </button>
@@ -203,37 +203,37 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                     handleReadDTCs(0x02, 0xFF);
                 }}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-primary"
+                className="dtc-action-btn dtc-action-btn-primary whitespace-nowrap flex-shrink-0"
             >
                 Read All
             </button>
             <button
                 onClick={() => handleReadDTCs(0x02, 0x08)}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-warning"
+                className="dtc-action-btn dtc-action-btn-warning whitespace-nowrap flex-shrink-0"
             >
                 Confirmed Only
             </button>
             <button
                 onClick={() => handleReadDTCs(0x02, 0x04)}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-info"
+                className="dtc-action-btn dtc-action-btn-info whitespace-nowrap flex-shrink-0"
             >
                 Pending Only
             </button>
             <button
                 onClick={() => handleReadDTCs(0x0A)}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-purple"
+                className="dtc-action-btn dtc-action-btn-purple whitespace-nowrap flex-shrink-0"
             >
-                Supported DTCs
+                Supported
             </button>
             <button
                 onClick={handleClearDTCs}
                 disabled={isLoading || !ecuPower}
-                className="dtc-action-btn dtc-action-btn-danger ml-auto"
+                className="dtc-action-btn dtc-action-btn-danger whitespace-nowrap flex-shrink-0 ml-auto"
             >
-                Clear All DTCs
+                Clear All
             </button>
         </div>
     );
@@ -245,7 +245,7 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                 <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`dtc-category-tab ${selectedCategory === cat
+                    className={`dtc-category-tab whitespace-nowrap flex-shrink-0 ${selectedCategory === cat
                         ? 'dtc-category-tab-active'
                         : 'dtc-category-tab-inactive'
                         }`}
@@ -259,12 +259,12 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
 
     // Status filter pills
     const StatusFilters = () => (
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-2 no-scrollbar -mx-2 px-2">
             {(['all', 'confirmed', 'pending', 'active'] as const).map(status => (
                 <button
                     key={status}
                     onClick={() => setSelectedStatus(status)}
-                    className={`dtc-status-pill ${selectedStatus === status
+                    className={`dtc-status-pill whitespace-nowrap flex-shrink-0 ${selectedStatus === status
                         ? status === 'confirmed' ? 'dtc-status-pill-confirmed' :
                             status === 'pending' ? 'dtc-status-pill-pending' :
                                 status === 'active' ? 'dtc-status-pill-active' :
@@ -323,8 +323,8 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                        <div className="dtc-description">{dtc.description}</div>
-                        <div className="flex gap-1 mt-1">
+                        <div className="dtc-description truncate">{dtc.description}</div>
+                        <div className="flex flex-wrap gap-1 mt-1">
                             {statusDescriptions.slice(0, 3).map((desc, idx) => (
                                 <span key={idx} className="dtc-status-tag">
                                     {desc}
@@ -365,7 +365,8 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                         </div>
 
                         {/* Counters */}
-                        <div className="grid grid-cols-2 gap-3">
+                        {/* Counters */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div className="dtc-counter-box">
                                 <div className="dtc-counter-label">Occurrences</div>
                                 <div className="dtc-counter-value dtc-counter-value-primary">{dtc.occurrenceCounter}</div>
@@ -377,7 +378,8 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                         </div>
 
                         {/* Timestamps */}
-                        <div className="grid grid-cols-2 gap-3 text-xs">
+                        {/* Timestamps */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                             <div>
                                 <span className="dtc-timestamp-label">First Failure: </span>
                                 <span className="dtc-timestamp-value">{formatTimestamp(dtc.firstFailureTimestamp)}</span>
@@ -392,13 +394,16 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                         {dtc.snapshots && dtc.snapshots.length > 0 && (
                             <div>
                                 <div className="dtc-section-label">Freeze Frame Data (Record #{dtc.snapshots[0].recordNumber})</div>
-                                <div className="grid grid-cols-2 gap-2 text-xs">
-                                    {Object.entries(dtc.snapshots[0].data).map(([key, value]) => (
-                                        <div key={key} className="dtc-data-row">
-                                            <span className="dtc-data-key">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                            <span className="dtc-data-value">{value}</span>
-                                        </div>
-                                    ))}
+                                <div>
+                                    <div className="dtc-section-label">Freeze Frame Data (Record #{dtc.snapshots[0].recordNumber})</div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        {Object.entries(dtc.snapshots[0].data).map(([key, value]) => (
+                                            <div key={key} className="dtc-data-row">
+                                                <span className="dtc-data-key">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                                <span className="dtc-data-value">{value}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -407,7 +412,7 @@ const DTCManagementPanel: React.FC<DTCManagementPanelProps> = ({ onClose, compac
                         {dtc.extendedData && dtc.extendedData.length > 0 && (
                             <div>
                                 <div className="dtc-section-label">Extended Data</div>
-                                <div className="grid grid-cols-3 gap-2 text-xs">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                                     <div className="dtc-data-row">
                                         <span className="dtc-data-key">Aged: </span>
                                         <span className="dtc-data-value">{dtc.extendedData[0].agedCounter}</span>

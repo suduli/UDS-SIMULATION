@@ -362,13 +362,13 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
   };
 
   return (
-    <div className="glass-panel cyber-shape p-6 animate-slide-up h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-cyber-blue">Request Builder</h2>
+    <div className="glass-panel cyber-shape p-4 sm:p-6 animate-slide-up h-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-2 sm:gap-0">
+        <h2 className="text-lg sm:text-xl font-bold text-cyber-blue">Request Builder</h2>
         <div className="flex items-center space-x-2">
           <button
             onClick={handleToggleManualMode}
-            className={`px-3 py-1 text-sm rounded transition-all ${isManualMode
+            className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded transition-all ${isManualMode
               ? 'bg-cyber-blue text-dark-900 font-bold'
               : 'bg-dark-700 text-gray-400 hover:text-gray-200 border border-dark-600'
               }`}
@@ -407,7 +407,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                 <button
                   onClick={() => setViewMode('dropdown')}
                   className={`p-1.5 rounded transition-colors ${viewMode === 'dropdown'
-                    ? 'bg-cyber-blue/20 text-cyber-blue'
+                    ? 'bg-transparent text-cyber-blue'
                     : 'text-gray-400 hover:text-gray-200'
                     }`}
                   aria-label="List view"
@@ -421,7 +421,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
             </div>
 
             {viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto custom-scrollbar p-1">
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 max-h-[300px] sm:max-h-[500px] overflow-y-auto custom-scrollbar p-1">
                 {services.map(service => {
                   const metadata = serviceMetadata[service.id] || {
                     icon: '⚙️',
@@ -513,10 +513,10 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
 
           {/* Example Requests */}
           <div>
-            <label className="block text-sm text-gray-400 mb-2">
+            <label className="block text-xs sm:text-sm text-gray-400 mb-2">
               {selectedService ? 'Service Examples' : 'Quick Examples'}
             </label>
-            <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick example requests">
+            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-2 gap-1.5 sm:gap-2" role="group" aria-label="Quick example requests">
               {(() => {
                 const serviceIdHex = selectedService ? `0x${selectedService.toString(16).toUpperCase().padStart(2, '0')}` : '';
                 const tooltipData = serviceIdHex ? serviceTooltipData[serviceIdHex] : null;
@@ -532,10 +532,10 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                   <button
                     key={idx}
                     onClick={() => handleInteractiveExample(ex.hex)}
-                    className="cyber-button text-xs py-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                    className="cyber-button text-[10px] sm:text-xs py-1.5 sm:py-2 px-1 sm:px-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
                     aria-label={`Load ${ex.label} example`}
                   >
-                    {ex.label}
+                    <span className="truncate">{ex.label}</span>
                   </button>
                 ));
               })()}

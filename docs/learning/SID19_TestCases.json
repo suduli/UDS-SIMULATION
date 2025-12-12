@@ -1,7 +1,7 @@
 {
-    "id": "sid19-read-dtc-information-test-suite",
-    "name": "SID 19 Read DTC Information Test Suite",
-    "description": "Comprehensive test suite for UDS Service ID 19 (ReadDTCInformation) based on ISO 14229-1:2020. Covers all 15 subfunctions including DTC counting, reading by status mask, snapshot/freeze frame data, extended data, severity masks, supported DTCs, and first/most recent failures. Each test category starts from Default Session to ensure proper isolation.",
+    "id": "sid19-read-dtc-information-test-suite-v2",
+    "name": "SID 19 Read DTC Information - Automotive Grade Test Suite",
+    "description": "Comprehensive automotive-grade test suite for UDS Service ID 19 (ReadDTCInformation) based on ISO 14229-1:2020. Enhanced with error recovery, service interaction workflows, DTC lifecycle validation, boundary cases, and cross-validation tests. Designed to match real ECU testing standards in the automotive sector.",
     "requests": [
         {
             "sid": 16,
@@ -674,30 +674,551 @@
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1733450056800,
-            "description": "[SETUP] Final Reset to Default Session"
+            "timestamp": 1733450057000,
+            "description": "=== NEW AUTOMOTIVE-GRADE TESTS ==="
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450058000,
+            "description": "[SETUP] Reset to Default Session for TC-19 (Error Recovery)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 15,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450059000,
+            "description": "TC-19.1: Trigger NRC 0x22 (Mirror Memory in Default)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450060000,
+            "description": "TC-19.2: Switch to Extended Session (Error Recovery)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 15,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450061000,
+            "description": "TC-19.3: Retry Request After Session Change - Should Pass"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450062000,
+            "description": "[SETUP] Reset to Default Session for TC-20 (Session Timeout Recovery)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450063000,
+            "description": "TC-20.1: Enter Extended Session"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1733450064000,
+            "description": "TC-20.2: Tester Present (SID 0x3E) - Keep Session Alive"
+        },
+        {
+            "sid": 25,
+            "subFunction": 15,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450065000,
+            "description": "TC-20.3: Read Mirror Memory After Tester Present"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1733450066000,
+            "description": "TC-20.4: Tester Present Again (Session Maintenance)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450067000,
+            "description": "TC-20.5: Count DTCs After Multiple Tester Present"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450068000,
+            "description": "[SETUP] Reset to Default Session for TC-21 (Extended Workflow)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1733450069000,
+            "description": "TC-21.1: WORKFLOW Step 1 - Enter Extended Session"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450070000,
+            "description": "TC-21.2: WORKFLOW Step 2 - Count All DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                8
+            ],
+            "timestamp": 1733450071000,
+            "description": "TC-21.3: WORKFLOW Step 3 - Read Confirmed DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1,
+                255
+            ],
+            "timestamp": 1733450072000,
+            "description": "TC-21.4: WORKFLOW Step 4 - Get Snapshot Data"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                1,
+                1,
+                255
+            ],
+            "timestamp": 1733450073000,
+            "description": "TC-21.5: WORKFLOW Step 5 - Get Extended Data"
+        },
+        {
+            "sid": 20,
+            "subFunction": 0,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733450074000,
+            "description": "TC-21.6: WORKFLOW Step 6 - Clear All DTCs"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450076000,
+            "description": "TC-21.7: WORKFLOW Step 7 - Verify Clear (Count=0)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450077000,
+            "description": "[SETUP] Reset to Default Session for TC-22 (DTC Lifecycle)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                4
+            ],
+            "timestamp": 1733450078000,
+            "description": "TC-22.1: LIFECYCLE - Read Pending DTCs (Status 0x04)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                8
+            ],
+            "timestamp": 1733450079000,
+            "description": "TC-22.2: LIFECYCLE - Read Confirmed DTCs (Status 0x08)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                12
+            ],
+            "timestamp": 1733450080000,
+            "description": "TC-22.3: LIFECYCLE - Read Pending OR Confirmed (Status 0x0C)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                64
+            ],
+            "timestamp": 1733450081000,
+            "description": "TC-22.4: LIFECYCLE - Read Test Failed This Cycle (Status 0x40)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                2
+            ],
+            "timestamp": 1733450082000,
+            "description": "TC-22.5: LIFECYCLE - Read Test Not Complete This Cycle (Status 0x02)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450083000,
+            "description": "[SETUP] Reset to Default Session for TC-23 (Boundary Cases)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1,
+                0
+            ],
+            "timestamp": 1733450084000,
+            "description": "TC-23.1: BOUNDARY - Snapshot Record 0 (First Record)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                1,
+                254
+            ],
+            "timestamp": 1733450085000,
+            "description": "TC-23.2: BOUNDARY - Snapshot Record 0xFE (Invalid)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                1,
+                1,
+                1,
+                0
+            ],
+            "timestamp": 1733450086000,
+            "description": "TC-23.3: BOUNDARY - Extended Data Record 0"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [
+                0,
+                255
+            ],
+            "timestamp": 1733450087000,
+            "description": "TC-23.4: BOUNDARY - Severity Mask 0x00 (No Severity Filter)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [
+                224,
+                255
+            ],
+            "timestamp": 1733450088000,
+            "description": "TC-23.5: BOUNDARY - All Severity Levels (0xE0)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450089000,
+            "description": "[SETUP] Reset to Default Session for TC-24 (Cross-Validation)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450090000,
+            "description": "TC-24.1: CROSS-VAL - Count All DTCs (Reference)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                255
+            ],
+            "timestamp": 1733450091000,
+            "description": "TC-24.2: CROSS-VAL - Read All DTCs (Verify Count Match)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 10,
+            "data": [],
+            "timestamp": 1733450092000,
+            "description": "TC-24.3: CROSS-VAL - Get Supported DTCs (Capability)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 11,
+            "data": [],
+            "timestamp": 1733450093000,
+            "description": "TC-24.4: CROSS-VAL - First Test Failed (Should Be In List)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 13,
+            "data": [],
+            "timestamp": 1733450094000,
+            "description": "TC-24.5: CROSS-VAL - Most Recent Failed (Ordering Check)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 12,
+            "data": [],
+            "timestamp": 1733450095000,
+            "description": "TC-24.6: CROSS-VAL - First Confirmed DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 14,
+            "data": [],
+            "timestamp": 1733450096000,
+            "description": "TC-24.7: CROSS-VAL - Most Recent Confirmed (Compare)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450097000,
+            "description": "[SETUP] Reset to Default Session for TC-25 (Status Mask Combos)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                73
+            ],
+            "timestamp": 1733450098000,
+            "description": "TC-25.1: COMBO - Status 0x49 (TF + TFTOC + Confirmed)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                25
+            ],
+            "timestamp": 1733450099000,
+            "description": "TC-25.2: COMBO - Status 0x19 (TF + Confirmed + WIR)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 1,
+            "data": [
+                36
+            ],
+            "timestamp": 1733450100000,
+            "description": "TC-25.3: COMBO - Status 0x24 (Pending + TFSLC)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                73
+            ],
+            "timestamp": 1733450101000,
+            "description": "TC-25.4: COMBO - Read with Status 0x49"
+        },
+        {
+            "sid": 25,
+            "subFunction": 2,
+            "data": [
+                25
+            ],
+            "timestamp": 1733450102000,
+            "description": "TC-25.5: COMBO - Read with Status 0x19"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450103000,
+            "description": "[SETUP] Reset to Default Session for TC-26 (Additional NRC Tests)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1733450104000,
+            "description": "TC-26.1: NRC - Snapshot for DTC 0x000000 (Invalid)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 6,
+            "data": [
+                254,
+                254,
+                254,
+                1
+            ],
+            "timestamp": 1733450105000,
+            "description": "TC-26.2: NRC - Extended Data for Invalid DTC 0xFEFEFE"
+        },
+        {
+            "sid": 25,
+            "subFunction": 9,
+            "data": [
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1733450106000,
+            "description": "TC-26.3: NRC - Severity Info for Invalid DTC"
+        },
+        {
+            "sid": 25,
+            "subFunction": 7,
+            "data": [],
+            "timestamp": 1733450107000,
+            "description": "TC-26.4: NRC - Missing Severity Mask - Expect NRC 0x13"
+        },
+        {
+            "sid": 25,
+            "subFunction": 8,
+            "data": [
+                96
+            ],
+            "timestamp": 1733450108000,
+            "description": "TC-26.5: NRC - Missing Status Mask in SF 0x08 - Expect NRC 0x13"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450109000,
+            "description": "[SETUP] Reset to Default Session for TC-27 (Multi-DTC Snapshot)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                1,
+                113,
+                255
+            ],
+            "timestamp": 1733450110000,
+            "description": "TC-27.1: MULTI-DTC - P0171 Snapshot (All Records)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                1,
+                5,
+                98,
+                255
+            ],
+            "timestamp": 1733450111000,
+            "description": "TC-27.2: MULTI-DTC - P0562 Snapshot (All Records)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                2,
+                0,
+                53,
+                255
+            ],
+            "timestamp": 1733450112000,
+            "description": "TC-27.3: MULTI-DTC - C0035 Snapshot (Chassis Code)"
+        },
+        {
+            "sid": 25,
+            "subFunction": 4,
+            "data": [
+                4,
+                1,
+                0,
+                255
+            ],
+            "timestamp": 1733450113000,
+            "description": "TC-27.4: MULTI-DTC - U0100 Snapshot (Network Code)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1733450114000,
+            "description": "[FINAL CLEANUP] Reset to Default Session"
         }
     ],
     "createdAt": 1733450000000,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "metadata": {
-        "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 compliant test suite for SID 19 (ReadDTCInformation) with comprehensive coverage of all 15 subfunctions, error handling, session validation, and stress testing",
+        "author": "UDS Simulator - Automotive Grade",
+        "description": "ISO 14229-1:2020 compliant automotive-grade test suite for SID 19 (ReadDTCInformation). Enhanced with error recovery workflows, service interactions (0x10, 0x14, 0x3E, 0x27), DTC lifecycle validation, boundary cases, and cross-subfunction validation. Designed for real ECU testing in automotive sector.",
         "tags": [
             "SID19",
             "Read DTC",
             "ReadDTCInformation",
             "ISO 14229",
+            "Automotive Grade",
             "Test Suite",
-            "Automated Testing",
-            "DTC Management",
+            "Error Recovery",
+            "Service Interaction",
+            "DTC Lifecycle",
+            "Boundary Testing",
+            "Cross-Validation",
             "Freeze Frame",
             "Extended Data",
-            "Snapshot"
+            "Snapshot",
+            "Real ECU Testing"
         ],
-        "duration": 75000,
-        "totalRequests": 80,
-        "successRate": 100
+        "duration": 120000,
+        "totalRequests": 128,
+        "categories": {
+            "basic_subfunctions": "TC-01 to TC-12",
+            "nrc_validation": "TC-13 to TC-14",
+            "session_tests": "TC-15",
+            "clear_verify": "TC-16",
+            "suppress_response": "TC-17",
+            "stress_tests": "TC-18",
+            "error_recovery": "TC-19 to TC-20",
+            "workflow_tests": "TC-21",
+            "lifecycle_tests": "TC-22",
+            "boundary_tests": "TC-23",
+            "cross_validation": "TC-24",
+            "status_combos": "TC-25",
+            "additional_nrc": "TC-26",
+            "multi_dtc": "TC-27"
+        }
     },
     "timings": [
         1000,
@@ -767,17 +1288,67 @@
         1000,
         1000,
         1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
         500,
         1000,
         100,
         100,
         100,
-        500
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        2000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
     ],
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 19 (ReadDTCInformation). Covers all 15 ISO 14229-1 subfunctions: 0x01 (Count by Status), 0x02 (Read by Status), 0x03 (Snapshot Identification), 0x04 (Snapshot Record), 0x06 (Extended Data), 0x07 (Count by Severity), 0x08 (Read by Severity), 0x09 (Severity Info), 0x0A (Supported DTCs), 0x0B-0x0E (First/Most Recent Failed/Confirmed), 0x0F (Mirror Memory). Includes NRC validation for 0x12 (SubfunctionNotSupported), 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x31 (RequestOutOfRange). Also includes Suppress Positive Response bit testing and stress testing."
+    "notes": "Test Suite v2.0.0 - AUTOMOTIVE GRADE: Comprehensive coverage for SID 19 (ReadDTCInformation) designed for real ECU testing. Covers all 15 ISO 14229-1 subfunctions. NEW in v2.0: Error Recovery Tests (session switch recovery), Service Interaction Workflows (full diagnostic session with SID 0x10, 0x14, 0x3E), DTC Lifecycle Tests (Pending/Confirmed transitions), Boundary Cases (Record 0/0xFF/0xFE), Cross-Validation Tests (Count vs Read, First vs Recent), Status Mask Combinations, Multi-DTC Snapshot Tests across P/C/B/U code categories. NRC validation includes 0x12, 0x13, 0x22, 0x31."
 }

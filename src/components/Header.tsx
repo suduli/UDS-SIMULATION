@@ -353,69 +353,69 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden mt-4 pt-4 border-t header-mobile-menu space-y-2">
+          <div className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-[500px] opacity-100 mt-4 pt-4 border-t header-mobile-menu' : 'max-h-0 opacity-0'}`}>
+            <div className="space-y-2">
               <Link
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm header-link-home border rounded-lg"
+                className="block px-4 py-3 text-sm header-link-home border rounded-lg min-h-[44px] flex items-center"
               >
                 Home
               </Link>
               <Link
                 to="/learn"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm header-link-learn border rounded-lg"
+                className="block px-4 py-3 text-sm header-link-learn border rounded-lg min-h-[44px] flex items-center"
               >
                 Learn UDS
               </Link>
               <Link
                 to="/cluster"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm header-link-cluster border rounded-lg"
+                className="block px-4 py-3 text-sm header-link-cluster border rounded-lg min-h-[44px] flex items-center"
               >
                 Cluster Dashboard
               </Link>
               <Link
                 to="/report"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm header-link-report border rounded-lg"
+                className="block px-4 py-3 text-sm header-link-report border rounded-lg min-h-[44px] flex items-center"
               >
                 Reports
               </Link>
               <button
                 onClick={() => { setIsSequenceBuilderOpen(true); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
+                className="block w-full text-left px-4 py-3 text-sm header-mobile-link rounded-lg min-h-[44px]"
               >
                 Sequences
               </button>
               <button
                 onClick={() => { handleExport(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
+                className="block w-full text-left px-4 py-3 text-sm header-mobile-link rounded-lg min-h-[44px]"
                 disabled={requestHistory.length === 0}
               >
                 Export
               </button>
               <button
                 onClick={() => { handleImport(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
+                className="block w-full text-left px-4 py-3 text-sm header-mobile-link rounded-lg min-h-[44px]"
               >
                 Import
               </button>
               <button
                 onClick={() => { toggleTheme(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
+                className="block w-full text-left px-4 py-3 text-sm header-mobile-link rounded-lg min-h-[44px]"
               >
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </button>
               <button
                 onClick={() => { toggleHighContrast(); setMobileMenuOpen(false); }}
-                className="block w-full text-left px-3 py-2 text-sm header-mobile-link rounded-lg"
+                className="block w-full text-left px-4 py-3 text-sm header-mobile-link rounded-lg min-h-[44px]"
               >
                 {highContrast ? 'Normal Contrast' : 'High Contrast'}
               </button>
             </div>
-          )}
+          </div>
         </div>
       </header>
 

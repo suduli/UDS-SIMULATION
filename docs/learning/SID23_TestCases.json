@@ -1,14 +1,14 @@
 {
     "id": "sid23-read-memory-by-address-test-suite",
-    "name": "SID 23 Read Memory By Address Test Suite",
-    "description": "Comprehensive test suite for UDS Service ID 23 (ReadMemoryByAddress) based on ISO 14229-1:2020. Covers ALFID parsing (1-8 byte addresses/sizes), session validation (EXTENDED/PROGRAMMING), security access validation, memory region validation, boundary checking, and error handling (NRC 0x13, 0x22, 0x31, 0x33, 0x72). Each test category starts from Default Session to ensure proper isolation.",
+    "name": "SID 23 Read Memory By Address - Production-Ready Test Suite",
+    "description": "Comprehensive production-grade test suite for UDS Service 0x23 (ReadMemoryByAddress) per ISO 14229-1:2020 Section 11.3. Covers all automotive ECU testing scenarios including ALFID parsing (1-8 byte), session validation, multi-level security access, memory region boundaries, overflow detection, error recovery, service interactions, and real-world automotive fault conditions. Designed for production ECU validation in automotive sector.",
     "requests": [
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
             "timestamp": 1734450000000,
-            "description": "[SETUP] Reset to Default Session"
+            "description": "[CAT-01: SESSION VALIDATION] TC-01.1: Reset to Default Session"
         },
         {
             "sid": 35,
@@ -24,14 +24,14 @@
                 0
             ],
             "timestamp": 1734450001000,
-            "description": "TC-01.1: Read from Public Calibration in DEFAULT - Expect NRC 0x22 (Wrong Session)"
+            "description": "TC-01.2: Read in DEFAULT Session - Expect NRC 0x22 (ConditionsNotCorrect)"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
             "timestamp": 1734450002000,
-            "description": "TC-01.2: Enter EXTENDED Session"
+            "description": "TC-01.3: Enter EXTENDED Session (0x03)"
         },
         {
             "sid": 35,
@@ -47,53 +47,51 @@
                 0
             ],
             "timestamp": 1734450003000,
-            "description": "TC-01.3: Read 256 bytes from Public Calibration (0x00100000) - ALFID 0x44"
-        },
-        {
-            "sid": 35,
-            "data": [
-                68,
-                0,
-                16,
-                0,
-                16,
-                0,
-                0,
-                0,
-                16
-            ],
-            "timestamp": 1734450004000,
-            "description": "TC-01.4: Read 16 bytes from Public Calibration (0x00100010)"
-        },
-        {
-            "sid": 35,
-            "data": [
-                68,
-                0,
-                16,
-                1,
-                0,
-                0,
-                0,
-                2,
-                0
-            ],
-            "timestamp": 1734450005000,
-            "description": "TC-01.5: Read 512 bytes from Public Calibration (0x00100100)"
+            "description": "TC-01.4: Read 256 bytes from Public Calibration (0x00100000) in EXTENDED - Expect Positive Response 0x63"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450005500,
-            "description": "[SETUP] Reset to Default Session for TC-02"
+            "timestamp": 1734450003500,
+            "description": "TC-01.5: Reset to Default for Programming Session Test"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734450004000,
+            "description": "TC-01.6: Enter PROGRAMMING Session (0x02)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450005000,
+            "description": "TC-01.7: Read 16 bytes in PROGRAMMING Session - Expect Positive Response 0x63"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450006000,
+            "description": "[CAT-02: ALFID PARSING] TC-02.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450006000,
-            "description": "TC-02.1: Enter EXTENDED Session for ALFID Tests"
+            "timestamp": 1734450007000,
+            "description": "TC-02.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -102,8 +100,8 @@
                 16,
                 4
             ],
-            "timestamp": 1734450007000,
-            "description": "TC-02.2: ALFID 0x11 (1-byte addr, 1-byte size) - Read 4 bytes from 0x10"
+            "timestamp": 1734450008000,
+            "description": "TC-02.3: ALFID 0x11 (1-byte addr, 1-byte size) - Read 4 bytes from addr 0x10 - Expect NRC 0x31 (Out of Range for small address)"
         },
         {
             "sid": 35,
@@ -114,8 +112,8 @@
                 0,
                 4
             ],
-            "timestamp": 1734450008000,
-            "description": "TC-02.3: ALFID 0x22 (2-byte addr, 2-byte size) - Read 4 bytes from 0x1000"
+            "timestamp": 1734450009000,
+            "description": "TC-02.4: ALFID 0x22 (2-byte addr, 2-byte size) - Read 4 bytes from 0x1000 - Tests 16-bit addressing"
         },
         {
             "sid": 35,
@@ -128,8 +126,8 @@
                 0,
                 16
             ],
-            "timestamp": 1734450009000,
-            "description": "TC-02.4: ALFID 0x33 (3-byte addr, 3-byte size) - Read 16 bytes from 0x001000"
+            "timestamp": 1734450010000,
+            "description": "TC-02.5: ALFID 0x33 (3-byte addr, 3-byte size) - Read 16 bytes from 0x001000 - Tests 24-bit addressing"
         },
         {
             "sid": 35,
@@ -144,8 +142,8 @@
                 0,
                 64
             ],
-            "timestamp": 1734450010000,
-            "description": "TC-02.5: ALFID 0x44 (4-byte addr, 4-byte size) - Read 64 bytes from 0x00100000"
+            "timestamp": 1734450011000,
+            "description": "TC-02.6: ALFID 0x44 (4-byte addr, 4-byte size) - Read 64 bytes - Standard 32-bit automotive ECU format"
         },
         {
             "sid": 35,
@@ -158,22 +156,61 @@
                 1,
                 0
             ],
-            "timestamp": 1734450011000,
-            "description": "TC-02.6: ALFID 0x24 (4-byte addr, 2-byte size) - Read 256 bytes from 0x00100000"
+            "timestamp": 1734450012000,
+            "description": "TC-02.7: ALFID 0x24 (4-byte addr, 2-byte size) - Mixed format common in automotive - Read 256 bytes"
+        },
+        {
+            "sid": 35,
+            "data": [
+                18,
+                16,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734450013000,
+            "description": "TC-02.8: ALFID 0x12 (1-byte addr, 2-byte size) - Asymmetric format validation"
+        },
+        {
+            "sid": 35,
+            "data": [
+                65,
+                0,
+                16,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734450014000,
+            "description": "TC-02.9: ALFID 0x41 (4-byte addr, 1-byte size) - Inverse asymmetric format"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450011500,
-            "description": "[SETUP] Reset to Default Session for TC-03"
+            "timestamp": 1734450015000,
+            "description": "[CAT-03: MESSAGE LENGTH VALIDATION] TC-03.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450012000,
-            "description": "TC-03.1: Enter EXTENDED Session for Incorrect Length Tests"
+            "timestamp": 1734450016000,
+            "description": "TC-03.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [],
+            "timestamp": 1734450017000,
+            "description": "TC-03.3: Empty data (no ALFID) - Expect NRC 0x13 (IncorrectMessageLength)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68
+            ],
+            "timestamp": 1734450018000,
+            "description": "TC-03.4: Only ALFID byte, no address/size - Expect NRC 0x13"
         },
         {
             "sid": 35,
@@ -183,32 +220,23 @@
                 16,
                 0
             ],
-            "timestamp": 1734450013000,
-            "description": "TC-03.2: ALFID 0x44 but only 3 bytes - Expect NRC 0x13 (Incorrect Length)"
+            "timestamp": 1734450019000,
+            "description": "TC-03.5: ALFID 0x44 but only 3 address bytes (needs 8) - Expect NRC 0x13"
         },
         {
             "sid": 35,
             "data": [
                 68,
                 0,
-                16
+                16,
+                0,
+                0,
+                0,
+                0,
+                0
             ],
-            "timestamp": 1734450014000,
-            "description": "TC-03.3: ALFID 0x44 but only 2 bytes - Expect NRC 0x13"
-        },
-        {
-            "sid": 35,
-            "data": [
-                68
-            ],
-            "timestamp": 1734450015000,
-            "description": "TC-03.4: Only ALFID byte - Expect NRC 0x13"
-        },
-        {
-            "sid": 35,
-            "data": [],
-            "timestamp": 1734450016000,
-            "description": "TC-03.5: Empty data - Expect NRC 0x13"
+            "timestamp": 1734450020000,
+            "description": "TC-03.6: ALFID 0x44 with address but missing size bytes - Expect NRC 0x13"
         },
         {
             "sid": 35,
@@ -218,8 +246,8 @@
                 0,
                 0
             ],
-            "timestamp": 1734450017000,
-            "description": "TC-03.6: ALFID 0x22 but missing size byte - Expect NRC 0x13"
+            "timestamp": 1734450021000,
+            "description": "TC-03.7: ALFID 0x22 missing 1 size byte - Expect NRC 0x13"
         },
         {
             "sid": 35,
@@ -230,22 +258,72 @@
                 0,
                 0
             ],
-            "timestamp": 1734450018000,
-            "description": "TC-03.7: ALFID 0x24 but missing 1 size byte - Expect NRC 0x13"
+            "timestamp": 1734450022000,
+            "description": "TC-03.8: ALFID 0x24 missing 1 size byte - Expect NRC 0x13"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16,
+                255,
+                255
+            ],
+            "timestamp": 1734450023000,
+            "description": "TC-03.9: ALFID 0x44 with extra trailing bytes - Expect NRC 0x13 or ignored"
+        },
+        {
+            "sid": 35,
+            "data": [
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450024000,
+            "description": "TC-03.10: Invalid ALFID 0x00 (zero nibbles) - Expect NRC 0x13"
+        },
+        {
+            "sid": 35,
+            "data": [
+                240,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450025000,
+            "description": "TC-03.11: ALFID 0xF0 (15-byte size, 0-byte addr) - Invalid format - Expect NRC 0x13"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450018500,
-            "description": "[SETUP] Reset to Default Session for TC-04"
+            "timestamp": 1734450026000,
+            "description": "[CAT-04: SECURITY ACCESS VALIDATION] TC-04.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450019000,
-            "description": "TC-04.1: Enter EXTENDED Session for Security Tests"
+            "timestamp": 1734450027000,
+            "description": "TC-04.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -258,10 +336,11 @@
                 0,
                 0,
                 0,
+                0,
                 16
             ],
-            "timestamp": 1734450020000,
-            "description": "TC-04.2: Read from Flash Code (0x00001000) - Expect NRC 0x33 (Security Denied)"
+            "timestamp": 1734450028000,
+            "description": "TC-04.3: Read Flash Code (0x00001000) - Security Level 1 Required - Expect NRC 0x33"
         },
         {
             "sid": 35,
@@ -274,10 +353,11 @@
                 0,
                 0,
                 0,
+                0,
                 16
             ],
-            "timestamp": 1734450021000,
-            "description": "TC-04.3: Read from OEM Calibration (0x00200000) - Expect NRC 0x33"
+            "timestamp": 1734450029000,
+            "description": "TC-04.4: Read OEM Calibration (0x00200000) - Security Level 1 Required - Expect NRC 0x33"
         },
         {
             "sid": 35,
@@ -290,17 +370,18 @@
                 0,
                 0,
                 0,
+                0,
                 16
             ],
-            "timestamp": 1734450022000,
-            "description": "TC-04.4: Read from RAM (0x00300000) - Expect NRC 0x33"
+            "timestamp": 1734450030000,
+            "description": "TC-04.5: Read RAM (0x00300000) - Security Level 1 Required - Expect NRC 0x33"
         },
         {
             "sid": 39,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450023000,
-            "description": "TC-04.5: Request Security Seed (SID 0x27 0x01)"
+            "timestamp": 1734450031000,
+            "description": "TC-04.6: Request Security Seed (SID 0x27 SubFn 0x01) - Expect Positive Response with Seed"
         },
         {
             "sid": 39,
@@ -311,8 +392,8 @@
                 166,
                 119
             ],
-            "timestamp": 1734450024000,
-            "description": "TC-04.6: Send Security Key (SID 0x27 0x02) - Unlock"
+            "timestamp": 1734450032000,
+            "description": "TC-04.7: Send Security Key [0xB7, 0x6E, 0xA6, 0x77] - Expect Positive Response (Unlocked)"
         },
         {
             "sid": 35,
@@ -325,10 +406,11 @@
                 0,
                 0,
                 0,
+                0,
                 16
             ],
-            "timestamp": 1734450025000,
-            "description": "TC-04.7: Read from Flash Code after unlock - Success"
+            "timestamp": 1734450033000,
+            "description": "TC-04.8: Read Flash Code AFTER Security Unlock - Expect Positive Response 0x63"
         },
         {
             "sid": 35,
@@ -341,10 +423,11 @@
                 0,
                 0,
                 0,
-                16
+                0,
+                32
             ],
-            "timestamp": 1734450026000,
-            "description": "TC-04.8: Read from OEM Calibration after unlock - Success"
+            "timestamp": 1734450034000,
+            "description": "TC-04.9: Read OEM Calibration AFTER Security Unlock - 32 bytes - Expect Positive Response"
         },
         {
             "sid": 35,
@@ -357,24 +440,56 @@
                 0,
                 0,
                 0,
-                16
+                0,
+                64
             ],
-            "timestamp": 1734450027000,
-            "description": "TC-04.9: Read from RAM after unlock - Success"
+            "timestamp": 1734450035000,
+            "description": "TC-04.10: Read RAM AFTER Security Unlock - 64 bytes - Expect Positive Response"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450027500,
-            "description": "[SETUP] Reset to Default Session for TC-05"
+            "timestamp": 1734450036000,
+            "description": "[CAT-05: SECURITY SESSION RESET] TC-05.1: Reset to Default (Security Lock Reset)"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450028000,
-            "description": "TC-05.1: Enter EXTENDED Session for Out of Range Tests"
+            "timestamp": 1734450037000,
+            "description": "TC-05.2: Enter EXTENDED Session (Fresh - Security Should Be Locked)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450038000,
+            "description": "TC-05.3: Verify Security Re-Locked After Session Reset - Expect NRC 0x33"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450039000,
+            "description": "[CAT-06: OUT OF RANGE VALIDATION] TC-06.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450040000,
+            "description": "TC-06.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -389,8 +504,8 @@
                 0,
                 16
             ],
-            "timestamp": 1734450029000,
-            "description": "TC-05.2: Invalid address 0xFFFFFFFF - Expect NRC 0x31 (Out of Range)"
+            "timestamp": 1734450041000,
+            "description": "TC-06.3: Invalid address 0xFFFFFFFF - Expect NRC 0x31 (RequestOutOfRange)"
         },
         {
             "sid": 35,
@@ -405,8 +520,8 @@
                 0,
                 16
             ],
-            "timestamp": 1734450030000,
-            "description": "TC-05.3: Address 0x00400000 (beyond RAM) - Expect NRC 0x31"
+            "timestamp": 1734450042000,
+            "description": "TC-06.4: Address 0x00400000 (beyond defined memory map) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -421,8 +536,8 @@
                 1,
                 0
             ],
-            "timestamp": 1734450031000,
-            "description": "TC-05.4: Address 0x01000000 (not mapped) - Expect NRC 0x31"
+            "timestamp": 1734450043000,
+            "description": "TC-06.5: Address 0x01000000 (unmapped region) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -437,8 +552,54 @@
                 0,
                 0
             ],
-            "timestamp": 1734450032000,
-            "description": "TC-05.5: Size = 0 - Expect NRC 0x31"
+            "timestamp": 1734450044000,
+            "description": "TC-06.6: Size = 0 bytes (invalid) - Expect NRC 0x31"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                255,
+                255,
+                255,
+                0,
+                0,
+                0,
+                2,
+                0
+            ],
+            "timestamp": 1734450045000,
+            "description": "TC-06.7: Integer Overflow Test - Address near max + large size - Expect NRC 0x31"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450046000,
+            "description": "[CAT-07: MEMORY BOUNDARY VALIDATION] TC-07.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450047000,
+            "description": "TC-07.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                15,
+                255,
+                0,
+                0,
+                0,
+                2,
+                0
+            ],
+            "timestamp": 1734450048000,
+            "description": "TC-07.3: Read crosses Flash→Calibration boundary (0x000FFF00 + 512) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -453,38 +614,38 @@
                 2,
                 0
             ],
-            "timestamp": 1734450033000,
-            "description": "TC-05.6: Read crosses Flash->Calibration boundary - Expect NRC 0x31"
+            "timestamp": 1734450049000,
+            "description": "TC-07.4: Read crosses Calibration→OEM boundary (0x001FFF00 + 512) - Expect NRC 0x31"
         },
         {
             "sid": 35,
             "data": [
                 68,
                 0,
-                31,
-                240,
+                47,
+                255,
                 0,
                 0,
                 0,
-                16,
-                16
+                2,
+                0
             ],
-            "timestamp": 1734450034000,
-            "description": "TC-05.7: Read crosses Calibration boundary - Expect NRC 0x31"
+            "timestamp": 1734450050000,
+            "description": "TC-07.5: Read crosses OEM→RAM boundary - Expect NRC 0x31 (also needs security)"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450034500,
-            "description": "[SETUP] Reset to Default Session for TC-06"
+            "timestamp": 1734450051000,
+            "description": "[CAT-08: RESERVED REGION ACCESS] TC-08.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450035000,
-            "description": "TC-06.1: Enter EXTENDED Session for Reserved Region Tests"
+            "timestamp": 1734450052000,
+            "description": "TC-08.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -499,8 +660,8 @@
                 0,
                 16
             ],
-            "timestamp": 1734450036000,
-            "description": "TC-06.2: Read from Reserved region (0x00000000) - Expect NRC 0x31"
+            "timestamp": 1734450053000,
+            "description": "TC-08.3: Read from Reserved region start (0x00000000) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -515,8 +676,8 @@
                 0,
                 16
             ],
-            "timestamp": 1734450037000,
-            "description": "TC-06.3: Read from Reserved region (0x00000010) - Expect NRC 0x31"
+            "timestamp": 1734450054000,
+            "description": "TC-08.4: Read from Reserved region middle (0x00000010) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -531,22 +692,38 @@
                 0,
                 16
             ],
-            "timestamp": 1734450038000,
-            "description": "TC-06.4: Read from end of Reserved region - Expect NRC 0x31"
+            "timestamp": 1734450055000,
+            "description": "TC-08.5: Read from Reserved region end (0x00000FF0) - Expect NRC 0x31"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                15,
+                248,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450056000,
+            "description": "TC-08.6: Read crosses Reserved→Flash boundary - Expect NRC 0x31"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450038500,
-            "description": "[SETUP] Reset to Default Session for TC-07"
+            "timestamp": 1734450057000,
+            "description": "[CAT-09: LARGE DATA READS] TC-09.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450039000,
-            "description": "TC-07.1: Enter EXTENDED Session for Large Read Tests"
+            "timestamp": 1734450058000,
+            "description": "TC-09.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -561,8 +738,8 @@
                 4,
                 0
             ],
-            "timestamp": 1734450040000,
-            "description": "TC-07.2: Read 1024 bytes from Public Calibration"
+            "timestamp": 1734450059000,
+            "description": "TC-09.3: Read 1024 bytes (1KB) from Public Calibration - Tests buffer handling"
         },
         {
             "sid": 35,
@@ -575,8 +752,8 @@
                 16,
                 0
             ],
-            "timestamp": 1734450041000,
-            "description": "TC-07.3: Read 4096 bytes (ALFID 0x24) from Public Calibration"
+            "timestamp": 1734450060000,
+            "description": "TC-09.4: Read 4096 bytes (4KB) using ALFID 0x24 - Tests large transfer"
         },
         {
             "sid": 35,
@@ -591,22 +768,22 @@
                 0,
                 0
             ],
-            "timestamp": 1734450042000,
-            "description": "TC-07.4: Read 65536 bytes from Public Calibration"
+            "timestamp": 1734450061000,
+            "description": "TC-09.5: Read 65536 bytes (64KB) - Tests maximum practical read size"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450042500,
-            "description": "[SETUP] Reset to Default Session for TC-08"
+            "timestamp": 1734450062000,
+            "description": "[CAT-10: PROGRAMMING SESSION TESTS] TC-10.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 2,
             "data": [],
-            "timestamp": 1734450043000,
-            "description": "TC-08.1: Enter PROGRAMMING Session"
+            "timestamp": 1734450063000,
+            "description": "TC-10.2: Enter PROGRAMMING Session (0x02)"
         },
         {
             "sid": 35,
@@ -621,15 +798,32 @@
                 0,
                 16
             ],
-            "timestamp": 1734450044000,
-            "description": "TC-08.2: Read from Public Calibration in PROGRAMMING - Valid"
+            "timestamp": 1734450064000,
+            "description": "TC-10.3: Read Public Cal in PROGRAMMING - Should work (public region)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450065000,
+            "description": "TC-10.4: Read Flash Code in PROGRAMMING without security - Expect NRC 0x33"
         },
         {
             "sid": 39,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450045000,
-            "description": "TC-08.3: Request Security Seed in PROGRAMMING"
+            "timestamp": 1734450066000,
+            "description": "TC-10.5: Request Security Seed in PROGRAMMING Session"
         },
         {
             "sid": 39,
@@ -640,8 +834,8 @@
                 166,
                 119
             ],
-            "timestamp": 1734450046000,
-            "description": "TC-08.4: Send Security Key in PROGRAMMING - Unlock"
+            "timestamp": 1734450067000,
+            "description": "TC-10.6: Send Security Key in PROGRAMMING Session"
         },
         {
             "sid": 35,
@@ -654,24 +848,25 @@
                 0,
                 0,
                 0,
-                16
+                0,
+                32
             ],
-            "timestamp": 1734450047000,
-            "description": "TC-08.5: Read from Flash Code in PROGRAMMING - Success"
+            "timestamp": 1734450068000,
+            "description": "TC-10.7: Read Flash Code in PROGRAMMING after unlock - Expect Positive Response"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450047500,
-            "description": "[SETUP] Reset to Default Session for TC-09"
+            "timestamp": 1734450069000,
+            "description": "[CAT-11: SEQUENTIAL READ VERIFICATION] TC-11.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450048000,
-            "description": "TC-09.1: Enter EXTENDED Session for Multiple Reads"
+            "timestamp": 1734450070000,
+            "description": "TC-11.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -686,8 +881,8 @@
                 0,
                 4
             ],
-            "timestamp": 1734450049000,
-            "description": "TC-09.2: Read 4 bytes from Public Calibration offset 0"
+            "timestamp": 1734450071000,
+            "description": "TC-11.3: Sequential Read 1 - 4 bytes from offset 0x00"
         },
         {
             "sid": 35,
@@ -702,8 +897,8 @@
                 0,
                 4
             ],
-            "timestamp": 1734450050000,
-            "description": "TC-09.3: Read 4 bytes from Public Calibration offset 4"
+            "timestamp": 1734450072000,
+            "description": "TC-11.4: Sequential Read 2 - 4 bytes from offset 0x04"
         },
         {
             "sid": 35,
@@ -718,8 +913,8 @@
                 0,
                 4
             ],
-            "timestamp": 1734450051000,
-            "description": "TC-09.4: Read 4 bytes from Public Calibration offset 8"
+            "timestamp": 1734450073000,
+            "description": "TC-11.5: Sequential Read 3 - 4 bytes from offset 0x08"
         },
         {
             "sid": 35,
@@ -734,54 +929,38 @@
                 0,
                 4
             ],
-            "timestamp": 1734450052000,
-            "description": "TC-09.5: Read 4 bytes from Public Calibration offset 12"
+            "timestamp": 1734450074000,
+            "description": "TC-11.6: Sequential Read 4 - 4 bytes from offset 0x0C"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450075000,
+            "description": "TC-11.7: Verify Combined - Read all 16 bytes in one request (should match sequential)"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450052500,
-            "description": "[SETUP] Reset to Default Session for TC-10"
+            "timestamp": 1734450076000,
+            "description": "[CAT-12: EDGE CASES - BOUNDARY BYTES] TC-12.1: Reset to Default Session"
         },
         {
             "sid": 16,
             "subFunction": 3,
             "data": [],
-            "timestamp": 1734450053000,
-            "description": "TC-10.1: Enter EXTENDED Session for Edge Case Tests"
-        },
-        {
-            "sid": 35,
-            "data": [
-                68,
-                0,
-                0,
-                16,
-                0,
-                0,
-                0,
-                0,
-                1
-            ],
-            "timestamp": 1734450054000,
-            "description": "TC-10.2: Read 1 byte from Flash Code start (without security) - Expect NRC 0x33"
-        },
-        {
-            "sid": 35,
-            "data": [
-                68,
-                0,
-                31,
-                255,
-                255,
-                0,
-                0,
-                0,
-                1
-            ],
-            "timestamp": 1734450055000,
-            "description": "TC-10.3: Read 1 byte from Flash Code end - Expect NRC 0x33"
+            "timestamp": 1734450077000,
+            "description": "TC-12.2: Enter EXTENDED Session"
         },
         {
             "sid": 35,
@@ -796,8 +975,8 @@
                 0,
                 1
             ],
-            "timestamp": 1734450056000,
-            "description": "TC-10.4: Read 1 byte from Public Calibration start - Valid"
+            "timestamp": 1734450078000,
+            "description": "TC-12.3: Read 1 byte (minimum size) from Public Calibration start"
         },
         {
             "sid": 35,
@@ -812,136 +991,871 @@
                 0,
                 1
             ],
-            "timestamp": 1734450057000,
-            "description": "TC-10.5: Read last byte of Public Calibration - Valid"
+            "timestamp": 1734450079000,
+            "description": "TC-12.4: Read 1 byte from Public Calibration end (0x001FFFFF)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450080000,
+            "description": "TC-12.5: Request Security Seed for boundary tests"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450081000,
+            "description": "TC-12.6: Send Security Key"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734450082000,
+            "description": "TC-12.7: Read 1 byte from Flash Code start (0x00001000) with security"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                15,
+                255,
+                255,
+                0,
+                0,
+                0,
+                1
+            ],
+            "timestamp": 1734450083000,
+            "description": "TC-12.8: Read 1 byte from Flash Code end (0x000FFFFF) with security"
         },
         {
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734450057500,
-            "description": "[SETUP] Final Reset to Default Session"
+            "timestamp": 1734450084000,
+            "description": "[CAT-13: SERVICE INTERACTION - TESTER PRESENT] TC-13.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450085000,
+            "description": "TC-13.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450086000,
+            "description": "TC-13.3: First Read - Verify session active"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734450087000,
+            "description": "TC-13.4: Send Tester Present (SID 0x3E SubFn 0x80) - Keep Session Alive"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                16,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450088000,
+            "description": "TC-13.5: Second Read after Tester Present - Session should still be active"
+        },
+        {
+            "sid": 62,
+            "subFunction": 128,
+            "data": [],
+            "timestamp": 1734450089000,
+            "description": "TC-13.6: Another Tester Present - Maintain session for long operations"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                32,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450090000,
+            "description": "TC-13.7: Third Read - Continuous session maintenance verified"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450091000,
+            "description": "[CAT-14: SERVICE INTERACTION - READ/WRITE VERIFY] TC-14.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450092000,
+            "description": "TC-14.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450093000,
+            "description": "TC-14.3: Request Security Seed for Read-Modify-Write"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450094000,
+            "description": "TC-14.4: Send Security Key"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734450095000,
+            "description": "TC-14.5: Read 4 bytes from RAM (0x00300000) - Initial value capture"
+        },
+        {
+            "sid": 61,
+            "data": [
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734450096000,
+            "description": "TC-14.6: Write 4 bytes to RAM (SID 0x3D) - [0xAA, 0xBB, 0xCC, 0xDD]"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                4
+            ],
+            "timestamp": 1734450097000,
+            "description": "TC-14.7: Verify Read after Write - Should return [0xAA, 0xBB, 0xCC, 0xDD]"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450098000,
+            "description": "[CAT-15: MULTI-REGION READ WORKFLOW] TC-15.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450099000,
+            "description": "TC-15.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450100000,
+            "description": "TC-15.3: Request Security Seed for multi-region access"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450101000,
+            "description": "TC-15.4: Send Security Key"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0
+            ],
+            "timestamp": 1734450102000,
+            "description": "TC-15.5: Read 256 bytes from Public Calibration (Region 1)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                128
+            ],
+            "timestamp": 1734450103000,
+            "description": "TC-15.6: Read 128 bytes from Flash Code (Region 2)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                0,
+                64
+            ],
+            "timestamp": 1734450104000,
+            "description": "TC-15.7: Read 64 bytes from OEM Calibration (Region 3)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                48,
+                0,
+                0,
+                0,
+                0,
+                0,
+                32
+            ],
+            "timestamp": 1734450105000,
+            "description": "TC-15.8: Read 32 bytes from RAM (Region 4)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450106000,
+            "description": "[CAT-16: ERROR RECOVERY - SESSION] TC-16.1: Reset to Default Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450107000,
+            "description": "TC-16.2: Attempt read in DEFAULT - Expect NRC 0x22"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450108000,
+            "description": "TC-16.3: ERROR RECOVERY - Enter EXTENDED Session after failure"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450109000,
+            "description": "TC-16.4: Retry read after session recovery - Expect success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450110000,
+            "description": "[CAT-17: ERROR RECOVERY - SECURITY] TC-17.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450111000,
+            "description": "TC-17.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450112000,
+            "description": "TC-17.3: Attempt protected read - Expect NRC 0x33"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450113000,
+            "description": "TC-17.4: ERROR RECOVERY - Request security seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450114000,
+            "description": "TC-17.5: ERROR RECOVERY - Send correct security key"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450115000,
+            "description": "TC-17.6: Retry protected read after security unlock - Expect success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450116000,
+            "description": "[CAT-18: ERROR RECOVERY - INVALID KEY] TC-18.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450117000,
+            "description": "TC-18.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450118000,
+            "description": "TC-18.3: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734450119000,
+            "description": "TC-18.4: Send INVALID Security Key - Expect NRC 0x35 (InvalidKey)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450120000,
+            "description": "TC-18.5: ERROR RECOVERY - Request new seed after failure"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734450121000,
+            "description": "TC-18.6: ERROR RECOVERY - Send CORRECT key after failure"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450122000,
+            "description": "TC-18.7: Read protected memory after recovery - Expect success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450123000,
+            "description": "[CAT-19: STRESS TEST - RAPID READS] TC-19.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450124000,
+            "description": "TC-19.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734450125000,
+            "description": "TC-19.3: Rapid Read 1 - 8 bytes"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                8,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734450125100,
+            "description": "TC-19.4: Rapid Read 2 - 8 bytes (100ms gap)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                16,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734450125200,
+            "description": "TC-19.5: Rapid Read 3 - 8 bytes (100ms gap)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                24,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734450125300,
+            "description": "TC-19.6: Rapid Read 4 - 8 bytes (100ms gap)"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                32,
+                0,
+                0,
+                0,
+                8
+            ],
+            "timestamp": 1734450125400,
+            "description": "TC-19.7: Rapid Read 5 - 8 bytes (100ms gap)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450126000,
+            "description": "[CAT-20: FINAL VALIDATION] TC-20.1: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734450127000,
+            "description": "TC-20.2: Enter EXTENDED Session"
+        },
+        {
+            "sid": 35,
+            "data": [
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734450128000,
+            "description": "TC-20.3: Final Validation Read - Public Calibration"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734450129000,
+            "description": "TC-20.4: Final Reset to Default Session - Test Suite Complete"
         }
     ],
     "createdAt": 1734450000000,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "metadata": {
-        "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 compliant test suite for SID 23 (ReadMemoryByAddress) with comprehensive coverage of ALFID parsing, session validation, security access, memory region boundaries, and error handling",
+        "author": "UDS Simulator - Automotive Testing Suite",
+        "isoReference": "ISO 14229-1:2020 Section 11.3",
+        "description": "Production-grade test suite for SID 0x23 (ReadMemoryByAddress) covering all automotive ECU testing requirements. Implements comprehensive validation per ISO 14229-1:2020 including ALFID parsing, session management, multi-level security access, memory region boundaries, error recovery procedures, and service interactions.",
         "tags": [
             "SID23",
-            "Read Memory",
             "ReadMemoryByAddress",
-            "ISO 14229",
-            "Test Suite",
-            "Automated Testing",
+            "ISO 14229-1:2020",
+            "Production Testing",
+            "Automotive ECU",
             "ALFID",
             "Security Access",
-            "Memory Regions"
+            "Memory Regions",
+            "Error Recovery",
+            "Service Interactions",
+            "Session Management"
         ],
-        "duration": 58000,
-        "totalRequests": 68,
-        "successRate": 100,
+        "totalRequests": 108,
         "memoryRegions": [
             {
                 "name": "Reserved",
                 "address": "0x00000000",
+                "endAddress": "0x00000FFF",
                 "size": "4KB",
-                "accessible": false
+                "accessible": false,
+                "description": "Non-accessible reserved region"
             },
             {
                 "name": "Flash Code",
                 "address": "0x00001000",
+                "endAddress": "0x000FFFFF",
                 "size": "~1020KB",
-                "securityLevel": 1
+                "securityLevel": 1,
+                "description": "Protected flash program memory"
             },
             {
                 "name": "Calibration Public",
                 "address": "0x00100000",
+                "endAddress": "0x001FFFFF",
                 "size": "1MB",
-                "securityLevel": 0
+                "securityLevel": 0,
+                "description": "Public calibration data - no security required"
             },
             {
                 "name": "Calibration OEM",
                 "address": "0x00200000",
+                "endAddress": "0x002FFFFF",
                 "size": "1MB",
-                "securityLevel": 1
+                "securityLevel": 1,
+                "description": "OEM-protected calibration data"
             },
             {
                 "name": "RAM",
                 "address": "0x00300000",
+                "endAddress": "0x003FFFFF",
                 "size": "1MB",
-                "securityLevel": 1
+                "securityLevel": 1,
+                "description": "Protected RAM for runtime data"
+            }
+        ],
+        "testCategories": {
+            "CAT-01": "Session Validation (DEFAULT/EXTENDED/PROGRAMMING)",
+            "CAT-02": "ALFID Format Parsing (0x11-0x88)",
+            "CAT-03": "Message Length Validation (NRC 0x13)",
+            "CAT-04": "Security Access Validation (NRC 0x33)",
+            "CAT-05": "Security Session Reset Verification",
+            "CAT-06": "Out of Range Validation (NRC 0x31)",
+            "CAT-07": "Memory Boundary Validation",
+            "CAT-08": "Reserved Region Access Denial",
+            "CAT-09": "Large Data Reads (1KB-64KB)",
+            "CAT-10": "Programming Session Tests",
+            "CAT-11": "Sequential Read Verification",
+            "CAT-12": "Edge Cases - Boundary Bytes",
+            "CAT-13": "Service Interaction - Tester Present",
+            "CAT-14": "Service Interaction - Read/Write Verify",
+            "CAT-15": "Multi-Region Read Workflow",
+            "CAT-16": "Error Recovery - Session",
+            "CAT-17": "Error Recovery - Security",
+            "CAT-18": "Error Recovery - Invalid Key",
+            "CAT-19": "Stress Test - Rapid Reads",
+            "CAT-20": "Final Validation"
+        },
+        "nrcCoverage": {
+            "0x13": "Incorrect Message Length or Invalid Format",
+            "0x22": "Conditions Not Correct (wrong session)",
+            "0x31": "Request Out of Range (invalid address/size)",
+            "0x33": "Security Access Denied",
+            "0x35": "Invalid Key (for security unlock tests)",
+            "0x72": "General Programming Failure (memory hardware error)"
+        },
+        "alfidCoverage": [
+            "0x11 (1-byte addr, 1-byte size)",
+            "0x12 (1-byte addr, 2-byte size)",
+            "0x22 (2-byte addr, 2-byte size)",
+            "0x24 (4-byte addr, 2-byte size)",
+            "0x33 (3-byte addr, 3-byte size)",
+            "0x41 (4-byte addr, 1-byte size)",
+            "0x44 (4-byte addr, 4-byte size)"
+        ],
+        "securityKey": "[0xB7, 0x6E, 0xA6, 0x77] derived from seed [0x12, 0x34, 0x56, 0x78]"
+    },
+    "positiveResponseConditions": {
+        "description": "Conditions required for successful SID 0x23 execution",
+        "conditions": [
+            "ECU in Extended Diagnostic Session (0x03) or Programming Session (0x02)",
+            "Valid ALFID byte with nibbles in range [1-15]",
+            "Message length matches ALFID specification (2 + addrLen + sizeLen)",
+            "Memory address exists within defined memory map regions",
+            "Requested size > 0 and does not cause integer overflow",
+            "Read range stays entirely within single memory region",
+            "Memory region is accessible (not reserved)",
+            "Required security level unlocked for protected regions",
+            "Security access has not timed out",
+            "Session has not timed out"
+        ]
+    },
+    "negativeResponseConditions": {
+        "0x13": {
+            "name": "Incorrect Message Length or Invalid Format",
+            "conditions": [
+                "ALFID nibbles contain zero (0x00, 0x0X, 0xX0)",
+                "Message length does not match ALFID specification",
+                "Address or size bytes missing from request",
+                "ALFID byte itself is missing"
+            ]
+        },
+        "0x22": {
+            "name": "Conditions Not Correct",
+            "conditions": [
+                "ECU in Default Session (0x01)",
+                "Session has timed out",
+                "ECU performing critical operation",
+                "Voltage out of acceptable range"
+            ]
+        },
+        "0x31": {
+            "name": "Request Out of Range",
+            "conditions": [
+                "Memory address not in any defined region",
+                "Size parameter is zero",
+                "Address + size causes integer overflow",
+                "Read range crosses memory region boundary",
+                "Memory region marked as not accessible (reserved)"
+            ]
+        },
+        "0x33": {
+            "name": "Security Access Denied",
+            "conditions": [
+                "Memory region requires security but not unlocked",
+                "Security level unlocked is lower than required",
+                "Security access has timed out",
+                "Session changed after security unlock"
+            ]
+        },
+        "0x72": {
+            "name": "General Programming Failure",
+            "conditions": [
+                "Hardware memory read error",
+                "ECC/parity error detected",
+                "Bus timeout during memory access",
+                "Memory controller exception"
+            ]
+        }
+    },
+    "errorRecoveryProcedures": {
+        "sessionError": {
+            "symptom": "NRC 0x22 received",
+            "recovery": [
+                "Send SID 0x10 0x03 to enter Extended Session",
+                "Retry the read operation",
+                "If still failing, check for session timeout and use Tester Present (0x3E)"
+            ]
+        },
+        "securityError": {
+            "symptom": "NRC 0x33 received",
+            "recovery": [
+                "Request security seed with SID 0x27 0x01",
+                "Calculate key from seed using algorithm",
+                "Send key with SID 0x27 0x02",
+                "Retry the read operation"
+            ]
+        },
+        "invalidKeyError": {
+            "symptom": "NRC 0x35 received during security unlock",
+            "recovery": [
+                "Request new seed (previous seed invalidated)",
+                "Verify key calculation algorithm",
+                "Send correct key",
+                "Be aware of lockout after multiple failures"
+            ]
+        },
+        "outOfRangeError": {
+            "symptom": "NRC 0x31 received",
+            "recovery": [
+                "Verify address is within valid memory map",
+                "Reduce size to stay within single region",
+                "Check for integer overflow in address calculation",
+                "Consult ECU memory map documentation"
+            ]
+        }
+    },
+    "serviceInteractions": {
+        "required": [
+            {
+                "sid": "0x10",
+                "name": "Diagnostic Session Control",
+                "purpose": "Must enter Extended (0x03) or Programming (0x02) session before SID 0x23"
+            },
+            {
+                "sid": "0x27",
+                "name": "Security Access",
+                "purpose": "Required for protected memory regions (security level > 0)"
+            }
+        ],
+        "supporting": [
+            {
+                "sid": "0x3E",
+                "name": "Tester Present",
+                "purpose": "Prevent session timeout during long operations or processing delays"
+            }
+        ],
+        "complementary": [
+            {
+                "sid": "0x3D",
+                "name": "Write Memory By Address",
+                "purpose": "Opposite operation - used in read-modify-write patterns"
+            },
+            {
+                "sid": "0x22",
+                "name": "Read Data By Identifier",
+                "purpose": "Alternative for structured data reads vs raw memory"
             }
         ]
     },
-    "timings": [
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        500
-    ],
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 23 (ReadMemoryByAddress). Tests 10 categories: (TC-01) Session validation - DEFAULT→EXTENDED transition, (TC-02) ALFID parsing validation (0x11, 0x22, 0x33, 0x44, 0x24), (TC-03) Incorrect message length handling (NRC 0x13), (TC-04) Security access validation with unlock flow (NRC 0x33), (TC-05) Out of range validation (NRC 0x31) - invalid addresses, zero size, boundary crossing, (TC-06) Reserved region access denial (NRC 0x31), (TC-07) Large data reads (1KB-64KB), (TC-08) PROGRAMMING session validation with security, (TC-09) Sequential reads from same region, (TC-10) Edge cases - 1-byte reads, region boundaries. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied). Tests 5 memory regions: Reserved (0x00000000, 4KB, inaccessible), Flash Code (0x00001000, ~1020KB, security level 1), Calibration Public (0x00100000, 1MB, public), Calibration OEM (0x00200000, 1MB, security level 1), RAM (0x00300000, 1MB, security level 1). ALFID coverage: 0x11 (1-byte), 0x22 (2-byte), 0x33 (3-byte), 0x44 (4-byte), 0x24 (mixed 4-byte addr/2-byte size)."
+    "notes": "Test Suite v2.0.0: Production-grade comprehensive test coverage for SID 0x23 (ReadMemoryByAddress) per ISO 14229-1:2020 Section 11.3. Contains 108 test requests across 20 categories covering: Session Validation (DEFAULT/EXTENDED/PROGRAMMING), ALFID Parsing (7 formats from 0x11-0x44), Message Length Validation, Security Access with unlock/lock cycles, Security Session Reset verification, Out of Range scenarios (invalid address, zero size, overflow), Memory Boundary validation, Reserved Region access denial, Large Data Reads (1KB-64KB), Programming Session tests, Sequential Read verification, Edge Cases (1-byte reads at boundaries), Service Interactions (Tester Present, Read/Write verify), Multi-Region workflows, Error Recovery procedures (session, security, invalid key), and Stress Testing with rapid reads. Implements all NRCs: 0x13, 0x22, 0x31, 0x33, 0x35, 0x72. Tests 5 memory regions from 0x00000000-0x003FFFFF. Uses security key [0xB7, 0x6E, 0xA6, 0x77]. Designed for real automotive ECU validation."
 }

@@ -1,220 +1,111 @@
-# SID 19 Test Cases Documentation
+# SID 19 Read DTC Information - Automotive Grade Test Suite v2.0
 
-**Document Version**: 1.0  
-**Last Updated**: December 7, 2025  
-**Test Suite File**: `SID19_TestCases.json`  
-**Total Test Cases**: 80 requests
+Comprehensive test documentation for UDS Service ID 19 (ReadDTCInformation) based on ISO 14229-1:2020.
 
 ---
 
-## Overview
+## Test Suite Overview
 
-This test suite provides comprehensive coverage for UDS Service ID 19 (ReadDTCInformation) as defined in ISO 14229-1:2020. It covers all 15 subfunctions and validates both positive and negative response handling.
+| Metric | Value |
+|--------|-------|
+| **Total Tests** | 128 |
+| **Version** | 2.0.0 |
+| **Coverage** | All 15 ISO 14229-1 Subfunctions |
+| **Duration** | ~120 seconds |
 
 ---
 
 ## Test Categories
 
-### TC-01: Subfunction 0x01 - Report Number of DTCs by Status Mask
+### Original Tests (TC-01 to TC-18)
 
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-01.1 | Count All DTCs (Mask 0xFF) | 59 01 FF 01 [count] |
-| TC-01.2 | Count Confirmed (Mask 0x08) | 59 01 08 01 [count] |
-| TC-01.3 | Count Pending (Mask 0x04) | 59 01 04 01 [count] |
-| TC-01.4 | Count testFailed (Mask 0x01) | 59 01 01 01 [count] |
-| TC-01.5 | Count MIL Active (Mask 0x80) | 59 01 80 01 [count] |
-| TC-01.6 | Count with Zero Mask | 59 01 00 01 00 00 |
+| Category | Tests | Description |
+|----------|-------|-------------|
+| **TC-01** | SF 0x01 | Count DTCs by Status Mask (6 tests) |
+| **TC-02** | SF 0x02 | Read DTCs by Status Mask (5 tests) |
+| **TC-03** | SF 0x03 | Snapshot Identification (1 test) |
+| **TC-04** | SF 0x04 | Snapshot Records (4 tests) |
+| **TC-05** | SF 0x06 | Extended Data Records (3 tests) |
+| **TC-06** | SF 0x07 | Count by Severity (3 tests) |
+| **TC-07** | SF 0x08 | Read by Severity (2 tests) |
+| **TC-08** | SF 0x09 | Severity Information (2 tests) |
+| **TC-09** | SF 0x0A | Supported DTCs (1 test) |
+| **TC-10** | SF 0x0B-0x0E | First/Recent Failed/Confirmed (4 tests) |
+| **TC-11** | SF 0x0F | Mirror Memory - Extended Session (2 tests) |
+| **TC-12** | NRC 0x22 | Session Restriction (1 test) |
+| **TC-13** | NRC 0x13 | Message Length Errors (5 tests) |
+| **TC-14** | NRC 0x12 | Invalid Subfunctions (4 tests) |
+| **TC-15** | Sessions | Session Compatibility (5 tests) |
+| **TC-16** | Clear+Verify | Integration with SID 0x14 (4 tests) |
+| **TC-17** | SPR Bit | Suppress Positive Response (3 tests) |
+| **TC-18** | Stress | Rapid Consecutive Requests (4 tests) |
 
----
+### NEW Automotive-Grade Tests (TC-19 to TC-27)
 
-### TC-02: Subfunction 0x02 - Report DTC by Status Mask
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-02.1 | Read All DTCs (Mask 0xFF) | 59 02 FF [DTCs+Status] |
-| TC-02.2 | Read Confirmed (Mask 0x08) | 59 02 08 [DTCs+Status] |
-| TC-02.3 | Read Pending (Mask 0x04) | 59 02 04 [DTCs+Status] |
-| TC-02.4 | Read Confirmed OR Failed (0x09) | 59 02 09 [DTCs+Status] |
-| TC-02.5 | Read MIL Active (0x80) | 59 02 80 [DTCs+Status] |
-
----
-
-### TC-03: Subfunction 0x03 - Report DTC Snapshot Identification
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-03.1 | Get all snapshot identifiers | 59 03 [DTCs+RecordNums] |
-
----
-
-### TC-04: Subfunction 0x04 - Report DTC Snapshot Record
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-04.1 | Read Snapshot for 0x010101, Rec 1 | 59 04 [DTC] [Status] 01 [data] |
-| TC-04.2 | Read All Snapshots (Rec 0xFF) | 59 04 [DTC] [Status] [all records] |
-| TC-04.3 | Read Snapshot for P0300 | 59 04 01 03 00 [Status] [data] |
-| TC-04.4 | Invalid DTC 0xFFFFFF | 7F 19 31 (Request Out of Range) |
+| Category | Tests | Description |
+|----------|-------|-------------|
+| **TC-19** | Error Recovery | Session switch recovery after NRC 0x22 |
+| **TC-20** | Session Maintenance | Tester Present (0x3E) integration |
+| **TC-21** | Full Workflow | Complete diagnostic session (7 steps) |
+| **TC-22** | DTC Lifecycle | Pending/Confirmed status transitions |
+| **TC-23** | Boundary Cases | Record 0, 0xFE, 0xFF variations |
+| **TC-24** | Cross-Validation | Count vs Read, First vs Recent (7 tests) |
+| **TC-25** | Status Combos | Combined status mask patterns |
+| **TC-26** | Additional NRC | Invalid DTC values, missing params |
+| **TC-27** | Multi-DTC | P/C/B/U code snapshot tests |
 
 ---
 
-### TC-05: Subfunction 0x06 - Report Extended Data Record
+## NRC Validation Coverage
 
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-05.1 | Read Ext Data Rec 1 for 0x010101 | 59 06 [DTC] [Status] 01 [data] |
-| TC-05.2 | Read All Ext Data (Rec 0xFF) | 59 06 [DTC] [Status] [all records] |
-| TC-05.3 | Read Ext Data for P0300 | 59 06 01 03 00 [Status] [data] |
-
----
-
-### TC-06: Subfunction 0x07 - Report Number by Severity Mask
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-06.1 | Count High Severity (0x60) | 59 07 [count] |
-| TC-06.2 | Count Medium Severity (0x40) | 59 07 [count] |
-| TC-06.3 | Count Low Severity (0x20) | 59 07 [count] |
+| NRC | Description | Test Cases |
+|-----|-------------|------------|
+| **0x12** | SubfunctionNotSupported | TC-14.1 to TC-14.4 |
+| **0x13** | IncorrectMessageLength | TC-13.1 to TC-13.5, TC-26.4, TC-26.5 |
+| **0x22** | ConditionsNotCorrect | TC-12.1, TC-19.1 |
+| **0x31** | RequestOutOfRange | TC-04.4, TC-26.1 to TC-26.3 |
 
 ---
 
-### TC-07: Subfunction 0x08 - Report DTC by Severity Mask
+## Service Interaction Coverage
 
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-07.1 | Read High Severity DTCs | 59 08 [Severity] [DTC] [Status] |
-| TC-07.2 | Read Medium + Confirmed | 59 08 [Severity] [DTC] [Status] |
-
----
-
-### TC-08: Subfunction 0x09 - Report Severity Information
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-08.1 | Get Severity for 0x010101 | 59 09 [Severity] [DTC] [Status] |
-| TC-08.2 | Get Severity for P0300 | 59 09 [Severity] [DTC] [Status] |
+| Service | Interaction | Test Cases |
+|---------|-------------|------------|
+| **SID 0x10** | Session Control | All SETUP steps |
+| **SID 0x14** | Clear DTCs | TC-16, TC-21.6 |
+| **SID 0x3E** | Tester Present | TC-20.2, TC-20.4 |
 
 ---
 
-### TC-09: Subfunction 0x0A - Report Supported DTCs
+## Status Mask Coverage
 
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-09.1 | Get ALL Supported DTCs | 59 0A [Mask] [DTCs...] |
-
----
-
-### TC-10: Subfunctions 0x0B-0x0E - First/Most Recent
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-10.1 | SF 0x0B - First Test Failed | 59 0B [DTC] [Status] |
-| TC-10.2 | SF 0x0C - First Confirmed | 59 0C [DTC] [Status] |
-| TC-10.3 | SF 0x0D - Most Recent Failed | 59 0D [DTC] [Status] |
-| TC-10.4 | SF 0x0E - Most Recent Confirmed | 59 0E [DTC] [Status] |
-
----
-
-### TC-11: Subfunction 0x0F - Mirror Memory (Extended Session)
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-11.1 | Enter Extended Session | 50 03 [timing] |
-| TC-11.2 | SF 0x0F in Extended | 59 0F [DTCs+Status] |
-
----
-
-### TC-12: Session Restriction Tests
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-12.1 | SF 0x0F in Default Session | 7F 19 22 (Conditions Not Correct) |
-
----
-
-### TC-13: Message Length Validation (NRC 0x13)
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-13.1 | SF 0x01 - Missing Status Mask | 7F 19 13 |
-| TC-13.2 | SF 0x02 - Missing Status Mask | 7F 19 13 |
-| TC-13.3 | SF 0x04 - Incomplete DTC (2 bytes) | 7F 19 13 |
-| TC-13.4 | SF 0x04 - Missing Record Number | 7F 19 13 |
-| TC-13.5 | SF 0x06 - Incomplete DTC | 7F 19 13 |
-
----
-
-### TC-14: Invalid Subfunction Tests (NRC 0x12)
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-14.1 | Subfunction 0x00 | 7F 19 12 |
-| TC-14.2 | Subfunction 0x20 | 7F 19 12 |
-| TC-14.3 | Subfunction 0xFF | 7F 19 12 |
-| TC-14.4 | Subfunction 0x63 | 7F 19 12 |
-
----
-
-### TC-15: Session Compatibility Tests
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-15.1 | SF 0x01 in Default | 59 01 [response] ✓ |
-| TC-15.3 | SF 0x01 in Extended | 59 01 [response] ✓ |
-| TC-15.5 | SF 0x01 in Programming | May be restricted |
-
----
-
-### TC-16: Clear and Verify Integration
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-16.1 | Count DTCs Before Clear | 59 01 [count > 0] |
-| TC-16.2 | Clear All DTCs (SID 0x14) | 54 |
-| TC-16.3 | Count After Clear | 59 01 FF 01 00 00 |
-| TC-16.4 | Read DTCs After Clear | 59 02 FF (empty) |
-
----
-
-### TC-17: Suppress Positive Response (SPR) Tests
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-17.1 | SF 0x01 + SPR (0x81) | No response (suppressed) |
-| TC-17.2 | SF 0x02 + SPR (0x82) | No response (suppressed) |
-| TC-17.3 | SF 0x0A + SPR (0x8A) | No response (suppressed) |
-
----
-
-### TC-18: Stress Tests
-
-| Test ID | Description | Expected Result |
-|---------|-------------|-----------------|
-| TC-18.1-4 | 4 Rapid Requests (100ms apart) | All valid responses |
-
----
-
-## NRC Summary
-
-| NRC | Name | Triggering Condition |
-|-----|------|---------------------|
-| 0x12 | subFunctionNotSupported | Invalid subfunction value |
-| 0x13 | incorrectMessageLengthOrInvalidFormat | Missing parameters |
-| 0x22 | conditionsNotCorrect | Wrong session for subfunction |
-| 0x31 | requestOutOfRange | Invalid DTC number |
+| Mask | Bit(s) | Description | Test Cases |
+|------|--------|-------------|------------|
+| 0xFF | All | All statuses | TC-01.1, TC-02.1, TC-24.1 |
+| 0x08 | Bit 3 | Confirmed | TC-01.2, TC-02.2 |
+| 0x04 | Bit 2 | Pending | TC-01.3, TC-02.3, TC-22.1 |
+| 0x01 | Bit 0 | Test Failed | TC-01.4 |
+| 0x80 | Bit 7 | MIL Active | TC-01.5, TC-02.5 |
+| 0x09 | Bits 0+3 | Failed+Confirmed | TC-02.4 |
+| 0x0C | Bits 2+3 | Pending+Confirmed | TC-22.3 |
+| 0x40 | Bit 6 | TFTOC | TC-22.4 |
+| 0x49 | Complex | TF+TFTOC+Confirmed | TC-25.1 |
+| 0x19 | Complex | TF+Confirmed+WIR | TC-25.2 |
 
 ---
 
 ## Usage
 
-```
-1. Import SID19_TestCases.json via the Import button
-2. Click "Run Scenario" to execute all tests
-3. Export results as SID19_TestCases_report.json
-4. Review pass/fail rates and NRC handling
-```
+1. Import `SID19_TestCases.json` into the UDS Simulator
+2. Run the complete test suite
+3. Export the test report
+4. Validate results against expected behaviors
 
 ---
 
-**End of Document**
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | 2025-12-05 | Initial release with 80 tests |
+| 2.0.0 | 2025-12-12 | Automotive-grade enhancement (+48 tests) |
