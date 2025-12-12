@@ -106,7 +106,7 @@ const mockDataIdentifiers: DataIdentifier[] = [
     unit: 'V',
     format: 'dec',
     requiredSession: [DiagnosticSessionType.EXTENDED], // Runtime data - EXTENDED session only
-    requiredSecurity: 0, // No security needed
+    requiredSecurity: 1, // Protected - requires security unlock
   },
   {
     id: 0x0110,

@@ -1,0 +1,3212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)file:///C:/Users/sudul/Downloads/terminal_report_1765516025771_analysis_1765516031781.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Output Report (12/12/2025, 10:37:05 AM) - UDS Test Report</title>
+    <style>
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { margin-bottom: 3rem; text-align: center; }
+        h1 { font-size: 2.5rem; color: #00f3ff; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.1rem; color: #94a3b8; margin-bottom: 1rem; }
+        .metadata { display: flex; gap: 2rem; justify-content: center; font-size: 0.9rem; color: #64748b; }
+        
+        h2 { font-size: 1.8rem; color: #00f3ff; margin-bottom: 1.5rem; }
+        
+        section { 
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-grid { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card.success { border-color: rgba(16, 185, 129, 0.5); }
+        .stat-card.error { border-color: rgba(239, 68, 68, 0.5); }
+        .stat-value { 
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00f3ff;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card.success .stat-value { color: #10b981; }
+        .stat-card.error .stat-value { color: #ef4444; }
+        .stat-label { color: #94a3b8; font-size: 0.9rem; }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .data-table th {
+            background: rgba(0, 243, 255, 0.1);
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+            color: #00f3ff;
+        }
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        .data-table tr:hover { background: rgba(0, 243, 255, 0.05); }
+        .data-table tr.success { border-left: 3px solid #10b981; }
+        .data-table tr.error { border-left: 3px solid #ef4444; }
+        
+        code { 
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00f3ff;
+        }
+        
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            height: 8px;
+            overflow: hidden;
+            display: inline-block;
+            width: 100px;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .percentage { font-size: 0.9rem; color: #94a3b8; }
+        
+        .severity {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .severity.info { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .severity.warning { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .severity.error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .severity.critical { background: rgba(220, 38, 38, 0.2); color: #dc2626; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status-badge.success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .status-badge.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        .timeline-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid #64748b;
+        }
+        .timeline-item.success { border-left-color: #10b981; }
+        .timeline-item.error { border-left-color: #ef4444; }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #64748b;
+            flex-shrink: 0;
+        }
+        .timeline-item.success .timeline-dot { background: #10b981; }
+        .timeline-item.error .timeline-dot { background: #ef4444; }
+        .timeline-content { flex: 1; }
+        .timeline-description { color: #e2e8f0; margin-bottom: 0.25rem; }
+        .timeline-time { font-size: 0.85rem; color: #64748b; }
+        .timeline-status {
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .timeline-item.success .timeline-status { color: #10b981; }
+        .timeline-item.error .timeline-status { color: #ef4444; }
+        
+        .table-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .table-controls input,
+        .table-controls select {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .table-controls input { flex: 1; }
+        .table-controls input:focus,
+        .table-controls select:focus {
+            outline: 2px solid #00f3ff;
+            border-color: #00f3ff;
+        }
+        
+        .table-wrapper { overflow-x: auto; }
+        .description { max-width: 400px; }
+        .no-data { text-align: center; color: #64748b; padding: 2rem; }
+        .note { color: #64748b; font-size: 0.9rem; margin-top: 1rem; text-align: center; }
+        
+        @media print {
+            body { background: white; color: black; }
+            section { border: 1px solid #ccc; background: white; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Terminal Output Report (12/12/2025, 10:37:05 AM)</h1>
+            <p class="subtitle">Generated from current terminal session with 220 requests</p>
+            <div class="metadata">
+                <span>Report ID: terminal_report_1765516025771</span>
+                <span>Version: 1.0.0</span>
+                <span>Generated: 12/12/2025, 10:37:11 AM</span>
+            </div>
+        </header>
+
+        
+        <section class="summary-section">
+            <h2>Test Summary</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">220</div>
+                    <div class="stat-label">Total Requests</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value">202</div>
+                    <div class="stat-label">Successful</div>
+                </div>
+                <div class="stat-card error">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">NRC Errors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">91.8%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8587h 46m</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="nrc-section">
+            <h2>NRC Analysis</h2>
+            <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td><code>0x22</code></td>
+                    <td>Conditions Not Correct</td>
+                    <td>4</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 22.22222222222222%"></div>
+                        </div>
+                        <span class="percentage">22.2%</span>
+                    </td>
+                    <td><span class="severity warning">warning</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x12</code></td>
+                    <td>Sub-Function Not Supported</td>
+                    <td>4</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 22.22222222222222%"></div>
+                        </div>
+                        <span class="percentage">22.2%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x31</code></td>
+                    <td>Request Out of Range</td>
+                    <td>4</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 22.22222222222222%"></div>
+                        </div>
+                        <span class="percentage">22.2%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x13</code></td>
+                    <td>Incorrect Message Length</td>
+                    <td>3</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 16.666666666666664%"></div>
+                        </div>
+                        <span class="percentage">16.7%</span>
+                    </td>
+                    <td><span class="severity error">error</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x35</code></td>
+                    <td>Invalid Key</td>
+                    <td>2</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 11.11111111111111%"></div>
+                        </div>
+                        <span class="percentage">11.1%</span>
+                    </td>
+                    <td><span class="severity critical">critical</span></td>
+                </tr>
+                <tr>
+                    <td><code>0x37</code></td>
+                    <td>Required Time Delay Not Expired</td>
+                    <td>1</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5.555555555555555%"></div>
+                        </div>
+                        <span class="percentage">5.6%</span>
+                    </td>
+                    <td><span class="severity warning">warning</span></td>
+                </tr>
+                    </tbody>
+                </table>
+        </section>
+        
+        <section class="timeline-section">
+            <h2>Test Timeline</h2>
+            <div class="timeline-container">
+                
+                <div class="timeline-item success" title="[SETUP] Reset to Default Session">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Reset to Default Session</div>
+                        <div class="timeline-time">2:50:00 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-01: Request in DEFAULT Session - Expect NRC 0x22 (Conditions Not Correct) (NRC: 0x22)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-01: Request in DEFAULT Session - Expect NRC 0x22 (Conditions Not Correct)</div>
+                        <div class="timeline-time">2:50:01 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Enter PROGRAMMING Session for TC-02">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Enter PROGRAMMING Session for TC-02</div>
+                        <div class="timeline-time">2:50:02 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-02: Request in PROGRAMMING Session - Expect NRC 0x22 (Conditions Not Correct) (NRC: 0x22)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-02: Request in PROGRAMMING Session - Expect NRC 0x22 (Conditions Not Correct)</div>
+                        <div class="timeline-time">2:50:03 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Enter EXTENDED Session for TC-03">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Enter EXTENDED Session for TC-03</div>
+                        <div class="timeline-time">2:50:04 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-03: Request in EXTENDED Session - Expect Positive Response (0x6A)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03: Request in EXTENDED Session - Expect Positive Response (0x6A)</div>
+                        <div class="timeline-time">2:50:05 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:20 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:20 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-03.1: Stop All Transmissions (cleanup)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-03.1: Stop All Transmissions (cleanup)</div>
+                        <div class="timeline-time">2:50:06 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04: Start Periodic TX before session change">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04: Start Periodic TX before session change</div>
+                        <div class="timeline-time">2:50:07 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:22 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:23 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:24 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-04.1: Change to DEFAULT Session - Periodic TX should stop">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-04.1: Change to DEFAULT Session - Periodic TX should stop</div>
+                        <div class="timeline-time">2:50:08 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Return to EXTENDED for TC-05">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Return to EXTENDED for TC-05</div>
+                        <div class="timeline-time">2:50:09 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05: Start Periodic TX before session change to PROGRAMMING">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05: Start Periodic TX before session change to PROGRAMMING</div>
+                        <div class="timeline-time">2:50:10 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:29 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:30 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:31 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:32 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-05.1: Change to PROGRAMMING Session - Periodic TX should stop">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-05.1: Change to PROGRAMMING Session - Periodic TX should stop</div>
+                        <div class="timeline-time">2:50:11 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="[SETUP] Enter EXTENDED Session for Transmission Mode Tests">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">[SETUP] Enter EXTENDED Session for Transmission Mode Tests</div>
+                        <div class="timeline-time">2:50:20 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-10: Mode 0x00 (Reserved) - Expect NRC 0x12 (Sub-Function Not Supported) (NRC: 0x13)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-10: Mode 0x00 (Reserved) - Expect NRC 0x12 (Sub-Function Not Supported)</div>
+                        <div class="timeline-time">2:50:21 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="TC-11: Mode 0x01 (Slow Rate) with PDID 0x01 - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-11: Mode 0x01 (Slow Rate) with PDID 0x01 - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:22 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:39 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:40 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:41 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-11.1: Stop All (cleanup)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-11.1: Stop All (cleanup)</div>
+                        <div class="timeline-time">2:50:23 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-12: Mode 0x02 (Medium Rate) with PDID 0x01 - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-12: Mode 0x02 (Medium Rate) with PDID 0x01 - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:24 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:44 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:45 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-12.1: Stop All (cleanup)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-12.1: Stop All (cleanup)</div>
+                        <div class="timeline-time">2:50:25 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-13: Mode 0x03 (Fast Rate) with PDID 0x01 - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-13: Mode 0x03 (Fast Rate) with PDID 0x01 - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:26 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:49 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:34:50 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-14: Mode 0x04 (Stop Sending) - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-14: Mode 0x04 (Stop Sending) - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:27 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item error" title="TC-15: Mode 0x05 (Invalid) - Expect NRC 0x12 (NRC: 0x12)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-15: Mode 0x05 (Invalid) - Expect NRC 0x12</div>
+                        <div class="timeline-time">2:50:28 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-16: Mode 0x7F (Max without suppress bit) - Expect NRC 0x12 (NRC: 0x12)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-16: Mode 0x7F (Max without suppress bit) - Expect NRC 0x12</div>
+                        <div class="timeline-time">2:50:29 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-17: Mode 0xFF (Max value) - Expect NRC 0x12 (NRC: 0x12)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-17: Mode 0xFF (Max value) - Expect NRC 0x12</div>
+                        <div class="timeline-time">2:50:30 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-20: Missing Sub-function (only SID) - Expect NRC 0x13 (Incorrect Message Length) (NRC: 0x13)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-20: Missing Sub-function (only SID) - Expect NRC 0x13 (Incorrect Message Length)</div>
+                        <div class="timeline-time">2:50:40 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item error" title="TC-21: Mode 0x02 without PDID - Expect NRC 0x13 (Incorrect Message Length) (NRC: 0x13)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-21: Mode 0x02 without PDID - Expect NRC 0x13 (Incorrect Message Length)</div>
+                        <div class="timeline-time">2:50:41 PM</div>
+                    </div>
+                    <div class="timeline-status">✗</div>
+                </div>
+                <div class="timeline-item success" title="TC-22: Mode 0x04 alone (Stop All - no PDID required) - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-22: Mode 0x04 alone (Stop All - no PDID required) - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:42 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-24: Single PDID request (minimal valid) - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-24: Single PDID request (minimal valid) - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:43 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:35:06 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:35:07 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-24.1: Stop All (cleanup)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-24.1: Stop All (cleanup)</div>
+                        <div class="timeline-time">2:50:44 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-30: Valid PDID 0x01 (Engine RPM) - Expect Positive Response">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-30: Valid PDID 0x01 (Engine RPM) - Expect Positive Response</div>
+                        <div class="timeline-time">2:50:50 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:35:10 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description"></div>
+                        <div class="timeline-time">10:35:11 AM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+                <div class="timeline-item success" title="TC-30.1: Stop All">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-description">TC-30.1: Stop All</div>
+                        <div class="timeline-time">2:50:51 PM</div>
+                    </div>
+                    <div class="timeline-status">✓</div>
+                </div>
+            </div>
+            <p class="note">Showing first 50 items. See detailed log for complete timeline.</p>
+        </section>
+        
+        <section class="log-section">
+            <h2>Detailed Test Log</h2>
+            <div class="table-controls">
+                <input type="text" id="filterInput" placeholder="Filter by description...">
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="success">Success Only</option>
+                    <option value="error">NRC Only</option>
+                </select>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table" id="logTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Time</th>
+                            <th>SID</th>
+                            <th>Sub-Func</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Request Data</th>
+                            <th>Response Data</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr class="success">
+                    <td>1</td>
+                    <td>2:50:00 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[SETUP] Reset to Default Session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30915855252ms</td>
+                </tr>
+                <tr class="error">
+                    <td>2</td>
+                    <td>2:50:01 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-01: Request in DEFAULT Session - Expect NRC 0x22 (Conditions Not Correct)</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 22</code></td>
+                    <td>30915855260ms</td>
+                </tr>
+                <tr class="success">
+                    <td>3</td>
+                    <td>2:50:02 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">[SETUP] Enter PROGRAMMING Session for TC-02</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30915855266ms</td>
+                </tr>
+                <tr class="error">
+                    <td>4</td>
+                    <td>2:50:03 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-02: Request in PROGRAMMING Session - Expect NRC 0x22 (Conditions Not Correct)</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 22</code></td>
+                    <td>30915855267ms</td>
+                </tr>
+                <tr class="success">
+                    <td>5</td>
+                    <td>2:50:04 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] Enter EXTENDED Session for TC-03</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915855280ms</td>
+                </tr>
+                <tr class="success">
+                    <td>6</td>
+                    <td>2:50:05 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-03: Request in EXTENDED Session - Expect Positive Response (0x6A)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915855289ms</td>
+                </tr>
+                <tr class="success">
+                    <td>7</td>
+                    <td>10:34:20 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>8</td>
+                    <td>10:34:20 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>9</td>
+                    <td>2:50:06 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-03.1: Stop All Transmissions (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915855294ms</td>
+                </tr>
+                <tr class="success">
+                    <td>10</td>
+                    <td>2:50:07 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-04: Start Periodic TX before session change</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915855308ms</td>
+                </tr>
+                <tr class="success">
+                    <td>11</td>
+                    <td>10:34:22 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>12</td>
+                    <td>10:34:23 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>13</td>
+                    <td>10:34:24 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>14</td>
+                    <td>2:50:08 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-04.1: Change to DEFAULT Session - Periodic TX should stop</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30915856021ms</td>
+                </tr>
+                <tr class="success">
+                    <td>15</td>
+                    <td>2:50:09 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] Return to EXTENDED for TC-05</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915857024ms</td>
+                </tr>
+                <tr class="success">
+                    <td>16</td>
+                    <td>2:50:10 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-05: Start Periodic TX before session change to PROGRAMMING</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859032ms</td>
+                </tr>
+                <tr class="success">
+                    <td>17</td>
+                    <td>10:34:29 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>18</td>
+                    <td>10:34:30 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>19</td>
+                    <td>10:34:31 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>20</td>
+                    <td>10:34:32 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>21</td>
+                    <td>2:50:11 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-05.1: Change to PROGRAMMING Session - Periodic TX should stop</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 02 00 32 01 F4</code></td>
+                    <td>30915861023ms</td>
+                </tr>
+                <tr class="success">
+                    <td>22</td>
+                    <td>2:50:20 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] Enter EXTENDED Session for Transmission Mode Tests</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915854030ms</td>
+                </tr>
+                <tr class="error">
+                    <td>23</td>
+                    <td>2:50:21 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x00</td>
+                    <td class="description">TC-10: Mode 0x00 (Reserved) - Expect NRC 0x12 (Sub-Function Not Supported)</td>
+                    <td><span class="status-badge error">NRC 0x13</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 13</code></td>
+                    <td>30915855026ms</td>
+                </tr>
+                <tr class="success">
+                    <td>24</td>
+                    <td>2:50:22 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-11: Mode 0x01 (Slow Rate) with PDID 0x01 - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915857017ms</td>
+                </tr>
+                <tr class="success">
+                    <td>25</td>
+                    <td>10:34:39 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>26</td>
+                    <td>10:34:40 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>27</td>
+                    <td>10:34:41 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>28</td>
+                    <td>2:50:23 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-11.1: Stop All (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915858049ms</td>
+                </tr>
+                <tr class="success">
+                    <td>29</td>
+                    <td>2:50:24 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-12: Mode 0x02 (Medium Rate) with PDID 0x01 - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859023ms</td>
+                </tr>
+                <tr class="success">
+                    <td>30</td>
+                    <td>10:34:44 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>31</td>
+                    <td>10:34:45 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>32</td>
+                    <td>2:50:25 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-12.1: Stop All (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915861030ms</td>
+                </tr>
+                <tr class="success">
+                    <td>33</td>
+                    <td>2:50:26 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x03</td>
+                    <td class="description">TC-13: Mode 0x03 (Fast Rate) with PDID 0x01 - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915862023ms</td>
+                </tr>
+                <tr class="success">
+                    <td>34</td>
+                    <td>10:34:49 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>35</td>
+                    <td>10:34:50 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>36</td>
+                    <td>2:50:27 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-14: Mode 0x04 (Stop Sending) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915864017ms</td>
+                </tr>
+                <tr class="error">
+                    <td>37</td>
+                    <td>2:50:28 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x05</td>
+                    <td class="description">TC-15: Mode 0x05 (Invalid) - Expect NRC 0x12</td>
+                    <td><span class="status-badge error">NRC 0x12</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 12</code></td>
+                    <td>30915865028ms</td>
+                </tr>
+                <tr class="error">
+                    <td>38</td>
+                    <td>2:50:29 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x7F</td>
+                    <td class="description">TC-16: Mode 0x7F (Max without suppress bit) - Expect NRC 0x12</td>
+                    <td><span class="status-badge error">NRC 0x12</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 12</code></td>
+                    <td>30915866027ms</td>
+                </tr>
+                <tr class="error">
+                    <td>39</td>
+                    <td>2:50:30 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0xFF</td>
+                    <td class="description">TC-17: Mode 0xFF (Max value) - Expect NRC 0x12</td>
+                    <td><span class="status-badge error">NRC 0x12</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 12</code></td>
+                    <td>30915867031ms</td>
+                </tr>
+                <tr class="error">
+                    <td>40</td>
+                    <td>2:50:40 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description">TC-20: Missing Sub-function (only SID) - Expect NRC 0x13 (Incorrect Message Length)</td>
+                    <td><span class="status-badge error">NRC 0x13</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 2A 13</code></td>
+                    <td>30915859025ms</td>
+                </tr>
+                <tr class="error">
+                    <td>41</td>
+                    <td>2:50:41 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-21: Mode 0x02 without PDID - Expect NRC 0x13 (Incorrect Message Length)</td>
+                    <td><span class="status-badge error">NRC 0x13</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 2A 13</code></td>
+                    <td>30915860026ms</td>
+                </tr>
+                <tr class="success">
+                    <td>42</td>
+                    <td>2:50:42 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-22: Mode 0x04 alone (Stop All - no PDID required) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915861029ms</td>
+                </tr>
+                <tr class="success">
+                    <td>43</td>
+                    <td>2:50:43 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-24: Single PDID request (minimal valid) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915862037ms</td>
+                </tr>
+                <tr class="success">
+                    <td>44</td>
+                    <td>10:35:06 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>45</td>
+                    <td>10:35:07 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>46</td>
+                    <td>2:50:44 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-24.1: Stop All (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915863052ms</td>
+                </tr>
+                <tr class="success">
+                    <td>47</td>
+                    <td>2:50:50 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-30: Valid PDID 0x01 (Engine RPM) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859036ms</td>
+                </tr>
+                <tr class="success">
+                    <td>48</td>
+                    <td>10:35:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>49</td>
+                    <td>10:35:11 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>50</td>
+                    <td>2:50:51 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-30.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915860053ms</td>
+                </tr>
+                <tr class="success">
+                    <td>51</td>
+                    <td>2:50:52 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-31: Valid PDID 0x02 (Vehicle Speed) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915862022ms</td>
+                </tr>
+                <tr class="success">
+                    <td>52</td>
+                    <td>10:35:14 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>53</td>
+                    <td>10:35:15 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>54</td>
+                    <td>10:35:16 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>55</td>
+                    <td>2:50:53 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-31.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915863056ms</td>
+                </tr>
+                <tr class="success">
+                    <td>56</td>
+                    <td>2:50:54 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-32: Valid PDID 0x03 (Coolant Temp) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915865027ms</td>
+                </tr>
+                <tr class="success">
+                    <td>57</td>
+                    <td>10:35:19 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>58</td>
+                    <td>10:35:19 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>59</td>
+                    <td>10:35:20 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>60</td>
+                    <td>2:50:55 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-32.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915865849ms</td>
+                </tr>
+                <tr class="success">
+                    <td>61</td>
+                    <td>2:50:56 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-33: Valid PDID 0x04 (MAF) - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>04</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915865918ms</td>
+                </tr>
+                <tr class="success">
+                    <td>62</td>
+                    <td>10:35:21 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>04</code></td>
+                    <td><code>6A 04 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>63</td>
+                    <td>10:35:22 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>04</code></td>
+                    <td><code>6A 04 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>64</td>
+                    <td>2:50:57 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-33.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915865976ms</td>
+                </tr>
+                <tr class="error">
+                    <td>65</td>
+                    <td>2:50:58 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-34: Invalid PDID 0x00 - Expect NRC 0x31 (Request Out Of Range)</td>
+                    <td><span class="status-badge error">NRC 0x31</span></td>
+                    <td><code>00</code></td>
+                    <td><code>7F 2A 31</code></td>
+                    <td>30915866081ms</td>
+                </tr>
+                <tr class="error">
+                    <td>66</td>
+                    <td>2:50:59 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-35: Invalid PDID 0x99 - Expect NRC 0x31 (Request Out Of Range)</td>
+                    <td><span class="status-badge error">NRC 0x31</span></td>
+                    <td><code>99</code></td>
+                    <td><code>7F 2A 31</code></td>
+                    <td>30915866140ms</td>
+                </tr>
+                <tr class="error">
+                    <td>67</td>
+                    <td>2:51:00 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-36: Invalid PDID 0xFF - Expect NRC 0x31 (Request Out Of Range)</td>
+                    <td><span class="status-badge error">NRC 0x31</span></td>
+                    <td><code>FF</code></td>
+                    <td><code>7F 2A 31</code></td>
+                    <td>30915866226ms</td>
+                </tr>
+                <tr class="success">
+                    <td>68</td>
+                    <td>2:51:01 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-37: Multiple valid PDIDs (0x01, 0x02, 0x03) in single request - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 02 03</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915866306ms</td>
+                </tr>
+                <tr class="success">
+                    <td>69</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>70</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>71</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>72</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>73</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>74</td>
+                    <td>10:35:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>75</td>
+                    <td>10:35:28 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>76</td>
+                    <td>10:35:28 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>77</td>
+                    <td>10:35:28 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>78</td>
+                    <td>2:51:02 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-37.1: Stop All (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915866378ms</td>
+                </tr>
+                <tr class="success">
+                    <td>79</td>
+                    <td>2:51:10 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-40: Protected PDID 0x0A while LOCKED - Expect NRC 0x33 (Security Access Denied)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859479ms</td>
+                </tr>
+                <tr class="success">
+                    <td>80</td>
+                    <td>10:35:29 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>81</td>
+                    <td>10:35:30 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>82</td>
+                    <td>2:51:11 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-41: Security Access - Request Seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30915859541ms</td>
+                </tr>
+                <tr class="success">
+                    <td>83</td>
+                    <td>10:35:30 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>84</td>
+                    <td>10:35:31 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>85</td>
+                    <td>10:35:31 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="error">
+                    <td>86</td>
+                    <td>2:51:12 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-42: Security Access - Send Key (simulated)</td>
+                    <td><span class="status-badge error">NRC 0x35</span></td>
+                    <td><code>11 22 33 44</code></td>
+                    <td><code>7F 27 35</code></td>
+                    <td>30915859619ms</td>
+                </tr>
+                <tr class="success">
+                    <td>87</td>
+                    <td>10:35:32 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>88</td>
+                    <td>10:35:32 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>89</td>
+                    <td>2:51:13 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-43: Protected PDID 0x0A while UNLOCKED - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859742ms</td>
+                </tr>
+                <tr class="success">
+                    <td>90</td>
+                    <td>10:35:32 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>91</td>
+                    <td>10:35:33 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>92</td>
+                    <td>10:35:33 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>93</td>
+                    <td>2:51:14 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-43.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915859888ms</td>
+                </tr>
+                <tr class="success">
+                    <td>94</td>
+                    <td>2:51:15 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] Re-enter EXTENDED (re-locks security) for TC-44</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915859978ms</td>
+                </tr>
+                <tr class="success">
+                    <td>95</td>
+                    <td>2:51:16 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-44: Mix of public (0x01) + protected (0x0A) while locked - Expect NRC 0x33</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915860085ms</td>
+                </tr>
+                <tr class="success">
+                    <td>96</td>
+                    <td>10:35:36 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>97</td>
+                    <td>10:35:36 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>98</td>
+                    <td>10:35:36 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>99</td>
+                    <td>10:35:36 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="error">
+                    <td>100</td>
+                    <td>2:51:17 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-45.1: Unlock - Request Seed</td>
+                    <td><span class="status-badge error">NRC 0x37</span></td>
+                    <td><code>-</code></td>
+                    <td><code>7F 27 37</code></td>
+                    <td>30915860167ms</td>
+                </tr>
+                <tr class="success">
+                    <td>101</td>
+                    <td>10:35:37 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>102</td>
+                    <td>10:35:37 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>103</td>
+                    <td>10:35:37 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>104</td>
+                    <td>10:35:37 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="error">
+                    <td>105</td>
+                    <td>2:51:18 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-45.2: Unlock - Send Key</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>11 22 33 44</code></td>
+                    <td><code>7F 27 22</code></td>
+                    <td>30915860278ms</td>
+                </tr>
+                <tr class="success">
+                    <td>106</td>
+                    <td>10:35:38 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>107</td>
+                    <td>10:35:38 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>108</td>
+                    <td>10:35:38 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>109</td>
+                    <td>10:35:38 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>110</td>
+                    <td>2:51:19 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-45: Mix of public (0x01) + protected (0x0A) while unlocked - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01 0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915860403ms</td>
+                </tr>
+                <tr class="success">
+                    <td>111</td>
+                    <td>10:35:39 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>112</td>
+                    <td>10:35:39 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>113</td>
+                    <td>10:35:40 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>114</td>
+                    <td>10:35:40 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>115</td>
+                    <td>2:51:20 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-45.3: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915860507ms</td>
+                </tr>
+                <tr class="success">
+                    <td>116</td>
+                    <td>2:51:30 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] TC-50: Enter EXTENDED Session - TesterPresent Interaction Test</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915851649ms</td>
+                </tr>
+                <tr class="success">
+                    <td>117</td>
+                    <td>2:51:31 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-50.1: Start Periodic TX (PDID 0x01)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915851861ms</td>
+                </tr>
+                <tr class="success">
+                    <td>118</td>
+                    <td>10:35:42 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>119</td>
+                    <td>10:35:43 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>120</td>
+                    <td>2:51:33 PM</td>
+                    <td><code>0x3E</code></td>
+                    <td>0x80</td>
+                    <td class="description">TC-50.2: TesterPresent at T+2s (suppress response)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>-</code></td>
+                    <td>30915850946ms</td>
+                </tr>
+                <tr class="success">
+                    <td>121</td>
+                    <td>10:35:44 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>122</td>
+                    <td>10:35:44 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>123</td>
+                    <td>2:51:35 PM</td>
+                    <td><code>0x3E</code></td>
+                    <td>0x80</td>
+                    <td class="description">TC-51.1: TesterPresent at T+4s</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>-</code></td>
+                    <td>30915850057ms</td>
+                </tr>
+                <tr class="success">
+                    <td>124</td>
+                    <td>10:35:45 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>125</td>
+                    <td>10:35:45 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>126</td>
+                    <td>2:51:37 PM</td>
+                    <td><code>0x3E</code></td>
+                    <td>0x80</td>
+                    <td class="description">TC-51.2: TesterPresent at T+6s (session maintained)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>-</code></td>
+                    <td>30915849183ms</td>
+                </tr>
+                <tr class="success">
+                    <td>127</td>
+                    <td>10:35:46 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>128</td>
+                    <td>10:35:46 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>129</td>
+                    <td>2:51:38 PM</td>
+                    <td><code>0x22</code></td>
+                    <td>-</td>
+                    <td class="description">TC-52: Verify Session Active (Read DID F186) - Session should be maintained</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>F1 86</code></td>
+                    <td><code>62 F1 86 03</code></td>
+                    <td>30915849314ms</td>
+                </tr>
+                <tr class="success">
+                    <td>130</td>
+                    <td>10:35:47 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>131</td>
+                    <td>10:35:47 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>132</td>
+                    <td>2:51:39 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-52.1: Stop All Transmissions</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915849450ms</td>
+                </tr>
+                <tr class="success">
+                    <td>133</td>
+                    <td>2:51:50 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] TC-60: Enter EXTENDED Session - ECU Reset Interaction Test</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915839557ms</td>
+                </tr>
+                <tr class="success">
+                    <td>134</td>
+                    <td>2:51:51 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-60.1: Start Periodic TX</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915839660ms</td>
+                </tr>
+                <tr class="success">
+                    <td>135</td>
+                    <td>10:35:50 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>136</td>
+                    <td>10:35:51 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>137</td>
+                    <td>10:35:51 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>138</td>
+                    <td>2:51:52 PM</td>
+                    <td><code>0x11</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-61: ECU Hard Reset (0x11 0x01) - Aborts all periodic TX</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>51 01</code></td>
+                    <td>30915840002ms</td>
+                </tr>
+                <tr class="success">
+                    <td>139</td>
+                    <td>2:51:54 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">TC-62: Re-enter EXTENDED Session after reset</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915839118ms</td>
+                </tr>
+                <tr class="success">
+                    <td>140</td>
+                    <td>2:51:55 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-63: Re-request Periodic Data - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915839223ms</td>
+                </tr>
+                <tr class="success">
+                    <td>141</td>
+                    <td>10:35:54 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>142</td>
+                    <td>10:35:54 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>143</td>
+                    <td>2:51:56 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-63.1: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915839332ms</td>
+                </tr>
+                <tr class="success">
+                    <td>144</td>
+                    <td>2:52:00 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] TC-70: Enter EXTENDED Session - Session Control Interaction Test</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915836490ms</td>
+                </tr>
+                <tr class="success">
+                    <td>145</td>
+                    <td>2:52:01 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-70.1: Start Periodic TX in EXTENDED</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915836609ms</td>
+                </tr>
+                <tr class="success">
+                    <td>146</td>
+                    <td>10:35:57 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>147</td>
+                    <td>10:35:58 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>148</td>
+                    <td>2:52:02 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-71: Session Change to DEFAULT - TX should stop</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30915836714ms</td>
+                </tr>
+                <tr class="error">
+                    <td>149</td>
+                    <td>2:52:03 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-72: Request in DEFAULT Session - Expect NRC 0x22</td>
+                    <td><span class="status-badge error">NRC 0x22</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 22</code></td>
+                    <td>30915836837ms</td>
+                </tr>
+                <tr class="success">
+                    <td>150</td>
+                    <td>2:52:04 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">TC-73: Return to EXTENDED Session</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915836948ms</td>
+                </tr>
+                <tr class="success">
+                    <td>151</td>
+                    <td>2:52:05 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-74: Re-request Periodic Data - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915837066ms</td>
+                </tr>
+                <tr class="success">
+                    <td>152</td>
+                    <td>10:36:02 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>153</td>
+                    <td>10:36:02 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>154</td>
+                    <td>10:36:03 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>155</td>
+                    <td>2:52:06 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-75.1: Stop All Transmissions</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915837225ms</td>
+                </tr>
+                <tr class="success">
+                    <td>156</td>
+                    <td>2:52:07 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-75.2: Return to DEFAULT Session (cleanup)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30915837357ms</td>
+                </tr>
+                <tr class="success">
+                    <td>157</td>
+                    <td>2:52:20 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] TC-80: Enter EXTENDED Session - Multiple Rate Monitoring Test</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915825480ms</td>
+                </tr>
+                <tr class="success">
+                    <td>158</td>
+                    <td>2:52:21 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-80: Request PDID 0x01 at Slow Rate (0x01)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915825597ms</td>
+                </tr>
+                <tr class="success">
+                    <td>159</td>
+                    <td>10:36:06 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>160</td>
+                    <td>2:52:22 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-81: Request PDID 0x02 at Medium Rate (0x02)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915825733ms</td>
+                </tr>
+                <tr class="success">
+                    <td>161</td>
+                    <td>10:36:07 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>162</td>
+                    <td>10:36:07 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>163</td>
+                    <td>10:36:08 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>164</td>
+                    <td>2:52:23 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x03</td>
+                    <td class="description">TC-82: Request PDID 0x03 at Fast Rate (0x03)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915825855ms</td>
+                </tr>
+                <tr class="success">
+                    <td>165</td>
+                    <td>10:36:08 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>166</td>
+                    <td>10:36:08 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>167</td>
+                    <td>10:36:08 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>168</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>169</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>170</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>171</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>172</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>173</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>174</td>
+                    <td>10:36:09 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>175</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>176</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>177</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>178</td>
+                    <td>2:52:25 PM</td>
+                    <td><code>0x22</code></td>
+                    <td>-</td>
+                    <td class="description">TC-83: Verify All Three Rates Active (Read DID F186 to confirm session)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>F1 86</code></td>
+                    <td><code>62 F1 86 03</code></td>
+                    <td>30915825092ms</td>
+                </tr>
+                <tr class="success">
+                    <td>179</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>180</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>181</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>182</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>183</td>
+                    <td>10:36:10 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>184</td>
+                    <td>10:36:11 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>185</td>
+                    <td>10:36:11 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>186</td>
+                    <td>10:36:11 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>02</code></td>
+                    <td><code>6A 02 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>187</td>
+                    <td>10:36:11 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>03</code></td>
+                    <td><code>6A 03 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>188</td>
+                    <td>2:52:26 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-84: Stop All Transmissions</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915825327ms</td>
+                </tr>
+                <tr class="success">
+                    <td>189</td>
+                    <td>2:52:27 PM</td>
+                    <td><code>0x22</code></td>
+                    <td>-</td>
+                    <td class="description">TC-85: Verify All Stopped (session still active via DID read)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>F1 86</code></td>
+                    <td><code>62 F1 86 03</code></td>
+                    <td>30915825517ms</td>
+                </tr>
+                <tr class="success">
+                    <td>190</td>
+                    <td>2:52:40 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x03</td>
+                    <td class="description">[SETUP] TC-90: Enter EXTENDED Session - Error Recovery Test</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 03 00 64 01 F4</code></td>
+                    <td>30915813657ms</td>
+                </tr>
+                <tr class="error">
+                    <td>191</td>
+                    <td>2:52:41 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x05</td>
+                    <td class="description">TC-90.1: Invalid Request (Mode 0x05) - Expect NRC 0x12</td>
+                    <td><span class="status-badge error">NRC 0x12</span></td>
+                    <td><code>01</code></td>
+                    <td><code>7F 2A 12</code></td>
+                    <td>30915813811ms</td>
+                </tr>
+                <tr class="success">
+                    <td>192</td>
+                    <td>2:52:42 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-90.2: Valid Request After Error - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915813957ms</td>
+                </tr>
+                <tr class="success">
+                    <td>193</td>
+                    <td>10:36:16 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>194</td>
+                    <td>10:36:16 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>195</td>
+                    <td>2:52:43 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-90.3: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915814104ms</td>
+                </tr>
+                <tr class="success">
+                    <td>196</td>
+                    <td>2:52:44 PM</td>
+                    <td><code>0x22</code></td>
+                    <td>-</td>
+                    <td class="description">TC-91: Session Survives Rejected Request (Read DID F186)</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>F1 86</code></td>
+                    <td><code>62 F1 86 03</code></td>
+                    <td>30915814261ms</td>
+                </tr>
+                <tr class="error">
+                    <td>197</td>
+                    <td>2:52:45 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-92.1: Wrong PDID 0x99 - Expect NRC 0x31</td>
+                    <td><span class="status-badge error">NRC 0x31</span></td>
+                    <td><code>99</code></td>
+                    <td><code>7F 2A 31</code></td>
+                    <td>30915814420ms</td>
+                </tr>
+                <tr class="success">
+                    <td>198</td>
+                    <td>2:52:46 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-92.2: Correct PDID 0x01 after error - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915814592ms</td>
+                </tr>
+                <tr class="success">
+                    <td>199</td>
+                    <td>10:36:20 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>200</td>
+                    <td>10:36:21 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>201</td>
+                    <td>2:52:47 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-92.3: Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915814752ms</td>
+                </tr>
+                <tr class="success">
+                    <td>202</td>
+                    <td>2:52:48 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-93.1: Protected PDID 0x0A while locked - Expect NRC 0x33</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915814953ms</td>
+                </tr>
+                <tr class="success">
+                    <td>203</td>
+                    <td>10:36:23 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>204</td>
+                    <td>10:36:23 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>205</td>
+                    <td>2:52:49 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x01</td>
+                    <td class="description">TC-93.2: Unlock - Request Seed</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>67 01 12 34 56 78</code></td>
+                    <td>30915815155ms</td>
+                </tr>
+                <tr class="success">
+                    <td>206</td>
+                    <td>10:36:24 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>207</td>
+                    <td>10:36:24 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="error">
+                    <td>208</td>
+                    <td>2:52:50 PM</td>
+                    <td><code>0x27</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-93.3: Unlock - Send Key</td>
+                    <td><span class="status-badge error">NRC 0x35</span></td>
+                    <td><code>11 22 33 44</code></td>
+                    <td><code>7F 27 35</code></td>
+                    <td>30915815299ms</td>
+                </tr>
+                <tr class="success">
+                    <td>209</td>
+                    <td>10:36:25 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>210</td>
+                    <td>10:36:25 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>211</td>
+                    <td>2:52:51 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-93.4: Protected PDID 0x0A now works - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915815468ms</td>
+                </tr>
+                <tr class="success">
+                    <td>212</td>
+                    <td>10:36:26 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>213</td>
+                    <td>10:36:27 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>0A</code></td>
+                    <td><code>6A 0A 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>214</td>
+                    <td>2:52:52 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-94: Scheduler Recovery - Stop All</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915815688ms</td>
+                </tr>
+                <tr class="success">
+                    <td>215</td>
+                    <td>2:52:53 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x02</td>
+                    <td class="description">TC-94.1: New Request After Stop - Expect Positive Response</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915815852ms</td>
+                </tr>
+                <tr class="success">
+                    <td>216</td>
+                    <td>10:36:29 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>217</td>
+                    <td>10:36:29 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>218</td>
+                    <td>10:36:30 AM</td>
+                    <td><code>0x2A</code></td>
+                    <td>-</td>
+                    <td class="description"></td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>01</code></td>
+                    <td><code>6A 01 00 00</code></td>
+                    <td>0ms</td>
+                </tr>
+                <tr class="success">
+                    <td>219</td>
+                    <td>2:52:54 PM</td>
+                    <td><code>0x2A</code></td>
+                    <td>0x04</td>
+                    <td class="description">TC-94.2: Final Stop</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>6A</code></td>
+                    <td>30915816055ms</td>
+                </tr>
+                <tr class="success">
+                    <td>220</td>
+                    <td>2:53:19 PM</td>
+                    <td><code>0x10</code></td>
+                    <td>0x01</td>
+                    <td class="description">[FINAL] TC-95: Reset to DEFAULT Session - Test Suite Complete</td>
+                    <td><span class="status-badge success">Success</span></td>
+                    <td><code>-</code></td>
+                    <td><code>50 01 00 32 01 F4</code></td>
+                    <td>30915792234ms</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        
+        // Filter functionality
+        const filterInput = document.getElementById('filterInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const logTable = document.getElementById('logTable');
+        
+        function filterTable() {
+            const filterText = filterInput.value.toLowerCase();
+            const statusValue = statusFilter.value;
+            const rows = logTable.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const description = row.querySelector('.description').textContent.toLowerCase();
+                const matchesText = description.includes(filterText);
+                const matchesStatus = statusValue === 'all' || row.classList.contains(statusValue);
+                
+                row.style.display = (matchesText && matchesStatus) ? '' : 'none';
+            });
+        }
+        
+        if (filterInput && statusFilter) {
+            filterInput.addEventListener('input', filterTable);
+            statusFilter.addEventListener('change', filterTable);
+        }
+    
+    </script>
+
+</body></html>

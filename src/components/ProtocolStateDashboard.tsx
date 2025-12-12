@@ -3,7 +3,7 @@ import { useUDS } from '../context/UDSContext';
 import { DiagnosticSessionType } from '../types/uds';
 
 const ProtocolStateDashboard: React.FC = () => {
-  const { protocolState, ecuPower, toggleEcuPower, voltage, current } = useUDS();
+  const { protocolState, ecuPower, toggleEcuPower, voltage, current, testerPresentState, startTesterPresent, stopTesterPresent } = useUDS();
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
 
   // Update remaining time every 100ms for smooth countdown
@@ -178,6 +178,43 @@ const ProtocolStateDashboard: React.FC = () => {
                 : 'text-amber-700 dark:text-amber-500 text-shadow-sm'
               }`}>
               {ecuPower ? (protocolState.securityUnlocked ? `Lvl ${protocolState.securityLevel}` : 'LOCKED') : '---'}
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="hidden lg:block w-px h-12 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-700 to-transparent" />
+
+        {/* Tester Present Keep-Alive */}
+        <div className="flex-1 w-full lg:w-auto flex items-center justify-center gap-4 px-4">
+          <button
+            onClick={() => {
+              if (testerPresentState.isActive) {
+                stopTesterPresent();
+              } else {
+                startTesterPresent();
+              }
+            }}
+            className={`w-12 h-12 rounded-lg flex items-center justify-center border transition-all duration-300 hover:scale-105 active:scale-95 ${testerPresentState.isActive
+              ? 'border-amber-400 dark:border-amber-500/50 bg-amber-100 dark:bg-amber-500/10 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+              : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800'
+              }`}
+          >
+            {/* Heartbeat Icon */}
+            <svg
+              className={`w-6 h-6 transition-colors duration-300 ${testerPresentState.isActive ? 'text-amber-600 dark:text-amber-400' : 'text-gray-500 dark:text-gray-400'} ${testerPresentState.isActive ? 'animate-pulse' : ''}`}
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </button>
+          <div>
+            <div className={`text-[10px] uppercase tracking-[0.2em] mb-1 ${testerPresentState.isActive ? 'text-amber-700 dark:text-amber-400' : 'text-gray-500'}`}>
+              Tester Present
+            </div>
+            <div className={`text-lg font-bold font-mono transition-all duration-300 ${testerPresentState.isActive ? 'text-amber-700 dark:text-amber-400 text-glow' : 'text-gray-500'}`}>
+              {testerPresentState.isActive ? 'ON' : 'OFF'}
             </div>
           </div>
         </div>

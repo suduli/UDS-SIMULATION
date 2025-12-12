@@ -6,6 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUDS } from '../context/UDSContext';
+import { TesterPresentToggle } from './TesterPresentToggle';
 
 // Animated Ring Indicator Component
 const RingIndicator: React.FC<{ active: boolean; color?: string }> = ({ active, color = '#10b981' }) => (
@@ -179,8 +180,8 @@ export const ECUStatusBar: React.FC = () => {
                         <button
                             onClick={toggleEcuPower}
                             className={`p-2 rounded-lg border transition-all hover:scale-105 active:scale-95 ${ecuPower
-                                    ? 'bg-emerald-500/20 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                                    : 'bg-red-500/10 border-red-500/30'
+                                ? 'bg-emerald-500/20 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
+                                : 'bg-red-500/10 border-red-500/30'
                                 }`}
                         >
                             <svg className={`w-5 h-5 ${ecuPower ? 'text-emerald-400' : 'text-red-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,16 +202,16 @@ export const ECUStatusBar: React.FC = () => {
                     {/* SYS UP/DOWN Indicator */}
                     <div className="flex items-center gap-3">
                         <div className={`relative p-2 rounded-lg border transition-all ${ecuPower
-                                ? 'bg-emerald-500/10 border-emerald-500/30'
-                                : 'bg-red-500/10 border-red-500/30'
+                            ? 'bg-emerald-500/10 border-emerald-500/30'
+                            : 'bg-red-500/10 border-red-500/30'
                             }`}>
                             <div className={`w-5 h-5 rounded-full flex items-center justify-center ${ecuPower
-                                    ? 'bg-emerald-500/30'
-                                    : 'bg-red-500/30'
+                                ? 'bg-emerald-500/30'
+                                : 'bg-red-500/30'
                                 }`}>
                                 <div className={`w-2 h-2 rounded-full ${ecuPower
-                                        ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-                                        : 'bg-red-400'
+                                    ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                                    : 'bg-red-400'
                                     }`} />
                             </div>
                             {ecuPower && (
@@ -264,6 +265,11 @@ export const ECUStatusBar: React.FC = () => {
                                 {isLocked ? 'LOCKED' : 'UNLOCKED'}
                             </span>
                         </div>
+                    </div>
+
+                    {/* TESTER PRESENT Keep-Alive */}
+                    <div className="flex items-center gap-3">
+                        <TesterPresentToggle showIntervalSelector={true} />
                     </div>
 
                     {/* COMMS Indicator */}

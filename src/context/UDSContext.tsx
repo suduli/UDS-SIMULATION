@@ -11,6 +11,9 @@ import { UDSSimulator } from '../services/UDSSimulator';
 import { parseNRC } from '../utils/nrcLookup';
 import { mockECUConfig } from '../services/mockECU';
 import { NegativeResponseCode as NegativeResponseCodeMap, ServiceId } from '../types/uds';
+import { testerPresentService } from '../services/TesterPresentService';
+import type { TesterPresentState, TesterPresentInterval, SendRequestOptions } from '../types/testerPresent';
+import { DEFAULT_TESTER_PRESENT_STATE } from '../types/testerPresent';
 import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode, ECUConfig } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
@@ -150,6 +153,12 @@ interface UDSContextType {
 
   // DTC Management for Fault Triggers
   updateDTCStatus: (dtcCode: number, isActive: boolean, vehicleState?: VehicleState) => void;
+
+  // Tester Present (0x3E) Keep-Alive
+  testerPresentState: TesterPresentState;
+  startTesterPresent: (intervalMs?: TesterPresentInterval) => void;
+  stopTesterPresent: () => void;
+  setTesterPresentInterval: (intervalMs: TesterPresentInterval) => void;
 }
 
 const UDSContext = createContext<UDSContextType | undefined>(undefined);
@@ -207,7 +216,8 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return [];
   };
 
-  const [requestHistory, setRequestHistory] = useState<Array<{ request: UDSRequest; response: UDSResponse }>>(getInitialHistory);
+  // Extended history with isAutoKeepAlive flag for Tester Present filtering
+  const [requestHistory, setRequestHistory] = useState<Array<{ request: UDSRequest; response: UDSResponse; isAutoKeepAlive?: boolean }>>(getInitialHistory);
 
   // Enhanced scenario state
   const [scenarios, setScenarios] = useState<EnhancedScenario[]>([]);
@@ -228,6 +238,9 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     servicesUsed: 0,
     activeDTCs: 0,
   });
+
+  // Tester Present (0x3E) Keep-Alive State
+  const [testerPresentState, setTesterPresentState] = useState<TesterPresentState>(DEFAULT_TESTER_PRESENT_STATE);
 
   const emitToast = useCallback((toast: ToastPayload) => {
     if (typeof window === 'undefined') return;
@@ -580,15 +593,19 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   }, [requestHistory]);
 
-  const sendRequest = useCallback(async (request: UDSRequest): Promise<UDSResponse> => {
-    // DEBUG: Log incoming request
-    console.log('[UDSContext] 📥 sendRequest called with:');
-    console.log('  - SID:', `0x${request.sid.toString(16).toUpperCase()}`);
-    console.log('  - Data:', request.data);
-    console.log('  - Data Length:', request.data?.length);
-    console.log('  - Data Type:', typeof request.data, Array.isArray(request.data) ? '(Array)' : '(Not Array)');
-    if (request.data) {
-      console.log('  - Data Bytes:', request.data.map(b => `0x${b.toString(16).toUpperCase().padStart(2, '0')}`).join(' '));
+  const sendRequest = useCallback(async (request: UDSRequest, options?: SendRequestOptions): Promise<UDSResponse> => {
+    const isAutoKeepAlive = options?.isAutoKeepAlive ?? false;
+
+    // DEBUG: Log incoming request (suppress for auto keep-alive to reduce noise)
+    if (!isAutoKeepAlive) {
+      console.log('[UDSContext] 📥 sendRequest called with:');
+      console.log('  - SID:', `0x${request.sid.toString(16).toUpperCase()}`);
+      console.log('  - Data:', request.data);
+      console.log('  - Data Length:', request.data?.length);
+      console.log('  - Data Type:', typeof request.data, Array.isArray(request.data) ? '(Array)' : '(Not Array)');
+      if (request.data) {
+        console.log('  - Data Bytes:', request.data.map(b => `0x${b.toString(16).toUpperCase().padStart(2, '0')}`).join(' '));
+      }
     }
 
     // Check for ECU Power - check powerState directly to avoid race condition
@@ -599,12 +616,14 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       const error = new Error('Request timed out - ECU is powered off');
-      emitToast({
-        type: 'error',
-        message: 'Request Timed Out',
-        description: 'No response received from ECU (Ignition OFF)',
-        duration: 5000,
-      });
+      if (!isAutoKeepAlive) {
+        emitToast({
+          type: 'error',
+          message: 'Request Timed Out',
+          description: 'No response received from ECU (Ignition OFF)',
+          duration: 5000,
+        });
+      }
       throw error;
     }
 
@@ -614,19 +633,23 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Pass voltage parameters for power condition validation (SID 11)
       const ignitionOn = powerState === 'ON' || powerState === 'CRANKING';
 
-      console.log('[UDSContext] 🔄 Passing to simulator.processRequest...');
-      console.log('  - Request data before simulator:', request.data?.length, 'bytes');
+      if (!isAutoKeepAlive) {
+        console.log('[UDSContext] 🔄 Passing to simulator.processRequest...');
+        console.log('  - Request data before simulator:', request.data?.length, 'bytes');
+      }
 
       const response = await simulator.processRequest(request, ignitionOn, voltage, systemVoltage);
 
-      console.log('[UDSContext] 📤 Received response from simulator:');
-      console.log('  - Is Negative:', response.isNegative);
-      console.log('  - Response Data:', response.data);
-      if (response.nrc) {
-        console.log('  - NRC:', `0x${response.nrc.toString(16).toUpperCase().padStart(2, '0')}`);
+      if (!isAutoKeepAlive) {
+        console.log('[UDSContext] 📤 Received response from simulator:');
+        console.log('  - Is Negative:', response.isNegative);
+        console.log('  - Response Data:', response.data);
+        if (response.nrc) {
+          console.log('  - NRC:', `0x${response.nrc.toString(16).toUpperCase().padStart(2, '0')}`);
+        }
       }
 
-      setRequestHistory(prev => [...prev, { request, response }]);
+      setRequestHistory(prev => [...prev, { request, response, isAutoKeepAlive }]);
       setProtocolState(simulator.getState());
 
       // Note: SID 11 (ECU Reset) power effects handling has been disabled
@@ -661,8 +684,8 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             });
           }
         }
-      } else if (request.sid !== 0x11) {
-        // Success Toast (Optional, but skip for ECU Reset as we have specific toasts above)
+      } else if (request.sid !== 0x11 && !isAutoKeepAlive) {
+        // Success Toast (skip for ECU Reset and auto keep-alive packets)
         if (request.sid === 0x27 && request.subFunction && request.subFunction % 2 === 0) {
           emitToast({
             type: 'success',
@@ -695,9 +718,43 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const clearHistory = useCallback(() => {
     setRequestHistory([]);
+    // Also reset TP counters when clearing history
+    testerPresentService.resetCounters();
+  }, []);
+
+  // Tester Present (0x3E) Control Functions
+  const startTesterPresent = useCallback((intervalMs?: TesterPresentInterval) => {
+    testerPresentService.start(intervalMs);
+  }, []);
+
+  const stopTesterPresent = useCallback(() => {
+    testerPresentService.stop();
+  }, []);
+
+  const setTesterPresentInterval = useCallback((intervalMs: TesterPresentInterval) => {
+    testerPresentService.setInterval(intervalMs);
+  }, []);
+
+  // Initialize Tester Present service with sendRequest callback
+  // Update callback when sendRequest changes, but only cleanup on unmount
+  React.useEffect(() => {
+    testerPresentService.initialize(
+      sendRequest,
+      (newState) => setTesterPresentState(newState)
+    );
+    // No cleanup here - we don't want to stop TP when sendRequest changes
+  }, [sendRequest]);
+
+  // Cleanup only on component unmount
+  React.useEffect(() => {
+    return () => {
+      testerPresentService.cleanup();
+    };
   }, []);
 
   const resetSimulator = useCallback(() => {
+    // Stop TP when resetting simulator
+    testerPresentService.stop();
     simulator.reset();
     setProtocolState(simulator.getState());
     setRequestHistory([]);
@@ -1442,6 +1499,12 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
         // DTC Management for Fault Triggers
         updateDTCStatus,
+
+        // Tester Present (0x3E) Keep-Alive
+        testerPresentState,
+        startTesterPresent,
+        stopTesterPresent,
+        setTesterPresentInterval,
       }}
     >
       {children}

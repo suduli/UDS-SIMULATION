@@ -193,11 +193,13 @@ export class ReportAnalyzer {
         // Build timeline
         const timeline = requests.map((request, index) => {
             const response = responses[index];
+            // Use description if available, otherwise generate from SID
+            const description = request.description || this.getSIDName(request.sid);
             return {
                 timestamp: request.timestamp,
                 isSuccess: response ? !response.isNegative : false,
                 nrc: response?.nrc,
-                description: request.description,
+                description,
                 requestIndex: index,
             };
         });
@@ -312,6 +314,9 @@ export class ReportAnalyzer {
             0x36: 'Transfer Data',
             0x37: 'Request Transfer Exit',
             0x3d: 'Write Memory By Address',
+            0x3e: 'Tester Present',
+            0x83: 'Access Timing Parameter',
+            0x85: 'Control DTC Setting',
         };
 
         return sidNames[sid] || `Service 0x${sid.toString(16).toUpperCase().padStart(2, '0')}`;

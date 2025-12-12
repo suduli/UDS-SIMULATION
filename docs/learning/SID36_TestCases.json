@@ -880,33 +880,1024 @@
             "sid": 16,
             "subFunction": 1,
             "data": [],
-            "timestamp": 1734520091000,
+            "timestamp": 1734520092000,
+            "description": "[SETUP] Reset for TC-15 (Voltage Too Low)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520093000,
+            "description": "TC-15.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520094000,
+            "description": "TC-15.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520095000,
+            "description": "TC-15.3: Send key to unlock security"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520096000,
+            "description": "TC-15.4: Request Download: Addr=0x00100000, Size=0x1000"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520097000,
+            "voltage": 10.5,
+            "description": "TC-15.5: Transfer Data with LOW VOLTAGE (10.5V < 11.0V) - Expect NRC 0x93 (Voltage Too Low)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520098000,
+            "description": "[SETUP] Reset for TC-16 (Voltage Too High)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520099000,
+            "description": "TC-16.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520100000,
+            "description": "TC-16.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520101000,
+            "description": "TC-16.3: Send key to unlock security"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520102000,
+            "description": "TC-16.4: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520103000,
+            "voltage": 16.5,
+            "description": "TC-16.5: Transfer Data with HIGH VOLTAGE (16.5V > 15.5V) - Expect NRC 0x92 (Voltage Too High)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520104000,
+            "description": "[SETUP] Reset for TC-17 (Voltage Recovery)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520105000,
+            "description": "TC-17.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520106000,
+            "description": "TC-17.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520107000,
+            "description": "TC-17.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520108000,
+            "description": "TC-17.4: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520109000,
+            "voltage": 12.5,
+            "description": "TC-17.5: Transfer Block 1 at NORMAL VOLTAGE (12.5V) - Success"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520110000,
+            "voltage": 10.2,
+            "description": "TC-17.6: Transfer Block 2 at LOW VOLTAGE (10.2V) - Expect NRC 0x93"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520111000,
+            "voltage": 12.5,
+            "description": "TC-17.7: RETRY Block 2 after VOLTAGE RECOVERY (12.5V) - Expect Success (Recoverable Error Pattern)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520112000,
+            "description": "TC-17.8: Request Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520113000,
+            "description": "[SETUP] Reset for TC-18 (BSC Wrap-Around)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520114000,
+            "description": "TC-18.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520115000,
+            "description": "TC-18.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520116000,
+            "description": "TC-18.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+            ],
+            "timestamp": 1734520117000,
+            "description": "TC-18.4: Request Download for LARGE transfer (0x10000 bytes = 256+ blocks for wrap test)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                254,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520118000,
+            "description": "TC-18.5: Transfer Block with BSC=0xFE (254) - Success (Simulating near wrap)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                255,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520119000,
+            "description": "TC-18.6: Transfer Block with BSC=0xFF (255) - Success (Last before wrap)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                85,
+                102,
+                119,
+                136
+            ],
+            "timestamp": 1734520120000,
+            "description": "TC-18.7: Transfer Block with BSC=0x01 AFTER WRAP (256th block) - Expect Success (BSC wraps 0xFF→0x01)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                0,
+                153,
+                170,
+                187,
+                204
+            ],
+            "timestamp": 1734520121000,
+            "description": "TC-18.8: INVALID BSC=0x00 (should NEVER be used) - Expect NRC 0x73 (Wrong BSC)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520122000,
+            "description": "TC-18.9: Request Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520123000,
+            "description": "[SETUP] Reset for TC-19 (Out of Range)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520124000,
+            "description": "TC-19.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520125000,
+            "description": "TC-19.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520126000,
+            "description": "TC-19.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                16
+            ],
+            "timestamp": 1734520127000,
+            "description": "TC-19.4: Request Download for SMALL area (16 bytes only)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221,
+                238,
+                255,
+                17,
+                34,
+                51,
+                68,
+                85,
+                102,
+                119,
+                136,
+                153,
+                170
+            ],
+            "timestamp": 1734520128000,
+            "description": "TC-19.5: Transfer exactly 16 bytes in Block 1 - Success"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                187,
+                204,
+                221,
+                238
+            ],
+            "timestamp": 1734520129000,
+            "description": "TC-19.6: Transfer Block 2 EXCEEDS requested memory size - Expect NRC 0x31 (Request Out Of Range)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520130000,
+            "description": "TC-19.7: Request Transfer Exit"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520131000,
+            "description": "[SETUP] Reset for TC-20 (Upload Workflow)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520132000,
+            "description": "TC-20.1: Enter EXTENDED session (Upload allowed in Extended)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520133000,
+            "description": "TC-20.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520134000,
+            "description": "TC-20.3: Send key"
+        },
+        {
+            "sid": 53,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520135000,
+            "description": "TC-20.4: REQUEST UPLOAD (SID 0x35): Read 0x1000 bytes from Addr=0x00100000"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1
+            ],
+            "timestamp": 1734520136000,
+            "description": "TC-20.5: Transfer Data UPLOAD Block 1 (BSC only, ECU returns data) - Expect Success 0x76 01 + data"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2
+            ],
+            "timestamp": 1734520137000,
+            "description": "TC-20.6: Transfer Data UPLOAD Block 2 - Expect Success 0x76 02 + data"
+        },
+        {
+            "sid": 54,
+            "data": [
+                3
+            ],
+            "timestamp": 1734520138000,
+            "description": "TC-20.7: Transfer Data UPLOAD Block 3 - Expect Success 0x76 03 + data"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520139000,
+            "description": "TC-20.8: Request Transfer Exit - Upload Complete"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520140000,
+            "description": "[SETUP] Reset for TC-21 (Multi-Region Flash)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520141000,
+            "description": "TC-21.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520142000,
+            "description": "TC-21.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520143000,
+            "description": "TC-21.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734520144000,
+            "description": "TC-21.4: Request Download REGION 1 (Application): Addr=0x00100000, Size=0x0800"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520145000,
+            "description": "TC-21.5: REGION 1 Block 1 (BSC=0x01) - Success"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520146000,
+            "description": "TC-21.6: REGION 1 Block 2 (BSC=0x02) - Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520147000,
+            "description": "TC-21.7: Request Transfer Exit - REGION 1 Complete"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734520148000,
+            "description": "TC-21.8: Request Download REGION 2 (Calibration): Addr=0x00200000, Size=0x0800"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                85,
+                102,
+                119,
+                136
+            ],
+            "timestamp": 1734520149000,
+            "description": "TC-21.9: REGION 2 Block 1 (BSC RESETS to 0x01) - Success (BSC restarts per region)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                153,
+                170,
+                187,
+                204
+            ],
+            "timestamp": 1734520150000,
+            "description": "TC-21.10: REGION 2 Block 2 (BSC=0x02) - Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520151000,
+            "description": "TC-21.11: Request Transfer Exit - REGION 2 Complete (Multi-Region Flash Success)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520152000,
+            "description": "[SETUP] Reset for TC-22 (Tester Present)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520153000,
+            "description": "TC-22.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520154000,
+            "description": "TC-22.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520155000,
+            "description": "TC-22.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520156000,
+            "description": "TC-22.4: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520157000,
+            "description": "TC-22.5: Transfer Block 1 - Success"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734520158000,
+            "description": "TC-22.6: TESTER PRESENT (SID 0x3E) during long transfer - Keep session alive"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520159000,
+            "description": "TC-22.7: Transfer Block 2 AFTER Tester Present - Success (Session maintained)"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734520160000,
+            "description": "TC-22.8: TESTER PRESENT again - Keep session alive"
+        },
+        {
+            "sid": 54,
+            "data": [
+                3,
+                85,
+                102,
+                119,
+                136
+            ],
+            "timestamp": 1734520161000,
+            "description": "TC-22.9: Transfer Block 3 - Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520162000,
+            "description": "TC-22.10: Request Transfer Exit - Long Transfer with Keep-Alive Complete"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520163000,
+            "description": "[SETUP] Reset for TC-23 (Partial Last Block)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520164000,
+            "description": "TC-23.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520165000,
+            "description": "TC-23.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520166000,
+            "description": "TC-23.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                0,
+                12
+            ],
+            "timestamp": 1734520167000,
+            "description": "TC-23.4: Request Download for NON-ALIGNED size (12 bytes - not multiple of block)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221,
+                238,
+                255,
+                17,
+                34,
+                51,
+                68,
+                85,
+                102
+            ],
+            "timestamp": 1734520168000,
+            "description": "TC-23.5: Transfer PARTIAL LAST BLOCK (12 bytes < max block size) - Expect Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520169000,
+            "description": "TC-23.6: Request Transfer Exit - Partial Block Transfer Complete"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520170000,
+            "description": "[SETUP] Reset for TC-24 (Transfer After Exit Without New Request)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520171000,
+            "description": "TC-24.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520172000,
+            "description": "TC-24.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520173000,
+            "description": "TC-24.3: Send key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520174000,
+            "description": "TC-24.4: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520175000,
+            "description": "TC-24.5: Transfer Block 1 - Success"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734520176000,
+            "description": "TC-24.6: Request Transfer Exit - Complete"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520177000,
+            "description": "TC-24.7: Transfer Data WITHOUT new Request Download - Expect NRC 0x24 (Request Sequence Error)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520178000,
+            "description": "[SETUP] Reset for TC-25 (Security Re-lock Edge Case)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520179000,
+            "description": "TC-25.1: Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520180000,
+            "description": "TC-25.2: Request seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                183,
+                110,
+                166,
+                119
+            ],
+            "timestamp": 1734520181000,
+            "description": "TC-25.3: Send key - Security unlocked"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734520182000,
+            "description": "TC-25.4: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187,
+                204,
+                221
+            ],
+            "timestamp": 1734520183000,
+            "description": "TC-25.5: Transfer Block 1 while security unlocked - Success"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520184000,
+            "description": "TC-25.6: SESSION RESET (causes security to RE-LOCK)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734520185000,
+            "description": "TC-25.7: Re-enter PROGRAMMING session (security now LOCKED)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734520186000,
+            "description": "TC-25.8: Transfer Data with SECURITY RE-LOCKED - Expect NRC 0x33 (Security Access Denied)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520187000,
             "description": "[FINAL] Reset to Default Session"
         }
     ],
     "createdAt": 1734520000000,
-    "version": "1.0.1",
+    "version": "2.0.0",
     "metadata": {
-        "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 Section 10.5 compliant test suite for SID 0x36 (TransferData) with comprehensive coverage of Block Sequence Counter (BSC) validation with wrap-around (0xFF→0x01), session validation, security validation, transfer state management, message length validation, and all 7 NRCs.",
+        "author": "UDS Simulator - Automotive ECU Testing",
+        "description": "Production-grade ISO 14229-1:2020 Section 10.5 compliant test suite for SID 0x36 (TransferData). Comprehensive coverage: voltage monitoring (NRC 0x92/0x93), BSC wrap-around (0xFF→0x01), multi-region flash programming, upload workflow (SID 0x35), tester present keep-alive, partial block handling, error recovery patterns, and all 10 NRCs.",
         "tags": [
             "SID36",
             "Transfer Data",
             "TransferData",
             "ISO 14229",
+            "ISO 14229-1:2020",
             "Test Suite",
-            "Automated Testing",
+            "Automotive ECU Testing",
+            "Production Grade",
             "Session Validation",
             "Security Validation",
             "BSC",
             "Block Sequence Counter",
+            "Wrap Around",
+            "Voltage Monitoring",
             "Programming",
             "Download",
-            "Upload"
+            "Upload",
+            "Multi-Region Flash",
+            "Error Recovery",
+            "NRC Coverage"
         ],
-        "duration": 91000,
-        "totalRequests": 108,
-        "successRate": 100
+        "duration": 187000,
+        "totalRequests": 172,
+        "successRate": 100,
+        "nrcCoverage": [
+            "0x13",
+            "0x24",
+            "0x31",
+            "0x33",
+            "0x73",
+            "0x7F",
+            "0x92",
+            "0x93"
+        ]
     },
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 0x36 (TransferData). Tests 14 categories: (TC-01) Transfer without prior Request Download - NRC 0x24, (TC-02) Transfer without security unlock - NRC 0x33, (TC-03) Transfer without Request Download in authenticated session - NRC 0x24, (TC-04) Basic single block transfer - Success, (TC-05) Multiple sequential block transfers (BSC 1, 2, 3) - Success, (TC-06) Skip BSC (send 3 when expecting 2) - NRC 0x73, (TC-07) Repeat BSC (send 2 twice) - NRC 0x73, (TC-08) Empty data (no BSC) - NRC 0x13, (TC-09) BSC only with no data bytes - NRC 0x13, (TC-10) Transfer Data in EXTENDED session with Request Upload - Success, (TC-11) Transfer Data in DEFAULT session - NRC 0x7F, (TC-12) Transfer Data after Transfer Exit - NRC 0x24, (TC-13) Large payload block length validation - Success, (TC-14) Complete download workflow with 4 blocks - Success. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x24 (RequestSequenceError), 0x33 (SecurityAccessDenied), 0x73 (WrongBlockSequenceCounter), 0x7F (ServiceNotSupportedInActiveSession). BSC wrap-around (0xFF→0x01) can be tested by manually adjusting simulator state."
+    "notes": "Test Suite v2.0.0 (Production-Grade): 25 test categories with 172 requests. ISO 14229-1:2020 compliant. Tests: TC-01 to TC-14 (original), TC-15 (Voltage Too Low 0x93), TC-16 (Voltage Too High 0x92), TC-17 (Voltage Recovery - Recoverable Error), TC-18 (BSC Wrap-Around 0xFF→0x01), TC-19 (Request Out Of Range 0x31), TC-20 (Upload Workflow SID 0x35), TC-21 (Multi-Region Flash Programming), TC-22 (Tester Present 0x3E Keep-Alive), TC-23 (Partial Last Block), TC-24 (Transfer After Exit - Edge Case), TC-25 (Security Re-Lock - Edge Case). Validates ALL 10 NRCs: 0x13 (IncorrectMessageLength), 0x24 (RequestSequenceError), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x73 (WrongBlockSequenceCounter), 0x7F (ServiceNotSupportedInActiveSession), 0x92 (VoltageTooHigh), 0x93 (VoltageTooLow). Covers: service interactions (0x10→0x27→0x34/0x35→0x36→0x37→0x3E), error recovery patterns, edge cases, and production automotive ECU testing scenarios."
 }

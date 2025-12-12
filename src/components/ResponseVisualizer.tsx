@@ -13,6 +13,7 @@ import { NRCLearningModal } from './NRCLearningModal';
 interface HistoryItem {
   request: UDSRequest;
   response: UDSResponse;
+  isAutoKeepAlive?: boolean;
 }
 
 interface PacketAnimation {
@@ -402,9 +403,13 @@ const ResponseVisualizer: React.FC = () => {
       0x2E: 'Write Data By Identifier',
       0x31: 'Routine Control',
       0x34: 'Request Download',
+      0x35: 'Request Upload',
       0x36: 'Transfer Data',
       0x37: 'Transfer Exit',
       0x3D: 'Write Memory',
+      0x3E: 'Tester Present',
+      0x83: 'Access Timing Parameter',
+      0x85: 'Control DTC Setting',
     };
     return serviceNames[sid] || `Unknown Service (0x${sid.toString(16).toUpperCase()})`;
   };
@@ -538,75 +543,87 @@ const ResponseVisualizer: React.FC = () => {
 
       {/* Terminal Content Area */}
       <div ref={containerRef} className="h-[400px] overflow-y-auto p-4 font-mono text-sm custom-scrollbar scroll-smooth">
-        {requestHistory.length === 0 ? (
-          <div className="terminal-empty-state">
-            <p className="font-mono">No active session data</p>
-            <p className="text-xs">Waiting for UDS commands...</p>
-          </div>
-        ) : (
-          <div className="space-y-1">
-            {[...requestHistory].reverse().map((item, index) => (
-              <div key={`${item.request.timestamp}-${index}`} className="animate-fade-in mb-3">
-                {/* Request Line */}
-                <div className="terminal-log-entry terminal-log-tx group">
-                  <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.request.timestamp)}]</span>
-                  <span className="text-cyan-500 font-bold mr-2">➜ TX</span>
-                  <span className="text-gray-700 dark:text-gray-300 mr-2 font-medium">{getServiceName(item.request.sid)}</span>
-                  <span className="text-cyan-600 dark:text-cyan-400 font-mono">
-                    {toHex([item.request.sid, ...(item.request.subFunction ? [item.request.subFunction] : []), ...(item.request.data || [])])}
-                  </span>
-                </div>
+        {/* Filter out auto-TP packets (only suppress successful auto-keep-alive, show errors) */}
+        {(() => {
+          const filteredHistory = requestHistory.filter(item => {
+            // Keep auto-TP failures/errors visible in terminal
+            const isAutoTP = (item as { isAutoKeepAlive?: boolean }).isAutoKeepAlive;
+            if (isAutoTP && item.request.sid === 0x3E && !item.response.isNegative) {
+              return false; // Suppress successful auto-TP
+            }
+            return true;
+          });
 
-                {/* Response Line */}
-                <div className={`terminal-log-entry group mt-1 ${item.response.isNegative ? 'terminal-log-rx-negative' : 'terminal-log-rx-positive'}`}>
-                  <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.response.timestamp)}]</span>
-                  <span className={`font-bold mr-2 ${item.response.isNegative ? 'text-red-500' : 'text-purple-500'}`}>
-                    {item.response.isNegative ? '✖ RX' : '✔ RX'}
-                  </span>
-
-                  {item.response.isNegative ? (
-                    <>
-                      <span className="text-red-600 dark:text-red-400 mr-2">NEGATIVE RESPONSE</span>
-                      <span className="text-red-700 font-bold">
-                        {item.response.nrc ? `NRC 0x${byteToHex(item.response.nrc)}` : 'Error'}
-                      </span>
-                      {item.response.nrc && (
-                        <button
-                          onClick={() => handleOpenLearning(item.response.nrc!, item.request, item.response)}
-                          className="ml-2 text-[10px] bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-1.5 rounded border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
-                        >
-                          ? HELP
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-purple-600 dark:text-purple-300 mr-2 font-medium">POSITIVE RESPONSE</span>
-                      <span className="text-purple-600 dark:text-purple-400 font-mono">
-                        {item.response.data.map(b => byteToHex(b)).join(' ')}
-                      </span>
-                    </>
-                  )}
-                </div>
-
-                {/* Detailed Breakdown (Always visible for learning) */}
-                <div className="terminal-byte-breakdown py-2 mt-1 mb-2">
-                  {item.response.data.map((byte, idx) => (
-                    <div key={idx} className="terminal-byte-row">
-                      <span className="terminal-byte-index">{idx}</span>
-                      <span className="terminal-byte-value">{byteToHex(byte)}</span>
-                      <span className="terminal-byte-interpretation">{getByteInterpretation(item, idx, byte)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <div className="mt-4 text-cyan-500 terminal-cursor text-lg">
-              _
+          return filteredHistory.length === 0 ? (
+            <div className="terminal-empty-state">
+              <p className="font-mono">No active session data</p>
+              <p className="text-xs">Waiting for UDS commands...</p>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="space-y-1">
+              {[...filteredHistory].reverse().map((item, index) => (
+                <div key={`${item.request.timestamp}-${index}`} className="animate-fade-in mb-3">
+                  {/* Request Line */}
+                  <div className="terminal-log-entry terminal-log-tx group">
+                    <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.request.timestamp)}]</span>
+                    <span className="text-cyan-500 font-bold mr-2">➜ TX</span>
+                    <span className="text-gray-700 dark:text-gray-300 mr-2 font-medium">{getServiceName(item.request.sid)}</span>
+                    <span className="text-cyan-600 dark:text-cyan-400 font-mono">
+                      {toHex([item.request.sid, ...(item.request.subFunction ? [item.request.subFunction] : []), ...(item.request.data || [])])}
+                    </span>
+                  </div>
+
+                  {/* Response Line */}
+                  <div className={`terminal-log-entry group mt-1 ${item.response.isNegative ? 'terminal-log-rx-negative' : 'terminal-log-rx-positive'}`}>
+                    <span className="text-gray-500 dark:text-gray-500 mr-2 text-xs">[{formatTimestamp(item.response.timestamp)}]</span>
+                    <span className={`font-bold mr-2 ${item.response.isNegative ? 'text-red-500' : 'text-purple-500'}`}>
+                      {item.response.isNegative ? '✖ RX' : '✔ RX'}
+                    </span>
+
+                    {item.response.isNegative ? (
+                      <>
+                        <span className="text-red-600 dark:text-red-400 mr-2">NEGATIVE RESPONSE</span>
+                        <span className="text-red-700 font-bold">
+                          {item.response.nrc ? `NRC 0x${byteToHex(item.response.nrc)}` : 'Error'}
+                        </span>
+                        {item.response.nrc && (
+                          <button
+                            onClick={() => handleOpenLearning(item.response.nrc!, item.request, item.response)}
+                            className="ml-2 text-[10px] bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-1.5 rounded border border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+                          >
+                            ? HELP
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-purple-600 dark:text-purple-300 mr-2 font-medium">POSITIVE RESPONSE</span>
+                        <span className="text-purple-600 dark:text-purple-400 font-mono">
+                          {item.response.data.map(b => byteToHex(b)).join(' ')}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Detailed Breakdown (Always visible for learning) */}
+                  <div className="terminal-byte-breakdown py-2 mt-1 mb-2">
+                    {item.response.data.map((byte, idx) => (
+                      <div key={idx} className="terminal-byte-row">
+                        <span className="terminal-byte-index">{idx}</span>
+                        <span className="terminal-byte-value">{byteToHex(byte)}</span>
+                        <span className="terminal-byte-interpretation">{getByteInterpretation(item, idx, byte)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <div className="mt-4 text-cyan-500 terminal-cursor text-lg">
+                _
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* NRC Learning Modal */}
