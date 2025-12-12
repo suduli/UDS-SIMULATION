@@ -84,9 +84,6 @@ const PremiumGauge: React.FC<PremiumGaugeProps> = ({
     isRpm = false,
     className
 }) => {
-    const center = 140; // Fixed internal coordinate system
-    const scale = size / 280; // Keep existing prop for backwards compat if needed, but we'll use constrained SVG
-
     // We'll use a fixed internal coordinate system of 280x280 for the SVG logic
     // and let CSS handle the actual display size.
     const internalSize = 280;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUDS } from '../context/UDSContext';
 import { DiagnosticSessionType } from '../types/uds';
 
