@@ -846,13 +846,925 @@
             "data": [],
             "timestamp": 1734600091000,
             "description": "[FINAL] Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600100000,
+            "description": "TC-15: Session Keep-Alive with Tester Present - Enter PROGRAMMING session"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600101000,
+            "description": "TC-15.1: Request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600102000,
+            "description": "TC-15.2: Send Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734600103000,
+            "description": "TC-15.3: Request Download"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                170,
+                187
+            ],
+            "timestamp": 1734600104000,
+            "description": "TC-15.4: Transfer Data Block 1"
+        },
+        {
+            "sid": 62,
+            "subFunction": 0,
+            "data": [],
+            "timestamp": 1734600105000,
+            "description": "TC-15.5: Tester Present (0x3E 0x00) - Keep session alive"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                204,
+                221
+            ],
+            "timestamp": 1734600106000,
+            "description": "TC-15.6: Transfer Data Block 2 after keep-alive"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600107000,
+            "description": "TC-15.7: Transfer Exit - Expect success (session maintained via 0x3E)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600108000,
+            "description": "TC-15.8: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600110000,
+            "description": "TC-16: Complete End-to-End Transfer Workflow - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600111000,
+            "description": "TC-16.1: Security Seed Request"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600112000,
+            "description": "TC-16.2: Security Key Response - Unlock ECU"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                80,
+                0
+            ],
+            "timestamp": 1734600113000,
+            "description": "TC-16.3: Request Download - 80 bytes to 0x00200000"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16
+            ],
+            "timestamp": 1734600114000,
+            "description": "TC-16.4: Transfer Data Block 1 (16 bytes)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+            ],
+            "timestamp": 1734600115000,
+            "description": "TC-16.5: Transfer Data Block 2 (16 bytes)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                3,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48
+            ],
+            "timestamp": 1734600116000,
+            "description": "TC-16.6: Transfer Data Block 3 (16 bytes)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                4,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64
+            ],
+            "timestamp": 1734600117000,
+            "description": "TC-16.7: Transfer Data Block 4 (16 bytes)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                5,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80
+            ],
+            "timestamp": 1734600118000,
+            "description": "TC-16.8: Transfer Data Block 5 (16 bytes) - Last Block"
+        },
+        {
+            "sid": 55,
+            "data": [
+                222,
+                173,
+                190,
+                239
+            ],
+            "timestamp": 1734600119000,
+            "description": "TC-16.9: Transfer Exit with CRC-32 parameter (0xDEADBEEF)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600120000,
+            "description": "TC-16.10: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600130000,
+            "description": "TC-17: Multiple Sequential Transfers - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600131000,
+            "description": "TC-17.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600132000,
+            "description": "TC-17.2: Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734600133000,
+            "description": "TC-17.3: First Request Download (Address A)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                65,
+                65,
+                65
+            ],
+            "timestamp": 1734600134000,
+            "description": "TC-17.4: Transfer Data Block 1 for Download A"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600135000,
+            "description": "TC-17.5: Transfer Exit A - Expect Success"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                32,
+                0,
+                0,
+                0,
+                0,
+                16,
+                0
+            ],
+            "timestamp": 1734600136000,
+            "description": "TC-17.6: Second Request Download (Address B) - New transfer after exit"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                66,
+                66,
+                66
+            ],
+            "timestamp": 1734600137000,
+            "description": "TC-17.7: Transfer Data Block 1 for Download B (BSC reset to 1)"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600138000,
+            "description": "TC-17.8: Transfer Exit B - Expect Success (sequential isolated)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600139000,
+            "description": "TC-17.9: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600150000,
+            "description": "TC-18: Download vs Upload Flag Isolation - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600151000,
+            "description": "TC-18.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600152000,
+            "description": "TC-18.2: Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734600153000,
+            "description": "TC-18.3: Request Download - sets downloadInProgress flag"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                0
+            ],
+            "timestamp": 1734600154000,
+            "description": "TC-18.4: Transfer Block for Download"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600155000,
+            "description": "TC-18.5: Exit Download - clears downloadInProgress"
+        },
+        {
+            "sid": 53,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734600156000,
+            "description": "TC-18.6: Request Upload - sets uploadInProgress flag"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1
+            ],
+            "timestamp": 1734600157000,
+            "description": "TC-18.7: Transfer Block for Upload"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600158000,
+            "description": "TC-18.8: Exit Upload - clears uploadInProgress"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600159000,
+            "description": "TC-18.9: Attempt Exit again - Expect NRC 0x24 (both flags cleared)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600160000,
+            "description": "TC-18.10: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600170000,
+            "description": "TC-19: ECU Reset Aborts Active Transfer - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600171000,
+            "description": "TC-19.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600172000,
+            "description": "TC-19.2: Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734600173000,
+            "description": "TC-19.3: Request Download - start transfer"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                0
+            ],
+            "timestamp": 1734600174000,
+            "description": "TC-19.4: Transfer Data Block 1"
+        },
+        {
+            "sid": 17,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600175000,
+            "description": "TC-19.5: ECU Hard Reset (0x11 0x01) - aborts transfer"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600176000,
+            "description": "TC-19.6: Re-enter PROGRAMMING after reset"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600177000,
+            "description": "TC-19.7: Re-request Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600178000,
+            "description": "TC-19.8: Re-send Security Key"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600179000,
+            "description": "TC-19.9: Transfer Exit - Expect NRC 0x24 (no active transfer after reset)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600180000,
+            "description": "TC-19.10: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600190000,
+            "description": "TC-20: Session Change Aborts Transfer - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600191000,
+            "description": "TC-20.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600192000,
+            "description": "TC-20.2: Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                8,
+                0
+            ],
+            "timestamp": 1734600193000,
+            "description": "TC-20.3: Request Download - start transfer"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                0
+            ],
+            "timestamp": 1734600194000,
+            "description": "TC-20.4: Transfer Data Block 1"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734600195000,
+            "description": "TC-20.5: Switch to EXTENDED session - should abort transfer"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600196000,
+            "description": "TC-20.6: Security Seed (re-unlock in EXTENDED)"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600197000,
+            "description": "TC-20.7: Security Key"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600198000,
+            "description": "TC-20.8: Transfer Exit - Expect NRC 0x24 or 0x70 (transfer aborted by session change)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600199000,
+            "description": "TC-20.9: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600210000,
+            "description": "TC-21: Large Multi-Block Transfer - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600211000,
+            "description": "TC-21.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600212000,
+            "description": "TC-21.2: Security Key"
+        },
+        {
+            "sid": 52,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                128,
+                0
+            ],
+            "timestamp": 1734600213000,
+            "description": "TC-21.3: Request Download - 128 bytes (simulating larger transfer)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "timestamp": 1734600214000,
+            "description": "TC-21.4: Transfer Block 1"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16
+            ],
+            "timestamp": 1734600215000,
+            "description": "TC-21.5: Transfer Block 2"
+        },
+        {
+            "sid": 54,
+            "data": [
+                3,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24
+            ],
+            "timestamp": 1734600216000,
+            "description": "TC-21.6: Transfer Block 3"
+        },
+        {
+            "sid": 54,
+            "data": [
+                4,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+            ],
+            "timestamp": 1734600217000,
+            "description": "TC-21.7: Transfer Block 4"
+        },
+        {
+            "sid": 54,
+            "data": [
+                5,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40
+            ],
+            "timestamp": 1734600218000,
+            "description": "TC-21.8: Transfer Block 5"
+        },
+        {
+            "sid": 54,
+            "data": [
+                6,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48
+            ],
+            "timestamp": 1734600219000,
+            "description": "TC-21.9: Transfer Block 6"
+        },
+        {
+            "sid": 54,
+            "data": [
+                7,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56
+            ],
+            "timestamp": 1734600220000,
+            "description": "TC-21.10: Transfer Block 7"
+        },
+        {
+            "sid": 54,
+            "data": [
+                8,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64
+            ],
+            "timestamp": 1734600221000,
+            "description": "TC-21.11: Transfer Block 8 - Last Block"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600222000,
+            "description": "TC-21.12: Transfer Exit - Expect Success (all 8 blocks transferred)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600223000,
+            "description": "TC-21.13: Reset to Default Session"
+        },
+        {
+            "sid": 16,
+            "subFunction": 2,
+            "data": [],
+            "timestamp": 1734600230000,
+            "description": "TC-22: Transfer Exit After Successful Upload (Read) - Enter PROGRAMMING"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600231000,
+            "description": "TC-22.1: Security Seed"
+        },
+        {
+            "sid": 39,
+            "subFunction": 2,
+            "data": [
+                17,
+                34,
+                51,
+                68
+            ],
+            "timestamp": 1734600232000,
+            "description": "TC-22.2: Security Key"
+        },
+        {
+            "sid": 53,
+            "data": [
+                0,
+                68,
+                0,
+                16,
+                0,
+                0,
+                0,
+                0,
+                32,
+                0
+            ],
+            "timestamp": 1734600233000,
+            "description": "TC-22.3: Request Upload - 32 bytes from memory"
+        },
+        {
+            "sid": 54,
+            "data": [
+                1
+            ],
+            "timestamp": 1734600234000,
+            "description": "TC-22.4: Transfer Data Block 1 (ECU sends data)"
+        },
+        {
+            "sid": 54,
+            "data": [
+                2
+            ],
+            "timestamp": 1734600235000,
+            "description": "TC-22.5: Transfer Data Block 2"
+        },
+        {
+            "sid": 55,
+            "data": [],
+            "timestamp": 1734600236000,
+            "description": "TC-22.6: Transfer Exit - Expect Success (upload complete)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734600237000,
+            "description": "[FINAL] TC-22.7: Reset to Default Session"
         }
     ],
     "createdAt": 1734600000000,
-    "version": "1.0.0",
+    "version": "2.0.0",
     "metadata": {
         "author": "UDS Simulator",
-        "description": "ISO 14229-1:2020 Section 11.5 compliant test suite for SID 0x37 (RequestTransferExit) with comprehensive coverage of session validation, security validation, transfer state validation, parameter record support, and all 9 NRCs.",
+        "description": "ISO 14229-1:2020 Section 11.5 compliant test suite for SID 0x37 (RequestTransferExit) with comprehensive coverage of session validation, security validation, transfer state validation, parameter record support, service interactions, and all 9 NRCs. Enhanced for production ECU testing.",
         "tags": [
             "SID37",
             "Request Transfer Exit",
@@ -863,11 +1775,14 @@
             "Session Validation",
             "Security Validation",
             "Transfer Validation",
-            "Programming"
+            "Programming",
+            "ECU Testing",
+            "Service Interactions",
+            "Error Recovery"
         ],
-        "duration": 91000,
-        "totalRequests": 127,
+        "duration": 237000,
+        "totalRequests": 190,
         "successRate": 100
     },
-    "notes": "Test Suite v1.0.0: Comprehensive test coverage for SID 0x37 (RequestTransferExit). Tests 14 categories: (TC-01) Session validation - DEFAULT session fails with NRC 0x70, (TC-02) Security validation - locked state fails with NRC 0x33, (TC-03) Transfer state validation - no active transfer fails with NRC 0x24, (TC-04) Valid exit after Download with no data blocks, (TC-05) Valid exit after Upload with no data blocks, (TC-06) Valid exit after multiple data blocks transferred, (TC-07) Repeated Transfer Exit fails with NRC 0x24, (TC-08) Session requirement - EXTENDED session not allowed, (TC-09) Transfer Exit with optional parameter record, (TC-10) Validation precedence - session check before sequence, (TC-11) Validation precedence - security check before sequence, (TC-12) Verify downloadInProgress flag cleared after exit, (TC-13) Verify uploadInProgress flag cleared after exit, (TC-14) Verify BSC counter reset to 0 after exit. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x24 (RequestSequenceError), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x70 (UploadDownloadNotAccepted), 0x72 (GeneralProgrammingFailure), 0x92 (VoltageTooHigh), 0x93 (VoltageTooLow)."
+    "notes": "Test Suite v2.0.0: Production-grade test coverage for SID 0x37 (RequestTransferExit). Tests 22 categories: (TC-01) Session validation - DEFAULT session fails with NRC 0x70, (TC-02) Security validation - locked state fails with NRC 0x33, (TC-03) Transfer state validation - no active transfer fails with NRC 0x24, (TC-04) Valid exit after Download with no data blocks, (TC-05) Valid exit after Upload with no data blocks, (TC-06) Valid exit after multiple data blocks transferred, (TC-07) Repeated Transfer Exit fails with NRC 0x24, (TC-08) Session requirement - EXTENDED session not allowed, (TC-09) Transfer Exit with optional parameter record, (TC-10) Validation precedence - session check before sequence, (TC-11) Validation precedence - security check before sequence, (TC-12) Verify downloadInProgress flag cleared after exit, (TC-13) Verify uploadInProgress flag cleared after exit, (TC-14) Verify BSC counter reset to 0 after exit, (TC-15) Session keep-alive with Tester Present (0x3E) during transfer, (TC-16) Complete end-to-end transfer workflow with 5 blocks and CRC-32, (TC-17) Multiple sequential transfers - state isolation, (TC-18) Download vs Upload flag isolation testing, (TC-19) ECU Reset aborts active transfer - NRC 0x24, (TC-20) Session change aborts transfer - state cleanup, (TC-21) Large multi-block transfer with 8 blocks, (TC-22) Transfer exit after successful upload. Validates NRC handling for 0x13 (IncorrectMessageLength), 0x22 (ConditionsNotCorrect), 0x24 (RequestSequenceError), 0x31 (RequestOutOfRange), 0x33 (SecurityAccessDenied), 0x70 (UploadDownloadNotAccepted), 0x72 (GeneralProgrammingFailure), 0x92 (VoltageTooHigh), 0x93 (VoltageTooLow)."
 }
