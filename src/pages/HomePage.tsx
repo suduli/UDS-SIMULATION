@@ -11,6 +11,7 @@ import EnhancedBackground from '../components/EnhancedBackground';
 import { OnboardingTour } from '../components/OnboardingTour';
 import ToastContainer from '../components/ToastContainer';
 import type { ToastMessage } from '../components/ToastContainer';
+import Footer from '../components/Footer';
 
 export const HomePage: React.FC = () => {
     const [showTour, setShowTour] = useState(false);
@@ -92,6 +93,9 @@ export const HomePage: React.FC = () => {
                         </div>
                     </div>
                 </main>
+
+                {/* Footer Section */}
+                <Footer />
             </div>
 
             {/* Onboarding Tour */}
