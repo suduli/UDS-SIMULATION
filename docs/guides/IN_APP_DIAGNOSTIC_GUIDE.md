@@ -18,8 +18,8 @@
 4. **Paste this diagnostic script**:
 
 ```javascript
-console.clear();
-console.log('🔍 RESPONSE DATA FIX DIAGNOSTIC\n');
+    console.clear();
+    console.log('🔍 RESPONSE DATA FIX DIAGNOSTIC\n');
 
 // Check 1: CSS Rule Exists
 console.group('1️⃣ Checking CSS Rules');

@@ -22,11 +22,11 @@ A futuristic, interactive web application for learning and practicing Unified Di
 
 ## ✨ What's New
 
-- **🎓 Learning Materials**: Comprehensive guides added for SID 10 (Diagnostic Session Control) with practical examples
-- **📚 Documentation Reorganization**: All docs now organized in structured categories (Getting Started, Learning, Guides, Testing, etc.)
-- **🧪 Enhanced Testing**: Complete testing guide with 28+ test cases for tooltips and onboarding tour
-- **♿ WCAG AAA Compliance**: High contrast mode and enhanced accessibility features
-- **📊 Weekly Progress Reports**: Transparent development tracking with weekly summaries
+- **🎓 Learning Materials**: Comprehensive guides added for SID 10 (Diagnostic Session Control) with practical examples.
+- **📚 Documentation Reorganization**: All docs now organized in structured categories (Getting Started, Learning, Guides, Testing, etc.) and repository structure cleaned up.
+- **🧪 Enhanced Testing**: Complete testing guide with 28+ test cases for tooltips and onboarding tour.
+- **♿ WCAG AAA Compliance**: High contrast mode and enhanced accessibility features.
+- **📊 Weekly Progress Reports**: Transparent development tracking with weekly summaries.
 
 ## 🚀 Features
 
@@ -48,8 +48,8 @@ A futuristic, interactive web application for learning and practicing Unified Di
 ### UI/UX Features
 
 - **🎓 Interactive Onboarding Tour**: 7-step guided tour for new users (auto-starts on first visit, localStorage persistence)
-- **� Real-time Packet Flow Visualization**: Animated bidirectional packet flow showing Client ↔ ECU communication with live statistics
-- **�🔍 Service Tooltips**: Hover over any service to see detailed documentation, use cases, parameters, and examples (all 16 services documented with Radix UI)
+- **⏱️ Real-time Packet Flow Visualization**: Animated bidirectional packet flow showing Client ↔ ECU communication with live statistics
+- **🔍 Service Tooltips**: Hover over any service to see detailed documentation, use cases, parameters, and examples (all 16 services documented with Radix UI)
 - **📊 Real-time Response Timing**: Bar chart visualization showing last 10 response times with color-coded metrics
 - **🎯 Icon-Based Service Grid**: Visual service selector with unique icons, colors, and descriptions
 - **🔍 Service Search**: Instant filter by service ID, name, or description with `Ctrl+K` shortcut
@@ -174,8 +174,7 @@ Storybook provides:
 - Component documentation with live examples
 - Props controls and visual testing
 
-See **[STORYBOOK_GUIDE.md](./STORYBOOK_GUIDE.md)** for complete documentation on using Storybook.
-```
+See **[STORYBOOK_GUIDE.md](./docs/guides/STORYBOOK_GUIDE.md)** for complete documentation on using Storybook.
 
 ## 🎯 Usage
 
@@ -195,7 +194,7 @@ Toggle high contrast mode from the header toolbar for enhanced visibility:
 
 **Keyboard shortcut**: Tab to "Normal/High Contrast" button, press Enter
 
-See [ACCESSIBILITY_GUIDE.md](./ACCESSIBILITY_GUIDE.md) for detailed documentation.
+See [ACCESSIBILITY_GUIDE.md](./docs/accessibility/ACCESSIBILITY_GUIDE.md) for detailed documentation.
 
 #### Keyboard Navigation
 - `Tab` / `Shift+Tab`: Navigate between interactive elements
@@ -231,29 +230,35 @@ Switch to "Manual Mode" to enter raw hex frames directly:
 
 ## 🏗️ Architecture
 
+The project follows a clean architecture with a clear separation of concerns:
+
 ```
-src/
-├── components/          # React UI components
-│   ├── Header.tsx                          # Main header with theme/contrast toggles
-│   ├── BackgroundEffect.tsx                # Animated particle background
-│   ├── ProtocolStateDashboard.tsx          # Real-time ECU statistics
-│   ├── RequestBuilder.tsx                   # Service selector with search/tooltips
-│   ├── ResponseVisualizer.tsx               # Response display with timing charts
-│   ├── HelpModal.tsx                        # Onboarding tour and help content
-│   └── AdditionalFeatures.tsx               # Feature showcase component
-├── context/            # React Context for state management
-│   ├── UDSContext.tsx                       # Protocol state management
-│   └── ThemeContext.tsx                     # Theme and high contrast state
-├── services/           # Core business logic
-│   ├── UDSSimulator.ts                      # UDS protocol implementation
-│   └── mockECU.ts                           # ECU simulation engine
-├── types/              # TypeScript type definitions
-│   └── uds.ts                               # Protocol interfaces
-├── utils/              # Helper functions
-│   └── udsHelpers.ts                        # Utility functions
-├── hooks/              # Custom React hooks
-│   └── useKeyboardShortcuts.ts              # Keyboard shortcut handling
-└── App.tsx             # Main application component
+root/
+├── artifacts/          # Build outputs, logs, and generated data
+├── docs/               # Project documentation
+├── scripts/            # Maintenance and utility scripts
+├── src/                # Source code
+│   ├── components/         # React UI components
+│   ├── context/            # React Context for state management
+│   ├── services/           # Core UDS protocol logic
+│   ├── types/              # TypeScript type definitions
+│   ├── utils/              # Helper functions
+│   └── App.tsx             # Main application entry
+├── tests/              # Test suites (theme, playwright)
+├── package.json        # Project configuration and script definitions
+└── README.md           # Project entry point
+```
+
+### Component Structure
+```
+src/components/
+├── Header.tsx                          # Main header with theme/contrast toggles
+├── BackgroundEffect.tsx                # Animated particle background
+├── ProtocolStateDashboard.tsx          # Real-time ECU statistics
+├── RequestBuilder.tsx                  # Service selector with search/tooltips
+├── ResponseVisualizer.tsx              # Response display with timing charts
+├── HelpModal.tsx                       # Onboarding tour and help content
+└── AdditionalFeatures.tsx              # Feature showcase component
 ```
 
 ## 🎨 Design System
@@ -284,17 +289,18 @@ src/
 - `npm run docs:organize` - Organize documentation files
 - `npm run docs:preview` - Preview documentation changes (dry-run)
 - `npm run docs:restore` - Restore documentation to previous state
+- `npm run test:theme` - Run theme tests with Playwright
+- `npm run test:theme:diff` - Generate visual diffs for theme tests
 
-### Project Structure
+### Project Structure (Conceptual)
 
-The project follows a modular architecture:
 - **Components**: Reusable UI components with single responsibility
 - **Services**: Business logic and UDS protocol simulation
 - **Types**: Comprehensive TypeScript interfaces
 - **Utils**: Helper functions and utilities
 - **Context**: Global state management
 
-## � Project Management
+## 📝 Project Management
 
 This project uses [Backlog.md](https://github.com/ckreiling/backlog.md) for task management and project organization.
 
@@ -323,7 +329,7 @@ Tasks are organized in the `backlog/` directory:
 
 For contributors: All task operations must use the Backlog CLI. See [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) for detailed guidelines.
 
-## �📚 UDS Protocol Reference
+## 📚 UDS Protocol Reference
 
 This simulator implements the ISO 14229 (UDS) standard for automotive diagnostics:
 

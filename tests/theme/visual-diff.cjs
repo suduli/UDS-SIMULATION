@@ -42,7 +42,7 @@ function createDiff(img1Path, img2Path, diffPath) {
 }
 
 async function main() {
-    const resultsDir = path.resolve('results')
+    const resultsDir = path.resolve('artifacts', 'results')
     const diffsDir = path.join(resultsDir, 'diffs')
 
     if (!fs.existsSync(diffsDir)) {

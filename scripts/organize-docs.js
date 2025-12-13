@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const ROOT_DIR = __dirname;
+const ROOT_DIR = path.resolve(__dirname, '..');
 const DOCS_DIR = path.join(ROOT_DIR, 'docs');
 const BACKUP_DIR = path.join(ROOT_DIR, '.docs-backup');
 const args = process.argv.slice(2);
@@ -50,52 +50,86 @@ const FILE_CATEGORIES = {
     'README.md'
   ],
 
-  // Getting started guides
-  'docs/getting-started': [
-    'QUICKSTART.md',
-    'QUICK_VISUAL_DEMO.md',
-    'QUICK_REFERENCE_CARD.md',
-    'START_TESTING_HERE.md'
+  // Features - Packet Flow
+  'docs/features/packet-flow': [
+    'PACKET_FLOW_BEFORE_AFTER.md',
+    'PACKET_FLOW_CLEAN_STATE_VISUAL.md',
+    'PACKET_FLOW_COMPLETE_FIX_SUMMARY.md',
+    'PACKET_FLOW_DIAGRAMS.md',
+    'PACKET_FLOW_IMPLEMENTATION_SUMMARY.md',
+    'PACKET_FLOW_INTEGRATED.md',
+    'PACKET_FLOW_QUICK_REFERENCE.md',
+    'PACKET_FLOW_TIMELINE_COMPLETE.md',
+    'PACKET_FLOW_TIMING_FIX.md',
+    'PACKET_FLOW_UI_REDESIGN.md',
+    'PACKET_FLOW_VISIBILITY_ENHANCEMENTS.md',
+    'PACKET_FLOW_VISUALIZATION.md',
+    'PACKET_ANIMATION_DIRECTION_FIX.md',
+    'PACKET_ANIMATION_FADE_FIX.md',
+    'PACKET_ANIMATION_SYNCHRONIZATION_FIX.md',
+    'PACKET_ANIMATION_VISUAL_GUIDE.md',
+    'particle-animation.md'
   ],
 
-  // Implementation guides
+  // Features - Sparkles
+  'docs/features/sparkles': [
+    'SPARKLES_COLOURFUL_COMPLETE.md',
+    'SPARKLES_COLOURFUL_IMPLEMENTATION_SUMMARY.md',
+    'SPARKLES_COLOURFUL_THEME.md',
+    'SPARKLES_COLOURFUL_THEME_VISUAL_GUIDE.md',
+    'SPARKLES_GUIDE.md',
+    'SPARKLES_IMPLEMENTATION_SUMMARY.md',
+    'SPARKLES_QUICK_REFERENCE.md',
+    'SPARKLES_THEME_SUPPORT.md',
+    'SPARKLES_VISUAL_INTEGRATION_GUIDE.md'
+  ],
+
+  // Features - UI
+  'docs/features/ui': [
+    'ECU_REQUEST_DATA_CLEAR_FIX.md',
+    'ECU_RESPONSE_UI_QUICK_REFERENCE.md',
+    'ECU_RESPONSE_UI_REDESIGN.md',
+    'ECU_RESPONSE_UI_REDESIGN_SUMMARY.md',
+    'ECU_RESPONSE_UI_VISUAL_GUIDE.md'
+  ],
+
+  // Features - SID 36
+  'docs/features/sid-36': [
+    'SID_36_DELIVERABLES.md',
+    'SID_36_FINAL_ANALYSIS.md',
+    'SID_36_IMPLEMENTATION_WALKTHROUGH.md',
+    'SID_36_SUMMARY.md',
+    'SID_36_TEST_FIXES.md',
+    'SID_36_VALIDATION_ORDER_FIX.md',
+    'SID_36_QUICK_REFERENCE.md'
+  ],
+
+  // Guides
   'docs/guides': [
+    'BUILD_FIXES.md',
+    'IN_APP_DIAGNOSTIC_GUIDE.md',
+    'STORYBOOK_GUIDE.md',
     'IMPLEMENTATION_GUIDE.md',
     'QUICK_IMPLEMENTATION_GUIDE.md',
     'IMPLEMENTATION_SUMMARY.md',
     'IMPLEMENTATION_PROGRESS.md',
-    'IMPLEMENTATION_REVIEW.md'
+    'IMPLEMENTATION_REVIEW.md',
+    'DOCUMENTATION_GUIDE.md'
   ],
 
-  // Testing documentation
-  'docs/testing': [
-    'TESTING_GUIDE_TOOLTIPS_TOUR.md',
-    'TESTING_CHECKLIST_WEEK3-4.md',
-    'WEEK5_TESTING_PROTOCOL.md',
-    'WEEK5_VISUAL_TESTING_GUIDE.md'
+  'docs/archive': [
+    'DOCUMENTATION_CREATION_SUMMARY.md',
+    'Data_Review.md',
+    'IMPLEMENTATION_SUMMARY_OLD.md',
+    'Review.md'
   ],
 
-  // Accessibility documentation
-  'docs/accessibility': [
-    'ACCESSIBILITY_GUIDE.md',
-    'ACCESSIBILITY_MOBILE_QUICK_GUIDE.md',
-    'WEEK5_ACCESSIBILITY_MOBILE_COMPLETE.md'
+  'docs/reports': [
+    'IMPLEMENTATION_COMPLETE.md',
+    'THEME_REVIEW_REPORT.md',
+    'THEME_TEST_RESULTS.md'
   ],
 
-  // Design proposals and specifications
-  'docs/design': [
-    'CARD_REDESIGN_PROPOSAL.md',
-    'FEATURE_CARDS_REDESIGN_PROPOSAL.md',
-    'DESIGN_SPECIFICATION_SHEET.md',
-    'REDESIGN_SUMMARY.md',
-    'REDESIGN_VISUAL_COMPARISON.md',
-    'RESPONSE_REDESIGN_SUMMARY.md',
-    'VISUAL_MOCKUP_GUIDE.md',
-    'VISUAL_GUIDE_WEEK3-4.md',
-    'VISUAL_GUIDE_IMPLEMENTATION_STATUS.md'
-  ],
-
-  // Weekly progress reports
   'docs/reports/weekly': [
     'WEEK1_COMPLETE.md',
     'WEEK1_QUICKWINS_COMPLETED.md',
@@ -107,15 +141,73 @@ const FILE_CATEGORIES = {
     'WEEK5_BUG_FIXES.md'
   ],
 
-  // Planning and future work
+  'docs/design': [
+    'THEME_CHECKLIST.md',
+    'COLOR_IMPLEMENTATION_STATUS.md',
+    'Color_review.md'
+  ],
+
   'docs/planning': [
+    'IMPROVEMENTS.md',
     'NEXT_STEPS.md',
-    'IMPROVEMENTS.md'
+    'PHASE2_IMPLEMENTATION_PLAN.md',
+    'WEBSITE_IMPROVEMENT_IMPLEMENTATION_PLAN.md'
+  ],
+
+  'artifacts/outputs': [
+    'output.txt',
+    'build_error.txt',
+    'job-logs.txt',
+    'debug-storybook.log'
+  ],
+
+  // Testing Reports
+  'docs/testing/reports': [
+    'SID_10_Subfunction_04_Test_Cases.md',
+    'SID_10_Test_Report.md',
+    'SID_11_Test_Report.md',
+    'SID_14_Test_Report.md',
+    'SID_19_Test_Report.md',
+    'SID_27_28_Test_Report.md',
+    'SID_27_Test_Report.md',
+    'SID_28_Test_Report.md'
+  ],
+
+  // Getting started guides
+  'docs/getting-started': [
+    'QUICKSTART.md',
+    'QUICK_VISUAL_DEMO.md',
+    'QUICK_REFERENCE_CARD.md',
+    'START_TESTING_HERE.md'
+  ],
+
+  // Testing documentation
+  'docs/testing': [
+    'THEME_TESTING.md',
+    'README_THEME_TESTING.md',
+    'TESTING_GUIDE_TOOLTIPS_TOUR.md',
+    'TESTING_CHECKLIST_WEEK3-4.md',
+    'WEEK5_TESTING_PROTOCOL.md',
+    'WEEK5_VISUAL_TESTING_GUIDE.md',
+    'SID_22_Test_Guide.md'
+  ],
+
+  // Accessibility documentation
+  'docs/accessibility': [
+    'ACCESSIBILITY_GUIDE.md',
+    'ACCESSIBILITY_MOBILE_QUICK_GUIDE.md',
+    'WEEK5_ACCESSIBILITY_MOBILE_COMPLETE.md'
+  ],
+
+  // Planning Backlog (Tasks)
+  'docs/planning/backlog': [
+    // Backlog contains subfolders, typically not indexed individually here 
+    // but strictly defining for completeness if needed.
   ],
 
   // Legacy/archived content
-  'docs/archive': [
-    'Data/Review.md'
+  'docs/archive/legacy': [
+    'artifacts/Data/Review.md'
   ]
 };
 
@@ -183,28 +275,28 @@ function copyFile(sourcePath, destPath) {
  */
 function createBackup() {
   log('\n📦 Creating backup...', 'bright');
-  
+
   if (fs.existsSync(BACKUP_DIR)) {
     fs.rmSync(BACKUP_DIR, { recursive: true, force: true });
   }
-  
+
   ensureDir(BACKUP_DIR);
 
   // Find all markdown files
   const findMarkdownFiles = (dir, fileList = []) => {
     const files = fs.readdirSync(dir);
-    
+
     files.forEach(file => {
       const filePath = path.join(dir, file);
       const stat = fs.statSync(filePath);
-      
+
       if (stat.isDirectory() && !filePath.includes('node_modules') && !filePath.includes('.git')) {
         findMarkdownFiles(filePath, fileList);
       } else if (file.endsWith('.md')) {
         fileList.push(filePath);
       }
     });
-    
+
     return fileList;
   };
 
@@ -214,7 +306,7 @@ function createBackup() {
   mdFiles.forEach(filePath => {
     const relativePath = path.relative(ROOT_DIR, filePath);
     const backupPath = path.join(BACKUP_DIR, relativePath);
-    
+
     if (copyFile(filePath, backupPath)) {
       backedUp++;
     }
@@ -242,13 +334,13 @@ function restoreFromBackup() {
   // Restore all files
   const restoreFiles = (dir) => {
     const files = fs.readdirSync(dir);
-    
+
     files.forEach(file => {
       const filePath = path.join(dir, file);
       const stat = fs.statSync(filePath);
       const relativePath = path.relative(BACKUP_DIR, filePath);
       const restorePath = path.join(ROOT_DIR, relativePath);
-      
+
       if (stat.isDirectory()) {
         restoreFiles(filePath);
       } else {
@@ -277,10 +369,35 @@ function createIndexFiles() {
       description: 'Detailed guides for implementing and understanding the codebase',
       files: FILE_CATEGORIES['docs/guides']
     },
+    'docs/features/packet-flow': {
+      title: '📦 Packet Flow Features',
+      description: 'Documentation for Packet Flow animation and implementation',
+      files: FILE_CATEGORIES['docs/features/packet-flow']
+    },
+    'docs/features/sparkles': {
+      title: '✨ Sparkles Theme',
+      description: 'Documentation for Sparkles theme and visual effects',
+      files: FILE_CATEGORIES['docs/features/sparkles']
+    },
+    'docs/features/ui': {
+      title: '🖥️ UI Improvements',
+      description: 'Documentation for UI redesigns and enhancements',
+      files: FILE_CATEGORIES['docs/features/ui']
+    },
+    'docs/features/sid-36': {
+      title: '🔧 SID 36 Transfer Data',
+      description: 'Documentation for Service 0x36 implementation',
+      files: FILE_CATEGORIES['docs/features/sid-36']
+    },
     'docs/testing': {
       title: '🧪 Testing Documentation',
       description: 'Testing guides, protocols, and checklists',
       files: FILE_CATEGORIES['docs/testing']
+    },
+    'docs/testing/reports': {
+      title: '📊 Test Reports',
+      description: 'Generated test reports and case results',
+      files: FILE_CATEGORIES['docs/testing/reports']
     },
     'docs/accessibility': {
       title: '♿ Accessibility',
@@ -311,16 +428,21 @@ function createIndexFiles() {
 
   Object.entries(indexContent).forEach(([dir, content]) => {
     const indexPath = path.join(ROOT_DIR, dir, 'README.md');
-    
+
     let markdown = `# ${content.title}\n\n${content.description}\n\n## Contents\n\n`;
-    
-    content.files.forEach(file => {
-      const fileName = path.basename(file, '.md');
-      const displayName = fileName
-        .replace(/_/g, ' ')
-        .replace(/\b\w/g, l => l.toUpperCase());
-      markdown += `- [${displayName}](./${path.basename(file)})\n`;
-    });
+
+    // Check if files exist before iterating
+    if (content.files && content.files.length > 0) {
+      content.files.forEach(file => {
+        const fileName = path.basename(file, '.md');
+        const displayName = fileName
+          .replace(/_/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+        markdown += `- [${displayName}](./${path.basename(file)})\n`;
+      });
+    } else {
+      markdown += `*(No files listed in this category)*\n`;
+    }
 
     markdown += `\n---\n\n[← Back to Main Documentation](${dir === 'docs/getting-started' ? '../..' : '../../README.md'})\n`;
 
@@ -328,7 +450,7 @@ function createIndexFiles() {
       ensureDir(path.dirname(indexPath));
       fs.writeFileSync(indexPath, markdown);
     }
-    
+
     logVerbose(`Created index: ${path.relative(ROOT_DIR, indexPath)}`);
   });
 }
@@ -338,7 +460,7 @@ function createIndexFiles() {
  */
 function createMainDocsIndex() {
   const indexPath = path.join(DOCS_DIR, 'README.md');
-  
+
   const content = `# Documentation Index
 
 Welcome to the UDS Protocol Simulator documentation. This directory contains all project documentation organized by topic.
@@ -417,7 +539,7 @@ When adding new documentation:
     ensureDir(DOCS_DIR);
     fs.writeFileSync(indexPath, content);
   }
-  
+
   logVerbose(`Created main docs index: ${path.relative(ROOT_DIR, indexPath)}`);
 }
 
@@ -426,7 +548,7 @@ When adding new documentation:
  */
 function organizeFiles() {
   log('\n📁 Organizing documentation files...', 'bright');
-  
+
   let moved = 0;
   let skipped = 0;
   let errors = 0;
@@ -438,11 +560,11 @@ function organizeFiles() {
     }
 
     log(`\n📂 ${category}`, 'yellow');
-    
+
     files.forEach(file => {
       const sourcePath = path.join(ROOT_DIR, file);
       const destPath = path.join(ROOT_DIR, category, path.basename(file));
-      
+
       if (moveFile(sourcePath, destPath)) {
         moved++;
       } else {
@@ -495,7 +617,7 @@ function main() {
   log(`  Files moved: ${stats.moved}`, stats.moved > 0 ? 'green' : 'reset');
   log(`  Files skipped: ${stats.skipped}`, stats.skipped > 0 ? 'yellow' : 'reset');
   log(`  Errors: ${stats.errors}`, stats.errors > 0 ? 'red' : 'reset');
-  
+
   if (DRY_RUN) {
     log('\n💡 Run without --dry-run to apply changes', 'cyan');
   } else {
@@ -503,7 +625,7 @@ function main() {
     log('💾 Backup saved to .docs-backup/', 'green');
     log('🔄 To restore: node organize-docs.js --restore', 'cyan');
   }
-  
+
   log('');
 }
 

@@ -224,6 +224,95 @@ const getByteInterpretation = (item: HistoryItem, byteIdx: number, byte: number)
 
     case 0x37: // Transfer Exit
       return 'Transfer Exit Response';
+
+    case 0x83: // Access Timing Parameter
+      if (byteIdx === 1) {
+        const timingSubFunctions: Record<number, string> = {
+          0x01: 'Read Extended Timing Parameters',
+          0x02: 'Set Timing Parameters to Default',
+          0x03: 'Read Currently Active Timing Parameters',
+          0x04: 'Set Timing Parameters to Given Values',
+        };
+        return timingSubFunctions[byte] || `Timing Sub-function (0x${byte.toString(16).toUpperCase()})`;
+      }
+      // For Read Extended / Read Currently Active (subFunc 0x01 or 0x03)
+      if (byteIdx === 2) return 'P2Server_max High Byte';
+      if (byteIdx === 3) {
+        const p2ServerMs = ((response.data[2] << 8) | byte);
+        return `P2Server_max Low Byte (${p2ServerMs}ms)`;
+      }
+      if (byteIdx === 4) return 'P2*Server_max High Byte';
+      if (byteIdx === 5) {
+        const p2StarMs = ((response.data[4] << 8) | byte) * 10;
+        return `P2*Server_max Low Byte (${p2StarMs}ms)`;
+      }
+      if (byteIdx === 6) return 'P3Server_max High Byte';
+      if (byteIdx === 7) {
+        const p3Ms = ((response.data[6] << 8) | byte);
+        return `P3Server_max Low Byte (${p3Ms}ms)`;
+      }
+      if (byteIdx === 8) return 'P4Server_min High Byte';
+      if (byteIdx === 9) {
+        const p4Ms = ((response.data[8] << 8) | byte);
+        return `P4Server_min Low Byte (${p4Ms}ms)`;
+      }
+      if (byteIdx >= 10) return `Extended Timing Byte ${byteIdx - 9}`;
+      break;
+
+    case 0x28: // Communication Control
+      if (byteIdx === 1) {
+        const ccTypes: Record<number, string> = {
+          0x00: 'Enable Rx and Tx',
+          0x01: 'Enable Rx / Disable Tx',
+          0x02: 'Disable Rx / Enable Tx',
+          0x03: 'Disable Rx and Tx',
+        };
+        return ccTypes[byte] || `Control Type (0x${byte.toString(16).toUpperCase()})`;
+      }
+      break;
+
+    case 0x85: // Control DTC Setting
+      if (byteIdx === 1) {
+        const dtcSettings: Record<number, string> = {
+          0x01: 'DTC Setting On',
+          0x02: 'DTC Setting Off',
+        };
+        return dtcSettings[byte] || `DTC Setting Type (0x${byte.toString(16).toUpperCase()})`;
+      }
+      break;
+
+    case 0x3E: // Tester Present
+      if (byteIdx === 1) {
+        return byte === 0x00 ? 'Sub-function: Zero (Keep Alive)' : `Sub-function: 0x${byte.toString(16).toUpperCase()}`;
+      }
+      break;
+
+    case 0x23: // Read Memory By Address
+      if (byteIdx === 1) return 'Address And Length Format (ALFID)';
+      // ALFID encodes memory size and address byte lengths
+      if (byteIdx >= 2) {
+        const alfid = response.data[1];
+        const memorySizeLength = (alfid >> 4) & 0x0F;
+        const memoryAddressLength = alfid & 0x0F;
+        const addressEnd = 1 + memoryAddressLength;
+        const sizeEnd = addressEnd + memorySizeLength;
+
+        if (byteIdx <= addressEnd) return `Memory Address Byte ${byteIdx - 1}`;
+        if (byteIdx <= sizeEnd) return `Memory Size Byte ${byteIdx - addressEnd}`;
+        return `Memory Data Byte ${byteIdx - sizeEnd}`;
+      }
+      break;
+
+    case 0x3D: // Write Memory By Address
+      if (byteIdx === 1) return 'Address And Length Format (ALFID)';
+      break;
+
+    case 0x35: // Request Upload
+      if (byteIdx === 1) return 'Length Format Identifier';
+      if (byteIdx === 2) return 'Max Block Length High Byte';
+      if (byteIdx === 3) return 'Max Block Length Low Byte';
+      if (byteIdx >= 4) return `Block Length Byte ${byteIdx - 1}`;
+      break;
   }
 
   // Default interpretation

@@ -189,7 +189,7 @@ async function main() {
     const url = process.argv[2] || 'http://localhost:5173'
     console.log(`\n🎨 Testing themes for: ${url}\n`)
 
-    const outDir = path.resolve('results')
+    const outDir = path.resolve('artifacts', 'results')
     if (!fs.existsSync(outDir)) fs.mkdirSync(outDir)
 
     console.log('📸 Testing LIGHT theme...')
