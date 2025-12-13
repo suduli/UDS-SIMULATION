@@ -125,7 +125,11 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Memory Size: Number of bytes to read'
     ],
     example: 'Request: 23 44 12 34 56 78 02 → Read 2 bytes from 0x12345678',
-    exampleHex: '23 44 12 34 56 78 02'
+    exampleHex: '23 44 12 34 56 78 02',
+    quickExamples: [
+      { label: 'Read 2 Bytes', hex: '23 44 12 34 56 78 02' },
+      { label: 'Read 4 Bytes', hex: '23 44 12 34 56 78 04' }
+    ]
   },
   '0x27': {
     serviceId: '0x27',
@@ -144,8 +148,9 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
     exampleHex: '27 01',
     quickExamples: [
       { label: 'Request Seed (Lvl 1)', hex: '27 01' },
-      { label: 'Send Key (Lvl 1)', hex: '27 02 00 00' },
-      { label: 'Request Seed (Lvl 3)', hex: '27 03' }
+      { label: 'Send Key (Lvl 1)', hex: '27 02 B7 6E A6 77' },
+      { label: 'Request Seed (Lvl 3)', hex: '27 03' },
+      { label: 'Send Key (Lvl 3)', hex: '27 04 B7 6E A6 77' }
     ]
   },
   '0x28': {
@@ -185,8 +190,9 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
     example: 'Request: 2A 01 F1 → Start slow periodic transmission of PDID 0xF1',
     exampleHex: '2A 01 F1',
     quickExamples: [
-      { label: 'Start Slow Trans.', hex: '2A 01 F1' },
-      { label: 'Stop Transmission', hex: '2A 04 F1' }
+      { label: 'Start Slow (RPM)', hex: '2A 01 01' },
+      { label: 'Start Fast (Speed)', hex: '2A 03 02' },
+      { label: 'Stop Transmission', hex: '2A 04' }
     ]
   },
   '0x2E': {
@@ -245,7 +251,10 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Data Format: Compression/encryption settings'
     ],
     example: 'Request: 34 00 44 12 34 56 78 44 00 00 10 00 → Request download to 0x12345678, size 0x1000',
-    exampleHex: '34 00 44 12 34 56 78 44 00 00 10 00'
+    exampleHex: '34 00 44 12 34 56 78 44 00 00 10 00',
+    quickExamples: [
+      { label: 'Download Request', hex: '34 00 44 12 34 56 78 44 00 00 10 00' }
+    ]
   },
   '0x35': {
     serviceId: '0x35',
@@ -262,7 +271,10 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Data Format: Compression/encryption settings'
     ],
     example: 'Request: 35 00 44 12 34 56 78 44 00 00 10 00 → Request upload from 0x12345678, size 0x1000',
-    exampleHex: '35 00 44 12 34 56 78 44 00 00 10 00'
+    exampleHex: '35 00 44 12 34 56 78 44 00 00 10 00',
+    quickExamples: [
+      { label: 'Upload Request', hex: '35 00 44 12 34 56 78 44 00 00 10 00' }
+    ]
   },
   '0x36': {
     serviceId: '0x36',
@@ -278,7 +290,11 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
       'Transfer Data: Actual payload bytes'
     ],
     example: 'Request: 36 01 [data] → Transfer block #1, then 36 02 [data] → Transfer block #2',
-    exampleHex: '36 01 00 00'
+    exampleHex: '36 01 00 00',
+    quickExamples: [
+      { label: 'Transfer Block 1', hex: '36 01 00 00' },
+      { label: 'Transfer Block 2', hex: '36 02 00 00' }
+    ]
   },
   '0x37': {
     serviceId: '0x37',
@@ -291,7 +307,10 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
     ],
     parameters: ['Optional: Transfer completion parameters'],
     example: 'Request: 37 → Exit transfer after all blocks sent',
-    exampleHex: '37'
+    exampleHex: '37',
+    quickExamples: [
+      { label: 'Exit Transfer', hex: '37' }
+    ]
   },
   '0x3E': {
     serviceId: '0x3E',
@@ -330,6 +349,45 @@ export const serviceTooltipData: Record<string, ServiceTooltipData> = {
     exampleHex: '3D 44 12 34 56 78 02 AB CD',
     quickExamples: [
       { label: 'Write Memory', hex: '3D 44 12 34 56 78 02 AB CD' }
+    ]
+  },
+  '0x83': {
+    serviceId: '0x83',
+    serviceName: 'Access Timing Parameter',
+    description: 'Reads and modifies the timing parameters of the ECU communication.',
+    useCases: [
+      'Read currently active timing parameters',
+      'Set timing values to default',
+      'Temporarily adjust timing for specific operations'
+    ],
+    parameters: [
+      'Sub-function: 0x01 (Read Extended), 0x02 (Set to Default), 0x03 (Read Currently Active), 0x04 (Set to Given Value)'
+    ],
+    example: 'Request: 83 01 → Read extended timing set',
+    exampleHex: '83 01',
+    quickExamples: [
+      { label: 'Read Extended', hex: '83 01' },
+      { label: 'Set Default', hex: '83 02' },
+      { label: 'Read Active', hex: '83 03' }
+    ]
+  },
+  '0x85': {
+    serviceId: '0x85',
+    serviceName: 'Control DTC Setting',
+    description: 'Enables or disables the updating of Diagnostic Trouble Codes (DTCs) in the ECU.',
+    useCases: [
+      'Disable DTCs during software update',
+      'Enable DTCs after maintenance',
+      'Temporarily suppress faults during testing'
+    ],
+    parameters: [
+      'Sub-function: 0x01 (On), 0x02 (Off)'
+    ],
+    example: 'Request: 85 02 → Turn DTC setting OFF',
+    exampleHex: '85 02',
+    quickExamples: [
+      { label: 'DTC Setting ON', hex: '85 01' },
+      { label: 'DTC Setting OFF', hex: '85 02' }
     ]
   }
 };

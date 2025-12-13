@@ -518,7 +518,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
             <label className="block text-xs sm:text-sm text-gray-400 mb-2">
               {selectedService ? 'Service Examples' : 'Quick Examples'}
             </label>
-            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-2 gap-1.5 sm:gap-2" role="group" aria-label="Quick example requests">
+            <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2" role="group" aria-label="Quick example requests">
               {(() => {
                 const serviceIdHex = selectedService ? `0x${selectedService.toString(16).toUpperCase().padStart(2, '0')}` : '';
                 const tooltipData = serviceIdHex ? serviceTooltipData[serviceIdHex] : null;
@@ -534,10 +534,11 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
                   <button
                     key={idx}
                     onClick={() => handleInteractiveExample(ex.hex)}
-                    className="cyber-button text-[10px] sm:text-xs py-1.5 sm:py-2 px-1 sm:px-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                    className="cyber-button text-xs py-2 px-3 hover:scale-105 hover:shadow-neon hover:border-cyber-blue/50 transition-all duration-300 flex items-center justify-center group bg-dark-800/80 backdrop-blur-sm"
                     aria-label={`Load ${ex.label} example`}
+                    title={`Load example: ${ex.hex}`}
                   >
-                    <span className="truncate">{ex.label}</span>
+                    <span className="font-semibold text-gray-200 group-hover:text-cyber-blue transition-colors truncate text-center">{ex.label}</span>
                   </button>
                 ));
               })()}

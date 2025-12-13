@@ -453,17 +453,23 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setCurrent(0.5); // Return to idle
       }, 200);
     } else if (type === 'keyOffOn') {
-      // Key Off-On Reset: Simulate power cycle via voltage/current only
-      // We don't change powerState to avoid triggering RPS logic during reset
+      // Key Off-On Reset: Simulate actual power cycle (5s duration)
+      // We toggle powerState to OFF so the dashboard reflects the ignition state change
+      console.log('[Power] Simulation: Key Off/On Reset - Cutting Power (5s)');
+
+      const previousState = powerState === 'OFF' ? 'ON' : powerState;
+      setPowerState('OFF');
       setVoltage(0);
       setCurrent(0);
 
       setTimeout(() => {
+        console.log('[Power] Simulation: Key Off/On Reset - Restoring Power');
+        setPowerState(previousState);
         setVoltage(targetVoltage);
         setCurrent(0.5);
-      }, 500);
+      }, 5000);
     }
-  }, [targetVoltage]);
+  }, [targetVoltage, powerState]);
 
   /**
    * Trigger RPS (Rapid Power Shutdown) countdown when ignition turns OFF
@@ -652,8 +658,15 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setRequestHistory(prev => [...prev, { request, response, isAutoKeepAlive }]);
       setProtocolState(simulator.getState());
 
-      // Note: SID 11 (ECU Reset) power effects handling has been disabled
-      // due to causing UI crashes. The core reset functionality still works.
+      // Handle SID 11 (ECU Reset) power effects
+      // Trigger voltage profile simulation based on reset type
+      if (response.resetType) {
+        if (response.resetType === 0x01) { // Hard Reset
+          simulateResetVoltageProfile('hard');
+        } else if (response.resetType === 0x02) { // Key Off-On Reset
+          simulateResetVoltageProfile('keyOffOn');
+        }
+      }
 
       if (response.isNegative) {
         // Check for Response Pending (0x78)
