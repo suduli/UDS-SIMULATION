@@ -40,7 +40,7 @@ export class UDSSimulator {
       securityUnlocked: false,
       securityAttempts: 0,
       lastActivityTime: Date.now(),
-      sessionTimeout: 5000,
+      sessionTimeout: 60000, // 60 seconds timeout for extended sessions
       communicationEnabled: true,
       communicationControlState: {
         normalMessages: { rxEnabled: true, txEnabled: true },
@@ -2609,23 +2609,39 @@ export class UDSSimulator {
       );
     }
 
-    // ========== MESSAGE PARSING ==========
+    // ========== MESSAGE PA RSING & VALIDATION ==========
     // Extract Data Format Identifier (DFI) - Byte 1 in data array (Byte 2 in full request)
-    // const dataFormatIdentifier = request.data[0];  // Not currently validated
-    // const compressionMethod = (dataFormatIdentifier >> 4) & 0x0F;  // Not used in this implementation
-    // const encryptionMethod = dataFormatIdentifier & 0x0F;  // Not used in this implementation
+    const dataFormatIdentifier = request.data[0];
+    const compressionMethod = (dataFormatIdentifier >> 4) & 0x0F;
+    const encryptionMethod = dataFormatIdentifier & 0x0F;
+
+    // FIX 1: Validate DFI - Only no compression (0x0) and no encryption (0x0) supported
+    if (compressionMethod !== 0x00) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE  // 0x31
+      );
+    }
+
+    if (encryptionMethod !== 0x00) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE  // 0x31
+      );
+    }
 
     // Extract Address and Length Format Identifier (ALFID) - Byte 2 in data array (Byte 3 in full request)
     const alfid = request.data[1];
     const memorySizeLength = (alfid >> 4) & 0x0F;
     const memoryAddressLength = alfid & 0x0F;
 
-    // Validate ALFID (lengths must be 1-15 bytes)
+    // FIX 2: Validate ALFID BEFORE parsing address/size (lengths must be 1-15 bytes)
+    // This must happen before extracting address/size to return correct NRC
     if (memorySizeLength === 0 || memorySizeLength > 15 ||
       memoryAddressLength === 0 || memoryAddressLength > 15) {
       return this.createNegativeResponseObj(
         request.sid,
-        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH  // 0x13 (not 0x31)
       );
     }
 
@@ -2650,12 +2666,41 @@ export class UDSSimulator {
       memorySize = (memorySize << 8) | request.data[2 + memoryAddressLength + i];
     }
 
+    // FIX 4: Validate size for overflow and reasonableness
+    const MAX_REASONABLE_SIZE = 0x10000000;  // 256 MB - reasonable max for automotive ECU
+
+    // Check for overflow (if address + size < address, we overflowed)
+    if (memorySize > MAX_REASONABLE_SIZE) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if size is zero (invalid)
+    if (memorySize === 0) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
+    // Check if address + size would cause integer overflow
+    if (memoryAddress + memorySize < memoryAddress) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.REQUEST_OUT_OF_RANGE
+      );
+    }
+
     // ========== VALIDATION STEP 5: Memory Region Validation ==========
     // Find the memory region that contains this address
     let targetRegion: any = null;
     for (const region of this.ecuConfig.memoryMap) {
-      const regionEnd = region.address + region.size - 1;
-      if (memoryAddress >= region.address && memoryAddress <= regionEnd) {
+      // FIX: Make regionEnd calculation consistent with boundary check
+      // Region spans from region.address to (region.address + region.size) exclusive
+      const regionEnd = region.address + region.size;
+      if (memoryAddress >= region.address && memoryAddress < regionEnd) {
         targetRegion = region;
         break;
       }
@@ -2693,18 +2738,11 @@ export class UDSSimulator {
       );
     }
 
-    // Check if download size exceeds region boundary
-    const downloadEndAddress = memoryAddress + memorySize - 1;
-    const regionEndAddress = targetRegion.address + targetRegion.size - 1;
-    if (downloadEndAddress > regionEndAddress) {
-      return this.createNegativeResponseObj(
-        request.sid,
-        NegativeResponseCode.REQUEST_OUT_OF_RANGE
-      );
-    }
-
-    // Check if memory size is reasonable (non-zero)
-    if (memorySize === 0) {
+    // FIX 3: Check if download size exceeds region boundary
+    // Allow exact region end (address + size = region boundary is valid)
+    const downloadEndAddress = memoryAddress + memorySize;
+    const regionEndAddress = targetRegion.address + targetRegion.size;
+    if (downloadEndAddress > regionEndAddress) {  // Changed from >= to >
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.REQUEST_OUT_OF_RANGE
@@ -3187,6 +3225,7 @@ export class UDSSimulator {
   /**
    * 0x83 - Access Timing Parameter
    * Per ISO 14229-1:2020 Section 9.4
+   * Enhanced with S3 Server timeout support
    * 
    * Sub-functions:
    * - 0x01: Read Extended Timing Parameter Set (capabilities)
@@ -3196,6 +3235,11 @@ export class UDSSimulator {
    * Timing Parameters:
    * - P2Server: Normal response timeout (default: 50ms)
    * - P2*Server: Extended response timeout (default: 5000ms)
+   * - S3Server: Session timeout (default: 60000ms)
+   * 
+   * Message Formats:
+   * - Standard (5 bytes): [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+   * - Extended (7 bytes): [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo] [S3Hi] [S3Lo]
    * 
    * NRCs:
    * - 0x12: Sub-function not supported
@@ -3227,10 +3271,12 @@ export class UDSSimulator {
     }
 
     // Timing parameter limits (configurable ranges)
-    const P2_MIN = 1;      // 1ms minimum
-    const P2_MAX = 5000;   // 5000ms maximum
+    const P2_MIN = 1;          // 1ms minimum
+    const P2_MAX = 5000;       // 5000ms maximum
     const P2_STAR_MIN = 50;    // 50ms minimum
     const P2_STAR_MAX = 65535; // Max value for 2-byte field
+    const S3_MIN = 1000;       // 1 second minimum (1000ms)
+    const S3_MAX = 300000;     // 5 minutes maximum (300000ms)
 
     // Process based on sub-function
     switch (subFunction) {
@@ -3254,11 +3300,12 @@ export class UDSSimulator {
             } as UDSResponse;
           }
 
-          // Response: C3 01 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          // Response: C3 01 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo] [S3Hi] [S3Lo]
           // Type 0x01 = timing parameter access type
           // Return the ECU's default/extended timing capabilities
-          const p2Default = 50;   // Default P2Server: 50ms
+          const p2Default = 50;       // Default P2Server: 50ms
           const p2StarDefault = 5000; // Default P2*Server: 5000ms
+          const s3Default = 60000;    // Default S3Server: 60000ms (60 seconds)
 
           return {
             sid: request.sid,
@@ -3268,7 +3315,9 @@ export class UDSSimulator {
               (p2Default >> 8) & 0xFF,
               p2Default & 0xFF,
               (p2StarDefault >> 8) & 0xFF,
-              p2StarDefault & 0xFF
+              p2StarDefault & 0xFF,
+              (s3Default >> 8) & 0xFF,
+              s3Default & 0xFF
             ],
             timestamp: Date.now(),
             isNegative: false,
@@ -3277,8 +3326,10 @@ export class UDSSimulator {
 
       case 0x02: // Set Timing Parameters to Given Values
         {
-          // Validate message length - must have 5 data bytes: [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
-          if (!request.data || request.data.length !== 5) {
+          // Support both standard (5 bytes) and extended (7 bytes with S3) formats
+          // Standard: [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          // Extended: [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo] [S3Hi] [S3Lo]
+          if (!request.data || (request.data.length !== 5 && request.data.length !== 7)) {
             return this.createNegativeResponseObj(
               request.sid,
               NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
@@ -3289,6 +3340,12 @@ export class UDSSimulator {
           // const timingType = request.data[0]; // Type byte (0x01 typically)
           const p2Value = (request.data[1] << 8) | request.data[2];
           const p2StarValue = (request.data[3] << 8) | request.data[4];
+
+          // Parse S3 if provided (extended format)
+          let s3Value: number | undefined;
+          if (request.data.length === 7) {
+            s3Value = (request.data[5] << 8) | request.data[6];
+          }
 
           // Validate P2 range
           if (p2Value < P2_MIN || p2Value > P2_MAX) {
@@ -3306,9 +3363,25 @@ export class UDSSimulator {
             );
           }
 
+          // Validate S3 range if provided
+          if (s3Value !== undefined) {
+            if (s3Value < S3_MIN || s3Value > S3_MAX) {
+              return this.createNegativeResponseObj(
+                request.sid,
+                NegativeResponseCode.REQUEST_OUT_OF_RANGE
+              );
+            }
+          }
+
           // Apply new timing values
           this.state.p2Server = p2Value;
           this.state.p2StarServer = p2StarValue;
+
+          // Apply S3 (session timeout) if provided
+          if (s3Value !== undefined) {
+            this.state.sessionTimeout = s3Value;
+            console.log(`[SID 0x83] Session timeout (S3) updated to ${s3Value}ms`);
+          }
 
           if (suppressPositiveResponse) {
             return {
@@ -3349,9 +3422,10 @@ export class UDSSimulator {
             } as UDSResponse;
           }
 
-          // Response: C3 03 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo]
+          // Response: C3 03 [Type] [P2Hi] [P2Lo] [P2*Hi] [P2*Lo] [S3Hi] [S3Lo]
           const currentP2 = this.state.p2Server;
           const currentP2Star = this.state.p2StarServer;
+          const currentS3 = this.state.sessionTimeout;
 
           return {
             sid: request.sid,
@@ -3361,7 +3435,9 @@ export class UDSSimulator {
               (currentP2 >> 8) & 0xFF,
               currentP2 & 0xFF,
               (currentP2Star >> 8) & 0xFF,
-              currentP2Star & 0xFF
+              currentP2Star & 0xFF,
+              (currentS3 >> 8) & 0xFF,
+              currentS3 & 0xFF
             ],
             timestamp: Date.now(),
             isNegative: false,

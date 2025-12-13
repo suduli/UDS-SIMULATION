@@ -1,0 +1,27 @@
+﻿Report Information
+Report ID,terminal_report_1765599684748
+Report Name,"Terminal Output Report (12/13/2025, 9:51:24 AM)"
+Description,Generated from current terminal session with 2 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,2
+Total Responses,2
+Successful Responses,1
+Negative Responses (NRC),1
+Success Rate (%),50.00
+Test Duration,2.17s
+Start Time,"12/13/2025, 9:51:19 AM"
+End Time,"12/13/2025, 9:51:21 AM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x13,Incorrect Message Length,1,100.00
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/13/2025, 9:51:19 AM",0x10,0x03,,,0x10,50 03 00 64 01 F4,Success,,,1.00
+2,"12/13/2025, 9:51:21 AM",0x83,0x02,01 00 32 13 88 01 D4 C0,,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,0.00

@@ -1,0 +1,411 @@
+{
+    "id": "sid83-s3-timeout-test-suite",
+    "name": "SID 0x83 Access Timing Parameter - S3 Server Timeout Test Suite",
+    "description": "Enhanced test suite for UDS Service ID 0x83 (AccessTimingParameter) with S3 Server (session timeout) support. Tests the new extended format with 7-byte data payload to set and read S3 timing parameter.",
+    "requests": [
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520000000,
+            "description": "[SETUP] TC-S3-00: Reset to Default Session - Clean slate"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520001000,
+            "description": "[S3 BASELINE] TC-S3-01: Read Current Timing (P2/P2*/S3) - Expect C3 03 01 00 32 13 88 EA 60 (P2=50ms, P2*=5000ms, S3=60000ms)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520002000,
+            "description": "[S3 BASELINE] TC-S3-02: Read Extended Timing Set with S3 - Expect C3 01 01 00 32 13 88 EA 60"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                1,
+                212,
+                192
+            ],
+            "timestamp": 1734520003000,
+            "description": "[S3 SET] TC-S3-03: Set S3=120 seconds (120000ms = 0x01D4C0) with P2=50ms, P2*=5000ms - Expect Positive Response C3 02"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520004000,
+            "description": "[S3 VERIFY] TC-S3-04: Verify S3 Timeout Set to 120 seconds - Read Current should return S3=0x01D4C0 (120000ms)"
+        },
+        {
+            "sid": 16,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520005000,
+            "description": "[S3 SESSION] TC-S3-05: Enter Extended Session - Test session timeout with new S3 value"
+        },
+        {
+            "sid": 39,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520006000,
+            "description": "[S3 USAGE] TC-S3-06: Request Security Seed - Session should stay alive for 120 seconds due to S3 setting"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                2,
+                191,
+                32
+            ],
+            "timestamp": 1734520007000,
+            "description": "[S3 EXTEND] TC-S3-07: Set S3=180 seconds (180000ms = 0x02BF20) - 3 minute timeout"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520008000,
+            "description": "[S3 VERIFY] TC-S3-08: Verify S3=180 seconds - S3 should be 0x02BF20"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                3,
+                232
+            ],
+            "timestamp": 1734520009000,
+            "description": "[S3 MINIMUM] TC-S3-09: Set S3=1 second (1000ms = 0x03E8) - Minimum allowed"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520010000,
+            "description": "[S3 VERIFY] TC-S3-10: Verify S3=1 second - S3 should be 0x03E8"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                4,
+                147,
+                224
+            ],
+            "timestamp": 1734520011000,
+            "description": "[S3 MAXIMUM] TC-S3-11: Set S3=5 minutes (300000ms = 0x0493E0) - Maximum allowed"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520012000,
+            "description": "[S3 VERIFY] TC-S3-12: Verify S3=5 minutes - S3 should be 0x0493E0"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                0,
+                0
+            ],
+            "timestamp": 1734520013000,
+            "description": "[S3 NRC 0x31] TC-S3-13: Out of Range - S3=0ms (below minimum 1000ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                3,
+                231
+            ],
+            "timestamp": 1734520014000,
+            "description": "[S3 NRC 0x31] TC-S3-14: Out of Range - S3=999ms (just below minimum 1000ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                4,
+                147,
+                225
+            ],
+            "timestamp": 1734520015000,
+            "description": "[S3 NRC 0x31] TC-S3-15: Out of Range - S3=300001ms (just above maximum 300000ms) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                255,
+                255,
+                255
+            ],
+            "timestamp": 1734520016000,
+            "description": "[S3 NRC 0x31] TC-S3-16: Out of Range - S3=65535*256+255 (way above maximum) - Expect NRC 0x31"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                117,
+                48
+            ],
+            "timestamp": 1734520017000,
+            "description": "[S3 PRODUCTION] TC-S3-17: Set S3=30 seconds (30000ms = 0x7530) - Common production setting"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520018000,
+            "description": "[S3 VERIFY] TC-S3-18: Verify S3=30 seconds - S3 should be 0x7530"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                100,
+                39,
+                16,
+                0,
+                234,
+                96
+            ],
+            "timestamp": 1734520019000,
+            "description": "[S3 COMBINED] TC-S3-19: Set All Timing P2=100ms, P2*=10000ms, S3=60000ms (1 min) - Combined timing config"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520020000,
+            "description": "[S3 VERIFY] TC-S3-20: Verify Combined Timing - P2=100ms, P2*=10000ms, S3=60000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136
+            ],
+            "timestamp": 1734520021000,
+            "description": "[S3 BACKWARD] TC-S3-21: Use Standard 5-byte Format (without S3) - Should work (S3 unchanged)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520022000,
+            "description": "[S3 VERIFY] TC-S3-22: Verify S3 Unchanged After Standard Format - S3 should still be 60000ms"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                234
+            ],
+            "timestamp": 1734520023000,
+            "description": "[S3 NRC 0x13] TC-S3-23: Incorrect Length - 6 bytes (neither 5 nor 7) - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                234,
+                96,
+                255
+            ],
+            "timestamp": 1734520024000,
+            "description": "[S3 NRC 0x13] TC-S3-24: Incorrect Length - 8 bytes (too many) - Expect NRC 0x13"
+        },
+        {
+            "sid": 131,
+            "subFunction": 130,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                1,
+                212,
+                192
+            ],
+            "timestamp": 1734520025000,
+            "description": "[S3 SUPPRESS] TC-S3-25: Suppress Response (0x82) with S3=120s - Expect No Response but S3 should be applied"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520026000,
+            "description": "[S3 VERIFY] TC-S3-26: Verify Suppressed S3 Set Applied - S3 should be 120000ms"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520027000,
+            "description": "[S3 SESSION] TC-S3-27: Return to Default Session - Test S3 reset behavior"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520028000,
+            "description": "[S3 SESSION] TC-S3-28: Read Timing After Session Change - Check if S3 persists or resets"
+        },
+        {
+            "sid": 131,
+            "subFunction": 2,
+            "data": [
+                1,
+                0,
+                50,
+                19,
+                136,
+                0,
+                234,
+                96
+            ],
+            "timestamp": 1734520029000,
+            "description": "[S3 FINAL] TC-S3-29: Restore Default S3=60 seconds (60000ms = 0xEA60)"
+        },
+        {
+            "sid": 131,
+            "subFunction": 3,
+            "data": [],
+            "timestamp": 1734520030000,
+            "description": "[S3 FINAL] TC-S3-30: Final Verification - Confirm S3=60000ms restored"
+        },
+        {
+            "sid": 16,
+            "subFunction": 1,
+            "data": [],
+            "timestamp": 1734520031000,
+            "description": "[CLEANUP] TC-S3-31: Return to Default Session - Test Suite Complete"
+        }
+    ],
+    "createdAt": 1734520000000,
+    "version": "3.0.0-S3",
+    "metadata": {
+        "author": "UDS Simulator - S3 Timeout Enhanced",
+        "description": "ISO 14229-1:2020 Section 9.4 compliant test suite for SID 0x83 with S3 Server timeout support. Tests extended 7-byte format for setting session timeout dynamically via UDS protocol.",
+        "tags": [
+            "SID83",
+            "AccessTimingParameter",
+            "ISO14229",
+            "P2Server",
+            "P2StarServer",
+            "S3Server",
+            "SessionTimeout",
+            "ExtendedFormat",
+            "AutomotiveTesting",
+            "ECU"
+        ],
+        "testCategories": {
+            "s3_baseline": "TC-S3-01 to TC-S3-02: Read default S3 timing",
+            "s3_set_verify": "TC-S3-03 to TC-S3-12: Set and verify various S3 values",
+            "s3_nrc_0x31": "TC-S3-13 to TC-S3-16: S3 range validation",
+            "s3_production": "TC-S3-17 to TC-S3-20: Real-world S3 configurations",
+            "s3_backward_compat": "TC-S3-21 to TC-S3-22: Standard 5-byte format compatibility",
+            "s3_nrc_0x13": "TC-S3-23 to TC-S3-24: S3 message length validation",
+            "s3_suppress": "TC-S3-25 to TC-S3-26: Suppress response with S3",
+            "s3_session": "TC-S3-27 to TC-S3-28: S3 behavior across sessions",
+            "s3_final": "TC-S3-29 to TC-S3-31: State restoration"
+        },
+        "duration": 31000,
+        "totalRequests": 32,
+        "expectedSuccessRate": 90.625,
+        "nrcExpected": {
+            "0x31": 4,
+            "0x13": 2
+        },
+        "s3TimingValues": {
+            "default": "60000ms (60 seconds)",
+            "minimum": "1000ms (1 second)",
+            "maximum": "300000ms (5 minutes)",
+            "common": [
+                "30000ms (30 seconds)",
+                "60000ms (1 minute)",
+                "120000ms (2 minutes)",
+                "180000ms (3 minutes)"
+            ]
+        }
+    },
+    "notes": "S3 Server Timeout Test Suite v3.0.0: This suite specifically tests the enhanced SID 0x83 implementation with S3 Server (session timeout) support. Key features: (1) S3 SET/VERIFY: Test setting session timeout from 1 second to 5 minutes. (2) RANGE VALIDATION: Ensure NRC 0x31 for out-of-range S3 values. (3) BACKWARD COMPATIBILITY: Standard 5-byte format (P2/P2* only) still works. (4) EXTENDED FORMAT: New 7-byte format (P2/P2*/S3) properly parsed. (5) SESSION PERSISTENCE: Test S3 behavior across session changes. (6) PRODUCTION SCENARIOS: Common timeout values (30s, 60s, 120s, 180s). Use this suite with SID 0x27 (Security Access) to verify extended session stays alive for the configured S3 duration."
+}

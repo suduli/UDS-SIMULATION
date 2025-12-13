@@ -267,6 +267,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
         0x2A, // Read Data By Periodic Identifier
         0x31, // Routine Control
         0x3E, // Tester Present
+        0x83, // Access Timing Parameter
         0x85  // Control DTC Setting
       ];
 
@@ -339,6 +340,7 @@ const RequestBuilder: React.FC<RequestBuilderProps> = ({ initialRequest }) => {
       0x28, // Comm Control
       0x31, // Routine Control
       0x3E, // Tester Present
+      0x83, // Access Timing Parameter
       0x85  // Control DTC Setting
     ];
 
