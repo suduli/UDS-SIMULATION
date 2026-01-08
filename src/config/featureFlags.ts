@@ -9,18 +9,18 @@
 export const FEATURE_FLAGS = {
   // P2-01: Enhanced Export/Import
   ENABLE_ENHANCED_EXPORT: true,
-  ENABLE_SCENARIO_LIBRARY: true,
+  ENABLE_SCENARIO_LIBRARY: false,
   ENABLE_SCENARIO_REPLAY: true,
-  
+
   // P2-02: NRC Learning Mode (Future)
   ENABLE_NRC_LEARNING: false,
-  
+
   // P2-03: Scenario Builder (Future)
   ENABLE_SCENARIO_BUILDER: false,
-  
+
   // P2-04: Advanced Hex Editor (Future)
   ENABLE_ADVANCED_HEX_EDITOR: false,
-  
+
   // P2-05: Tutorial System (Future)
   ENABLE_TUTORIALS: false,
 } as const;
@@ -32,19 +32,19 @@ export const isFeatureEnabled = (feature: keyof typeof FEATURE_FLAGS): boolean =
   // Check environment variable override
   const envKey = `VITE_${feature}`;
   const envValue = import.meta.env[envKey];
-  
+
   if (envValue !== undefined) {
     return envValue === 'true' || envValue === true;
   }
-  
+
   // Check localStorage override (for testing)
   const storageKey = `feature_flag_${feature}`;
   const storageValue = localStorage.getItem(storageKey);
-  
+
   if (storageValue !== null) {
     return storageValue === 'true';
   }
-  
+
   // Return default value
   return FEATURE_FLAGS[feature];
 };
@@ -72,11 +72,11 @@ export const clearFeatureFlags = (): void => {
  */
 export const getAllFeatureFlags = (): Record<keyof typeof FEATURE_FLAGS, boolean> => {
   const flags: Record<string, boolean> = {};
-  
+
   (Object.keys(FEATURE_FLAGS) as Array<keyof typeof FEATURE_FLAGS>).forEach(feature => {
     flags[feature] = isFeatureEnabled(feature);
   });
-  
+
   return flags as Record<keyof typeof FEATURE_FLAGS, boolean>;
 };
 
