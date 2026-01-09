@@ -1,0 +1,194 @@
+﻿Report Information
+Report ID,terminal_report_1767945495343
+Report Name,"Terminal Output Report (1/9/2026, 1:28:15 PM)"
+Description,Generated from current terminal session with 165 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,165
+Total Responses,165
+Successful Responses,136
+Negative Responses (NRC),29
+Success Rate (%),82.42
+Test Duration,2m 45s
+Start Time,"12/17/2024, 11:56:40 PM"
+End Time,"12/17/2024, 11:59:25 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x70,Upload/Download Not Accepted,4,13.79
+0x33,Security Access Denied,2,6.90
+0x13,Incorrect Message Length,4,13.79
+0x31,Request Out of Range,17,58.62
+0x22,Conditions Not Correct,2,6.90
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/17/2024, 11:56:40 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33484306642.00
+2,"12/17/2024, 11:56:41 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-01: Request Download in DEFAULT session - Expect NRC 0x70 (not PROGRAMMING),0x34,7F 34 70,NRC,0x70,Upload/Download Not Accepted,33484306671.00
+3,"12/17/2024, 11:56:42 PM",0x10,0x01,,[SETUP] Reset to Default for TC-02,0x10,50 01 00 32 01 F4,Success,,,33484306932.00
+4,"12/17/2024, 11:56:43 PM",0x10,0x03,,TC-02.1: Switch to EXTENDED session,0x10,50 03 00 64 01 F4,Success,,,33484306970.00
+5,"12/17/2024, 11:56:44 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-02.2: Request Download in EXTENDED session - Expect NRC 0x70 (needs PROGRAMMING),0x34,7F 34 70,NRC,0x70,Upload/Download Not Accepted,33484307538.00
+6,"12/17/2024, 11:56:45 PM",0x10,0x01,,[SETUP] Reset to Default for TC-03,0x10,50 01 00 32 01 F4,Success,,,33484307567.00
+7,"12/17/2024, 11:56:46 PM",0x10,0x02,,TC-03.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484307610.00
+8,"12/17/2024, 11:56:47 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-03.2: Request Download without security unlock - Expect NRC 0x33,0x34,7F 34 33,NRC,0x33,Security Access Denied,33484307647.00
+9,"12/17/2024, 11:56:48 PM",0x10,0x01,,[SETUP] Reset to Default for TC-04,0x10,50 01 00 32 01 F4,Success,,,33484307686.00
+10,"12/17/2024, 11:56:49 PM",0x10,0x02,,TC-04.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484307725.00
+11,"12/17/2024, 11:56:50 PM",0x27,0x01,,TC-04.2: Request seed for security,0x27,67 01 12 34 56 78,Success,,,33484307781.00
+12,"12/17/2024, 11:56:51 PM",0x27,0x02,B7 6E A6 77,TC-04.3: Send key to unlock security,0x27,67 02,Success,,,33484307825.00
+13,"12/17/2024, 11:56:52 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-04.4: Valid Request Download: DFI=0x00, ALFID=0x44, Addr=0x00100000, Size=0x1000 - Expect Success (0x74)",0x34,74 20 10 00,Success,,,33484307878.00
+14,"12/17/2024, 11:56:53 PM",0x37,,,TC-04.5: Transfer Exit to complete download,0x37,77,Success,,,33484307926.00
+15,"12/17/2024, 11:56:54 PM",0x10,0x01,,[SETUP] Reset to Default for TC-05,0x10,50 01 00 32 01 F4,Success,,,33484307971.00
+16,"12/17/2024, 11:56:55 PM",0x10,0x02,,TC-05.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484308021.00
+17,"12/17/2024, 11:56:56 PM",0x27,0x01,,TC-05.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484308075.00
+18,"12/17/2024, 11:56:57 PM",0x27,0x02,B7 6E A6 77,TC-05.3: Send key,0x27,67 02,Success,,,33484308128.00
+19,"12/17/2024, 11:56:58 PM",0x34,,00 33 10 00 00 00 10 00,"TC-05.4: Valid Download with ALFID=0x33 (3-byte addr + 3-byte size), Addr=0x100000, Size=0x1000 - Expect Success",0x34,74 20 10 00,Success,,,33484308931.00
+20,"12/17/2024, 11:56:59 PM",0x37,,,TC-05.5: Transfer Exit,0x37,77,Success,,,33484309979.00
+21,"12/17/2024, 11:57:00 PM",0x10,0x01,,[SETUP] Reset to Default for TC-06,0x10,50 01 00 32 01 F4,Success,,,33484310985.00
+22,"12/17/2024, 11:57:01 PM",0x10,0x02,,TC-06.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484311934.00
+23,"12/17/2024, 11:57:02 PM",0x27,0x01,,TC-06.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484312978.00
+24,"12/17/2024, 11:57:03 PM",0x27,0x02,B7 6E A6 77,TC-06.3: Send key,0x27,67 02,Success,,,33484314014.00
+25,"12/17/2024, 11:57:04 PM",0x34,,00 44 00 10,"TC-06.4: Insufficient bytes (ALFID 0x44 expects 8 bytes, only 2 provided) - Expect NRC 0x13",0x34,7F 34 13,NRC,0x13,Incorrect Message Length,33484315928.00
+26,"12/17/2024, 11:57:05 PM",0x10,0x01,,[SETUP] Reset to Default for TC-07,0x10,50 01 00 32 01 F4,Success,,,33484317923.00
+27,"12/17/2024, 11:57:06 PM",0x10,0x02,,TC-07.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484318934.00
+28,"12/17/2024, 11:57:07 PM",0x27,0x01,,TC-07.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484320921.00
+29,"12/17/2024, 11:57:08 PM",0x27,0x02,B7 6E A6 77,TC-07.3: Send key,0x27,67 02,Success,,,33484322008.00
+30,"12/17/2024, 11:57:09 PM",0x34,,00 40,"TC-07.4: Invalid ALFID=0x40 with insufficient message (only 2 bytes, expects 6) - Expect NRC 0x13",0x34,7F 34 13,NRC,0x13,Incorrect Message Length,33484323000.00
+31,"12/17/2024, 11:57:10 PM",0x10,0x01,,[SETUP] Reset to Default for TC-08,0x10,50 01 00 32 01 F4,Success,,,33484323991.00
+32,"12/17/2024, 11:57:11 PM",0x10,0x02,,TC-08.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484324932.00
+33,"12/17/2024, 11:57:12 PM",0x27,0x01,,TC-08.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484325994.00
+34,"12/17/2024, 11:57:13 PM",0x27,0x02,B7 6E A6 77,TC-08.3: Send key,0x27,67 02,Success,,,33484327016.00
+35,"12/17/2024, 11:57:14 PM",0x34,,00 44 FF FF 00 00 00 00 10 00,TC-08.4: Invalid address 0xFFFF0000 (outside all regions) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484328016.00
+36,"12/17/2024, 11:57:15 PM",0x10,0x01,,[SETUP] Reset to Default for TC-09,0x10,50 01 00 32 01 F4,Success,,,33484329933.00
+37,"12/17/2024, 11:57:16 PM",0x10,0x02,,TC-09.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484330933.00
+38,"12/17/2024, 11:57:17 PM",0x27,0x01,,TC-09.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484332016.00
+39,"12/17/2024, 11:57:18 PM",0x27,0x02,B7 6E A6 77,TC-09.3: Send key,0x27,67 02,Success,,,33484333037.00
+40,"12/17/2024, 11:57:19 PM",0x34,,00 44 00 40 00 00 00 00 01 00,TC-09.4: Protected bootloader region at 0x00400000 (protected=true) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484334020.00
+41,"12/17/2024, 11:57:20 PM",0x10,0x01,,[SETUP] Reset to Default for TC-10,0x10,50 01 00 32 01 F4,Success,,,33484335031.00
+42,"12/17/2024, 11:57:21 PM",0x10,0x02,,TC-10.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484336923.00
+43,"12/17/2024, 11:57:22 PM",0x27,0x01,,TC-10.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484338024.00
+44,"12/17/2024, 11:57:23 PM",0x27,0x02,B7 6E A6 77,TC-10.3: Send key,0x27,67 02,Success,,,33484339025.00
+45,"12/17/2024, 11:57:24 PM",0x34,,00 44 00 30 00 00 00 00 01 00,TC-10.4: Non-writable RAM region at 0x00300000 (writable=false) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484340934.00
+46,"12/17/2024, 11:57:25 PM",0x10,0x01,,[SETUP] Reset to Default for TC-11,0x10,50 01 00 32 01 F4,Success,,,33484347093.00
+47,"12/17/2024, 11:57:26 PM",0x10,0x02,,TC-11.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484347193.00
+48,"12/17/2024, 11:57:27 PM",0x27,0x01,,TC-11.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484347317.00
+49,"12/17/2024, 11:57:28 PM",0x27,0x02,B7 6E A6 77,TC-11.3: Send key,0x27,67 02,Success,,,33484348036.00
+50,"12/17/2024, 11:57:29 PM",0x34,,00 44 00 10 00 00 00 FF 00 00,TC-11.4: Size 0x00FF0000 exceeds Calibration Public region boundary - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484349033.00
+51,"12/17/2024, 11:57:30 PM",0x10,0x01,,[SETUP] Reset to Default for TC-12,0x10,50 01 00 32 01 F4,Success,,,33484350925.00
+52,"12/17/2024, 11:57:31 PM",0x10,0x02,,TC-12.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484351933.00
+53,"12/17/2024, 11:57:32 PM",0x27,0x01,,TC-12.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484353050.00
+54,"12/17/2024, 11:57:33 PM",0x27,0x02,B7 6E A6 77,TC-12.3: Send key,0x27,67 02,Success,,,33484354036.00
+55,"12/17/2024, 11:57:34 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-12.4: First Request Download - Expect Success,0x34,74 20 10 00,Success,,,33484355023.00
+56,"12/17/2024, 11:57:35 PM",0x34,,00 44 00 10 10 00 00 00 10 00,TC-12.5: Second Request Download while first active - Expect NRC 0x22 (Conditions Not Correct),0x34,7F 34 22,NRC,0x22,Conditions Not Correct,33484356770.00
+57,"12/17/2024, 11:57:36 PM",0x37,,,TC-12.6: Transfer Exit to clean up,0x37,77,Success,,,33484356961.00
+58,"12/17/2024, 11:57:37 PM",0x10,0x01,,[SETUP] Reset to Default for TC-13,0x10,50 01 00 32 01 F4,Success,,,33484357065.00
+59,"12/17/2024, 11:57:38 PM",0x10,0x02,,TC-13.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484357191.00
+60,"12/17/2024, 11:57:39 PM",0x27,0x01,,TC-13.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484357317.00
+61,"12/17/2024, 11:57:40 PM",0x27,0x02,B7 6E A6 77,TC-13.3: Send key,0x27,67 02,Success,,,33484357450.00
+62,"12/17/2024, 11:57:41 PM",0x34,,00 44 00 00 10 00 00 00 10 00,"TC-13.4: Valid download to Flash Code region at 0x00001000, size 0x1000 - Expect Success",0x34,74 20 10 00,Success,,,33484357584.00
+63,"12/17/2024, 11:57:42 PM",0x37,,,TC-13.5: Transfer Exit,0x37,77,Success,,,33484357726.00
+64,"12/17/2024, 11:57:43 PM",0x10,0x01,,[SETUP] Reset to Default for TC-14,0x10,50 01 00 32 01 F4,Success,,,33484357852.00
+65,"12/17/2024, 11:57:44 PM",0x10,0x02,,TC-14.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484357961.00
+66,"12/17/2024, 11:57:45 PM",0x27,0x01,,TC-14.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484358089.00
+67,"12/17/2024, 11:57:46 PM",0x27,0x02,B7 6E A6 77,TC-14.3: Send key,0x27,67 02,Success,,,33484358206.00
+68,"12/17/2024, 11:57:47 PM",0x34,,00 44 00 20 00 00 00 00 20 00,"TC-14.4: Valid download to OEM Calibration region at 0x00200000, size 0x2000 - Expect Success",0x34,74 20 10 00,Success,,,33484358346.00
+69,"12/17/2024, 11:57:48 PM",0x37,,,TC-14.5: Transfer Exit,0x37,77,Success,,,33484358497.00
+70,"12/17/2024, 11:57:49 PM",0x10,0x01,,[SETUP] Reset to Default for TC-15,0x10,50 01 00 32 01 F4,Success,,,33484358643.00
+71,"12/17/2024, 11:57:50 PM",0x10,0x02,,TC-15.1: Switch to PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33484358740.00
+72,"12/17/2024, 11:57:51 PM",0x27,0x01,,TC-15.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484358863.00
+73,"12/17/2024, 11:57:52 PM",0x27,0x02,B7 6E A6 77,TC-15.3: Send key,0x27,67 02,Success,,,33484358981.00
+74,"12/17/2024, 11:57:53 PM",0x34,,00 44 00 10 00 00 00 00 00 00,"TC-15.4: Zero memory size (size=0x000000, invalid) - Expect NRC 0x31",0x34,7F 34 31,NRC,0x31,Request Out of Range,33484359106.00
+75,"12/17/2024, 11:57:55 PM",0x10,0x01,,[SETUP] Reset for TC-16 DFI Compression Tests,0x10,50 01 00 32 01 F4,Success,,,33484358228.00
+76,"12/17/2024, 11:57:56 PM",0x10,0x02,,TC-16.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484358356.00
+77,"12/17/2024, 11:57:57 PM",0x27,0x01,,TC-16.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484358488.00
+78,"12/17/2024, 11:57:58 PM",0x27,0x02,B7 6E A6 77,TC-16.3: Send key,0x27,67 02,Success,,,33484358629.00
+79,"12/17/2024, 11:57:59 PM",0x34,,10 44 00 10 00 00 00 00 10 00,TC-16.4: DFI=0x10 (compression method 1) - Expect NRC 0x31 (unsupported),0x34,7F 34 31,NRC,0x31,Request Out of Range,33484358756.00
+80,"12/17/2024, 11:58:00 PM",0x34,,20 44 00 10 00 00 00 00 10 00,TC-16.5: DFI=0x20 (compression method 2) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484358877.00
+81,"12/17/2024, 11:58:01 PM",0x34,,F0 44 00 10 00 00 00 00 10 00,TC-16.6: DFI=0xF0 (invalid compression 15) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484359003.00
+82,"12/17/2024, 11:58:02 PM",0x10,0x01,,[SETUP] Reset for TC-17 DFI Encryption Tests,0x10,50 01 00 32 01 F4,Success,,,33484359121.00
+83,"12/17/2024, 11:58:03 PM",0x10,0x02,,TC-17.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484359263.00
+84,"12/17/2024, 11:58:04 PM",0x27,0x01,,TC-17.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484359400.00
+85,"12/17/2024, 11:58:05 PM",0x27,0x02,B7 6E A6 77,TC-17.3: Send key,0x27,67 02,Success,,,33484359594.00
+86,"12/17/2024, 11:58:06 PM",0x34,,01 44 00 10 00 00 00 00 10 00,TC-17.4: DFI=0x01 (encryption method 1) - Expect NRC 0x31 (unsupported),0x34,7F 34 31,NRC,0x31,Request Out of Range,33484359720.00
+87,"12/17/2024, 11:58:07 PM",0x34,,0F 44 00 10 00 00 00 00 10 00,TC-17.5: DFI=0x0F (invalid encryption 15) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484359842.00
+88,"12/17/2024, 11:58:08 PM",0x10,0x01,,[SETUP] Reset for TC-18 Combined DFI Tests,0x10,50 01 00 32 01 F4,Success,,,33484359966.00
+89,"12/17/2024, 11:58:09 PM",0x10,0x02,,TC-18.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484360094.00
+90,"12/17/2024, 11:58:10 PM",0x27,0x01,,TC-18.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484360223.00
+91,"12/17/2024, 11:58:11 PM",0x27,0x02,B7 6E A6 77,TC-18.3: Send key,0x27,67 02,Success,,,33484360334.00
+92,"12/17/2024, 11:58:12 PM",0x34,,11 44 00 10 00 00 00 00 10 00,TC-18.4: DFI=0x11 (compression 1 + encryption 1) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484360452.00
+93,"12/17/2024, 11:58:13 PM",0x34,,FF 44 00 10 00 00 00 00 10 00,TC-18.5: DFI=0xFF (max compression + encryption) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484360607.00
+94,"12/17/2024, 11:58:14 PM",0x10,0x01,,[SETUP] Reset for TC-19 ALFID Edge Cases,0x10,50 01 00 32 01 F4,Success,,,33484360781.00
+95,"12/17/2024, 11:58:15 PM",0x10,0x02,,TC-19.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484360948.00
+96,"12/17/2024, 11:58:16 PM",0x27,0x01,,TC-19.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484361117.00
+97,"12/17/2024, 11:58:17 PM",0x27,0x02,B7 6E A6 77,TC-19.3: Send key,0x27,67 02,Success,,,33484361290.00
+98,"12/17/2024, 11:58:18 PM",0x34,,00 11 10 10,"TC-19.4: ALFID=0x11 (1-byte addr + 1-byte size), Addr=0x10, Size=0x10 - Expect NRC 0x31 (addr too small)",0x34,7F 34 31,NRC,0x31,Request Out of Range,33484361453.00
+99,"12/17/2024, 11:58:19 PM",0x34,,00 22 00 10 10 00,"TC-19.5: ALFID=0x22 (2-byte addr + 2-byte size), Addr=0x0010, Size=0x1000 - Expect NRC 0x31",0x34,7F 34 31,NRC,0x31,Request Out of Range,33484361605.00
+100,"12/17/2024, 11:58:20 PM",0x34,,00 00,"TC-19.6: ALFID=0x00 (0-byte addr + 0-byte size, invalid) - Expect NRC 0x13",0x34,7F 34 13,NRC,0x13,Incorrect Message Length,33484361736.00
+101,"12/17/2024, 11:58:21 PM",0x34,,00 F0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00,TC-19.7: ALFID=0xF0 (15-byte addr + 0-byte size) - Expect NRC 0x13,0x34,7F 34 13,NRC,0x13,Incorrect Message Length,33484361856.00
+102,"12/17/2024, 11:58:22 PM",0x10,0x01,,[SETUP] Reset for TC-20 Upload Conflict,0x10,50 01 00 32 01 F4,Success,,,33484361977.00
+103,"12/17/2024, 11:58:23 PM",0x10,0x02,,TC-20.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484362098.00
+104,"12/17/2024, 11:58:24 PM",0x27,0x01,,TC-20.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484362236.00
+105,"12/17/2024, 11:58:25 PM",0x27,0x02,B7 6E A6 77,TC-20.3: Send key,0x27,67 02,Success,,,33484362356.00
+106,"12/17/2024, 11:58:26 PM",0x35,,00 44 00 10 00 00 00 00 10 00,TC-20.4: Start Request Upload (0x35) - Expect Success,0x35,75 20 10 00,Success,,,33484362604.00
+107,"12/17/2024, 11:58:27 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-20.5: Attempt Download during Upload - Expect NRC 0x22,0x34,7F 34 22,NRC,0x22,Conditions Not Correct,33484362785.00
+108,"12/17/2024, 11:58:28 PM",0x37,,,TC-20.6: Transfer Exit to clean upload state,0x37,77,Success,,,33484362957.00
+109,"12/17/2024, 11:58:29 PM",0x10,0x01,,[SETUP] Reset for TC-21 Tester Present,0x10,50 01 00 32 01 F4,Success,,,33484363144.00
+110,"12/17/2024, 11:58:30 PM",0x10,0x02,,TC-21.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484363333.00
+111,"12/17/2024, 11:58:31 PM",0x27,0x01,,TC-21.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484363628.00
+112,"12/17/2024, 11:58:32 PM",0x27,0x02,B7 6E A6 77,TC-21.3: Send key,0x27,67 02,Success,,,33484363755.00
+113,"12/17/2024, 11:58:33 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-21.4: Start download - Expect Success,0x34,74 20 10 00,Success,,,33484363879.00
+114,"12/17/2024, 11:58:34 PM",0x3E,0x00,,TC-21.5: Tester Present (0x3E 0x00) during download - Expect 0x7E,0x3E,00,Success,,,33484364005.00
+115,"12/17/2024, 11:58:35 PM",0x3E,0x80,,TC-21.6: Tester Present with suppress (0x3E 0x80) - No response,0x3E,,Success,,,33484364134.00
+116,"12/17/2024, 11:58:36 PM",0x37,,,TC-21.7: Transfer Exit,0x37,77,Success,,,33484364260.00
+117,"12/17/2024, 11:58:37 PM",0x10,0x01,,[SETUP] Reset for TC-22 Multi-Region Downloads,0x10,50 01 00 32 01 F4,Success,,,33484364464.00
+118,"12/17/2024, 11:58:38 PM",0x10,0x02,,TC-22.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484364650.00
+119,"12/17/2024, 11:58:39 PM",0x27,0x01,,TC-22.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484364835.00
+120,"12/17/2024, 11:58:40 PM",0x27,0x02,B7 6E A6 77,TC-22.3: Send key,0x27,67 02,Success,,,33484365050.00
+121,"12/17/2024, 11:58:41 PM",0x34,,00 44 00 00 10 00 00 00 10 00,TC-22.4: Download to Flash Code (0x00001000) - Expect Success,0x34,74 20 10 00,Success,,,33484365245.00
+122,"12/17/2024, 11:58:42 PM",0x37,,,TC-22.5: Transfer Exit,0x37,77,Success,,,33484365452.00
+123,"12/17/2024, 11:58:43 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-22.6: Download to Calibration Public (0x00100000) - Expect Success,0x34,74 20 10 00,Success,,,33484365644.00
+124,"12/17/2024, 11:58:44 PM",0x37,,,TC-22.7: Transfer Exit,0x37,77,Success,,,33484365763.00
+125,"12/17/2024, 11:58:45 PM",0x34,,00 44 00 20 00 00 00 00 10 00,TC-22.8: Download to OEM Calibration (0x00200000) - Expect Success,0x34,74 20 10 00,Success,,,33484365889.00
+126,"12/17/2024, 11:58:46 PM",0x37,,,TC-22.9: Transfer Exit,0x37,77,Success,,,33484366018.00
+127,"12/17/2024, 11:58:47 PM",0x10,0x01,,[SETUP] Reset for TC-23 Response Verification,0x10,50 01 00 32 01 F4,Success,,,33484366152.00
+128,"12/17/2024, 11:58:48 PM",0x10,0x02,,TC-23.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484366348.00
+129,"12/17/2024, 11:58:49 PM",0x27,0x01,,TC-23.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484366634.00
+130,"12/17/2024, 11:58:50 PM",0x27,0x02,B7 6E A6 77,TC-23.3: Send key,0x27,67 02,Success,,,33484366749.00
+131,"12/17/2024, 11:58:51 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-23.4: Valid download - Verify response has lengthFormatIdentifier=0x20 and maxBlockLength,0x34,74 20 10 00,Success,,,33484366893.00
+132,"12/17/2024, 11:58:52 PM",0x37,,,TC-23.5: Transfer Exit,0x37,77,Success,,,33484367024.00
+133,"12/17/2024, 11:58:53 PM",0x10,0x01,,[SETUP] Reset for TC-24 Boundary Testing,0x10,50 01 00 32 01 F4,Success,,,33484367157.00
+134,"12/17/2024, 11:58:54 PM",0x10,0x02,,TC-24.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484367322.00
+135,"12/17/2024, 11:58:55 PM",0x27,0x01,,TC-24.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484367465.00
+136,"12/17/2024, 11:58:56 PM",0x27,0x02,B7 6E A6 77,TC-24.3: Send key,0x27,67 02,Success,,,33484367616.00
+137,"12/17/2024, 11:58:57 PM",0x34,,00 44 00 01 00 00 00 00 01 00,TC-24.4: Exact region start (Flash Code 0x00001000) - Expect Success,0x34,74 20 10 00,Success,,,33484367756.00
+138,"12/17/2024, 11:58:58 PM",0x37,,,TC-24.5: Transfer Exit,0x37,77,Success,,,33484367960.00
+139,"12/17/2024, 11:58:59 PM",0x34,,00 44 00 0F F0 00 00 00 10 00,"TC-24.6: End of Flash Code (addr=0x000FF000, size=0x1000, end=0x00100000) - Expect Success",0x34,74 20 10 00,Success,,,33484368227.00
+140,"12/17/2024, 11:59:00 PM",0x37,,,TC-24.7: Transfer Exit,0x37,77,Success,,,33484368434.00
+141,"12/17/2024, 11:59:01 PM",0x34,,00 44 00 0F F0 00 00 01 00 01,TC-24.8: Exceed Flash Code boundary by 1 byte - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484368659.00
+142,"12/17/2024, 11:59:02 PM",0x10,0x01,,[SETUP] Reset for TC-25 SAFETY Session,0x10,50 01 00 32 01 F4,Success,,,33484368836.00
+143,"12/17/2024, 11:59:03 PM",0x10,0x04,,TC-25.1: Switch to SAFETY session (0x04),0x10,50 04 00 32 01 F4,Success,,,33484368975.00
+144,"12/17/2024, 11:59:04 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-25.2: Request Download in SAFETY - Expect NRC 0x70,0x34,7F 34 70,NRC,0x70,Upload/Download Not Accepted,33484369186.00
+145,"12/17/2024, 11:59:05 PM",0x10,0x01,,[SETUP] Reset for TC-26 Error Recovery,0x10,50 01 00 32 01 F4,Success,,,33484369406.00
+146,"12/17/2024, 11:59:06 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-26.1: Download in DEFAULT - Expect NRC 0x70,0x34,7F 34 70,NRC,0x70,Upload/Download Not Accepted,33484369636.00
+147,"12/17/2024, 11:59:07 PM",0x10,0x02,,TC-26.2: Switch to PROGRAMMING (recovery),0x10,50 02 00 32 01 F4,Success,,,33484369805.00
+148,"12/17/2024, 11:59:08 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-26.3: Retry Download - Expect NRC 0x33 (needs unlock),0x34,7F 34 33,NRC,0x33,Security Access Denied,33484369984.00
+149,"12/17/2024, 11:59:09 PM",0x27,0x01,,TC-26.4: Request seed (recovery),0x27,67 01 12 34 56 78,Success,,,33484370207.00
+150,"12/17/2024, 11:59:10 PM",0x27,0x02,B7 6E A6 77,TC-26.5: Send key (recovery),0x27,67 02,Success,,,33484370425.00
+151,"12/17/2024, 11:59:11 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-26.6: Final retry - Expect Success after recovery,0x34,74 20 10 00,Success,,,33484370634.00
+152,"12/17/2024, 11:59:12 PM",0x37,,,TC-26.7: Transfer Exit,0x37,77,Success,,,33484370856.00
+153,"12/17/2024, 11:59:13 PM",0x10,0x01,,[SETUP] Reset for TC-27 Size Extremes,0x10,50 01 00 32 01 F4,Success,,,33484371069.00
+154,"12/17/2024, 11:59:14 PM",0x10,0x02,,TC-27.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484371316.00
+155,"12/17/2024, 11:59:15 PM",0x27,0x01,,TC-27.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484371651.00
+156,"12/17/2024, 11:59:16 PM",0x27,0x02,B7 6E A6 77,TC-27.3: Send key,0x27,67 02,Success,,,33484371823.00
+157,"12/17/2024, 11:59:17 PM",0x34,,00 44 00 10 00 00 00 10 00 00,TC-27.4: Large size (0x100000 = 1MB Calibration region) - Expect Success,0x34,74 20 10 00,Success,,,33484371974.00
+158,"12/17/2024, 11:59:18 PM",0x37,,,TC-27.5: Transfer Exit,0x37,77,Success,,,33484372140.00
+159,"12/17/2024, 11:59:19 PM",0x34,,00 44 00 10 00 00 FF FF FF FF,TC-27.6: Size=0xFFFFFFFF (overflow) - Expect NRC 0x31,0x34,7F 34 31,NRC,0x31,Request Out of Range,33484372297.00
+160,"12/17/2024, 11:59:20 PM",0x10,0x01,,[SETUP] Reset for TC-28 Reserved Region,0x10,50 01 00 32 01 F4,Success,,,33484372459.00
+161,"12/17/2024, 11:59:21 PM",0x10,0x02,,TC-28.1: Switch to PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33484372629.00
+162,"12/17/2024, 11:59:22 PM",0x27,0x01,,TC-28.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33484372871.00
+163,"12/17/2024, 11:59:23 PM",0x27,0x02,B7 6E A6 77,TC-28.3: Send key,0x27,67 02,Success,,,33484373112.00
+164,"12/17/2024, 11:59:24 PM",0x34,,00 44 00 00 00 00 00 00 01 00,"TC-28.4: Reserved region (0x00000000, accessible=false) - Expect NRC 0x31",0x34,7F 34 31,NRC,0x31,Request Out of Range,33484373361.00
+165,"12/17/2024, 11:59:25 PM",0x10,0x01,,[FINAL] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33484373643.00

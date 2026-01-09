@@ -7,14 +7,37 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build outputs (regenerable)
 dist
 dist-ssr
 storybook-static
 *.local
 
-# Documentation organization backups
+# Documentation organization backups (local only)
 .docs-backup/
+
+# Generated artifacts (regenerable)
+artifacts/logs/**/*.txt
+artifacts/logs/**/*.log
+artifacts/test-results/
+artifacts/build/
+artifacts/Data/logs_extracted/
+artifacts/Data/test-results/
+artifacts/Data/theme-test-results-extracted/
+
+# Test reports (regenerable)
+tests/reports/*.csv
+tests/reports/*.html
+tests/reports/*.json
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.cache/
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +49,14 @@ storybook-static
 *.njsproj
 *.sln
 *.sw?
+
+# OS files
+Thumbs.db
+.DS_Store
+*~
+
+# IDE
+*.swp
+*.swo
+.idea/
+.vscode/settings.json

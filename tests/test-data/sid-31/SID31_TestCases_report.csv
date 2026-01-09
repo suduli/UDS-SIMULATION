@@ -1,0 +1,206 @@
+﻿Report Information
+Report ID,terminal_report_1767944243224
+Report Name,"Terminal Output Report (1/9/2026, 1:07:23 PM)"
+Description,Generated from current terminal session with 175 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,175
+Total Responses,175
+Successful Responses,133
+Negative Responses (NRC),42
+Success Rate (%),76.00
+Test Duration,2m 54s
+Start Time,"12/17/2024, 9:10:00 PM"
+End Time,"12/17/2024, 9:12:54 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7F,Service Not Supported In Active Session,9,21.43
+0x33,Security Access Denied,4,9.52
+0x24,Request Sequence Error,6,14.29
+0x13,Incorrect Message Length,5,11.90
+0x12,Sub-Function Not Supported,7,16.67
+0x31,Request Out of Range,8,19.05
+0x22,Conditions Not Correct,3,7.14
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/17/2024, 9:10:00 PM",0x10,0x01,,[SETUP] TC-01: Reset to Default Session - Baseline for all tests,0x10,50 01 00 32 01 F4,Success,,,33493939125.00
+2,"12/17/2024, 9:10:01 PM",0x31,0x01,01 00,TC-01.1: Start Read ECU Info (0x0100) in DEFAULT - Expect Positive Response 71 01 01 00,0x31,71 01 01 00 00,Success,,,33493939156.00
+3,"12/17/2024, 9:10:02 PM",0x31,0x03,01 00,TC-01.2: Request Results for ECU Info - Expect 71 03 01 00 [Results],0x31,71 03 01 00 01 01 00 00,Success,,,33493939162.00
+4,"12/17/2024, 9:10:03 PM",0x31,0x01,01 01,TC-01.3: Start System Status (0x0101) in DEFAULT - Expect Positive Response,0x31,71 01 01 01 00,Success,,,33493939921.00
+5,"12/17/2024, 9:10:04 PM",0x31,0x03,01 01,TC-01.4: Get Results for System Status - Expect 71 03 01 01 [Status],0x31,71 03 01 01 01 00,Success,,,33493941929.00
+6,"12/17/2024, 9:10:05 PM",0x10,0x01,,[SETUP] TC-02: Reset for Session Validation Tests,0x10,50 01 00 32 01 F4,Success,,,33493942950.00
+7,"12/17/2024, 9:10:06 PM",0x31,0x01,0F 01,TC-02.1: Start Fuel Pump Test (0x0F01) in DEFAULT - Expect NRC 0x7F (Service Not Supported In Active Session),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33493943951.00
+8,"12/17/2024, 9:10:07 PM",0x31,0x01,F0 12,TC-02.2: Start Injector Test (0xF012) in DEFAULT - Expect NRC 0x7F (Requires EXTENDED),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33493944925.00
+9,"12/17/2024, 9:10:08 PM",0x10,0x03,,TC-02.3: Switch to EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493945931.00
+10,"12/17/2024, 9:10:09 PM",0x31,0x01,0F 01,TC-02.4: Start Fuel Pump Test in EXTENDED - Expect Positive Response (No Security Required),0x31,71 01 0F 01 00,Success,,,33493945990.00
+11,"12/17/2024, 9:10:10 PM",0x31,0x03,0F 01,TC-02.5: Get Fuel Pump Results - Expect 71 03 0F 01 01 (PASS),0x31,71 03 0F 01 01 01,Success,,,33493946038.00
+12,"12/17/2024, 9:10:11 PM",0x10,0x01,,[SETUP] TC-03: Reset for Security Access Validation,0x10,50 01 00 32 01 F4,Success,,,33493946085.00
+13,"12/17/2024, 9:10:12 PM",0x10,0x03,,TC-03.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493946923.00
+14,"12/17/2024, 9:10:13 PM",0x31,0x01,F0 12,TC-03.2: Start Injector Test (0xF012) WITHOUT Security - Expect NRC 0x33 (Security Access Denied),0x31,7F 31 33,NRC,0x33,Security Access Denied,33493947965.00
+15,"12/17/2024, 9:10:14 PM",0x31,0x01,AB CD,TC-03.3: Start Throttle Calibration (0xABCD) WITHOUT Security - Expect NRC 0x33,0x31,7F 31 33,NRC,0x33,Security Access Denied,33493948988.00
+16,"12/17/2024, 9:10:15 PM",0x27,0x01,,TC-03.4: Request Security Seed (SID 0x27 SF 0x01),0x27,67 01 12 34 56 78,Success,,,33493950933.00
+17,"12/17/2024, 9:10:16 PM",0x27,0x02,B7 6E A6 77,"TC-03.5: Send Correct Security Key [0xB7, 0x6E, 0xA6, 0x77] - Unlock ECU",0x27,67 02,Success,,,33493951973.00
+18,"12/17/2024, 9:10:17 PM",0x31,0x01,F0 12,TC-03.6: Start Injector Test WITH Security - Expect Positive Response 71 01 F0 12,0x31,71 01 F0 12 00,Success,,,33493953017.00
+19,"12/17/2024, 9:10:18 PM",0x31,0x03,F0 12,TC-03.7: Get Injector Test Results - Expect 71 03 F0 12 01 (PASS),0x31,71 03 F0 12 01 01 00,Success,,,33493953977.00
+20,"12/17/2024, 9:10:19 PM",0x10,0x01,,[SETUP] TC-04: Reset for Sequence Error Detection - Start While Running,0x10,50 01 00 32 01 F4,Success,,,33493954931.00
+21,"12/17/2024, 9:10:20 PM",0x10,0x03,,TC-04.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493955932.00
+22,"12/17/2024, 9:10:21 PM",0x31,0x01,0F 01,TC-04.2: Start Fuel Pump Test - Expect Positive Response,0x31,71 01 0F 01 00,Success,,,33493956993.00
+23,"12/17/2024, 9:10:22 PM",0x31,0x01,0F 01,TC-04.3: START Again While Running - Expect NRC 0x24 (Request Sequence Error),0x31,7F 31 24,NRC,0x24,Request Sequence Error,33493958933.00
+24,"12/17/2024, 9:10:23 PM",0x31,0x02,0F 01,TC-04.4: STOP Running Routine - Expect Positive Response 71 02 0F 01,0x31,71 02 0F 01 00,Success,,,33493959995.00
+25,"12/17/2024, 9:10:24 PM",0x31,0x02,0F 01,TC-04.5: STOP Again (Not Running) - Expect NRC 0x24 (Request Sequence Error),0x31,7F 31 24,NRC,0x24,Request Sequence Error,33493960977.00
+26,"12/17/2024, 9:10:25 PM",0x10,0x01,,[SETUP] TC-05: Reset for Sequence Error - Request Results Before Start,0x10,50 01 00 32 01 F4,Success,,,33493961987.00
+27,"12/17/2024, 9:10:26 PM",0x10,0x03,,TC-05.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493962934.00
+28,"12/17/2024, 9:10:27 PM",0x31,0x03,0F 02,TC-05.2: REQUEST RESULTS Before Starting - Expect NRC 0x24 (Never Started),0x31,7F 31 24,NRC,0x24,Request Sequence Error,33493963989.00
+29,"12/17/2024, 9:10:28 PM",0x31,0x01,0F 02,TC-05.3: Now Start Horn Test (0x0F02) - Expect Positive Response,0x31,71 01 0F 02 00,Success,,,33493965063.00
+30,"12/17/2024, 9:10:29 PM",0x31,0x03,0F 02,TC-05.4: Request Results After Start - Expect Positive Response with Results,0x31,71 03 0F 02 01 01,Success,,,33493965994.00
+31,"12/17/2024, 9:10:30 PM",0x10,0x01,,[SETUP] TC-06: Reset for Invalid SubFunction Tests,0x10,50 01 00 32 01 F4,Success,,,33493967924.00
+32,"12/17/2024, 9:10:31 PM",0x10,0x03,,TC-06.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493968926.00
+33,"12/17/2024, 9:10:32 PM",0x31,0x00,0F 01,TC-06.2: SubFunction 0x00 (Reserved) - Expect NRC 0x12 (SubFunction Not Supported),0x31,7F 31 13,NRC,0x13,Incorrect Message Length,33493970062.00
+34,"12/17/2024, 9:10:33 PM",0x31,0x04,0F 01,TC-06.3: SubFunction 0x04 (Invalid) - Expect NRC 0x12,0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33493971009.00
+35,"12/17/2024, 9:10:34 PM",0x31,0x7F,0F 01,TC-06.4: SubFunction 0x7F (Max Valid Range) - Expect NRC 0x12,0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33493971998.00
+36,"12/17/2024, 9:10:35 PM",0x31,0x80,0F 01,TC-06.5: SubFunction 0x80 (Suppress Positive Response bit) - Expect NRC 0x12 or Suppressed,0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33493973116.00
+37,"12/17/2024, 9:10:36 PM",0x10,0x01,,[SETUP] TC-07: Reset for Message Length Validation,0x10,50 01 00 32 01 F4,Success,,,33493973999.00
+38,"12/17/2024, 9:10:37 PM",0x10,0x03,,TC-07.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33493974929.00
+39,"12/17/2024, 9:10:38 PM",0x31,0x01,,TC-07.2: No RID Bytes (Too Short) - Expect NRC 0x13 (Incorrect Message Length),0x31,7F 31 13,NRC,0x13,Incorrect Message Length,33493976931.00
+40,"12/17/2024, 9:10:39 PM",0x31,0x01,0F,TC-07.3: Only One RID Byte - Expect NRC 0x13,0x31,7F 31 13,NRC,0x13,Incorrect Message Length,33493978029.00
+41,"12/17/2024, 9:10:40 PM",0x31,,0F 01,TC-07.4: No SubFunction (If Possible) - Expect NRC 0x13,0x31,7F 31 13,NRC,0x13,Incorrect Message Length,33494000863.00
+42,"12/17/2024, 9:10:41 PM",0x10,0x01,,[SETUP] TC-08: Reset for Invalid RID Tests (Out of Range),0x10,50 01 00 32 01 F4,Success,,,33494000967.00
+43,"12/17/2024, 9:10:42 PM",0x10,0x03,,TC-08.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494001115.00
+44,"12/17/2024, 9:10:43 PM",0x31,0x01,DE AD,TC-08.2: Invalid RID 0xDEAD - Expect NRC 0x31 (Request Out Of Range),0x31,7F 31 31,NRC,0x31,Request Out of Range,33494001225.00
+45,"12/17/2024, 9:10:44 PM",0x31,0x01,FF FE,TC-08.3: Invalid RID 0xFFFE - Expect NRC 0x31,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494001342.00
+46,"12/17/2024, 9:10:45 PM",0x31,0x01,00 00,TC-08.4: RID 0x0000 (Reserved) - Expect NRC 0x31,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494001450.00
+47,"12/17/2024, 9:10:46 PM",0x31,0x03,DE AD,TC-08.5: Request Results for Invalid RID - Expect NRC 0x31,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494001571.00
+48,"12/17/2024, 9:10:47 PM",0x10,0x01,,[SETUP] TC-09: Reset for PROGRAMMING Session Routines,0x10,50 01 00 32 01 F4,Success,,,33494001666.00
+49,"12/17/2024, 9:10:48 PM",0x10,0x02,,TC-09.1: Enter PROGRAMMING Session,0x10,50 02 00 32 01 F4,Success,,,33494001758.00
+50,"12/17/2024, 9:10:49 PM",0x31,0x01,FF 00,TC-09.2: Start Erase Flash (0xFF00) WITHOUT Security - Expect NRC 0x33,0x31,7F 31 33,NRC,0x33,Security Access Denied,33494001858.00
+51,"12/17/2024, 9:10:50 PM",0x27,0x01,,TC-09.3: Request Security Seed,0x27,67 01 12 34 56 78,Success,,,33494001968.00
+52,"12/17/2024, 9:10:51 PM",0x27,0x02,B7 6E A6 77,"TC-09.4: Unlock Security with Key [0xB7, 0x6E, 0xA6, 0x77]",0x27,67 02,Success,,,33494002085.00
+53,"12/17/2024, 9:10:52 PM",0x31,0x01,FF 00,TC-09.5: Start Erase Flash WITH Security - Expect Positive Response 71 01 FF 00,0x31,71 01 FF 00 00,Success,,,33494002207.00
+54,"12/17/2024, 9:10:53 PM",0x31,0x02,FF 00,TC-09.6: Try to STOP Erase (Not Supported) - Expect NRC 0x12 (SubFunction Not Supported for this RID),0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33494002326.00
+55,"12/17/2024, 9:10:54 PM",0x31,0x03,FF 00,TC-09.7: Request Erase Results - Expect Positive Response 71 03 FF 00 00,0x31,71 03 FF 00 01 00,Success,,,33494002406.00
+56,"12/17/2024, 9:10:55 PM",0x10,0x01,,[SETUP] TC-10: Reset for Session Change Aborts Routine Test,0x10,50 01 00 32 01 F4,Success,,,33494002491.00
+57,"12/17/2024, 9:10:56 PM",0x10,0x03,,TC-10.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494002565.00
+58,"12/17/2024, 9:10:57 PM",0x31,0x01,0F 01,TC-10.2: Start Fuel Pump Test - Routine Running,0x31,71 01 0F 01 00,Success,,,33494002637.00
+59,"12/17/2024, 9:10:58 PM",0x10,0x01,,TC-10.3: Change to DEFAULT Session - Should AUTO-ABORT Routine,0x10,50 01 00 32 01 F4,Success,,,33494002750.00
+60,"12/17/2024, 9:10:59 PM",0x10,0x03,,TC-10.4: Return to EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494002864.00
+61,"12/17/2024, 9:11:00 PM",0x31,0x03,0F 01,TC-10.5: Request Results for Aborted Routine - Expect NRC 0x24 (Sequence Error),0x31,7F 31 24,NRC,0x24,Request Sequence Error,33494002978.00
+62,"12/17/2024, 9:11:01 PM",0x10,0x01,,[SETUP] TC-11: Reset for Long-Running Routine with Tester Present,0x10,50 01 00 32 01 F4,Success,,,33494003084.00
+63,"12/17/2024, 9:11:02 PM",0x10,0x03,,TC-11.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494003202.00
+64,"12/17/2024, 9:11:03 PM",0x27,0x01,,TC-11.2: Request Security Seed,0x27,67 01 12 34 56 78,Success,,,33494003324.00
+65,"12/17/2024, 9:11:04 PM",0x27,0x02,B7 6E A6 77,TC-11.3: Unlock Security,0x27,67 02,Success,,,33494003441.00
+66,"12/17/2024, 9:11:05 PM",0x31,0x01,AB CD,"TC-11.4: Start Throttle Calibration (0xABCD, 30s Long) - Expect Positive Response",0x31,71 01 AB CD 00,Success,,,33494003576.00
+67,"12/17/2024, 9:11:06 PM",0x3E,0x00,,TC-11.5: Tester Present (3E 00) - Keep Session Alive,0x3E,00,Success,,,33494003673.00
+68,"12/17/2024, 9:11:07 PM",0x31,0x03,AB CD,TC-11.6: Check Progress - Expect Running Status (00 = In Progress),0x31,71 03 AB CD 01 01 64,Success,,,33494003749.00
+69,"12/17/2024, 9:11:08 PM",0x3E,0x00,,TC-11.7: Tester Present - Continue Keep Alive,0x3E,00,Success,,,33494003826.00
+70,"12/17/2024, 9:11:09 PM",0x31,0x02,AB CD,TC-11.8: STOP Long-Running Routine Early - Expect Positive Response 71 02 AB CD,0x31,7F 31 24,NRC,0x24,Request Sequence Error,33494003905.00
+71,"12/17/2024, 9:11:10 PM",0x31,0x03,AB CD,TC-11.9: Get Final State After Stop - Expect Stopped Status,0x31,71 03 AB CD 01 01 64,Success,,,33494003983.00
+72,"12/17/2024, 9:11:11 PM",0x10,0x01,,[SETUP] TC-12: Reset for Multi-Session Routine Support,0x10,50 01 00 32 01 F4,Success,,,33494004077.00
+73,"12/17/2024, 9:11:12 PM",0x10,0x03,,TC-12.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494004161.00
+74,"12/17/2024, 9:11:13 PM",0x27,0x01,,TC-12.2: Request Security Seed,0x27,67 01 12 34 56 78,Success,,,33494004239.00
+75,"12/17/2024, 9:11:14 PM",0x27,0x02,B7 6E A6 77,TC-12.3: Unlock Security,0x27,67 02,Success,,,33494004327.00
+76,"12/17/2024, 9:11:15 PM",0x31,0x01,02 02,TC-12.4: Start ECU Self Test (0x0202) in EXTENDED - Expect Positive Response,0x31,71 01 02 02 00,Success,,,33494004423.00
+77,"12/17/2024, 9:11:16 PM",0x31,0x03,02 02,TC-12.5: Get Results in EXTENDED - Expect 71 03 02 02 01 01 FF,0x31,71 03 02 02 01 01 FF,Success,,,33494004538.00
+78,"12/17/2024, 9:11:17 PM",0x10,0x02,,TC-12.6: Switch to PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33494004620.00
+79,"12/17/2024, 9:11:18 PM",0x27,0x01,,TC-12.7: Request Security Seed in PROGRAMMING,0x27,67 01 00 00 00 00,Success,,,33494004707.00
+80,"12/17/2024, 9:11:19 PM",0x27,0x02,B7 6E A6 77,TC-12.8: Unlock Security in PROGRAMMING,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33494004845.00
+81,"12/17/2024, 9:11:20 PM",0x31,0x01,02 02,TC-12.9: Start ECU Self Test in PROGRAMMING - Expect Positive Response (Multi-Session Support),0x31,71 01 02 02 00,Success,,,33494004995.00
+82,"12/17/2024, 9:11:21 PM",0x31,0x03,02 02,TC-12.10: Get Results in PROGRAMMING - Expect Same Results,0x31,71 03 02 02 01 01 FF,Success,,,33494005202.00
+83,"12/17/2024, 9:11:22 PM",0x10,0x01,,[SETUP] TC-13: Reset for All Actuator Tests Workflow,0x10,50 01 00 32 01 F4,Success,,,33494005293.00
+84,"12/17/2024, 9:11:23 PM",0x10,0x03,,TC-13.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494005435.00
+85,"12/17/2024, 9:11:24 PM",0x31,0x01,0F 01,TC-13.2: Start Fuel Pump Relay Test (0x0F01) - No Security,0x31,71 01 0F 01 00,Success,,,33494005576.00
+86,"12/17/2024, 9:11:25 PM",0x31,0x03,0F 01,TC-13.3: Get Results - Expect PASS,0x31,71 03 0F 01 01 01,Success,,,33494005697.00
+87,"12/17/2024, 9:11:26 PM",0x31,0x01,0F 02,TC-13.4: Start Horn Test (0x0F02),0x31,71 01 0F 02 00,Success,,,33494005796.00
+88,"12/17/2024, 9:11:27 PM",0x31,0x03,0F 02,TC-13.5: Get Horn Results - Expect PASS,0x31,71 03 0F 02 01 01,Success,,,33494005936.00
+89,"12/17/2024, 9:11:28 PM",0x31,0x01,0F 03,TC-13.6: Start Headlight Test (0x0F03),0x31,71 01 0F 03 00,Success,,,33494006041.00
+90,"12/17/2024, 9:11:29 PM",0x31,0x03,0F 03,TC-13.7: Get Headlight Results - Expect PASS,0x31,71 03 0F 03 01 01,Success,,,33494006153.00
+91,"12/17/2024, 9:11:30 PM",0x10,0x01,,[SETUP] TC-14: Reset for Secured Actuator Tests,0x10,50 01 00 32 01 F4,Success,,,33494006261.00
+92,"12/17/2024, 9:11:31 PM",0x10,0x03,,TC-14.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494006364.00
+93,"12/17/2024, 9:11:32 PM",0x27,0x01,,TC-14.2: Request Seed,0x27,67 01 12 34 56 78,Success,,,33494006469.00
+94,"12/17/2024, 9:11:33 PM",0x27,0x02,B7 6E A6 77,TC-14.3: Unlock Security,0x27,67 02,Success,,,33494006572.00
+95,"12/17/2024, 9:11:34 PM",0x31,0x01,F0 12,TC-14.4: Start Injector Cyl 1 Test (0xF012),0x31,71 01 F0 12 00,Success,,,33494006730.00
+96,"12/17/2024, 9:11:35 PM",0x31,0x03,F0 12,TC-14.5: Get Injector Results - Expect PASS,0x31,71 03 F0 12 01 01 00,Success,,,33494006974.00
+97,"12/17/2024, 9:11:36 PM",0x31,0x01,F0 34,TC-14.6: Start Throttle Motor Test (0xF034),0x31,7F 31 31,NRC,0x31,Request Out of Range,33494007105.00
+98,"12/17/2024, 9:11:37 PM",0x31,0x03,F0 34,TC-14.7: Get Throttle Results - Expect PASS,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494007217.00
+99,"12/17/2024, 9:11:38 PM",0x10,0x01,,[SETUP] TC-15: Reset for Sensor Tests,0x10,50 01 00 32 01 F4,Success,,,33494007332.00
+100,"12/17/2024, 9:11:39 PM",0x10,0x03,,TC-15.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494007484.00
+101,"12/17/2024, 9:11:40 PM",0x27,0x01,,TC-15.2: Request Seed,0x27,67 01 12 34 56 78,Success,,,33494007620.00
+102,"12/17/2024, 9:11:41 PM",0x27,0x02,B7 6E A6 77,TC-15.3: Unlock Security,0x27,67 02,Success,,,33494007726.00
+103,"12/17/2024, 9:11:42 PM",0x31,0x01,F1 56,TC-15.4: Start O2 Sensor Test (0xF156),0x31,71 01 F1 56 00,Success,,,33494007840.00
+104,"12/17/2024, 9:11:43 PM",0x3E,0x00,,TC-15.5: Tester Present - 10s Execution Time,0x3E,00,Success,,,33494007951.00
+105,"12/17/2024, 9:11:44 PM",0x31,0x03,F1 56,TC-15.6: Get O2 Sensor Results - Expect PASS,0x31,71 03 F1 56 01 01 00,Success,,,33494008061.00
+106,"12/17/2024, 9:11:45 PM",0x10,0x01,,[SETUP] TC-16: Reset for Programming Verification Routines,0x10,50 01 00 32 01 F4,Success,,,33494008178.00
+107,"12/17/2024, 9:11:46 PM",0x10,0x02,,TC-16.1: Enter PROGRAMMING Session,0x10,50 02 00 32 01 F4,Success,,,33494008306.00
+108,"12/17/2024, 9:11:47 PM",0x27,0x01,,TC-16.2: Request Seed,0x27,67 01 12 34 56 78,Success,,,33494008434.00
+109,"12/17/2024, 9:11:48 PM",0x27,0x02,B7 6E A6 77,TC-16.3: Unlock Security,0x27,67 02,Success,,,33494008550.00
+110,"12/17/2024, 9:11:49 PM",0x31,0x01,FF 01,TC-16.4: Start Check Programming Integrity (0xFF01),0x31,71 01 FF 01 00,Success,,,33494008690.00
+111,"12/17/2024, 9:11:50 PM",0x31,0x03,FF 01,TC-16.5: Get Integrity Results - Expect PASS with Integrity Bytes,0x31,71 03 FF 01 01 01 01 02 03,Success,,,33494008926.00
+112,"12/17/2024, 9:11:51 PM",0x31,0x01,FF 02,TC-16.6: Start Verify Flash Programming (0xFF02),0x31,71 01 FF 02 00,Success,,,33494009088.00
+113,"12/17/2024, 9:11:52 PM",0x3E,0x00,,TC-16.7: Tester Present - 20s Execution Time,0x3E,00,Success,,,33494009238.00
+114,"12/17/2024, 9:11:53 PM",0x31,0x03,FF 02,TC-16.8: Get Verification Results - Expect PASS,0x31,71 03 FF 02 01 01 00,Success,,,33494009369.00
+115,"12/17/2024, 9:11:54 PM",0x10,0x01,,[SETUP] TC-17: Reset for Complete Diagnostic Workflow Test,0x10,50 01 00 32 01 F4,Success,,,33494009503.00
+116,"12/17/2024, 9:11:55 PM",0x10,0x03,,TC-17.1: Phase 1 - Setup Extended Session,0x10,50 03 00 64 01 F4,Success,,,33494009646.00
+117,"12/17/2024, 9:11:56 PM",0x27,0x01,,TC-17.2: Phase 2 - Security Unlock (Request Seed),0x27,67 01 12 34 56 78,Success,,,33494009815.00
+118,"12/17/2024, 9:11:57 PM",0x27,0x02,B7 6E A6 77,TC-17.3: Phase 2 - Security Unlock (Send Key),0x27,67 02,Success,,,33494009964.00
+119,"12/17/2024, 9:11:58 PM",0x22,0x00,F1 90,TC-17.4: Phase 3 - Read VIN (0xF190) Pre-Check,0x22,62 F1 90 45 4D 42 58 59 47 4A 39 30 41 32 48 38 56 37 58 44,Success,,,33494010100.00
+120,"12/17/2024, 9:11:59 PM",0x31,0x01,0F 01,TC-17.5: Phase 4 - Execute Fuel Pump Test,0x31,71 01 0F 01 00,Success,,,33494010236.00
+121,"12/17/2024, 9:12:00 PM",0x3E,0x00,,TC-17.6: Phase 4 - Tester Present During Test,0x3E,00,Success,,,33494010372.00
+122,"12/17/2024, 9:12:01 PM",0x31,0x03,0F 01,TC-17.7: Phase 5 - Get Test Results,0x31,71 03 0F 01 01 01,Success,,,33494010538.00
+123,"12/17/2024, 9:12:02 PM",0x19,0x02,0F,TC-17.8: Phase 6 - Read DTCs After Test (0x19 02 0F),0x19,59 02 FF 01 01 01 AB 01 01 71 24 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 00 45 24 02 12 34 28 03 00 56 24 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 00 24 04 01 21 24 04 01 55 28,Success,,,33494010705.00
+124,"12/17/2024, 9:12:03 PM",0x14,0x00,FF FF FF,TC-17.9: Phase 6 - Clear Test DTCs (0x14 FF FF FF),0x14,54,Success,,,33494010931.00
+125,"12/17/2024, 9:12:04 PM",0x10,0x01,,TC-17.10: Phase 7 - Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,33494011090.00
+126,"12/17/2024, 9:12:05 PM",0x10,0x01,,[SETUP] TC-18: Reset for NRC Priority Order Validation,0x10,50 01 00 32 01 F4,Success,,,33494011229.00
+127,"12/17/2024, 9:12:06 PM",0x10,0x03,,TC-18.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494011368.00
+128,"12/17/2024, 9:12:07 PM",0x31,0x01,F0 12,TC-18.2: Injector Test Without Security - Should return NRC 0x33 (Security priority),0x31,7F 31 33,NRC,0x33,Security Access Denied,33494011564.00
+129,"12/17/2024, 9:12:08 PM",0x31,0x05,F0 12,TC-18.3: Invalid SF + Valid RID - Should return NRC 0x12 (SF priority over Security),0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33494011718.00
+130,"12/17/2024, 9:12:09 PM",0x31,0x01,,TC-18.4: Valid SF + Missing RID - Should return NRC 0x13 (Length priority),0x31,7F 31 13,NRC,0x13,Incorrect Message Length,33494011865.00
+131,"12/17/2024, 9:12:10 PM",0x10,0x01,,[SETUP] TC-19: Reset for STOP Subfunction Edge Cases,0x10,50 01 00 32 01 F4,Success,,,33494012012.00
+132,"12/17/2024, 9:12:11 PM",0x10,0x03,,TC-19.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494012156.00
+133,"12/17/2024, 9:12:12 PM",0x31,0x02,01 00,TC-19.2: STOP Basic Routine That Was Never Started - Expect NRC 0x24,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494012317.00
+134,"12/17/2024, 9:12:13 PM",0x31,0x01,0F 01,TC-19.3: Start Fuel Pump Test,0x31,71 01 0F 01 00,Success,,,33494012455.00
+135,"12/17/2024, 9:12:14 PM",0x31,0x02,0F 02,TC-19.4: STOP Different Routine (0x0F02) - Expect NRC 0x24 or Success if tracking per RID,0x31,7F 31 24,NRC,0x24,Request Sequence Error,33494012705.00
+136,"12/17/2024, 9:12:15 PM",0x31,0x02,0F 01,TC-19.5: STOP Correct Running Routine (0x0F01) - Expect Success,0x31,71 02 0F 01 00,Success,,,33494012876.00
+137,"12/17/2024, 9:12:16 PM",0x10,0x01,,[SETUP] TC-20: Reset for Multiple RIDs in Same Category,0x10,50 01 00 32 01 F4,Success,,,33494013040.00
+138,"12/17/2024, 9:12:17 PM",0x10,0x03,,TC-20.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494013179.00
+139,"12/17/2024, 9:12:18 PM",0x31,0x01,0F 01,TC-20.2: Start Fuel Pump (0x0F01),0x31,71 01 0F 01 00,Success,,,33494013313.00
+140,"12/17/2024, 9:12:19 PM",0x31,0x01,0F 02,TC-20.3: Start Horn (0x0F02) While Fuel Pump Running - Tests Concurrent Routine Handling,0x31,71 01 0F 02 00,Success,,,33494013455.00
+141,"12/17/2024, 9:12:20 PM",0x31,0x03,0F 01,TC-20.4: Get Fuel Pump Results,0x31,71 03 0F 01 01 01,Success,,,33494013642.00
+142,"12/17/2024, 9:12:21 PM",0x31,0x03,0F 02,TC-20.5: Get Horn Results,0x31,71 03 0F 02 01 01,Success,,,33494013797.00
+143,"12/17/2024, 9:12:22 PM",0x10,0x01,,[SETUP] TC-21: Reset for Boundary RID Values,0x10,50 01 00 32 01 F4,Success,,,33494014002.00
+144,"12/17/2024, 9:12:23 PM",0x10,0x03,,TC-21.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494014158.00
+145,"12/17/2024, 9:12:24 PM",0x31,0x01,00 01,TC-21.2: RID 0x0001 (Low Boundary) - Expect NRC 0x31 if not supported,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494014317.00
+146,"12/17/2024, 9:12:25 PM",0x31,0x01,FF FF,TC-21.3: RID 0xFFFF (Max Boundary) - Expect NRC 0x31,0x31,7F 31 31,NRC,0x31,Request Out of Range,33494014574.00
+147,"12/17/2024, 9:12:26 PM",0x31,0x01,01 00,TC-21.4: Valid Low RID 0x0100 - Expect Positive (Read ECU Info),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494014767.00
+148,"12/17/2024, 9:12:27 PM",0x31,0x01,01 01,TC-21.5: Valid RID 0x0101 - Expect Positive (System Status),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494014943.00
+149,"12/17/2024, 9:12:28 PM",0x10,0x01,,[SETUP] TC-22: Reset for Session-Specific RID Availability,0x10,50 01 00 32 01 F4,Success,,,33494015131.00
+150,"12/17/2024, 9:12:29 PM",0x31,0x01,FF 00,TC-22.1: Erase Flash (0xFF00) in DEFAULT - Expect NRC 0x7F (Programming Only),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494015299.00
+151,"12/17/2024, 9:12:30 PM",0x10,0x03,,TC-22.2: Switch to EXTENDED,0x10,50 03 00 64 01 F4,Success,,,33494015487.00
+152,"12/17/2024, 9:12:31 PM",0x31,0x01,FF 00,TC-22.3: Erase Flash in EXTENDED - Expect NRC 0x7F (Programming Only),0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494015728.00
+153,"12/17/2024, 9:12:32 PM",0x10,0x02,,TC-22.4: Switch to PROGRAMMING,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33494015890.00
+154,"12/17/2024, 9:12:33 PM",0x27,0x01,,TC-22.5: Request Seed for Security,0x27,67 01 12 34 56 78,Success,,,33494016050.00
+155,"12/17/2024, 9:12:34 PM",0x27,0x02,B7 6E A6 77,TC-22.6: Unlock Security,0x27,67 02,Success,,,33494016218.00
+156,"12/17/2024, 9:12:35 PM",0x31,0x01,FF 00,TC-22.7: Erase Flash in PROGRAMMING + Security - Expect Success,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494016380.00
+157,"12/17/2024, 9:12:36 PM",0x31,0x03,FF 00,TC-22.8: Verify Erase Results,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33494016579.00
+158,"12/17/2024, 9:12:37 PM",0x10,0x01,,[SETUP] TC-23: Reset for Suppress Positive Response Bit,0x10,50 01 00 32 01 F4,Success,,,33494016786.00
+159,"12/17/2024, 9:12:38 PM",0x10,0x03,,TC-23.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33494016993.00
+160,"12/17/2024, 9:12:39 PM",0x31,0x81,0F 01,TC-23.2: Start with SPR Bit (0x81) - May Suppress Response or Return NRC 0x12,0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33494017191.00
+161,"12/17/2024, 9:12:40 PM",0x31,0x83,0F 01,TC-23.3: Request Results with SPR Bit (0x83),0x31,7F 31 12,NRC,0x12,Sub-Function Not Supported,33494017397.00
+162,"12/17/2024, 9:12:41 PM",0x10,0x01,,[SETUP] TC-24: Reset for Full Programming Sequence Simulation,0x10,50 01 00 32 01 F4,Success,,,33494017581.00
+163,"12/17/2024, 9:12:42 PM",0x10,0x02,,TC-24.1: Enter Programming Session,0x10,50 02 00 32 01 F4,Success,,,33494017839.00
+164,"12/17/2024, 9:12:43 PM",0x27,0x01,,TC-24.2: Security Request Seed,0x27,67 01 12 34 56 78,Success,,,33494018037.00
+165,"12/17/2024, 9:12:44 PM",0x27,0x02,B7 6E A6 77,TC-24.3: Security Send Key,0x27,67 02,Success,,,33494018220.00
+166,"12/17/2024, 9:12:45 PM",0x31,0x01,FF 01,TC-24.4: Check Programming Integrity (Pre-Conditions),0x31,71 01 FF 01 00,Success,,,33494018390.00
+167,"12/17/2024, 9:12:46 PM",0x31,0x03,FF 01,TC-24.5: Verify Pre-Conditions Results,0x31,71 03 FF 01 01 01 01 02 03,Success,,,33494018575.00
+168,"12/17/2024, 9:12:47 PM",0x31,0x01,FF 00,TC-24.6: Erase Flash Memory,0x31,71 01 FF 00 00,Success,,,33494018787.00
+169,"12/17/2024, 9:12:48 PM",0x3E,0x00,,TC-24.7: Tester Present During Erase,0x3E,00,Success,,,33494018964.00
+170,"12/17/2024, 9:12:49 PM",0x31,0x03,FF 00,TC-24.8: Verify Erase Complete,0x31,71 03 FF 00 01 00,Success,,,33494019228.00
+171,"12/17/2024, 9:12:50 PM",0x31,0x01,FF 02,TC-24.9: Verify Flash Programming,0x31,71 01 FF 02 00,Success,,,33494019494.00
+172,"12/17/2024, 9:12:51 PM",0x3E,0x00,,TC-24.10: Tester Present During Verification,0x3E,00,Success,,,33494019694.00
+173,"12/17/2024, 9:12:52 PM",0x31,0x03,FF 02,TC-24.11: Get Verification Results,0x31,71 03 FF 02 01 01 00,Success,,,33494019881.00
+174,"12/17/2024, 9:12:53 PM",0x10,0x01,,TC-24.12: Return to Default Session - Complete Programming Sequence,0x10,50 01 00 32 01 F4,Success,,,33494020086.00
+175,"12/17/2024, 9:12:54 PM",0x10,0x01,,[FINAL] Reset to Default Session - Test Suite Complete,0x10,50 01 00 32 01 F4,Success,,,33494020281.00

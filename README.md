@@ -22,6 +22,7 @@ A futuristic, interactive web application for learning and practicing Unified Di
 
 ## ✨ What's New
 
+- **🎨 Landing Page**: Beautiful, animated landing page at `/welcome` showcasing features and providing easy entry to the simulator.
 - **🎓 Learning Materials**: Comprehensive guides added for SID 10 (Diagnostic Session Control) with practical examples.
 - **📚 Documentation Reorganization**: All docs now organized in structured categories (Getting Started, Learning, Guides, Testing, etc.) and repository structure cleaned up.
 - **🧪 Enhanced Testing**: Complete testing guide with 28+ test cases for tooltips and onboarding tour.

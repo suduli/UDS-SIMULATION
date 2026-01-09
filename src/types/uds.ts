@@ -351,6 +351,7 @@ export interface ECUConfig {
   memoryMap: MemoryAddress[];
   securitySeed?: number[];
   securityKey?: number[];
+  useRandomSeeds?: boolean;  // If true, generate random seeds for security access (default: false for testing)
   maxBlockLength?: number;  // Max bytes per Transfer Data (0x36), default 4096
 }
 

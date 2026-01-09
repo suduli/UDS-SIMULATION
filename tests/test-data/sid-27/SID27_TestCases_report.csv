@@ -1,0 +1,232 @@
+﻿Report Information
+Report ID,terminal_report_1767893944364
+Report Name,"Terminal Output Report (1/8/2026, 11:09:04 PM)"
+Description,Generated from current terminal session with 199 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,199
+Total Responses,199
+Successful Responses,145
+Negative Responses (NRC),54
+Success Rate (%),72.86
+Test Duration,9m 4s
+Start Time,"12/18/2024, 11:03:20 AM"
+End Time,"12/18/2024, 11:12:24 AM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7F,Service Not Supported In Active Session,7,12.96
+0x12,Sub-Function Not Supported,4,7.41
+0x13,Incorrect Message Length,12,22.22
+0x22,Conditions Not Correct,10,18.52
+0x31,Request Out of Range,2,3.70
+0x35,Invalid Key,6,11.11
+0x33,Security Access Denied,2,3.70
+0x37,Required Time Delay Not Expired,8,14.81
+0x24,Request Sequence Error,3,5.56
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/18/2024, 11:03:20 AM",0x10,0x01,,=== SECTION A: SESSION VALIDATION TESTS ===,0x10,50 01 00 32 01 F4,Success,,,33393715645.00
+2,"12/18/2024, 11:03:21 AM",0x10,0x01,,TC-A01: Reset to Default Session for isolation,0x10,50 01 00 32 01 F4,Success,,,33393715669.00
+3,"12/18/2024, 11:03:22 AM",0x27,0x01,,TC-A02: Request Seed Level 1 in DEFAULT Session - Expect NRC 0x7F (serviceNotSupportedInActiveSession),0x27,7F 27 7F,NRC,0x7F,Service Not Supported In Active Session,33393715679.00
+4,"12/18/2024, 11:03:23 AM",0x27,0x03,,TC-A03: Request Seed Level 2 in DEFAULT Session - Expect NRC 0x7F,0x27,7F 27 7F,NRC,0x7F,Service Not Supported In Active Session,33393715685.00
+5,"12/18/2024, 11:03:24 AM",0x27,0x05,,TC-A04: Request Seed Level 3 in DEFAULT Session - Expect NRC 0x7F,0x27,7F 27 7F,NRC,0x7F,Service Not Supported In Active Session,33393715705.00
+6,"12/18/2024, 11:03:25 AM",0x10,0x03,,TC-A05: Switch to EXTENDED Diagnostic Session,0x10,50 03 00 64 01 F4,Success,,,33393715725.00
+7,"12/18/2024, 11:03:26 AM",0x27,0x01,,TC-A06: Request Seed Level 1 in EXTENDED Session - Success (seed returned),0x27,67 01 12 34 56 78,Success,,,33393715749.00
+8,"12/18/2024, 11:03:27 AM",0x10,0x01,,TC-A07: Switch back to DEFAULT Session (resets security state),0x10,50 01 00 32 01 F4,Success,,,33393715779.00
+9,"12/18/2024, 11:03:28 AM",0x10,0x02,,TC-A08: Switch to PROGRAMMING Session,0x10,50 02 00 32 01 F4,Success,,,33393715817.00
+10,"12/18/2024, 11:03:29 AM",0x27,0x01,,TC-A09: Request Seed Level 1 in PROGRAMMING Session - Success,0x27,67 01 12 34 56 78,Success,,,33393715852.00
+11,"12/18/2024, 11:03:30 AM",0x27,0x03,,TC-A10: Request Seed Level 2 in PROGRAMMING Session - Success,0x27,67 03 12 34 56 78,Success,,,33393715902.00
+12,"12/18/2024, 11:03:40 AM",0x10,0x01,,=== SECTION B: SECURITY LEVEL VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,33393706958.00
+13,"12/18/2024, 11:03:41 AM",0x10,0x01,,TC-B01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393706994.00
+14,"12/18/2024, 11:03:42 AM",0x10,0x03,,TC-B02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393707032.00
+15,"12/18/2024, 11:03:43 AM",0x27,0x01,,TC-B03: Request Seed Level 1 (0x01) - Success,0x27,67 01 12 34 56 78,Success,,,33393707071.00
+16,"12/18/2024, 11:03:44 AM",0x27,0x03,,TC-B04: Request Seed Level 2 (0x03) - Success,0x27,67 03 12 34 56 78,Success,,,33393707113.00
+17,"12/18/2024, 11:03:45 AM",0x27,0x05,,TC-B05: Request Seed Level 3 (0x05) - Success,0x27,67 05 12 34 56 78,Success,,,33393707169.00
+18,"12/18/2024, 11:03:46 AM",0x27,0x07,,TC-B06: Request Seed Level 4 (0x07) - Expect NRC 0x12 (subFunctionNotSupported),0x27,7F 27 12,NRC,0x12,Sub-Function Not Supported,33393707211.00
+19,"12/18/2024, 11:03:47 AM",0x27,0x09,,TC-B07: Request Seed Level 5 (0x09) - Expect NRC 0x12,0x27,7F 27 12,NRC,0x12,Sub-Function Not Supported,33393707257.00
+20,"12/18/2024, 11:03:48 AM",0x27,0x7D,,TC-B08: Request Seed Level 63 (0x7D) - Expect NRC 0x12,0x27,7F 27 12,NRC,0x12,Sub-Function Not Supported,33393707302.00
+21,"12/18/2024, 11:03:49 AM",0x27,0x7F,,TC-B09: Request Seed Max Level 64 (0x7F) - Expect NRC 0x12,0x27,7F 27 12,NRC,0x12,Sub-Function Not Supported,33393707349.00
+22,"12/18/2024, 11:04:00 AM",0x10,0x01,,=== SECTION C: SUB-FUNCTION RANGE VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,33393697393.00
+23,"12/18/2024, 11:04:01 AM",0x10,0x01,,TC-C01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393697450.00
+24,"12/18/2024, 11:04:02 AM",0x10,0x03,,TC-C02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393697505.00
+25,"12/18/2024, 11:04:03 AM",0x27,0x00,,TC-C03: Sub-function 0x00 (reserved) - Expect NRC 0x31 (requestOutOfRange),0x27,7F 27 13,NRC,0x13,Incorrect Message Length,33393697574.00
+26,"12/18/2024, 11:04:04 AM",0x27,0x02,,TC-C04: Sub-function 0x02 (even for seed request) - Expect NRC 0x31 or 0x22,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393697634.00
+27,"12/18/2024, 11:04:05 AM",0x27,0x04,,TC-C05: Sub-function 0x04 (even without prior seed) - Expect NRC 0x22 or 0x31,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393697692.00
+28,"12/18/2024, 11:04:06 AM",0x27,0x80,,TC-C06: Sub-function 0x80 (suppressPosRsp bit set) - Valid for seed request,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393697756.00
+29,"12/18/2024, 11:04:07 AM",0x27,0x81,,TC-C07: Sub-function 0x81 (>0x7F with suppress bit) - Expect NRC 0x31,0x27,7F 27 31,NRC,0x31,Request Out of Range,33393697816.00
+30,"12/18/2024, 11:04:08 AM",0x27,0xFF,,TC-C08: Sub-function 0xFF (max invalid) - Expect NRC 0x31 or 0x12,0x27,7F 27 31,NRC,0x31,Request Out of Range,33393697881.00
+31,"12/18/2024, 11:04:20 AM",0x10,0x01,,=== SECTION D: SUCCESSFUL UNLOCK FLOW (HAPPY PATH) ===,0x10,50 01 00 32 01 F4,Success,,,33393686947.00
+32,"12/18/2024, 11:04:21 AM",0x10,0x01,,TC-D01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393687017.00
+33,"12/18/2024, 11:04:22 AM",0x10,0x03,,TC-D02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393687086.00
+34,"12/18/2024, 11:04:23 AM",0x27,0x01,,TC-D03: Request Seed Level 1 - Store returned seed,0x27,67 01 12 34 56 78,Success,,,33393687159.00
+35,"12/18/2024, 11:04:24 AM",0x27,0x02,B7 6E A6 77,TC-D04: Send Key Level 1 (Correct Key: 0xB76EA677) - Expect 0x67 0x02 (Unlocked),0x27,67 02,Success,,,33393687224.00
+36,"12/18/2024, 11:04:25 AM",0x2E,,F1 90 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51,TC-D05: Write Protected DID 0xF190 (VIN) - Verify security enables access,0x2E,6E F1 90,Success,,,33393687303.00
+37,"12/18/2024, 11:04:26 AM",0x22,,F1 90,TC-D06: Read back DID 0xF190 to verify write succeeded,0x22,62 F1 90 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51,Success,,,33393687380.00
+38,"12/18/2024, 11:04:27 AM",0x3E,0x00,,TC-D07: TesterPresent to keep session alive,0x3E,00,Success,,,33393687460.00
+39,"12/18/2024, 11:04:40 AM",0x10,0x01,,=== SECTION E: ALREADY UNLOCKED HANDLING ===,0x10,50 01 00 32 01 F4,Success,,,33393675535.00
+40,"12/18/2024, 11:04:41 AM",0x10,0x01,,TC-E01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393675619.00
+41,"12/18/2024, 11:04:42 AM",0x10,0x03,,TC-E02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393675697.00
+42,"12/18/2024, 11:04:43 AM",0x27,0x01,,TC-E03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393675773.00
+43,"12/18/2024, 11:04:44 AM",0x27,0x02,B7 6E A6 77,TC-E04: Send Correct Key (0xB76EA677) - Unlock Level 1,0x27,67 02,Success,,,33393675862.00
+44,"12/18/2024, 11:04:45 AM",0x27,0x01,,TC-E05: Request Seed Level 1 AGAIN - Expect all-zero seed (0x67 0x01 0x00 0x00 0x00 0x00),0x27,67 01 00 00 00 00,Success,,,33393675954.00
+45,"12/18/2024, 11:04:46 AM",0x27,0x03,,TC-E06: Request Seed Level 2 (different level) - Expect non-zero seed,0x27,67 03 12 34 56 78,Success,,,33393676028.00
+46,"12/18/2024, 11:04:47 AM",0x27,0x01,,TC-E07: Request Seed Level 1 again - Still all-zeros (Level 1 still unlocked),0x27,67 01 00 00 00 00,Success,,,33393676114.00
+47,"12/18/2024, 11:05:00 AM",0x10,0x01,,=== SECTION F: INVALID KEY HANDLING ===,0x10,50 01 00 32 01 F4,Success,,,33393664191.00
+48,"12/18/2024, 11:05:01 AM",0x10,0x01,,TC-F01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393664265.00
+49,"12/18/2024, 11:05:02 AM",0x10,0x03,,TC-F02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393664349.00
+50,"12/18/2024, 11:05:03 AM",0x27,0x01,,TC-F03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393664452.00
+51,"12/18/2024, 11:05:04 AM",0x27,0x02,00 00 00 00,TC-F04: Send WRONG Key (all zeros) - Expect NRC 0x35 (invalidKey),0x27,7F 27 35,NRC,0x35,Invalid Key,33393664560.00
+52,"12/18/2024, 11:05:05 AM",0x2E,,F1 90 01 02,TC-F05: Attempt Protected Write - Expect NRC 0x33 (Still locked),0x2E,7F 2E 33,NRC,0x33,Security Access Denied,33393664661.00
+53,"12/18/2024, 11:05:16 AM",0x27,0x01,,TC-F06: Wait 11s then Request Seed again - Success (delay expired),0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393654758.00
+54,"12/18/2024, 11:05:17 AM",0x27,0x02,FF FF FF FF,TC-F07: Send another wrong key (0xFF pattern) - Expect NRC 0x35,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393654852.00
+55,"12/18/2024, 11:05:30 AM",0x10,0x01,,=== SECTION G: SEQUENCE ERROR VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,33393642951.00
+56,"12/18/2024, 11:05:31 AM",0x10,0x01,,TC-G01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393643024.00
+57,"12/18/2024, 11:05:32 AM",0x10,0x03,,TC-G02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393643102.00
+58,"12/18/2024, 11:05:33 AM",0x27,0x01,,TC-G03: Request Seed Level 1 (0x01),0x27,67 01 12 34 56 78,Success,,,33393643177.00
+59,"12/18/2024, 11:05:34 AM",0x27,0x04,01 02 03 04,TC-G04: Send Key for Level 2 (0x04 instead of 0x02) - Expect NRC 0x24 (requestSequenceError),0x27,7F 27 24,NRC,0x24,Request Sequence Error,33393643280.00
+60,"12/18/2024, 11:05:45 AM",0x27,0x03,,"TC-G05: Wait delay, Request Seed Level 2 (0x03)",0x27,67 03 12 34 56 78,Success,,,33393633391.00
+61,"12/18/2024, 11:05:46 AM",0x27,0x02,01 02 03 04,TC-G06: Send Key for Level 1 (0x02) - Expect NRC 0x24 (wrong level),0x27,7F 27 24,NRC,0x24,Request Sequence Error,33393633495.00
+62,"12/18/2024, 11:05:57 AM",0x27,0x01,,TC-G07: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393623596.00
+63,"12/18/2024, 11:05:58 AM",0x27,0x06,01 02 03 04,TC-G08: Send Key for Level 3 (0x06) - Expect NRC 0x24,0x27,7F 27 24,NRC,0x24,Request Sequence Error,33393623698.00
+64,"12/18/2024, 11:06:10 AM",0x10,0x01,,=== SECTION H: MESSAGE LENGTH VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,33393612806.00
+65,"12/18/2024, 11:06:11 AM",0x10,0x01,,TC-H01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393612881.00
+66,"12/18/2024, 11:06:12 AM",0x10,0x03,,TC-H02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393612956.00
+67,"12/18/2024, 11:06:13 AM",0x27,0x01,,TC-H03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393613032.00
+68,"12/18/2024, 11:06:14 AM",0x27,0x02,,TC-H04: Send Key with 0 bytes - Expect NRC 0x13 (incorrectMessageLengthOrInvalidFormat),0x27,7F 27 13,NRC,0x13,Incorrect Message Length,33393613104.00
+69,"12/18/2024, 11:06:15 AM",0x27,0x01,,TC-H05: Request Seed again,0x27,67 01 12 34 56 78,Success,,,33393613180.00
+70,"12/18/2024, 11:06:16 AM",0x27,0x02,01,TC-H06: Send Key with 1 byte - Expect NRC 0x13,0x27,7F 27 13,NRC,0x13,Incorrect Message Length,33393613251.00
+71,"12/18/2024, 11:06:17 AM",0x27,0x01,,TC-H07: Request Seed again,0x27,67 01 12 34 56 78,Success,,,33393613327.00
+72,"12/18/2024, 11:06:18 AM",0x27,0x02,01 02,TC-H08: Send Key with 2 bytes - Expect NRC 0x13,0x27,7F 27 13,NRC,0x13,Incorrect Message Length,33393613401.00
+73,"12/18/2024, 11:06:19 AM",0x27,0x01,,TC-H09: Request Seed again,0x27,67 01 12 34 56 78,Success,,,33393613475.00
+74,"12/18/2024, 11:06:20 AM",0x27,0x02,01 02 03,TC-H10: Send Key with 3 bytes - Expect NRC 0x13,0x27,7F 27 13,NRC,0x13,Incorrect Message Length,33393613552.00
+75,"12/18/2024, 11:06:21 AM",0x27,0x01,,TC-H11: Request Seed again,0x27,67 01 12 34 56 78,Success,,,33393613625.00
+76,"12/18/2024, 11:06:22 AM",0x27,0x02,B7 6E A6 77,TC-H12: Send Correct Key with 4 bytes - Success,0x27,67 02,Success,,,33393613708.00
+77,"12/18/2024, 11:06:23 AM",0x27,0x01,,TC-H13: Request Seed (already unlocked - expect zeros),0x27,67 01 00 00 00 00,Success,,,33393613795.00
+78,"12/18/2024, 11:06:40 AM",0x10,0x01,,=== SECTION I: ATTEMPT COUNTER AND LOCKOUT ===,0x10,50 01 00 32 01 F4,Success,,,33393597888.00
+79,"12/18/2024, 11:06:41 AM",0x10,0x01,,TC-I01: Reset to Default Session (clears attempt counter),0x10,50 01 00 32 01 F4,Success,,,33393597973.00
+80,"12/18/2024, 11:06:42 AM",0x10,0x03,,TC-I02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393598109.00
+81,"12/18/2024, 11:06:43 AM",0x27,0x01,,TC-I03: Request Seed (Attempt 1),0x27,67 01 12 34 56 78,Success,,,33393598247.00
+82,"12/18/2024, 11:06:44 AM",0x27,0x02,00 00 00 00,TC-I04: Invalid Key Attempt 1 - Expect NRC 0x35 (Counter=1),0x27,7F 27 35,NRC,0x35,Invalid Key,33393598377.00
+83,"12/18/2024, 11:06:55 AM",0x10,0x01,,TC-I05: Reset to Default (wait 11s for delay) - Counter persists or resets based on ECU,0x10,50 01 00 32 01 F4,Success,,,33393588548.00
+84,"12/18/2024, 11:06:56 AM",0x10,0x03,,TC-I06: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393588685.00
+85,"12/18/2024, 11:06:57 AM",0x27,0x01,,TC-I07: Request Seed (Attempt 2),0x27,67 01 12 34 56 78,Success,,,33393588814.00
+86,"12/18/2024, 11:06:58 AM",0x27,0x02,00 00 00 00,TC-I08: Invalid Key Attempt 2 - Expect NRC 0x35 (Counter=2),0x27,7F 27 35,NRC,0x35,Invalid Key,33393588952.00
+87,"12/18/2024, 11:07:09 AM",0x10,0x01,,TC-I09: Reset to Default (wait 11s),0x10,50 01 00 32 01 F4,Success,,,33393579061.00
+88,"12/18/2024, 11:07:10 AM",0x10,0x03,,TC-I10: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393579179.00
+89,"12/18/2024, 11:07:11 AM",0x27,0x01,,TC-I11: Request Seed (Attempt 3),0x27,67 01 12 34 56 78,Success,,,33393579278.00
+90,"12/18/2024, 11:07:12 AM",0x27,0x02,00 00 00 00,TC-I12: Invalid Key Attempt 3 - Expect NRC 0x35 (Counter=3 - LOCKOUT TRIGGERED),0x27,7F 27 35,NRC,0x35,Invalid Key,33393579371.00
+91,"12/18/2024, 11:07:23 AM",0x27,0x01,,TC-I13: Request Seed after lockout - Expect NRC 0x36 (exceededNumberOfAttempts),0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393569462.00
+92,"12/18/2024, 11:07:24 AM",0x27,0x03,,TC-I14: Try different level during lockout - Expect NRC 0x36,0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393569578.00
+93,"12/18/2024, 11:07:25 AM",0x10,0x01,,TC-I15: Reset to Default (may not clear lockout - ECU dependent),0x10,50 01 00 32 01 F4,Success,,,33393569688.00
+94,"12/18/2024, 11:07:40 AM",0x10,0x01,,=== SECTION J: DELAY TIMER ENFORCEMENT ===,0x10,50 01 00 32 01 F4,Success,,,33393555789.00
+95,"12/18/2024, 11:07:41 AM",0x10,0x01,,TC-J01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393555885.00
+96,"12/18/2024, 11:07:42 AM",0x10,0x03,,TC-J02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393555978.00
+97,"12/18/2024, 11:07:43 AM",0x27,0x01,,TC-J03: Request Seed,0x27,67 01 12 34 56 78,Success,,,33393556074.00
+98,"12/18/2024, 11:07:44 AM",0x27,0x02,00 00 00 00,TC-J04: Send Invalid Key - Starts 10s delay timer,0x27,7F 27 35,NRC,0x35,Invalid Key,33393556196.00
+99,"12/18/2024, 11:07:45 AM",0x27,0x01,,TC-J05: Request Seed immediately (1s later) - Expect NRC 0x37 (requiredTimeDelayNotExpired),0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393556295.00
+100,"12/18/2024, 11:07:47 AM",0x27,0x01,,TC-J06: Request Seed 3s later - Still NRC 0x37,0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393555403.00
+101,"12/18/2024, 11:07:49 AM",0x27,0x01,,TC-J07: Request Seed 5s later - Still NRC 0x37,0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393554509.00
+102,"12/18/2024, 11:07:53 AM",0x27,0x01,,TC-J08: Request Seed 9s later - Still NRC 0x37 (boundary test),0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393551614.00
+103,"12/18/2024, 11:07:55 AM",0x27,0x01,,TC-J09: Request Seed 11s later - Success (delay expired),0x27,7F 27 37,NRC,0x37,Required Time Delay Not Expired,33393550711.00
+104,"12/18/2024, 11:07:56 AM",0x27,0x02,B7 6E A6 77,TC-J10: Send correct key - Unlock successful,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393550870.00
+105,"12/18/2024, 11:08:10 AM",0x10,0x01,,=== SECTION K: SEED TIMEOUT VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,33393538082.00
+106,"12/18/2024, 11:08:11 AM",0x10,0x01,,TC-K01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393538190.00
+107,"12/18/2024, 11:08:12 AM",0x10,0x03,,TC-K02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393538309.00
+108,"12/18/2024, 11:08:13 AM",0x27,0x01,,TC-K03: Request Seed - Seed valid for 5 seconds,0x27,67 01 12 34 56 78,Success,,,33393538438.00
+109,"12/18/2024, 11:08:20 AM",0x27,0x02,B7 6E A6 77,TC-K04: Send Correct Key 7s later - Expect NRC 0x22 (conditionsNotCorrect - seed expired),0x27,67 02,Success,,,33393532549.00
+110,"12/18/2024, 11:08:31 AM",0x27,0x01,,"TC-K05: Wait delay, Request new Seed",0x27,67 01 00 00 00 00,Success,,,33393522663.00
+111,"12/18/2024, 11:08:33 AM",0x27,0x02,B7 6E A6 77,TC-K06: Send Correct Key within 2s - Success (within timeout),0x27,67 02,Success,,,33393521787.00
+112,"12/18/2024, 11:08:34 AM",0x10,0x01,,TC-K07: Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33393521937.00
+113,"12/18/2024, 11:08:35 AM",0x10,0x03,,TC-K08: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393522058.00
+114,"12/18/2024, 11:08:36 AM",0x27,0x01,,TC-K09: Request Seed - Test boundary at exactly 5s,0x27,67 01 12 34 56 78,Success,,,33393522180.00
+115,"12/18/2024, 11:08:41 AM",0x27,0x02,B7 6E A6 77,TC-K10: Send Correct Key at 5.5s (just over timeout) - Expect NRC 0x22,0x27,67 02,Success,,,33393517837.00
+116,"12/18/2024, 11:09:00 AM",0x10,0x01,,=== SECTION L: SESSION CHANGE SECURITY RESET ===,0x10,50 01 00 32 01 F4,Success,,,33393500555.00
+117,"12/18/2024, 11:09:01 AM",0x10,0x01,,TC-L01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393500739.00
+118,"12/18/2024, 11:09:02 AM",0x10,0x03,,TC-L02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393500880.00
+119,"12/18/2024, 11:09:03 AM",0x27,0x01,,TC-L03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393501020.00
+120,"12/18/2024, 11:09:04 AM",0x27,0x02,B7 6E A6 77,TC-L04: Send Correct Key - Unlock Level 1,0x27,67 02,Success,,,33393501142.00
+121,"12/18/2024, 11:09:05 AM",0x2E,,F1 90 01 02,TC-L05: Verify Protected Write works,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393501259.00
+122,"12/18/2024, 11:09:06 AM",0x10,0x01,,TC-L06: Switch to DEFAULT Session - Security LOST,0x10,50 01 00 32 01 F4,Success,,,33393501374.00
+123,"12/18/2024, 11:09:07 AM",0x2E,,F1 90 01 02,TC-L07: Attempt Protected Write - Expect NRC 0x7F (service not supported),0x2E,7F 2E 22,NRC,0x22,Conditions Not Correct,33393501494.00
+124,"12/18/2024, 11:09:08 AM",0x10,0x03,,TC-L08: Enter EXTENDED Session again,0x10,50 03 00 64 01 F4,Success,,,33393501614.00
+125,"12/18/2024, 11:09:09 AM",0x2E,,F1 90 01 02,TC-L09: Attempt Protected Write - Expect NRC 0x33 (security access denied),0x2E,7F 2E 33,NRC,0x33,Security Access Denied,33393501739.00
+126,"12/18/2024, 11:09:10 AM",0x27,0x01,,TC-L10: Request Seed Level 1 - Must re-unlock,0x27,67 01 12 34 56 78,Success,,,33393501858.00
+127,"12/18/2024, 11:09:11 AM",0x27,0x02,B7 6E A6 77,TC-L11: Send Correct Key - Re-unlock Level 1,0x27,67 02,Success,,,33393501984.00
+128,"12/18/2024, 11:09:12 AM",0x2E,,F1 90 01 02,TC-L12: Protected Write - Now works again,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393502111.00
+129,"12/18/2024, 11:09:13 AM",0x10,0x02,,TC-L13: Switch to PROGRAMMING Session - Security LOST AGAIN,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33393502368.00
+130,"12/18/2024, 11:09:14 AM",0x2E,,F1 90 01 02,TC-L14: Attempt Protected Write - Expect NRC 0x33,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393502590.00
+131,"12/18/2024, 11:09:30 AM",0x10,0x01,,=== SECTION M: CONDITIONS NOT CORRECT ===,0x10,50 01 00 32 01 F4,Success,,,33393487716.00
+132,"12/18/2024, 11:09:31 AM",0x10,0x01,,TC-M01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393487841.00
+133,"12/18/2024, 11:09:32 AM",0x27,0x02,01 02 03 04,TC-M02: Send Key WITHOUT session change - Expect NRC 0x7F (wrong session),0x27,7F 27 7F,NRC,0x7F,Service Not Supported In Active Session,33393487982.00
+134,"12/18/2024, 11:09:33 AM",0x10,0x03,,TC-M03: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393488113.00
+135,"12/18/2024, 11:09:34 AM",0x27,0x02,01 02 03 04,TC-M04: Send Key WITHOUT seed request - Expect NRC 0x22 (conditionsNotCorrect),0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393488282.00
+136,"12/18/2024, 11:09:35 AM",0x27,0x04,01 02 03 04,TC-M05: Send Key Level 2 WITHOUT seed - Expect NRC 0x22,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393488417.00
+137,"12/18/2024, 11:09:36 AM",0x27,0x06,01 02 03 04,TC-M06: Send Key Level 3 WITHOUT seed - Expect NRC 0x22,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33393488577.00
+138,"12/18/2024, 11:09:50 AM",0x10,0x01,,=== SECTION N: MULTI-LEVEL SECURITY ===,0x10,50 01 00 32 01 F4,Success,,,33393475718.00
+139,"12/18/2024, 11:09:51 AM",0x10,0x01,,TC-N01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393475855.00
+140,"12/18/2024, 11:09:52 AM",0x10,0x03,,TC-N02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393476014.00
+141,"12/18/2024, 11:09:53 AM",0x27,0x01,,TC-N03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393476159.00
+142,"12/18/2024, 11:09:54 AM",0x27,0x02,B7 6E A6 77,TC-N04: Send Correct Key - Unlock Level 1,0x27,67 02,Success,,,33393476300.00
+143,"12/18/2024, 11:09:55 AM",0x27,0x03,,TC-N05: Request Seed Level 2 - New seed (Level 2 still locked),0x27,67 03 12 34 56 78,Success,,,33393476456.00
+144,"12/18/2024, 11:09:56 AM",0x27,0x04,B7 6E A6 77,TC-N06: Send Correct Key - Unlock Level 2,0x27,67 04,Success,,,33393476591.00
+145,"12/18/2024, 11:09:57 AM",0x27,0x01,,TC-N07: Request Seed Level 1 - All-zeros (still unlocked),0x27,67 01 12 34 56 78,Success,,,33393476808.00
+146,"12/18/2024, 11:09:58 AM",0x27,0x03,,TC-N08: Request Seed Level 2 - All-zeros (still unlocked),0x27,67 03 00 00 00 00,Success,,,33393476990.00
+147,"12/18/2024, 11:09:59 AM",0x27,0x05,,TC-N09: Request Seed Level 3 - New seed (Level 3 still locked),0x27,67 05 12 34 56 78,Success,,,33393477162.00
+148,"12/18/2024, 11:10:10 AM",0x10,0x01,,=== SECTION O: TESTER PRESENT KEEP-ALIVE ===,0x10,50 01 00 32 01 F4,Success,,,33393467299.00
+149,"12/18/2024, 11:10:11 AM",0x10,0x01,,TC-O01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393467436.00
+150,"12/18/2024, 11:10:12 AM",0x10,0x03,,TC-O02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393467577.00
+151,"12/18/2024, 11:10:13 AM",0x27,0x01,,TC-O03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393467741.00
+152,"12/18/2024, 11:10:14 AM",0x27,0x02,B7 6E A6 77,TC-O04: Send Correct Key - Unlock,0x27,67 02,Success,,,33393467892.00
+153,"12/18/2024, 11:10:17 AM",0x3E,0x00,,TC-O05: TesterPresent (3s) - Reset S3 timer,0x3E,00,Success,,,33393466046.00
+154,"12/18/2024, 11:10:20 AM",0x3E,0x00,,TC-O06: TesterPresent (6s) - Keep session alive,0x3E,00,Success,,,33393464304.00
+155,"12/18/2024, 11:10:23 AM",0x3E,0x00,,TC-O07: TesterPresent (9s) - Maintain security,0x3E,00,Success,,,33393462451.00
+156,"12/18/2024, 11:10:26 AM",0x2E,,F1 90 01 02,TC-O08: Protected Write (12s) - Verify still unlocked,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393460606.00
+157,"12/18/2024, 11:10:29 AM",0x3E,0x80,,TC-O09: TesterPresent with suppressPosRsp (0x80),0x3E,,Success,,,33393458761.00
+158,"12/18/2024, 11:10:32 AM",0x2E,,F1 90 01 02,TC-O10: Protected Write (18s) - Still works,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393456965.00
+159,"12/18/2024, 11:10:50 AM",0x10,0x01,,=== SECTION P: SERVICE INTERACTION - DTC CLEAR ===,0x10,50 01 00 32 01 F4,Success,,,33393440136.00
+160,"12/18/2024, 11:10:51 AM",0x10,0x01,,TC-P01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393440299.00
+161,"12/18/2024, 11:10:52 AM",0x10,0x03,,TC-P02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393440539.00
+162,"12/18/2024, 11:10:53 AM",0x14,,FF FF FF,TC-P03: Clear All DTCs (0x14) without security - May require NRC 0x33 or succeed (ECU dependent),0x14,54,Success,,,33393440802.00
+163,"12/18/2024, 11:10:54 AM",0x27,0x01,,TC-P04: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393441026.00
+164,"12/18/2024, 11:10:55 AM",0x27,0x02,B7 6E A6 77,TC-P05: Send Correct Key - Unlock Level 1,0x27,67 02,Success,,,33393441207.00
+165,"12/18/2024, 11:10:56 AM",0x14,,FF FF FF,TC-P06: Clear All DTCs with security - Success,0x14,54,Success,,,33393441387.00
+166,"12/18/2024, 11:10:57 AM",0x19,0x02,FF,TC-P07: Read DTCs - Verify cleared,0x19,59 02 FF,Success,,,33393441553.00
+167,"12/18/2024, 11:11:10 AM",0x10,0x01,,=== SECTION Q: SERVICE INTERACTION - ROUTINE CONTROL ===,0x10,50 01 00 32 01 F4,Success,,,33393429724.00
+168,"12/18/2024, 11:11:11 AM",0x10,0x01,,TC-Q01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393429879.00
+169,"12/18/2024, 11:11:12 AM",0x10,0x02,,TC-Q02: Enter PROGRAMMING Session,0x10,50 02 00 32 01 F4,Success,,,33393430034.00
+170,"12/18/2024, 11:11:13 AM",0x31,0x01,02 03,TC-Q03: Start Routine 0x0203 (Check Preconditions) without security,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33393430296.00
+171,"12/18/2024, 11:11:14 AM",0x27,0x03,,TC-Q04: Request Seed Level 2 (Programming level),0x27,67 03 12 34 56 78,Success,,,33393430474.00
+172,"12/18/2024, 11:11:15 AM",0x27,0x04,B7 6E A6 77,TC-Q05: Send Correct Key - Unlock Level 2,0x27,67 04,Success,,,33393430628.00
+173,"12/18/2024, 11:11:16 AM",0x31,0x01,02 03,TC-Q06: Start Routine 0x0203 with security - Success,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33393430782.00
+174,"12/18/2024, 11:11:17 AM",0x31,0x03,02 03,TC-Q07: Get Routine Results,0x31,7F 31 7F,NRC,0x7F,Service Not Supported In Active Session,33393430976.00
+175,"12/18/2024, 11:11:30 AM",0x10,0x01,,=== SECTION R: ERROR RECOVERY SCENARIOS ===,0x10,50 01 00 32 01 F4,Success,,,33393419179.00
+176,"12/18/2024, 11:11:31 AM",0x10,0x01,,TC-R01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393419342.00
+177,"12/18/2024, 11:11:32 AM",0x10,0x03,,TC-R02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393419596.00
+178,"12/18/2024, 11:11:33 AM",0x27,0x01,,TC-R03: Request Seed Level 1,0x27,67 01 12 34 56 78,Success,,,33393419858.00
+179,"12/18/2024, 11:11:34 AM",0x27,0x02,00 00 00 00,TC-R04: Invalid key - Trigger error state,0x27,7F 27 35,NRC,0x35,Invalid Key,33393420101.00
+180,"12/18/2024, 11:11:45 AM",0x10,0x01,,TC-R05: Recovery Step 1 - Reset to Default after delay,0x10,50 01 00 32 01 F4,Success,,,33393410271.00
+181,"12/18/2024, 11:11:46 AM",0x10,0x03,,TC-R06: Recovery Step 2 - Re-enter EXTENDED,0x10,50 03 00 64 01 F4,Success,,,33393410467.00
+182,"12/18/2024, 11:11:47 AM",0x27,0x01,,TC-R07: Recovery Step 3 - Request fresh seed,0x27,67 01 12 34 56 78,Success,,,33393410657.00
+183,"12/18/2024, 11:11:48 AM",0x27,0x02,B7 6E A6 77,TC-R08: Recovery Step 4 - Send CORRECT key (0xB76EA677),0x27,67 02,Success,,,33393410822.00
+184,"12/18/2024, 11:11:49 AM",0x2E,,F1 90 01 02,TC-R09: Recovery Verification - Protected operation succeeds,0x2E,7F 2E 13,NRC,0x13,Incorrect Message Length,33393410992.00
+185,"12/18/2024, 11:12:00 AM",0x10,0x01,,=== SECTION S: SEED UNIQUENESS VERIFICATION ===,0x10,50 01 00 32 01 F4,Success,,,33393401191.00
+186,"12/18/2024, 11:12:01 AM",0x10,0x01,,TC-S01: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393401364.00
+187,"12/18/2024, 11:12:02 AM",0x10,0x03,,TC-S02: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393401634.00
+188,"12/18/2024, 11:12:03 AM",0x27,0x01,,TC-S03: Request Seed #1 - Record value,0x27,67 01 12 34 56 78,Success,,,33393401803.00
+189,"12/18/2024, 11:12:04 AM",0x10,0x01,,TC-S04: Reset to Default (discard seed),0x10,50 01 00 32 01 F4,Success,,,33393401979.00
+190,"12/18/2024, 11:12:05 AM",0x10,0x03,,TC-S05: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393402200.00
+191,"12/18/2024, 11:12:06 AM",0x27,0x01,,TC-S06: Request Seed #2 - Should be DIFFERENT from #1,0x27,67 01 12 34 56 78,Success,,,33393402384.00
+192,"12/18/2024, 11:12:07 AM",0x10,0x01,,TC-S07: Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33393402575.00
+193,"12/18/2024, 11:12:08 AM",0x10,0x03,,TC-S08: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33393402761.00
+194,"12/18/2024, 11:12:09 AM",0x27,0x01,,TC-S09: Request Seed #3 - Verify random/unique,0x27,67 01 12 34 56 78,Success,,,33393402971.00
+195,"12/18/2024, 11:12:20 AM",0x10,0x01,,=== SECTION T: FINAL CLEANUP ===,0x10,50 01 00 32 01 F4,Success,,,33393393277.00
+196,"12/18/2024, 11:12:21 AM",0x10,0x01,,TC-T01: Final Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33393393522.00
+197,"12/18/2024, 11:12:22 AM",0x22,,F1 90,TC-T02: Read VIN to verify system state,0x22,62 F1 90 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51,Success,,,33393393697.00
+198,"12/18/2024, 11:12:23 AM",0x19,0x01,,TC-T03: Read DTC Count,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,33393393883.00
+199,"12/18/2024, 11:12:24 AM",0x3E,0x00,,TC-T04: Final TesterPresent,0x3E,00,Success,,,33393394064.00

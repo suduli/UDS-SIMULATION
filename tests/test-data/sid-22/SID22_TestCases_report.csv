@@ -1,0 +1,148 @@
+﻿Report Information
+Report ID,terminal_report_1767897004010
+Report Name,"Terminal Output Report (1/9/2026, 12:00:04 AM)"
+Description,Generated from current terminal session with 119 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,119
+Total Responses,119
+Successful Responses,84
+Negative Responses (NRC),35
+Success Rate (%),70.59
+Test Duration,1m 39s
+Start Time,"12/17/2024, 9:10:00 PM"
+End Time,"12/17/2024, 9:11:39 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7F,Service Not Supported In Active Session,12,34.29
+0x33,Security Access Denied,3,8.57
+0x31,Request Out of Range,13,37.14
+0x13,Incorrect Message Length,4,11.43
+0x22,Conditions Not Correct,3,8.57
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/17/2024, 9:10:00 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33446854706.00
+2,"12/17/2024, 9:10:01 PM",0x22,,F1 90,TC-01.1: Read VIN (0xF190) in DEFAULT Session,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446854731.00
+3,"12/17/2024, 9:10:02 PM",0x22,,F1 91,TC-01.2: Read ECU HW Number (0xF191) in DEFAULT Session,0x22,62 F1 91 48 57 31 32 33 34 35 36 37 38 39,Success,,,33446854736.00
+4,"12/17/2024, 9:10:03 PM",0x22,,F1 94,TC-01.3: Read ECU SW Number (0xF194) in DEFAULT Session,0x22,62 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33446854742.00
+5,"12/17/2024, 9:10:04 PM",0x22,,F1 95,TC-01.4: Read Manufacturing Date (0xF195) in DEFAULT Session,0x22,62 F1 95 32 30 32 34 30 33 31 35,Success,,,33446855294.00
+6,"12/17/2024, 9:10:05 PM",0x22,,F1 86,TC-01.5: Read Active Session (0xF186) in DEFAULT Session,0x22,62 F1 86 01,Success,,,33446856271.00
+7,"12/17/2024, 9:10:05 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-02,0x10,50 01 00 32 01 F4,Success,,,33446857774.00
+8,"12/17/2024, 9:10:06 PM",0x22,,F1 90 F1 91,TC-02.1: Multi-DID - VIN + HW Number (2 DIDs),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39,Success,,,33446859272.00
+9,"12/17/2024, 9:10:07 PM",0x22,,F1 90 F1 91 F1 94,TC-02.2: Multi-DID - VIN + HW + SW (3 DIDs),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33446860294.00
+10,"12/17/2024, 9:10:08 PM",0x22,,F1 90 F1 91 F1 94 F1 95,TC-02.3: Multi-DID - VIN + HW + SW + Date (4 DIDs),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31 F1 95 32 30 32 34 30 33 31 35,Success,,,33446861280.00
+11,"12/17/2024, 9:10:09 PM",0x22,,F1 86 F1 90,TC-02.4: Multi-DID - Active Session + VIN,0x22,62 F1 86 01 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446862273.00
+12,"12/17/2024, 9:10:09 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-03,0x10,50 01 00 32 01 F4,Success,,,33446863776.00
+13,"12/17/2024, 9:10:10 PM",0x22,,01 05,TC-03.1: Read Coolant Temp (0x0105) in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446866280.00
+14,"12/17/2024, 9:10:11 PM",0x22,,01 0C,TC-03.2: Read Engine RPM (0x010C) in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446867307.00
+15,"12/17/2024, 9:10:12 PM",0x22,,01 0D,TC-03.3: Read Vehicle Speed (0x010D) in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446868302.00
+16,"12/17/2024, 9:10:13 PM",0x22,,01 42,TC-03.4: Read Battery Voltage (0x0142) in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446869276.00
+17,"12/17/2024, 9:10:14 PM",0x22,,01 10,TC-03.5: Read MAF (0x0110) in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446870279.00
+18,"12/17/2024, 9:10:14 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-04,0x10,50 01 00 32 01 F4,Success,,,33446871768.00
+19,"12/17/2024, 9:10:15 PM",0x10,0x03,,TC-04.1: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33446873311.00
+20,"12/17/2024, 9:10:16 PM",0x22,,01 05,TC-04.2: Read Coolant Temp (0x0105) in EXTENDED - Valid,0x22,62 01 05 6B,Success,,,33446875273.00
+21,"12/17/2024, 9:10:17 PM",0x22,,01 0C,TC-04.3: Read Engine RPM (0x010C) in EXTENDED - Valid,0x22,62 01 0C 0C 46,Success,,,33446876309.00
+22,"12/17/2024, 9:10:18 PM",0x22,,01 0D,TC-04.4: Read Vehicle Speed (0x010D) in EXTENDED - Valid,0x22,62 01 0D 55,Success,,,33446877272.00
+23,"12/17/2024, 9:10:19 PM",0x22,,01 42,TC-04.5: Read Battery Voltage (0x0142) in EXTENDED - Valid,0x22,7F 22 33,NRC,0x33,Security Access Denied,33446877349.00
+24,"12/17/2024, 9:10:20 PM",0x22,,01 10,TC-04.6: Read MAF (0x0110) in EXTENDED - Valid,0x22,62 01 10 00 00,Success,,,33446876934.00
+25,"12/17/2024, 9:10:20 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-05,0x10,50 01 00 32 01 F4,Success,,,33446877495.00
+26,"12/17/2024, 9:10:21 PM",0x10,0x03,,TC-05.1: Enter EXTENDED Session for Multi-Sensor Test,0x10,50 03 00 64 01 F4,Success,,,33446878095.00
+27,"12/17/2024, 9:10:22 PM",0x22,,01 05 01 0C,TC-05.2: Multi-DID Sensors - Temp + RPM in EXTENDED,0x22,62 01 05 89 01 0C 07 48,Success,,,33446878187.00
+28,"12/17/2024, 9:10:23 PM",0x22,,01 05 01 0C 01 0D,TC-05.3: Multi-DID Sensors - Temp + RPM + Speed (3 DIDs),0x22,62 01 05 85 01 0C 08 F4 01 0D 1D,Success,,,33446878284.00
+29,"12/17/2024, 9:10:24 PM",0x22,,01 0C 01 0D 01 42 01 10,TC-05.4: Multi-DID All Sensors (4 DIDs),0x22,7F 22 33,NRC,0x33,Security Access Denied,33446877887.00
+30,"12/17/2024, 9:10:24 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-06,0x10,50 01 00 32 01 F4,Success,,,33446878478.00
+31,"12/17/2024, 9:10:25 PM",0x22,,F1 90 01 05,TC-06.1: Mixed DIDs - VIN (OK) + Temp (Session Fail) - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446879077.00
+32,"12/17/2024, 9:10:26 PM",0x22,,F1 91 01 0C,TC-06.2: Mixed DIDs - HW (OK) + RPM (Session Fail) - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446879176.00
+33,"12/17/2024, 9:10:27 PM",0x22,,F1 90 F1 91 01 05,TC-06.3: Mixed 3 DIDs - VIN + HW (OK) + Temp (Fail) - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446878784.00
+34,"12/17/2024, 9:10:27 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-07,0x10,50 01 00 32 01 F4,Success,,,33446879348.00
+35,"12/17/2024, 9:10:28 PM",0x22,,99 99,TC-07.1: Invalid DID 0x9999 - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446879941.00
+36,"12/17/2024, 9:10:29 PM",0x22,,FF FF,TC-07.2: Invalid DID 0xFFFF - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446880032.00
+37,"12/17/2024, 9:10:30 PM",0x22,,00 00,TC-07.3: Invalid DID 0x0000 - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446880126.00
+38,"12/17/2024, 9:10:31 PM",0x22,,F1 90 99 99,TC-07.4: Multi-DID - VIN (OK) + 0x9999 (Invalid) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446880223.00
+39,"12/17/2024, 9:10:32 PM",0x22,,99 99 F1 90,TC-07.5: Multi-DID - 0x9999 (Invalid) + VIN (OK) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446880320.00
+40,"12/17/2024, 9:10:33 PM",0x22,,F1 90 F1 91 FF FF,TC-07.6: Multi-DID - 2 Valid + 1 Invalid - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446879922.00
+41,"12/17/2024, 9:10:33 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-08,0x10,50 01 00 32 01 F4,Success,,,33446880594.00
+42,"12/17/2024, 9:10:34 PM",0x22,,,TC-08.1: Empty Data (No DIDs) - Expect NRC 0x13,0x22,7F 22 13,NRC,0x13,Incorrect Message Length,33446881201.00
+43,"12/17/2024, 9:10:35 PM",0x22,,F1,TC-08.2: Incomplete DID (1 byte) - Expect NRC 0x13,0x22,7F 22 13,NRC,0x13,Incorrect Message Length,33446881308.00
+44,"12/17/2024, 9:10:36 PM",0x22,,F1 90 F1,TC-08.3: Incomplete Multi-DID (3 bytes) - Expect NRC 0x13,0x22,7F 22 13,NRC,0x13,Incorrect Message Length,33446881411.00
+45,"12/17/2024, 9:10:37 PM",0x22,,F1 90 F1 91 F1,TC-08.4: Incomplete Multi-DID (5 bytes) - Expect NRC 0x13,0x22,7F 22 13,NRC,0x13,Incorrect Message Length,33446881020.00
+46,"12/17/2024, 9:10:37 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-09,0x10,50 01 00 32 01 F4,Success,,,33446881594.00
+47,"12/17/2024, 9:10:38 PM",0x10,0x02,,TC-09.1: Enter PROGRAMMING Session,0x10,50 02 00 32 01 F4,Success,,,33446882204.00
+48,"12/17/2024, 9:10:39 PM",0x22,,F1 90,TC-09.2: Read VIN in PROGRAMMING - Valid (Public DID),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446882322.00
+49,"12/17/2024, 9:10:40 PM",0x22,,F1 91,TC-09.3: Read HW Number in PROGRAMMING - Valid,0x22,62 F1 91 48 57 31 32 33 34 35 36 37 38 39,Success,,,33446882439.00
+50,"12/17/2024, 9:10:41 PM",0x22,,F1 94,TC-09.4: Read SW Number in PROGRAMMING - Valid,0x22,62 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33446882569.00
+51,"12/17/2024, 9:10:42 PM",0x22,,01 05,TC-09.5: Read Coolant Temp in PROGRAMMING - Expect NRC 0x7F (Requires EXTENDED),0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446882197.00
+52,"12/17/2024, 9:10:42 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-10,0x10,50 01 00 32 01 F4,Success,,,33446882820.00
+53,"12/17/2024, 9:10:43 PM",0x22,,F1 90,TC-10.1: Read VIN - Baseline,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446883455.00
+54,"12/17/2024, 9:10:44 PM",0x10,0x03,,TC-10.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33446883585.00
+55,"12/17/2024, 9:10:45 PM",0x22,,F1 90,TC-10.3: Read VIN in EXTENDED - Valid (Public DID),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446883718.00
+56,"12/17/2024, 9:10:46 PM",0x10,0x02,,TC-10.4: Enter PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33446883342.00
+57,"12/17/2024, 9:10:47 PM",0x22,,F1 90,TC-10.5: Read VIN in PROGRAMMING - Valid (Public DID),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446883440.00
+58,"12/17/2024, 9:10:47 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-11,0x10,50 01 00 32 01 F4,Success,,,33446884044.00
+59,"12/17/2024, 9:10:48 PM",0x10,0x03,,TC-11.1: Enter EXTENDED Session for Transition Test,0x10,50 03 00 64 01 F4,Success,,,33446884687.00
+60,"12/17/2024, 9:10:49 PM",0x22,,01 05,TC-11.2: Read Temp in EXTENDED - Baseline,0x22,62 01 05 6A,Success,,,33446884839.00
+61,"12/17/2024, 9:10:50 PM",0x10,0x01,,TC-11.3: Return to DEFAULT Session,0x10,50 01 00 32 01 F4,Success,,,33446884981.00
+62,"12/17/2024, 9:10:51 PM",0x22,,01 05,TC-11.4: Read Temp in DEFAULT - Expect NRC 0x7F,0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446885137.00
+63,"12/17/2024, 9:10:52 PM",0x10,0x03,,TC-11.5: Re-enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33446884785.00
+64,"12/17/2024, 9:10:53 PM",0x22,,01 05,TC-11.6: Read Temp in EXTENDED Again - Valid,0x22,62 01 05 85,Success,,,33446884879.00
+65,"12/17/2024, 9:10:53 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-12,0x10,50 01 00 32 01 F4,Success,,,33446885480.00
+66,"12/17/2024, 9:10:54 PM",0x22,,F1 86,TC-12.1: Read Active Session in DEFAULT - Expect 0x01,0x22,62 F1 86 01,Success,,,33446886082.00
+67,"12/17/2024, 9:10:55 PM",0x10,0x03,,TC-12.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33446886198.00
+68,"12/17/2024, 9:10:56 PM",0x22,,F1 86,TC-12.3: Read Active Session in EXTENDED - Expect 0x03,0x22,62 F1 86 03,Success,,,33446886319.00
+69,"12/17/2024, 9:10:57 PM",0x10,0x02,,TC-12.4: Enter PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33446885979.00
+70,"12/17/2024, 9:10:58 PM",0x22,,F1 86,TC-12.5: Read Active Session in PROGRAMMING - Expect 0x02,0x22,62 F1 86 03,Success,,,33446886131.00
+71,"12/17/2024, 9:10:58 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-13,0x10,50 01 00 32 01 F4,Success,,,33446886778.00
+72,"12/17/2024, 9:10:59 PM",0x22,,F1 90 F1 91 F1 94 F1 95 F1 86 F1 90 F1 91 F1 94 F1 95 F1 86,TC-13.1: Request 10 DIDs at once (5 unique x2) - Test response size limit,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31 F1 95 32 30 32 34 30 33 31 35 F1 86 01 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31 F1 95 32 30 32 34 30 33 31 35 F1 86 01,Success,,,33446887436.00
+73,"12/17/2024, 9:11:00 PM",0x22,,F1 90 F1 91 F1 94 F1 95 F1 86,TC-13.2: Request 5 DIDs - Should fit in response buffer,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31 F1 95 32 30 32 34 30 33 31 35 F1 86 01,Success,,,33446887113.00
+74,"12/17/2024, 9:11:01 PM",0x22,,F1 90 F1 90 F1 90,TC-13.3: Request same DID (VIN) 3 times - Duplicate handling test,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446887232.00
+75,"12/17/2024, 9:11:02 PM",0x22,,F1 90 F1 91,TC-13.4: Request 2 DIDs (split test) - First half OK,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39,Success,,,33446887360.00
+76,"12/17/2024, 9:11:02 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-14,0x10,50 01 00 32 01 F4,Success,,,33446888046.00
+77,"12/17/2024, 9:11:03 PM",0x10,0x03,,TC-14.1: Workflow - Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33446888737.00
+78,"12/17/2024, 9:11:04 PM",0x22,,01 05,TC-14.2: Workflow - Read Coolant Temp after session change,0x22,62 01 05 88,Success,,,33446888426.00
+79,"12/17/2024, 9:11:05 PM",0x22,,F1 86,TC-14.3: Workflow - Verify session is EXTENDED (0x03),0x22,62 F1 86 03,Success,,,33446888549.00
+80,"12/17/2024, 9:11:06 PM",0x10,0x01,,TC-14.4: Workflow - Return to DEFAULT,0x10,50 01 00 32 01 F4,Success,,,33446888732.00
+81,"12/17/2024, 9:11:07 PM",0x22,,F1 86,TC-14.5: Workflow - Verify session is DEFAULT (0x01),0x22,62 F1 86 01,Success,,,33446888862.00
+82,"12/17/2024, 9:11:08 PM",0x22,,F1 90,TC-14.6: Workflow - Read VIN in DEFAULT (baseline for next test),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446889056.00
+83,"12/17/2024, 9:11:09 PM",0x10,0x03,,TC-14.7: Workflow - Enter EXTENDED for diagnostic scan,0x10,50 03 00 64 01 F4,Success,,,33446889264.00
+84,"12/17/2024, 9:11:10 PM",0x22,,F1 90 F1 91 F1 94,TC-14.8: Workflow - Diagnostic Scan: VIN + HW + SW,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33446889456.00
+85,"12/17/2024, 9:11:11 PM",0x22,,01 05 01 0C 01 0D,TC-14.9: Workflow - Diagnostic Scan: Sensors (Temp + RPM + Speed),0x22,62 01 05 5F 01 0C 06 B5 01 0D 86,Success,,,33446889743.00
+86,"12/17/2024, 9:11:12 PM",0x22,,01 42 01 10,TC-14.10: Workflow - Diagnostic Scan: Battery + MAF,0x22,7F 22 33,NRC,0x33,Security Access Denied,33446889885.00
+87,"12/17/2024, 9:11:13 PM",0x10,0x02,,TC-14.11: Workflow - Enter PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33446890024.00
+88,"12/17/2024, 9:11:14 PM",0x22,,F1 86,TC-14.12: Workflow - Verify PROGRAMMING session (0x02),0x22,62 F1 86 03,Success,,,33446890155.00
+89,"12/17/2024, 9:11:15 PM",0x22,,F1 90 F1 94,TC-14.13: Workflow - Read VIN + SW in PROGRAMMING,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33446890287.00
+90,"12/17/2024, 9:11:16 PM",0x10,0x01,,TC-14.14: Workflow - Return to DEFAULT from PROGRAMMING,0x10,50 01 00 32 01 F4,Success,,,33446890481.00
+91,"12/17/2024, 9:11:17 PM",0x22,,F1 86,TC-14.15: Workflow - Final session verification (0x01),0x22,62 F1 86 01,Success,,,33446890766.00
+92,"12/17/2024, 9:11:17 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-15,0x10,50 01 00 32 01 F4,Success,,,33446891477.00
+93,"12/17/2024, 9:11:18 PM",0x22,,01 05,TC-15.1: Error Recovery - Read sensor in DEFAULT (expect NRC 0x7F),0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446892196.00
+94,"12/17/2024, 9:11:19 PM",0x22,,F1 86,TC-15.2: Error Recovery - Check current session (diagnostic step),0x22,62 F1 86 01,Success,,,33446891912.00
+95,"12/17/2024, 9:11:20 PM",0x10,0x03,,TC-15.3: Error Recovery - Fix by entering EXTENDED,0x10,50 03 00 64 01 F4,Success,,,33446892054.00
+96,"12/17/2024, 9:11:21 PM",0x22,,01 05,TC-15.4: Error Recovery - Retry sensor read (should pass now),0x22,62 01 05 8A,Success,,,33446892192.00
+97,"12/17/2024, 9:11:22 PM",0x10,0x01,,TC-15.5: Error Recovery - Return to DEFAULT,0x10,50 01 00 32 01 F4,Success,,,33446892397.00
+98,"12/17/2024, 9:11:23 PM",0x22,,F1 90 01 05,TC-15.6: Error Recovery - Mixed DIDs fail (expect NRC 0x7F),0x22,7F 22 7F,NRC,0x7F,Service Not Supported In Active Session,33446892611.00
+99,"12/17/2024, 9:11:24 PM",0x22,,F1 90,TC-15.7: Error Recovery - Split request: Valid DID only,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446892844.00
+100,"12/17/2024, 9:11:25 PM",0x10,0x03,,TC-15.8: Error Recovery - Enter EXTENDED for sensor,0x10,50 03 00 64 01 F4,Success,,,33446893079.00
+101,"12/17/2024, 9:11:26 PM",0x22,,01 05,TC-15.9: Error Recovery - Split request: Sensor DID,0x22,62 01 05 79,Success,,,33446893298.00
+102,"12/17/2024, 9:11:27 PM",0x10,0x01,,TC-15.10: Error Recovery - Complete: Return to DEFAULT,0x10,50 01 00 32 01 F4,Success,,,33446893506.00
+103,"12/17/2024, 9:11:27 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-16,0x10,50 01 00 32 01 F4,Success,,,33446894250.00
+104,"12/17/2024, 9:11:28 PM",0x22,,00 01,TC-16.1: Boundary - Minimum DID (0x0001) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446894910.00
+105,"12/17/2024, 9:11:29 PM",0x22,,FF FE,TC-16.2: Boundary - Maximum DID (0xFFFE) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446894579.00
+106,"12/17/2024, 9:11:30 PM",0x22,,F1 90,TC-16.3: Boundary - Exactly 1 valid DID - Should pass,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446894738.00
+107,"12/17/2024, 9:11:31 PM",0x22,,FF 00,TC-16.4: Boundary - Reserved range 0xFF00 - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446895000.00
+108,"12/17/2024, 9:11:32 PM",0x22,,F4 00,TC-16.5: Boundary - OBD range 0xF400 - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446895253.00
+109,"12/17/2024, 9:11:33 PM",0x22,,F4 FF,TC-16.6: Boundary - OBD range 0xF4FF - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446895524.00
+110,"12/17/2024, 9:11:34 PM",0x22,,F1 87,TC-16.7: Boundary - DID 0xF187 (near F186) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446895784.00
+111,"12/17/2024, 9:11:35 PM",0x22,,F1 85,TC-16.8: Boundary - DID 0xF185 (near F186) - Expect NRC 0x31,0x22,7F 22 31,NRC,0x31,Request Out of Range,33446895956.00
+112,"12/17/2024, 9:11:35 PM",0x10,0x01,,[SETUP] Reset to Default Session for TC-17,0x10,50 01 00 32 01 F4,Success,,,33446896630.00
+113,"12/17/2024, 9:11:36 PM",0x22,,F1 90 F1 90,TC-17.1: Edge Case - Same DID requested twice (VIN x2),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446897366.00
+114,"12/17/2024, 9:11:37 PM",0x22,,F1 91 F1 90,"TC-17.2: Edge Case - Reverse order (HW, VIN vs VIN, HW)",0x22,62 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446897089.00
+115,"12/17/2024, 9:11:38 PM",0x22,,F1 90,TC-17.3: Edge Case - Rapid read #1,0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446897316.00
+116,"12/17/2024, 9:11:38 PM",0x22,,F1 90,TC-17.4: Edge Case - Rapid read #2 (100ms apart),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446898444.00
+117,"12/17/2024, 9:11:38 PM",0x22,,F1 90,TC-17.5: Edge Case - Rapid read #3 (100ms apart),0x22,62 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59,Success,,,33446898687.00
+118,"12/17/2024, 9:11:39 PM",0x22,,F1 86 F1 90 F1 91 F1 94 F1 95,TC-17.6: Edge Case - All 5 public DIDs in single request,0x22,62 F1 86 01 F1 90 37 52 44 56 33 57 34 59 4A 4B 32 30 33 54 5A 35 59 F1 91 48 57 31 32 33 34 35 36 37 38 39 F1 94 53 57 39 38 37 36 35 34 33 32 31 F1 95 32 30 32 34 30 33 31 35,Success,,,33446898163.00
+119,"12/17/2024, 9:11:39 PM",0x10,0x01,,[CLEANUP] Final Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33446898848.00

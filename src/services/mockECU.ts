@@ -1096,5 +1096,6 @@ export const mockECUConfig: ECUConfig = {
   memoryMap: mockMemoryMap,
   securitySeed: [0x12, 0x34, 0x56, 0x78],
   securityKey: [0xB7, 0x6E, 0xA6, 0x77],
+  useRandomSeeds: false,  // Set to true for random seeds (production), false for fixed seeds (testing)
   maxBlockLength: 4096,  // 4KB per Transfer Data block
 };

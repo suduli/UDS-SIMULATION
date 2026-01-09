@@ -1,0 +1,149 @@
+﻿Report Information
+Report ID,terminal_report_1767896502557
+Report Name,"Terminal Output Report (1/8/2026, 11:51:42 PM)"
+Description,Generated from current terminal session with 122 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,122
+Total Responses,122
+Successful Responses,109
+Negative Responses (NRC),13
+Success Rate (%),89.34
+Test Duration,1m 57s
+Start Time,"12/6/2024, 4:36:40 AM"
+End Time,"12/6/2024, 4:38:37 AM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x13,Incorrect Message Length,7,53.85
+0x22,Conditions Not Correct,5,38.46
+0x35,Invalid Key,1,7.69
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/6/2024, 4:36:40 AM",0x10,0x01,,[SETUP] TC-01: Reset to Default Session for Valid GroupOfDTC Tests,0x10,50 01 00 32 01 F4,Success,,,34456376006.00
+2,"12/6/2024, 4:36:41 AM",0x14,0x00,FF FF FF,TC-01.01: Clear All DTCs (0xFFFFFF) - Mandatory ISO 14229 | Expect: 0x54,0x14,54,Success,,,34456376036.00
+3,"12/6/2024, 4:36:42 AM",0x14,0x00,00 00 00,TC-01.02: Emissions-Related DTCs (0x000000) - OBD-II Compliant | Expect: 0x54,0x14,54,Success,,,34456376041.00
+4,"12/6/2024, 4:36:43 AM",0x14,0x00,FF FF 33,TC-01.03: Network Communication DTCs (0xFFFF33) - OEM Specific | Expect: 0x54,0x14,54,Success,,,34456376043.00
+5,"12/6/2024, 4:36:44 AM",0x14,0x00,FF FF 00,TC-01.04: All Powertrain DTCs (0xFFFF00) - OEM Specific | Expect: 0x54,0x14,54,Success,,,34456376075.00
+6,"12/6/2024, 4:36:45 AM",0x14,0x00,C0 00 00,TC-01.05: Chassis Group (0xC00000 - High byte) | Expect: 0x54,0x14,54,Success,,,34456376106.00
+7,"12/6/2024, 4:36:46 AM",0x14,0x00,B0 00 00,TC-01.06: Body Group (0xB00000 - High byte) | Expect: 0x54,0x14,54,Success,,,34456376140.00
+8,"12/6/2024, 4:36:47 AM",0x14,0x00,40 00 00,TC-01.07: Network Group (0x400000 - High byte) | Expect: 0x54,0x14,54,Success,,,34456376177.00
+9,"12/6/2024, 4:36:48 AM",0x14,0x00,01 00 00,TC-01.08: Powertrain Subsystem (0x010000) | Expect: 0x54,0x14,54,Success,,,34456376213.00
+10,"12/6/2024, 4:36:49 AM",0x14,0x00,02 00 00,TC-01.09: Chassis Subsystem (0x020000) | Expect: 0x54,0x14,54,Success,,,34456376255.00
+11,"12/6/2024, 4:36:50 AM",0x14,0x00,04 00 00,TC-01.10: Body Subsystem (0x040000) | Expect: 0x54,0x14,54,Success,,,34456376291.00
+12,"12/6/2024, 4:36:51 AM",0x14,0x00,08 00 00,TC-01.11: Network Subsystem (0x080000) | Expect: 0x54,0x14,54,Success,,,34456376316.00
+13,"12/6/2024, 4:36:52 AM",0x14,0x00,03 01 00,TC-01.12: Specific DTC P0301 Equivalent (0x030100) | Expect: 0x54,0x14,54,Success,,,34456376358.00
+14,"12/6/2024, 4:36:53 AM",0x10,0x01,,[SETUP] TC-02: Reset for Message Length Validation (NRC 0x13),0x10,50 01 00 32 01 F4,Success,,,34456376399.00
+15,"12/6/2024, 4:36:54 AM",0x14,0x00,,TC-02.01: No GroupOfDTC (0 bytes) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376446.00
+16,"12/6/2024, 4:36:55 AM",0x14,0x00,FF,TC-02.02: Too Short (1 byte) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376485.00
+17,"12/6/2024, 4:36:56 AM",0x14,0x00,FF FF,TC-02.03: Too Short (2 bytes) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376528.00
+18,"12/6/2024, 4:36:57 AM",0x14,0x00,FF FF FF 00,TC-02.04: Too Long (4 bytes) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376569.00
+19,"12/6/2024, 4:36:58 AM",0x14,0x00,FF FF FF 00 00,TC-02.05: Too Long (5 bytes) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376611.00
+20,"12/6/2024, 4:36:59 AM",0x14,0x00,FF FF FF 00 00 00 00 00,TC-02.06: Way Too Long (8 bytes) | Expect: NRC 0x13,0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456376664.00
+21,"12/6/2024, 4:37:00 AM",0x10,0x01,,[SETUP] TC-03: Reset for Session Validation Matrix,0x10,50 01 00 32 01 F4,Success,,,34456376707.00
+22,"12/6/2024, 4:37:01 AM",0x14,0x00,FF FF FF,TC-03.01: Clear in Default Session (0x01) | Expect: 0x54 (Allowed),0x14,54,Success,,,34456376759.00
+23,"12/6/2024, 4:37:02 AM",0x10,0x03,,TC-03.02: Enter Extended Session (0x03),0x10,50 03 00 64 01 F4,Success,,,34456376811.00
+24,"12/6/2024, 4:37:03 AM",0x14,0x00,FF FF FF,TC-03.03: Clear in Extended Session | Expect: 0x54 (Full Access),0x14,54,Success,,,34456376864.00
+25,"12/6/2024, 4:37:04 AM",0x10,0x01,,[SETUP] Return to Default,0x10,50 01 00 32 01 F4,Success,,,34456376923.00
+26,"12/6/2024, 4:37:05 AM",0x10,0x02,,TC-03.04: Enter Programming Session (0x02),0x10,50 02 00 32 01 F4,Success,,,34456376981.00
+27,"12/6/2024, 4:37:06 AM",0x14,0x00,FF FF FF,TC-03.05: Clear in Programming Session | Expect: NRC 0x7F or OEM-dependent,0x14,54,Success,,,34456377042.00
+28,"12/6/2024, 4:37:07 AM",0x10,0x01,,[SETUP] Return to Default,0x10,50 01 00 32 01 F4,Success,,,34456377097.00
+29,"12/6/2024, 4:37:08 AM",0x10,0x04,,TC-03.06: Enter Safety Session (0x04),0x10,50 04 00 32 01 F4,Success,,,34456377159.00
+30,"12/6/2024, 4:37:09 AM",0x14,0x00,FF FF FF,TC-03.07: Clear in Safety Session | Expect: NRC 0x22 (Blocked to preserve evidence),0x14,7F 14 22,NRC,0x22,Conditions Not Correct,34456377224.00
+31,"12/6/2024, 4:37:10 AM",0x10,0x01,,[SETUP] Return to Default,0x10,50 01 00 32 01 F4,Success,,,34456377293.00
+32,"12/6/2024, 4:37:11 AM",0x10,0x03,,TC-03.08: Extended Session Re-entry Test,0x10,50 03 00 64 01 F4,Success,,,34456377357.00
+33,"12/6/2024, 4:37:12 AM",0x14,0x00,01 00 00,TC-03.09: Clear Powertrain in Extended | Expect: 0x54,0x14,54,Success,,,34456377423.00
+34,"12/6/2024, 4:37:13 AM",0x14,0x00,FF FF FF,TC-03.10: Sequential Clear All in Extended | Expect: 0x54,0x14,54,Success,,,34456377489.00
+35,"12/6/2024, 4:37:14 AM",0x10,0x01,,[SETUP] TC-04: Reset for RequestOutOfRange (NRC 0x31),0x10,50 01 00 32 01 F4,Success,,,34456377552.00
+36,"12/6/2024, 4:37:15 AM",0x14,0x00,12 34 56,TC-04.01: Invalid GroupOfDTC (0x123456) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377619.00
+37,"12/6/2024, 4:37:16 AM",0x14,0x00,AB CD EF,TC-04.02: Invalid GroupOfDTC (0xABCDEF) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377691.00
+38,"12/6/2024, 4:37:17 AM",0x14,0x00,10 20 30,TC-04.03: Invalid GroupOfDTC (0x102030) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377760.00
+39,"12/6/2024, 4:37:18 AM",0x14,0x00,FF 00 FF,TC-04.04: Mixed Pattern (0xFF00FF) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377828.00
+40,"12/6/2024, 4:37:19 AM",0x14,0x00,00 FF 00,TC-04.05: Mixed Pattern (0x00FF00) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377902.00
+41,"12/6/2024, 4:37:20 AM",0x14,0x00,55 AA 55,TC-04.06: Alternating Pattern (0x55AA55) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456377973.00
+42,"12/6/2024, 4:37:21 AM",0x14,0x00,AA 55 AA,TC-04.07: Alternating Pattern (0xAA55AA) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456378043.00
+43,"12/6/2024, 4:37:22 AM",0x14,0x00,7F 7F 7F,TC-04.08: Half-Max Value (0x7F7F7F) | Expect: NRC 0x31 or OEM accept,0x14,54,Success,,,34456378113.00
+44,"12/6/2024, 4:37:23 AM",0x10,0x01,,[SETUP] TC-05: Reset for Security Access Validation (NRC 0x33),0x10,50 01 00 32 01 F4,Success,,,34456378186.00
+45,"12/6/2024, 4:37:24 AM",0x10,0x03,,TC-05.01: Enter Extended for Security Test,0x10,50 03 00 64 01 F4,Success,,,34456378260.00
+46,"12/6/2024, 4:37:25 AM",0x14,0x00,FF FF FF,TC-05.02: Clear Without Unlock - May get NRC 0x33 if ECU requires security,0x14,54,Success,,,34456378334.00
+47,"12/6/2024, 4:37:26 AM",0x27,0x01,,TC-05.03: Request Security Seed Level 1,0x27,67 01 12 34 56 78,Success,,,34456378410.00
+48,"12/6/2024, 4:37:27 AM",0x27,0x02,00 00 00 00,TC-05.04: Send Key (placeholder - will fail with NRC 0x35),0x27,7F 27 35,NRC,0x35,Invalid Key,34456378509.00
+49,"12/6/2024, 4:37:28 AM",0x14,0x00,FF FF FF,TC-05.05: Clear After Failed Unlock Attempt | Depends on ECU config,0x14,54,Success,,,34456378588.00
+50,"12/6/2024, 4:37:29 AM",0x10,0x01,,[SETUP] Reset to Default (clears security state),0x10,50 01 00 32 01 F4,Success,,,34456378693.00
+51,"12/6/2024, 4:37:30 AM",0x10,0x03,,TC-05.06: Re-enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34456378773.00
+52,"12/6/2024, 4:37:31 AM",0x27,0x03,,TC-05.07: Request Security Seed Level 2,0x27,67 03 12 34 56 78,Success,,,34456378861.00
+53,"12/6/2024, 4:37:32 AM",0x14,0x00,FF FF FF,TC-05.08: Clear Without Level 2 Key | May get NRC 0x33,0x14,54,Success,,,34456378950.00
+54,"12/6/2024, 4:37:33 AM",0x10,0x01,,[SETUP] TC-06: Reset for ConditionsNotCorrect Tests (NRC 0x22),0x10,50 01 00 32 01 F4,Success,,,34456379037.00
+55,"12/6/2024, 4:37:34 AM",0x14,0x00,FF FF FF,TC-06.01: Clear in Normal Conditions | Expect: 0x54,0x14,54,Success,,,34456379134.00
+56,"12/6/2024, 4:37:35 AM",0x10,0x04,,TC-06.02: Enter Safety Session (Condition blocked),0x10,50 04 00 32 01 F4,Success,,,34456379228.00
+57,"12/6/2024, 4:37:36 AM",0x14,0x00,FF FF FF,TC-06.03: Clear in Safety - Blocked | Expect: NRC 0x22,0x14,7F 14 22,NRC,0x22,Conditions Not Correct,34456379319.00
+58,"12/6/2024, 4:37:37 AM",0x14,0x00,01 00 00,TC-06.04: Clear Powertrain in Safety | Expect: NRC 0x22,0x14,7F 14 22,NRC,0x22,Conditions Not Correct,34456379417.00
+59,"12/6/2024, 4:37:38 AM",0x14,0x00,C0 00 00,TC-06.05: Clear Chassis in Safety | Expect: NRC 0x22,0x14,7F 14 22,NRC,0x22,Conditions Not Correct,34456379513.00
+60,"12/6/2024, 4:37:39 AM",0x10,0x01,,[SETUP] Return to Default,0x10,50 01 00 32 01 F4,Success,,,34456379607.00
+61,"12/6/2024, 4:37:40 AM",0x14,0x00,FF FF FF,TC-06.06: Clear After Exiting Safety | Expect: 0x54 (Conditions OK),0x14,54,Success,,,34456379701.00
+62,"12/6/2024, 4:37:41 AM",0x10,0x01,,[SETUP] TC-07: Reset for Positive Response Validation,0x10,50 01 00 32 01 F4,Success,,,34456379802.00
+63,"12/6/2024, 4:37:42 AM",0x14,0x00,FF FF FF,TC-07.01: Verify Response is exactly 0x54 (1 byte positive SID+0x40),0x14,54,Success,,,34456379910.00
+64,"12/6/2024, 4:37:43 AM",0x14,0x00,01 01 01,TC-07.02: Single DTC Clear - Response 0x54,0x14,54,Success,,,34456380012.00
+65,"12/6/2024, 4:37:44 AM",0x14,0x00,00 00 00,TC-07.03: Zero GroupOfDTC - Response 0x54,0x14,54,Success,,,34456380118.00
+66,"12/6/2024, 4:37:45 AM",0x14,0x00,FF FF FF,TC-07.04: Clear When No DTCs Stored - Still 0x54,0x14,54,Success,,,34456380220.00
+67,"12/6/2024, 4:37:46 AM",0x14,0x00,FF FF FF,TC-07.05: Consecutive Clear Same Group - Both 0x54,0x14,54,Success,,,34456380322.00
+68,"12/6/2024, 4:37:47 AM",0x14,0x00,FF FF FF,TC-07.06: Third Consecutive Clear - Still 0x54,0x14,54,Success,,,34456380426.00
+69,"12/6/2024, 4:37:48 AM",0x10,0x01,,[SETUP] TC-08: Reset for Boundary Value Analysis,0x10,50 01 00 32 01 F4,Success,,,34456380525.00
+70,"12/6/2024, 4:37:49 AM",0x14,0x00,00 00 01,TC-08.01: Minimum Non-Zero (0x000001),0x14,54,Success,,,34456380634.00
+71,"12/6/2024, 4:37:50 AM",0x14,0x00,00 01 00,TC-08.02: Middle Byte Boundary (0x000100),0x14,54,Success,,,34456380744.00
+72,"12/6/2024, 4:37:51 AM",0x14,0x00,01 00 00,TC-08.03: High Byte Boundary (0x010000),0x14,54,Success,,,34456380852.00
+73,"12/6/2024, 4:37:52 AM",0x14,0x00,80 00 00,TC-08.04: MSB Set (0x800000),0x14,54,Success,,,34456380957.00
+74,"12/6/2024, 4:37:53 AM",0x14,0x00,00 80 00,TC-08.05: Middle MSB (0x008000),0x14,54,Success,,,34456381073.00
+75,"12/6/2024, 4:37:54 AM",0x14,0x00,00 00 80,TC-08.06: Low MSB (0x000080),0x14,54,Success,,,34456381184.00
+76,"12/6/2024, 4:37:55 AM",0x14,0x00,FE FE FE,TC-08.07: Near Max (0xFEFEFE),0x14,54,Success,,,34456381294.00
+77,"12/6/2024, 4:37:56 AM",0x14,0x00,FF FE FF,TC-08.08: One Byte Below Max (0xFFFEFF),0x14,54,Success,,,34456381409.00
+78,"12/6/2024, 4:37:57 AM",0x10,0x01,,[SETUP] TC-09: Reset for Post-Clear Verification with SID 0x19,0x10,50 01 00 32 01 F4,Success,,,34456381532.00
+79,"12/6/2024, 4:37:58 AM",0x19,0x01,FF,TC-09.01: Read DTC Count Before Clear (SID 19 01 FF),0x19,59 01 FF 01 00 00,Success,,,34456381706.00
+80,"12/6/2024, 4:37:59 AM",0x19,0x02,FF,TC-09.02: Read DTCs Before Clear (SID 19 02 FF),0x19,59 02 FF,Success,,,34456381833.00
+81,"12/6/2024, 4:38:00 AM",0x14,0x00,FF FF FF,TC-09.03: Execute Clear All DTCs,0x14,54,Success,,,34456381955.00
+82,"12/6/2024, 4:38:01 AM",0x19,0x01,FF,TC-09.04: Read DTC Count After Clear | Expect: 0 DTCs,0x19,59 01 FF 01 00 00,Success,,,34456382068.00
+83,"12/6/2024, 4:38:02 AM",0x19,0x02,FF,TC-09.05: Read DTCs After Clear | Expect: Empty List,0x19,59 02 FF,Success,,,34456382180.00
+84,"12/6/2024, 4:38:03 AM",0x14,0x00,01 00 00,TC-09.06: Clear Powertrain Only,0x14,54,Success,,,34456381357.00
+85,"12/6/2024, 4:38:04 AM",0x19,0x02,FF,TC-09.07: Verify After Powertrain Clear,0x19,59 02 FF,Success,,,34456380502.00
+86,"12/6/2024, 4:38:05 AM",0x19,0x01,AF,TC-09.08: Read DTC Count with Status Mask 0xAF,0x19,59 01 FF 01 00 00,Success,,,34456379624.00
+87,"12/6/2024, 4:38:06 AM",0x10,0x01,,[SETUP] TC-10: Reset for Stress Testing,0x10,50 01 00 32 01 F4,Success,,,34456378757.00
+88,"12/6/2024, 4:38:07 AM",0x14,0x00,FF FF FF,TC-10.01: Rapid Clear #1 (0ms gap),0x14,54,Success,,,34456378836.00
+89,"12/6/2024, 4:38:07 AM",0x14,0x00,FF FF FF,TC-10.02: Rapid Clear #2 (50ms gap),0x14,54,Success,,,34456379905.00
+90,"12/6/2024, 4:38:07 AM",0x14,0x00,FF FF FF,TC-10.03: Rapid Clear #3 (50ms gap),0x14,54,Success,,,34456380978.00
+91,"12/6/2024, 4:38:07 AM",0x14,0x00,FF FF FF,TC-10.04: Rapid Clear #4 (50ms gap),0x14,54,Success,,,34456382046.00
+92,"12/6/2024, 4:38:07 AM",0x14,0x00,FF FF FF,TC-10.05: Rapid Clear #5 (50ms gap),0x14,54,Success,,,34456383119.00
+93,"12/6/2024, 4:38:08 AM",0x10,0x01,,TC-10.06: Session Reset After Stress | Verify ECU stable,0x10,50 01 00 32 01 F4,Success,,,34456383434.00
+94,"12/6/2024, 4:38:09 AM",0x10,0x01,,[SETUP] TC-11: Reset for Service Interaction Workflows,0x10,50 01 00 32 01 F4,Success,,,34456383558.00
+95,"12/6/2024, 4:38:10 AM",0x19,0x01,FF,TC-11.01: Workflow 1 - Read DTCs First (SID 0x19),0x19,59 01 FF 01 00 00,Success,,,34456383710.00
+96,"12/6/2024, 4:38:11 AM",0x10,0x03,,TC-11.02: Enter Extended Session (SID 0x10),0x10,50 03 00 64 01 F4,Success,,,34456383837.00
+97,"12/6/2024, 4:38:12 AM",0x14,0x00,FF FF FF,TC-11.03: Clear All (SID 0x14),0x14,54,Success,,,34456383965.00
+98,"12/6/2024, 4:38:13 AM",0x19,0x02,FF,TC-11.04: Verify Clear (SID 0x19),0x19,59 02 FF,Success,,,34456384089.00
+99,"12/6/2024, 4:38:14 AM",0x10,0x01,,TC-11.05: Return to Default (SID 0x10),0x10,50 01 00 32 01 F4,Success,,,34456384217.00
+100,"12/6/2024, 4:38:15 AM",0x3E,0x00,,TC-11.06: Tester Present (SID 0x3E) - Maintain Session,0x3E,00,Success,,,34456384346.00
+101,"12/6/2024, 4:38:16 AM",0x10,0x03,,TC-11.07: Workflow 2 - Selective Clear - Enter Extended,0x10,50 03 00 64 01 F4,Success,,,34456384469.00
+102,"12/6/2024, 4:38:17 AM",0x19,0x02,FF,TC-11.08: Read All DTCs Before Selective Clear,0x19,59 02 FF,Success,,,34456384595.00
+103,"12/6/2024, 4:38:18 AM",0x14,0x00,01 00 00,TC-11.09: Clear Powertrain Only (0x010000),0x14,54,Success,,,34456384737.00
+104,"12/6/2024, 4:38:19 AM",0x19,0x02,FF,TC-11.10: Verify Non-Powertrain DTCs Remain,0x19,59 02 FF,Success,,,34456384849.00
+105,"12/6/2024, 4:38:20 AM",0x14,0x00,FF FF FF,TC-11.11: Clear Remaining DTCs,0x14,54,Success,,,34456384959.00
+106,"12/6/2024, 4:38:21 AM",0x10,0x01,,TC-11.12: Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34456385069.00
+107,"12/6/2024, 4:38:22 AM",0x10,0x01,,[SETUP] TC-12: Reset for Error Recovery Scenarios,0x10,50 01 00 32 01 F4,Success,,,34456385176.00
+108,"12/6/2024, 4:38:23 AM",0x14,0x00,FF FF,TC-12.01: Trigger NRC 0x13 (Intentional),0x14,7F 14 13,NRC,0x13,Incorrect Message Length,34456385293.00
+109,"12/6/2024, 4:38:24 AM",0x14,0x00,FF FF FF,TC-12.02: Retry with Correct Length | Expect: 0x54,0x14,54,Success,,,34456385421.00
+110,"12/6/2024, 4:38:25 AM",0x10,0x04,,TC-12.03: Enter Safety to Trigger NRC 0x22,0x10,50 04 00 32 01 F4,Success,,,34456385515.00
+111,"12/6/2024, 4:38:26 AM",0x14,0x00,FF FF FF,TC-12.04: Clear in Safety | Expect: NRC 0x22,0x14,7F 14 22,NRC,0x22,Conditions Not Correct,34456385616.00
+112,"12/6/2024, 4:38:27 AM",0x10,0x01,,TC-12.05: Exit Safety to Recover,0x10,50 01 00 32 01 F4,Success,,,34456385720.00
+113,"12/6/2024, 4:38:28 AM",0x14,0x00,FF FF FF,TC-12.06: Retry Clear After Recovery | Expect: 0x54,0x14,54,Success,,,34456385817.00
+114,"12/6/2024, 4:38:29 AM",0x14,0x00,12 34 56,TC-12.07: Trigger with Invalid Group,0x14,54,Success,,,34456385930.00
+115,"12/6/2024, 4:38:30 AM",0x14,0x00,FF FF FF,TC-12.08: Recover with Valid Group | Expect: 0x54,0x14,54,Success,,,34456385134.00
+116,"12/6/2024, 4:38:31 AM",0x10,0x01,,[SETUP] TC-13: Reset for EOL/Production Scenarios,0x10,50 01 00 32 01 F4,Success,,,34456384404.00
+117,"12/6/2024, 4:38:32 AM",0x10,0x03,,TC-13.01: EOL - Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34456383681.00
+118,"12/6/2024, 4:38:33 AM",0x19,0x02,FF,TC-13.02: EOL - Read All DTCs (Manufacturing DTCs),0x19,59 02 FF,Success,,,34456382892.00
+119,"12/6/2024, 4:38:34 AM",0x14,0x00,FF FF FF,TC-13.03: EOL - Clear All DTCs,0x14,54,Success,,,34456382095.00
+120,"12/6/2024, 4:38:35 AM",0x19,0x01,FF,TC-13.04: EOL - Verify 0 DTCs,0x19,59 01 FF 01 00 00,Success,,,34456381298.00
+121,"12/6/2024, 4:38:36 AM",0x10,0x01,,TC-13.05: EOL - Return to Default,0x10,50 01 00 32 01 F4,Success,,,34456380557.00
+122,"12/6/2024, 4:38:37 AM",0x19,0x02,FF,TC-13.06: EOL - Final Verification | Expect: No DTCs,0x19,59 02 FF,Success,,,34456379768.00

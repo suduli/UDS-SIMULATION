@@ -1,0 +1,836 @@
+{
+  "id": "exported_1765712883427",
+  "name": "UDS Session Export (12/14/2025)",
+  "description": "Exported UDS session with 56 requests",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "UDS Simulator",
+    "description": "Exported session with 56 requests, 98% success rate",
+    "tags": [
+      "exported",
+      "session"
+    ],
+    "duration": 255000,
+    "totalRequests": 56,
+    "successRate": 98
+  },
+  "requests": [
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712628256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712633256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712638255
+    },
+    {
+      "sid": 16,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1765712639830
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712643255
+    },
+    {
+      "sid": 16,
+      "subFunction": 3,
+      "data": [],
+      "timestamp": 1765712644181
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712648256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712653283
+    },
+    {
+      "sid": 39,
+      "subFunction": 1,
+      "data": [],
+      "timestamp": 1765712657437
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712658255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712663256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712668256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712673256
+    },
+    {
+      "sid": 39,
+      "subFunction": 2,
+      "data": [
+        183,
+        110,
+        166,
+        119
+      ],
+      "timestamp": 1765712675004
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712678255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712683255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712688256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712693265
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712698256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712703256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712708256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712713256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712718280
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712723264
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712728256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712733262
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712738258
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712743256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712748257
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712753256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712758256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712763256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712768274
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712773255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712778256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712783256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712788255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712793255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712798255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712803256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712808256
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712813285
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712818937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712823937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712828937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712833963
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712838937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712843936
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712848937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712853937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712858255
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712863937
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712868938
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712873261
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712878254
+    },
+    {
+      "sid": 62,
+      "subFunction": 128,
+      "data": [],
+      "timestamp": 1765712883256
+    }
+  ],
+  "responses": [
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712628256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712633256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712638255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        1,
+        0,
+        50,
+        1,
+        244
+      ],
+      "timestamp": 1765712639831,
+      "isNegative": false
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712643255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 16,
+      "data": [
+        80,
+        3,
+        0,
+        100,
+        1,
+        244
+      ],
+      "timestamp": 1765712644182,
+      "isNegative": false
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712648256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712653283,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 39,
+      "data": [
+        103,
+        1,
+        18,
+        52,
+        86,
+        120
+      ],
+      "timestamp": 1765712657439,
+      "isNegative": false
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712658255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712663256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712668256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712673256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 39,
+      "data": [
+        127,
+        39,
+        34
+      ],
+      "timestamp": 1765712675006,
+      "isNegative": true,
+      "nrc": 34
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712678256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712683255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712688256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712693265,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712698256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712703256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712708256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712713256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712718280,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712723264,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712728256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712733262,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712738258,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712743256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712748257,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712753256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712758256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712763256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712768274,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712773255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712778256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712783256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712788255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712793255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712798255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712803256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712808256,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712813285,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712818937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712823937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712828937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712833963,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712838937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712843936,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712848937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712853937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712858255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712863937,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712868938,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712873261,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712878255,
+      "isNegative": false,
+      "suppressedResponse": true
+    },
+    {
+      "sid": 62,
+      "data": [],
+      "timestamp": 1765712883256,
+      "isNegative": false,
+      "suppressedResponse": true
+    }
+  ],
+  "timings": [
+    0,
+    5000,
+    4999,
+    1575,
+    3425,
+    926,
+    4075,
+    5027,
+    4154,
+    818,
+    5001,
+    5000,
+    5000,
+    1748,
+    3251,
+    5000,
+    5001,
+    5009,
+    4991,
+    5000,
+    5000,
+    5000,
+    5024,
+    4984,
+    4992,
+    5006,
+    4996,
+    4998,
+    5001,
+    4999,
+    5000,
+    5000,
+    5018,
+    4981,
+    5001,
+    5000,
+    4999,
+    5000,
+    5000,
+    5001,
+    5000,
+    5029,
+    5652,
+    5000,
+    5000,
+    5026,
+    4974,
+    4999,
+    5001,
+    5000,
+    4318,
+    5682,
+    5001,
+    4323,
+    4993,
+    5002
+  ],
+  "createdAt": 1765712883427,
+  "notes": "Exported on 2025-12-14T11:48:03.427Z"
+}
