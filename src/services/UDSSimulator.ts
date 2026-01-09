@@ -554,26 +554,53 @@ export class UDSSimulator {
     }
 
     // Session restriction check per ISO 14229-1:2020
-    // Safety Session (0x04): Only actual resets (0x01, 0x02, 0x03) are NOT allowed - return NRC 0x7E
-    // RPS commands (0x04, 0x05) are allowed in all sessions as they don't perform actual reset
-    // Programming Session (0x02): Soft Reset (0x03) is NOT allowed
-    const isActualReset = resetType === ECUResetType.HARD_RESET ||
-      resetType === ECUResetType.KEY_OFF_ON_RESET ||
-      resetType === ECUResetType.SOFT_RESET;
+    // 
+    // Session Support Matrix for SID 0x11 (ECU Reset):
+    // | Reset Type        | Default | Programming | Extended | Safety |
+    // |-------------------|---------|-------------|----------|--------|
+    // | Hard Reset (0x01) | ✅      | ✅          | ✅       | ❌     |
+    // | Key Off/On (0x02) | ✅      | ✅          | ✅       | ❌     |
+    // | Soft Reset (0x03) | ❌      | ❌          | ✅       | ❌     |
+    // | Enable RPS (0x04) | ❌      | ❌          | ✅       | ✅     |
+    // | Disable RPS(0x05) | ❌      | ❌          | ✅       | ✅     |
+    //
+    // Note: Soft Reset and RPS commands require Extended Session (0x03)
+    //       Hard/Key Off-On resets are NOT allowed in Safety Session
 
-    if (this.state.currentSession === DiagnosticSessionType.SAFETY && isActualReset) {
-      return this.createNegativeResponseObj(
-        request.sid,
-        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION
-      );
+    // Check if operation is allowed in current session
+    const currentSession = this.state.currentSession;
+
+    // Soft Reset (0x03): Only allowed in Extended Session
+    if (resetType === ECUResetType.SOFT_RESET) {
+      if (currentSession !== DiagnosticSessionType.EXTENDED) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION
+        );
+      }
     }
 
-    if (this.state.currentSession === DiagnosticSessionType.PROGRAMMING &&
-      resetType === ECUResetType.SOFT_RESET) {
-      return this.createNegativeResponseObj(
-        request.sid,
-        NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION
-      );
+    // RPS Enable/Disable (0x04, 0x05): Only allowed in Extended and Safety Sessions
+    if (resetType === ECUResetType.ENABLE_RAPID_POWER_SHUTDOWN ||
+      resetType === ECUResetType.DISABLE_RAPID_POWER_SHUTDOWN) {
+      if (currentSession !== DiagnosticSessionType.EXTENDED &&
+        currentSession !== DiagnosticSessionType.SAFETY) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION
+        );
+      }
+    }
+
+    // Hard Reset and Key Off/On (0x01, 0x02): NOT allowed in Safety Session
+    if (resetType === ECUResetType.HARD_RESET ||
+      resetType === ECUResetType.KEY_OFF_ON_RESET) {
+      if (currentSession === DiagnosticSessionType.SAFETY) {
+        return this.createNegativeResponseObj(
+          request.sid,
+          NegativeResponseCode.SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION
+        );
+      }
     }
 
     // Get powerDownTime for Enable RPS (0x04)
@@ -1619,11 +1646,24 @@ export class UDSSimulator {
         };
       }
 
-      // Use fixed seed from ECU configuration for deterministic testing
-      // This ensures test suites with hardcoded keys work correctly
-      // Note: In production, you might want to use random seeds for better security
-      this.currentSeed = this.ecuConfig.securitySeed ? [...this.ecuConfig.securitySeed] : [];  // Use fixed seed
-      this.expectedKey = this.ecuConfig.securityKey ? [...this.ecuConfig.securityKey] : [];    // Use pre-calculated key
+      // Generate seed based on configuration
+      if (this.ecuConfig.useRandomSeeds) {
+        // ===== RANDOM SEED MODE (Production/Security Testing) =====
+        // Generate random seed for better security (ISO 14229-1:2020 recommends unique seeds)
+        // Each seed request returns a different random value
+        this.currentSeed = Array.from({ length: 4 }, () => Math.floor(Math.random() * 256));
+
+        // Calculate expected key using XOR algorithm with fixed secret
+        // This simulates a real ECU's seed-to-key algorithm
+        const secret = this.ecuConfig.securityKey || [0xB7, 0x6E, 0xA6, 0x77];
+        this.expectedKey = this.currentSeed.map((byte, index) => byte ^ secret[index]);
+      } else {
+        // ===== FIXED SEED MODE (Default - Deterministic Testing) =====
+        // Use fixed seed from ECU configuration for repeatable test results
+        // This ensures automated test suites with hardcoded keys work correctly
+        this.currentSeed = this.ecuConfig.securitySeed ? [...this.ecuConfig.securitySeed] : [0x12, 0x34, 0x56, 0x78];
+        this.expectedKey = this.ecuConfig.securityKey ? [...this.ecuConfig.securityKey] : [0xB7, 0x6E, 0xA6, 0x77];
+      }
 
       // Track seed request for validation
       this.state.lastSeedRequestTime = currentTime;
@@ -1635,6 +1675,8 @@ export class UDSSimulator {
         timestamp: currentTime,
         isNegative: false,
       };
+
+
 
     } else {
       // ========== SEND KEY (Even Sub-Function) ==========

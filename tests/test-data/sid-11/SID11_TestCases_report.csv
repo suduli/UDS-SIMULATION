@@ -1,0 +1,131 @@
+﻿Report Information
+Report ID,terminal_report_1767896252945
+Report Name,"Terminal Output Report (1/8/2026, 11:47:32 PM)"
+Description,Generated from current terminal session with 104 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,104
+Total Responses,104
+Successful Responses,68
+Negative Responses (NRC),36
+Success Rate (%),65.38
+Test Duration,1m 42s
+Start Time,"12/6/2024, 9:16:40 PM"
+End Time,"12/6/2024, 9:18:22 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7E,Sub-Function Not Supported In Active Session,20,55.56
+0x12,Sub-Function Not Supported,11,30.56
+0x13,Incorrect Message Length,5,13.89
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/6/2024, 9:16:40 PM",0x10,0x01,,=== CATEGORY 1: VALID RESET OPERATIONS ===,0x10,50 01 00 32 01 F4,Success,,,34396071471.00
+2,"12/6/2024, 9:16:41 PM",0x10,0x03,,[SETUP] Enter Extended Session for TC-01,0x10,50 03 00 64 01 F4,Success,,,34396071499.00
+3,"12/6/2024, 9:16:42 PM",0x11,0x01,,TC-01.1: Hard Reset (0x01) - Full restart,0x11,51 01,Success,,,34396071719.00
+4,"12/6/2024, 9:16:43 PM",0x10,0x03,,[SETUP] Re-enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396071751.00
+5,"12/6/2024, 9:16:44 PM",0x11,0x02,,TC-01.2: Key Off/On Reset (0x02) - Simulated key cycle,0x11,51 02,Success,,,34396072076.00
+6,"12/6/2024, 9:16:45 PM",0x10,0x03,,[SETUP] Re-enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396072111.00
+7,"12/6/2024, 9:16:46 PM",0x11,0x03,,TC-01.3: Soft Reset (0x03) - Application restart,0x11,51 03,Success,,,34396072205.00
+8,"12/6/2024, 9:16:47 PM",0x10,0x01,,[SETUP] Return to Default after soft reset,0x10,50 01 00 32 01 F4,Success,,,34396071739.00
+9,"12/6/2024, 9:16:47 PM",0x10,0x03,,[SETUP] Enter Extended Session for RPS tests,0x10,50 03 00 64 01 F4,Success,,,34396072282.00
+10,"12/6/2024, 9:16:48 PM",0x11,0x04,32,TC-01.4: Enable Rapid Power Shutdown (0x04) - 500ms,0x11,51 04 32,Success,,,34396072876.00
+11,"12/6/2024, 9:16:49 PM",0x11,0x05,,TC-01.5: Disable Rapid Power Shutdown (0x05),0x11,51 05,Success,,,34396072977.00
+12,"12/6/2024, 9:16:50 PM",0x10,0x01,,=== CATEGORY 2: SESSION RESTRICTION TESTS (NRC 0x7E) ===,0x10,50 01 00 32 01 F4,Success,,,34396073022.00
+13,"12/6/2024, 9:16:51 PM",0x11,0x03,,TC-02.1: Soft Reset in Default Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073069.00
+14,"12/6/2024, 9:16:52 PM",0x11,0x04,32,TC-02.2: Enable RPS in Default Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073118.00
+15,"12/6/2024, 9:16:53 PM",0x11,0x05,,TC-02.3: Disable RPS in Default Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073159.00
+16,"12/6/2024, 9:16:54 PM",0x10,0x04,,[SETUP] Enter Safety Session (0x04),0x10,50 04 00 32 01 F4,Success,,,34396073217.00
+17,"12/6/2024, 9:16:55 PM",0x11,0x01,,TC-02.4: Hard Reset in Safety Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073269.00
+18,"12/6/2024, 9:16:56 PM",0x11,0x02,,TC-02.5: Key Off/On in Safety Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073320.00
+19,"12/6/2024, 9:16:57 PM",0x11,0x03,,TC-02.6: Soft Reset in Safety Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073369.00
+20,"12/6/2024, 9:16:58 PM",0x10,0x01,,[SETUP] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396073427.00
+21,"12/6/2024, 9:16:59 PM",0x10,0x02,,[SETUP] Enter Programming Session (0x02),0x10,50 02 00 32 01 F4,Success,,,34396073480.00
+22,"12/6/2024, 9:17:00 PM",0x11,0x03,,TC-02.7: Soft Reset in Programming Session - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396073532.00
+23,"12/6/2024, 9:17:01 PM",0x10,0x01,,[SETUP] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396073584.00
+24,"12/6/2024, 9:17:02 PM",0x10,0x03,,=== CATEGORY 3: SUBFUNCTION VALIDATION (NRC 0x12) ===,0x10,50 03 00 64 01 F4,Success,,,34396073670.00
+25,"12/6/2024, 9:17:03 PM",0x11,0x00,,TC-03.1: Invalid subfunction 0x00 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073732.00
+26,"12/6/2024, 9:17:04 PM",0x11,0x06,,TC-03.2: Reserved ISO 0x06 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073779.00
+27,"12/6/2024, 9:17:05 PM",0x11,0x10,,TC-03.3: Reserved ISO 0x10 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073823.00
+28,"12/6/2024, 9:17:06 PM",0x11,0x20,,TC-03.4: Reserved ISO 0x20 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073867.00
+29,"12/6/2024, 9:17:07 PM",0x11,0x3F,,TC-03.5: Reserved ISO 0x3F (last) - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073910.00
+30,"12/6/2024, 9:17:08 PM",0x11,0x40,,TC-03.6: Vehicle Mfr 0x40 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073953.00
+31,"12/6/2024, 9:17:09 PM",0x11,0x50,,TC-03.7: Vehicle Mfr 0x50 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396073979.00
+32,"12/6/2024, 9:17:10 PM",0x11,0x5F,,TC-03.8: Vehicle Mfr 0x5F (last) - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396074007.00
+33,"12/6/2024, 9:17:11 PM",0x11,0x60,,TC-03.9: System Supplier 0x60 - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396074044.00
+34,"12/6/2024, 9:17:12 PM",0x11,0x7E,,TC-03.10: System Supplier 0x7E - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396074090.00
+35,"12/6/2024, 9:17:13 PM",0x11,0x7F,,TC-03.11: Reserved 0x7F - expect NRC 0x12,0x11,7F 11 12,NRC,0x12,Sub-Function Not Supported,34396074134.00
+36,"12/6/2024, 9:17:14 PM",0x10,0x01,,=== CATEGORY 4: MESSAGE LENGTH VALIDATION (NRC 0x13) ===,0x10,50 01 00 32 01 F4,Success,,,34396074183.00
+37,"12/6/2024, 9:17:15 PM",0x10,0x03,,[SETUP] Enter Extended Session for length tests,0x10,50 03 00 64 01 F4,Success,,,34396074271.00
+38,"12/6/2024, 9:17:16 PM",0x11,0x01,00,TC-04.1: Hard Reset with extra byte - expect NRC 0x13,0x11,7F 11 13,NRC,0x13,Incorrect Message Length,34396074320.00
+39,"12/6/2024, 9:17:17 PM",0x11,0x02,00,TC-04.2: Key Off/On with extra byte - expect NRC 0x13,0x11,7F 11 13,NRC,0x13,Incorrect Message Length,34396074365.00
+40,"12/6/2024, 9:17:18 PM",0x11,0x03,00,TC-04.3: Soft Reset with extra byte - expect NRC 0x13,0x11,7F 11 13,NRC,0x13,Incorrect Message Length,34396074410.00
+41,"12/6/2024, 9:17:19 PM",0x11,0x04,32 00,TC-04.4: Enable RPS with extra byte - expect NRC 0x13,0x11,7F 11 13,NRC,0x13,Incorrect Message Length,34396074457.00
+42,"12/6/2024, 9:17:20 PM",0x11,0x05,00,TC-04.5: Disable RPS with extra byte - expect NRC 0x13,0x11,7F 11 13,NRC,0x13,Incorrect Message Length,34396074509.00
+43,"12/6/2024, 9:17:21 PM",0x10,0x01,,=== CATEGORY 5: SUPPRESS POSITIVE RESPONSE (Bit 7 = 0x80) ===,0x10,50 01 00 32 01 F4,Success,,,34396074557.00
+44,"12/6/2024, 9:17:22 PM",0x10,0x03,,[SETUP] Enter Extended Session for suppress tests,0x10,50 03 00 64 01 F4,Success,,,34396074614.00
+45,"12/6/2024, 9:17:23 PM",0x11,0x81,,TC-05.1: Hard Reset with suppress (0x81) - No response expected,0x11,,Success,,,34396074901.00
+46,"12/6/2024, 9:17:24 PM",0x10,0x03,,[SETUP] Re-enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396074981.00
+47,"12/6/2024, 9:17:25 PM",0x11,0x82,,TC-05.2: Key Off/On with suppress (0x82) - No response expected,0x11,,Success,,,34396075366.00
+48,"12/6/2024, 9:17:26 PM",0x10,0x03,,[SETUP] Re-enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396075461.00
+49,"12/6/2024, 9:17:27 PM",0x11,0x83,,TC-05.3: Soft Reset with suppress (0x83) - No response expected,0x11,,Success,,,34396075605.00
+50,"12/6/2024, 9:17:28 PM",0x10,0x01,,[SETUP] Return to Default,0x10,50 01 00 32 01 F4,Success,,,34396075692.00
+51,"12/6/2024, 9:17:29 PM",0x11,0x84,32,TC-05.4: Enable RPS with suppress (0x84) - No response expected,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396075756.00
+52,"12/6/2024, 9:17:30 PM",0x10,0x04,,[SETUP] Enter Safety Session for NRC test,0x10,50 04 00 32 01 F4,Success,,,34396075820.00
+53,"12/6/2024, 9:17:31 PM",0x11,0x81,,TC-05.5: Suppress + Safety = Still returns NRC 0x7E (NRCs not suppressed),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396075909.00
+54,"12/6/2024, 9:17:32 PM",0x10,0x01,,[SETUP] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396075984.00
+55,"12/6/2024, 9:17:33 PM",0x10,0x03,,=== CATEGORY 6: POST-RESET BEHAVIOR VERIFICATION ===,0x10,50 03 00 64 01 F4,Success,,,34396076077.00
+56,"12/6/2024, 9:17:34 PM",0x11,0x01,,TC-06.1: Hard Reset returns to Default Session,0x11,51 01,Success,,,34396076381.00
+57,"12/6/2024, 9:17:35 PM",0x10,0x01,,TC-06.1-VERIFY: Confirm Default Session active,0x10,50 01 00 32 01 F4,Success,,,34396076475.00
+58,"12/6/2024, 9:17:36 PM",0x10,0x03,,[SETUP] Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396076579.00
+59,"12/6/2024, 9:17:37 PM",0x11,0x02,,TC-06.2: Key Off/On Reset returns to Default Session,0x11,51 02,Success,,,34396076982.00
+60,"12/6/2024, 9:17:38 PM",0x10,0x01,,TC-06.2-VERIFY: Confirm Default Session active,0x10,50 01 00 32 01 F4,Success,,,34396077040.00
+61,"12/6/2024, 9:17:39 PM",0x10,0x03,,[SETUP] Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396077113.00
+62,"12/6/2024, 9:17:40 PM",0x11,0x03,,TC-06.3: Soft Reset (may preserve session - implementation dependent),0x11,51 03,Success,,,34396077231.00
+63,"12/6/2024, 9:17:41 PM",0x10,0x01,,[SETUP] Ensure Default Session,0x10,50 01 00 32 01 F4,Success,,,34396077302.00
+64,"12/6/2024, 9:17:42 PM",0x10,0x01,,=== CATEGORY 7: SERVICE INTERACTION WORKFLOWS ===,0x10,50 01 00 32 01 F4,Success,,,34396077374.00
+65,"12/6/2024, 9:17:43 PM",0x10,0x03,,TC-07.1a: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396077458.00
+66,"12/6/2024, 9:17:44 PM",0x11,0x01,,TC-07.1b: Hard Reset to clear diagnostic state,0x11,51 01,Success,,,34396077748.00
+67,"12/6/2024, 9:17:45 PM",0x10,0x03,,TC-07.2a: Enter Extended Session for config update,0x10,50 03 00 64 01 F4,Success,,,34396077882.00
+68,"12/6/2024, 9:17:46 PM",0x11,0x02,,TC-07.2b: Key Off/On to apply configuration changes,0x11,51 02,Success,,,34396078294.00
+69,"12/6/2024, 9:17:47 PM",0x10,0x03,,TC-07.3a: Extended Session for quick recovery,0x10,50 03 00 64 01 F4,Success,,,34396078401.00
+70,"12/6/2024, 9:17:48 PM",0x11,0x03,,TC-07.3b: Soft Reset for quick error recovery,0x11,51 03,Success,,,34396078545.00
+71,"12/6/2024, 9:17:49 PM",0x10,0x01,,=== CATEGORY 8: RAPID POWER SHUTDOWN TESTS ===,0x10,50 01 00 32 01 F4,Success,,,34396078619.00
+72,"12/6/2024, 9:17:50 PM",0x11,0x04,00,TC-08.1: Enable RPS 0ms (immediate shutdown),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396078705.00
+73,"12/6/2024, 9:17:51 PM",0x11,0x04,0A,TC-08.2: Enable RPS 100ms (0x0A),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396078779.00
+74,"12/6/2024, 9:17:52 PM",0x11,0x04,32,TC-08.3: Enable RPS 500ms (0x32),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396078895.00
+75,"12/6/2024, 9:17:53 PM",0x11,0x04,64,TC-08.4: Enable RPS 1000ms (0x64),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396078984.00
+76,"12/6/2024, 9:17:54 PM",0x11,0x04,FF,TC-08.5: Enable RPS 2550ms max (0xFF),0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396079099.00
+77,"12/6/2024, 9:17:55 PM",0x11,0x05,,TC-08.6: Disable RPS - restore normal shutdown,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396079219.00
+78,"12/6/2024, 9:17:56 PM",0x11,0x04,32,TC-08.7a: Enable RPS 500ms,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396079339.00
+79,"12/6/2024, 9:17:57 PM",0x11,0x05,,TC-08.7b: Disable RPS - verify toggle cycle works,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396079454.00
+80,"12/6/2024, 9:17:58 PM",0x10,0x01,,=== CATEGORY 9: RPS SESSION TESTS ===,0x10,50 01 00 32 01 F4,Success,,,34396079540.00
+81,"12/6/2024, 9:17:59 PM",0x10,0x03,,[SETUP] Enter Extended Session for RPS session test,0x10,50 03 00 64 01 F4,Success,,,34396079631.00
+82,"12/6/2024, 9:18:00 PM",0x11,0x04,32,TC-09.1: Enable RPS in Extended Session - should work,0x11,51 04 32,Success,,,34396079771.00
+83,"12/6/2024, 9:18:01 PM",0x11,0x05,,TC-09.2: Disable RPS in Extended Session - should work,0x11,51 05,Success,,,34396079905.00
+84,"12/6/2024, 9:18:02 PM",0x10,0x01,,[SETUP] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396079993.00
+85,"12/6/2024, 9:18:03 PM",0x10,0x04,,[SETUP] Enter Safety Session,0x10,50 04 00 32 01 F4,Success,,,34396080086.00
+86,"12/6/2024, 9:18:04 PM",0x11,0x04,32,TC-09.3: Enable RPS in Safety Session - now works (fixed),0x11,51 04 32,Success,,,34396080217.00
+87,"12/6/2024, 9:18:05 PM",0x11,0x05,,TC-09.4: Disable RPS in Safety Session - now works (fixed),0x11,51 05,Success,,,34396080361.00
+88,"12/6/2024, 9:18:06 PM",0x10,0x01,,[SETUP] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396080452.00
+89,"12/6/2024, 9:18:07 PM",0x10,0x01,,=== CATEGORY 10: ERROR RECOVERY SCENARIOS ===,0x10,50 01 00 32 01 F4,Success,,,34396080663.00
+90,"12/6/2024, 9:18:08 PM",0x10,0x04,,TC-10.1a: Enter Safety Session (reset blocked state),0x10,50 04 00 32 01 F4,Success,,,34396080787.00
+91,"12/6/2024, 9:18:09 PM",0x11,0x01,,TC-10.1b: Attempt Hard Reset - expect NRC 0x7E,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396080911.00
+92,"12/6/2024, 9:18:10 PM",0x10,0x01,,TC-10.1c: RECOVERY - Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,34396081028.00
+93,"12/6/2024, 9:18:11 PM",0x10,0x03,,TC-10.1d: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34396081170.00
+94,"12/6/2024, 9:18:12 PM",0x11,0x01,,TC-10.1e: RETRY - Hard Reset now succeeds,0x11,51 01,Success,,,34396081459.00
+95,"12/6/2024, 9:18:13 PM",0x10,0x01,,=== CATEGORY 11: COMPREHENSIVE WORKFLOW (Post-Programming Pattern) ===,0x10,50 01 00 32 01 F4,Success,,,34396081549.00
+96,"12/6/2024, 9:18:14 PM",0x10,0x02,,TC-11.1: Enter Programming Session,0x10,50 02 00 32 01 F4,Success,,,34396081667.00
+97,"12/6/2024, 9:18:15 PM",0x11,0x01,,TC-11.2: Hard Reset after programming - activate new software,0x11,51 01,Success,,,34396081972.00
+98,"12/6/2024, 9:18:16 PM",0x10,0x01,,TC-11.3-VERIFY: Confirm Default Session (post-reset),0x10,50 01 00 32 01 F4,Success,,,34396082065.00
+99,"12/6/2024, 9:18:17 PM",0x10,0x01,,=== CATEGORY 12: FINAL VALIDATION ===,0x10,50 01 00 32 01 F4,Success,,,34396082159.00
+100,"12/6/2024, 9:18:18 PM",0x10,0x03,,TC-12.1: Final Extended Session entry,0x10,50 03 00 64 01 F4,Success,,,34396082286.00
+101,"12/6/2024, 9:18:19 PM",0x11,0x01,,TC-12.2: Final Hard Reset - clean state,0x11,51 01,Success,,,34396082597.00
+102,"12/6/2024, 9:18:20 PM",0x10,0x01,,TC-12.3: Verify Default Session,0x10,50 01 00 32 01 F4,Success,,,34396082716.00
+103,"12/6/2024, 9:18:21 PM",0x11,0x04,32,TC-12.4: Verify RPS still works in Default,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396082815.00
+104,"12/6/2024, 9:18:22 PM",0x11,0x05,,TC-12.5: Disable RPS - Test Complete,0x11,7F 11 7E,NRC,0x7E,Sub-Function Not Supported In Active Session,34396082918.00
