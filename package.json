@@ -14,6 +14,7 @@
     "test:theme": "node tests/theme/playwright.cjs",
     "test:theme:diff": "node tests/theme/visual-diff.cjs",
     "test:theme:all": "npm run test:theme && npm run test:theme:diff",
+    "test:smoke": "node tests/smoke-test.cjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
