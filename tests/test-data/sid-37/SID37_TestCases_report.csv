@@ -1,0 +1,204 @@
+﻿Report Information
+Report ID,terminal_report_1767981751690
+Report Name,"Terminal Output Report (1/9/2026, 11:32:31 PM)"
+Description,Generated from current terminal session with 176 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,176
+Total Responses,176
+Successful Responses,164
+Negative Responses (NRC),12
+Success Rate (%),93.18
+Test Duration,3m 57s
+Start Time,"12/19/2024, 2:50:00 PM"
+End Time,"12/19/2024, 2:53:57 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x70,Upload/Download Not Accepted,4,33.33
+0x33,Security Access Denied,2,16.67
+0x24,Request Sequence Error,4,33.33
+0x22,Conditions Not Correct,2,16.67
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/19/2024, 2:50:00 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381505766.00
+2,"12/19/2024, 2:50:01 PM",0x37,,,TC-01: Transfer Exit in DEFAULT session (no transfer active) - Expect NRC 0x70 (Upload Download Not Accepted),0x37,7F 37 70,NRC,0x70,Upload/Download Not Accepted,33381505797.00
+3,"12/19/2024, 2:50:02 PM",0x10,0x01,,[SETUP] Reset for TC-02,0x10,50 01 00 32 01 F4,Success,,,33381505816.00
+4,"12/19/2024, 2:50:03 PM",0x10,0x02,,TC-02.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381505847.00
+5,"12/19/2024, 2:50:04 PM",0x37,,,TC-02.2: Transfer Exit without security unlock - Expect NRC 0x33 (Security Access Denied),0x37,7F 37 33,NRC,0x33,Security Access Denied,33381505882.00
+6,"12/19/2024, 2:50:05 PM",0x10,0x01,,[SETUP] Reset for TC-03,0x10,50 01 00 32 01 F4,Success,,,33381505923.00
+7,"12/19/2024, 2:50:06 PM",0x10,0x02,,TC-03.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381505968.00
+8,"12/19/2024, 2:50:07 PM",0x27,0x01,,TC-03.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381505999.00
+9,"12/19/2024, 2:50:08 PM",0x27,0x02,B7 6E A6 77,TC-03.3: Send key to unlock security,0x27,67 02,Success,,,33381506041.00
+10,"12/19/2024, 2:50:09 PM",0x37,,,TC-03.4: Transfer Exit without active transfer - Expect NRC 0x24 (Request Sequence Error),0x37,7F 37 24,NRC,0x24,Request Sequence Error,33381506082.00
+11,"12/19/2024, 2:50:10 PM",0x10,0x01,,[SETUP] Reset for TC-04,0x10,50 01 00 32 01 F4,Success,,,33381506135.00
+12,"12/19/2024, 2:50:11 PM",0x10,0x02,,TC-04.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381506179.00
+13,"12/19/2024, 2:50:12 PM",0x27,0x01,,TC-04.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381506231.00
+14,"12/19/2024, 2:50:13 PM",0x27,0x02,B7 6E A6 77,TC-04.3: Send key,0x27,67 02,Success,,,33381506285.00
+15,"12/19/2024, 2:50:14 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-04.4: Request Download: Addr=0x00100000, Size=0x1000",0x34,74 20 10 00,Success,,,33381506335.00
+16,"12/19/2024, 2:50:15 PM",0x37,,,TC-04.5: Valid Transfer Exit after Download (no data transferred) - Expect Success (0x77),0x37,77,Success,,,33381506388.00
+17,"12/19/2024, 2:50:16 PM",0x10,0x01,,[SETUP] Reset for TC-05,0x10,50 01 00 32 01 F4,Success,,,33381506436.00
+18,"12/19/2024, 2:50:17 PM",0x10,0x02,,TC-05.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381506492.00
+19,"12/19/2024, 2:50:18 PM",0x27,0x01,,TC-05.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381506548.00
+20,"12/19/2024, 2:50:19 PM",0x27,0x02,B7 6E A6 77,TC-05.3: Send key,0x27,67 02,Success,,,33381506611.00
+21,"12/19/2024, 2:50:20 PM",0x35,,00 44 00 10 00 00 00 00 08 00,"TC-05.4: Request Upload: Addr=0x00100000, Size=0x0800",0x35,75 20 10 00,Success,,,33381506669.00
+22,"12/19/2024, 2:50:21 PM",0x37,,,TC-05.5: Valid Transfer Exit after Upload (no data transferred) - Expect Success (0x77),0x37,77,Success,,,33381506743.00
+23,"12/19/2024, 2:50:22 PM",0x10,0x01,,[SETUP] Reset for TC-06,0x10,50 01 00 32 01 F4,Success,,,33381506834.00
+24,"12/19/2024, 2:50:23 PM",0x10,0x02,,TC-06.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381506904.00
+25,"12/19/2024, 2:50:24 PM",0x27,0x01,,TC-06.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381506966.00
+26,"12/19/2024, 2:50:25 PM",0x27,0x02,B7 6E A6 77,TC-06.3: Send key,0x27,67 02,Success,,,33381507033.00
+27,"12/19/2024, 2:50:26 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-06.4: Request Download,0x34,74 20 10 00,Success,,,33381507106.00
+28,"12/19/2024, 2:50:27 PM",0x36,,01 AA BB CC DD,TC-06.5: Transfer Data Block 1,0x36,76 01,Success,,,33381507185.00
+29,"12/19/2024, 2:50:28 PM",0x36,,02 11 22 33 44,TC-06.6: Transfer Data Block 2,0x36,76 02,Success,,,33381507261.00
+30,"12/19/2024, 2:50:29 PM",0x36,,03 55 66 77 88,TC-06.7: Transfer Data Block 3,0x36,76 03,Success,,,33381507335.00
+31,"12/19/2024, 2:50:30 PM",0x37,,,TC-06.8: Transfer Exit after multiple blocks - Expect Success (0x77),0x37,77,Success,,,33381507412.00
+32,"12/19/2024, 2:50:31 PM",0x10,0x01,,[SETUP] Reset for TC-07,0x10,50 01 00 32 01 F4,Success,,,33381507486.00
+33,"12/19/2024, 2:50:32 PM",0x10,0x02,,TC-07.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381507565.00
+34,"12/19/2024, 2:50:33 PM",0x27,0x01,,TC-07.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381507641.00
+35,"12/19/2024, 2:50:34 PM",0x27,0x02,B7 6E A6 77,TC-07.3: Send key,0x27,67 02,Success,,,33381507724.00
+36,"12/19/2024, 2:50:35 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-07.4: Request Download,0x34,74 20 10 00,Success,,,33381507861.00
+37,"12/19/2024, 2:50:36 PM",0x37,,,TC-07.5: First Transfer Exit - Expect Success (0x77),0x37,77,Success,,,33381507953.00
+38,"12/19/2024, 2:50:37 PM",0x37,,,TC-07.6: Repeated Transfer Exit (already exited) - Expect NRC 0x24 (Request Sequence Error),0x37,7F 37 24,NRC,0x24,Request Sequence Error,33381508036.00
+39,"12/19/2024, 2:50:38 PM",0x10,0x01,,[SETUP] Reset for TC-08,0x10,50 01 00 32 01 F4,Success,,,33381508118.00
+40,"12/19/2024, 2:50:39 PM",0x10,0x03,,TC-08.1: Enter EXTENDED session (not PROGRAMMING),0x10,50 03 00 64 01 F4,Success,,,33381508209.00
+41,"12/19/2024, 2:50:40 PM",0x27,0x01,,TC-08.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381508299.00
+42,"12/19/2024, 2:50:41 PM",0x27,0x02,B7 6E A6 77,TC-08.3: Send key,0x27,67 02,Success,,,33381508398.00
+43,"12/19/2024, 2:50:42 PM",0x35,,00 44 00 10 00 00 00 00 08 00,TC-08.4: Request Upload in EXTENDED session,0x35,7F 35 70,NRC,0x70,Upload/Download Not Accepted,33381508495.00
+44,"12/19/2024, 2:50:43 PM",0x37,,,TC-08.5: Transfer Exit in EXTENDED session - Expect NRC 0x70 (Upload Download Not Accepted),0x37,7F 37 70,NRC,0x70,Upload/Download Not Accepted,33381508583.00
+45,"12/19/2024, 2:50:44 PM",0x10,0x01,,[SETUP] Reset for TC-09,0x10,50 01 00 32 01 F4,Success,,,33381508675.00
+46,"12/19/2024, 2:50:45 PM",0x10,0x02,,TC-09.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381508776.00
+47,"12/19/2024, 2:50:46 PM",0x27,0x01,,TC-09.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381508865.00
+48,"12/19/2024, 2:50:47 PM",0x27,0x02,B7 6E A6 77,TC-09.3: Send key,0x27,67 02,Success,,,33381508925.00
+49,"12/19/2024, 2:50:48 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-09.4: Request Download,0x34,74 20 10 00,Success,,,33381508988.00
+50,"12/19/2024, 2:50:49 PM",0x37,,A1 B2 C3 D4,TC-09.5: Transfer Exit with parameter record (4 bytes: simulated CRC-32) - Expect Success (0x77),0x37,77,Success,,,33381509053.00
+51,"12/19/2024, 2:50:50 PM",0x10,0x01,,[SETUP] Reset for TC-10,0x10,50 01 00 32 01 F4,Success,,,33381509111.00
+52,"12/19/2024, 2:50:51 PM",0x10,0x02,,TC-10.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381509182.00
+53,"12/19/2024, 2:50:52 PM",0x27,0x01,,TC-10.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381509249.00
+54,"12/19/2024, 2:50:53 PM",0x27,0x02,B7 6E A6 77,TC-10.3: Send key,0x27,67 02,Success,,,33381509321.00
+55,"12/19/2024, 2:50:54 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-10.4: Request Download,0x34,74 20 10 00,Success,,,33381509406.00
+56,"12/19/2024, 2:50:55 PM",0x36,,01 AA BB,TC-10.5: Transfer Data Block 1,0x36,76 01,Success,,,33381509480.00
+57,"12/19/2024, 2:50:56 PM",0x10,0x01,,TC-10.6: Switch to DEFAULT session (interrupts transfer),0x10,50 01 00 32 01 F4,Success,,,33381509564.00
+58,"12/19/2024, 2:50:57 PM",0x37,,,TC-10.7: Transfer Exit after session change - Expect NRC 0x70 (Upload Download Not Accepted),0x37,7F 37 70,NRC,0x70,Upload/Download Not Accepted,33381509631.00
+59,"12/19/2024, 2:50:58 PM",0x10,0x01,,[SETUP] Reset for TC-11,0x10,50 01 00 32 01 F4,Success,,,33381509739.00
+60,"12/19/2024, 2:50:59 PM",0x10,0x02,,TC-11.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381509826.00
+61,"12/19/2024, 2:51:00 PM",0x27,0x01,,TC-11.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381509898.00
+62,"12/19/2024, 2:51:01 PM",0x27,0x02,B7 6E A6 77,TC-11.3: Send key,0x27,67 02,Success,,,33381510016.00
+63,"12/19/2024, 2:51:02 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-11.4: Request Download,0x34,74 20 10 00,Success,,,33381510137.00
+64,"12/19/2024, 2:51:03 PM",0x10,0x01,,TC-11.5: Reset to DEFAULT (clears security),0x10,50 01 00 32 01 F4,Success,,,33381510247.00
+65,"12/19/2024, 2:51:04 PM",0x10,0x02,,TC-11.6: Back to PROGRAMMING (but security cleared),0x10,50 02 00 32 01 F4,Success,,,33381510362.00
+66,"12/19/2024, 2:51:05 PM",0x37,,,TC-11.7: Transfer Exit without security (session changed cleared it) - Expect NRC 0x33 (Security Access Denied),0x37,7F 37 33,NRC,0x33,Security Access Denied,33381510485.00
+67,"12/19/2024, 2:51:06 PM",0x10,0x01,,[SETUP] Reset for TC-12,0x10,50 01 00 32 01 F4,Success,,,33381510598.00
+68,"12/19/2024, 2:51:07 PM",0x10,0x02,,TC-12.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381510716.00
+69,"12/19/2024, 2:51:08 PM",0x27,0x01,,TC-12.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381510874.00
+70,"12/19/2024, 2:51:09 PM",0x27,0x02,B7 6E A6 77,TC-12.3: Send key,0x27,67 02,Success,,,33381510938.00
+71,"12/19/2024, 2:51:10 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-12.4: Request Download,0x34,74 20 10 00,Success,,,33381511018.00
+72,"12/19/2024, 2:51:11 PM",0x36,,01 00 00,TC-12.5: Transfer Data Block 1,0x36,76 01,Success,,,33381511300.00
+73,"12/19/2024, 2:51:12 PM",0x36,,02 00 00,TC-12.6: Transfer Data Block 2,0x36,76 02,Success,,,33381512299.00
+74,"12/19/2024, 2:51:13 PM",0x37,,,TC-12.7: Transfer Exit - Verify downloadInProgress flag cleared,0x37,77,Success,,,33381513297.00
+75,"12/19/2024, 2:51:14 PM",0x10,0x01,,[SETUP] Reset for TC-13,0x10,50 01 00 32 01 F4,Success,,,33381514290.00
+76,"12/19/2024, 2:51:15 PM",0x10,0x02,,TC-13.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381514514.00
+77,"12/19/2024, 2:51:16 PM",0x27,0x01,,TC-13.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381514656.00
+78,"12/19/2024, 2:51:17 PM",0x27,0x02,B7 6E A6 77,TC-13.3: Send key,0x27,67 02,Success,,,33381514821.00
+79,"12/19/2024, 2:51:18 PM",0x35,,00 44 00 10 00 00 00 00 08 00,TC-13.4: Request Upload,0x35,75 20 10 00,Success,,,33381514948.00
+80,"12/19/2024, 2:51:19 PM",0x36,,01 00 00,TC-13.5: Transfer Data Block 1,0x36,76 01 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F,Success,,,33381515060.00
+81,"12/19/2024, 2:51:20 PM",0x37,,,TC-13.6: Transfer Exit - Verify uploadInProgress flag cleared,0x37,77,Success,,,33381515159.00
+82,"12/19/2024, 2:51:21 PM",0x10,0x01,,[SETUP] Reset for TC-14,0x10,50 01 00 32 01 F4,Success,,,33381515257.00
+83,"12/19/2024, 2:51:22 PM",0x10,0x02,,TC-14.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381515363.00
+84,"12/19/2024, 2:51:23 PM",0x27,0x01,,TC-14.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33381515471.00
+85,"12/19/2024, 2:51:24 PM",0x27,0x02,B7 6E A6 77,TC-14.3: Send key,0x27,67 02,Success,,,33381515576.00
+86,"12/19/2024, 2:51:25 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-14.4: Request Download,0x34,74 20 10 00,Success,,,33381515676.00
+87,"12/19/2024, 2:51:26 PM",0x36,,01 00,TC-14.5: Transfer Data Block 1 (BSC=1),0x36,76 01,Success,,,33381515779.00
+88,"12/19/2024, 2:51:27 PM",0x37,,,TC-14.6: Transfer Exit - Verify BSC counter reset to 0,0x37,77,Success,,,33381515886.00
+89,"12/19/2024, 2:51:28 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-14.7: New Request Download,0x34,74 20 10 00,Success,,,33381515992.00
+90,"12/19/2024, 2:51:29 PM",0x36,,01 00,TC-14.8: Transfer Data should start at BSC=1 (counter was reset) - Expect Success,0x36,76 01,Success,,,33381516150.00
+91,"12/19/2024, 2:51:30 PM",0x37,,,TC-14.9: Transfer Exit cleanup,0x37,77,Success,,,33381516386.00
+92,"12/19/2024, 2:51:31 PM",0x10,0x01,,[FINAL] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381516536.00
+93,"12/19/2024, 2:51:40 PM",0x10,0x02,,TC-15: Session Keep-Alive with Tester Present - Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33381508641.00
+94,"12/19/2024, 2:51:41 PM",0x27,0x01,,TC-15.1: Request Security Seed,0x27,67 01 12 34 56 78,Success,,,33381508746.00
+95,"12/19/2024, 2:51:42 PM",0x27,0x02,B7 6E A6 77,TC-15.2: Send Security Key,0x27,67 02,Success,,,33381508860.00
+96,"12/19/2024, 2:51:43 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-15.3: Request Download,0x34,74 20 10 00,Success,,,33381509027.00
+97,"12/19/2024, 2:51:44 PM",0x36,,01 AA BB,TC-15.4: Transfer Data Block 1,0x36,76 01,Success,,,33381509131.00
+98,"12/19/2024, 2:51:45 PM",0x3E,0x00,,TC-15.5: Tester Present (0x3E 0x00) - Keep session alive,0x3E,00,Success,,,33381509231.00
+99,"12/19/2024, 2:51:46 PM",0x36,,02 CC DD,TC-15.6: Transfer Data Block 2 after keep-alive,0x36,76 02,Success,,,33381509340.00
+100,"12/19/2024, 2:51:47 PM",0x37,,,TC-15.7: Transfer Exit - Expect success (session maintained via 0x3E),0x37,77,Success,,,33381509442.00
+101,"12/19/2024, 2:51:48 PM",0x10,0x01,,TC-15.8: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381509552.00
+102,"12/19/2024, 2:51:50 PM",0x10,0x02,,TC-16: Complete End-to-End Transfer Workflow - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381508660.00
+103,"12/19/2024, 2:51:51 PM",0x27,0x01,,TC-16.1: Security Seed Request,0x27,67 01 12 34 56 78,Success,,,33381508902.00
+104,"12/19/2024, 2:51:52 PM",0x27,0x02,B7 6E A6 77,TC-16.2: Security Key Response - Unlock ECU,0x27,67 02,Success,,,33381509036.00
+105,"12/19/2024, 2:51:53 PM",0x34,,00 44 00 20 00 00 00 00 50 00,TC-16.3: Request Download - 80 bytes to 0x00200000,0x34,74 20 10 00,Success,,,33381509140.00
+106,"12/19/2024, 2:51:54 PM",0x36,,01 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10,TC-16.4: Transfer Data Block 1 (16 bytes),0x36,76 01,Success,,,33381509264.00
+107,"12/19/2024, 2:51:55 PM",0x36,,02 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20,TC-16.5: Transfer Data Block 2 (16 bytes),0x36,76 02,Success,,,33381509405.00
+108,"12/19/2024, 2:51:56 PM",0x36,,03 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30,TC-16.6: Transfer Data Block 3 (16 bytes),0x36,76 03,Success,,,33381509544.00
+109,"12/19/2024, 2:51:57 PM",0x36,,04 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40,TC-16.7: Transfer Data Block 4 (16 bytes),0x36,76 04,Success,,,33381509695.00
+110,"12/19/2024, 2:51:58 PM",0x36,,05 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50,TC-16.8: Transfer Data Block 5 (16 bytes) - Last Block,0x36,76 05,Success,,,33381509808.00
+111,"12/19/2024, 2:51:59 PM",0x37,,DE AD BE EF,TC-16.9: Transfer Exit with CRC-32 parameter (0xDEADBEEF),0x37,77,Success,,,33381509955.00
+112,"12/19/2024, 2:52:00 PM",0x10,0x01,,TC-16.10: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381510115.00
+113,"12/19/2024, 2:52:10 PM",0x10,0x02,,TC-17: Multiple Sequential Transfers - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381501229.00
+114,"12/19/2024, 2:52:11 PM",0x27,0x01,,TC-17.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381501457.00
+115,"12/19/2024, 2:52:12 PM",0x27,0x02,B7 6E A6 77,TC-17.2: Security Key,0x27,67 02,Success,,,33381501608.00
+116,"12/19/2024, 2:52:13 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-17.3: First Request Download (Address A),0x34,74 20 10 00,Success,,,33381501754.00
+117,"12/19/2024, 2:52:14 PM",0x36,,01 41 41 41,TC-17.4: Transfer Data Block 1 for Download A,0x36,76 01,Success,,,33381501897.00
+118,"12/19/2024, 2:52:15 PM",0x37,,,TC-17.5: Transfer Exit A - Expect Success,0x37,77,Success,,,33381502030.00
+119,"12/19/2024, 2:52:16 PM",0x34,,00 44 00 20 00 00 00 00 10 00,TC-17.6: Second Request Download (Address B) - New transfer after exit,0x34,74 20 10 00,Success,,,33381502167.00
+120,"12/19/2024, 2:52:17 PM",0x36,,01 42 42 42,TC-17.7: Transfer Data Block 1 for Download B (BSC reset to 1),0x36,76 01,Success,,,33381502319.00
+121,"12/19/2024, 2:52:18 PM",0x37,,,TC-17.8: Transfer Exit B - Expect Success (sequential isolated),0x37,77,Success,,,33381502468.00
+122,"12/19/2024, 2:52:19 PM",0x10,0x01,,TC-17.9: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381502597.00
+123,"12/19/2024, 2:52:30 PM",0x10,0x02,,TC-18: Download vs Upload Flag Isolation - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381492722.00
+124,"12/19/2024, 2:52:31 PM",0x27,0x01,,TC-18.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381492946.00
+125,"12/19/2024, 2:52:32 PM",0x27,0x02,B7 6E A6 77,TC-18.2: Security Key,0x27,67 02,Success,,,33381493096.00
+126,"12/19/2024, 2:52:33 PM",0x34,,00 44 00 10 00 00 00 00 08 00,TC-18.3: Request Download - sets downloadInProgress flag,0x34,74 20 10 00,Success,,,33381493230.00
+127,"12/19/2024, 2:52:34 PM",0x36,,01 00,TC-18.4: Transfer Block for Download,0x36,76 01,Success,,,33381493365.00
+128,"12/19/2024, 2:52:35 PM",0x37,,,TC-18.5: Exit Download - clears downloadInProgress,0x37,77,Success,,,33381493510.00
+129,"12/19/2024, 2:52:36 PM",0x35,,00 44 00 10 00 00 00 00 08 00,TC-18.6: Request Upload - sets uploadInProgress flag,0x35,75 20 10 00,Success,,,33381493713.00
+130,"12/19/2024, 2:52:37 PM",0x36,,01,TC-18.7: Transfer Block for Upload,0x36,76 01 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F,Success,,,33381493850.00
+131,"12/19/2024, 2:52:38 PM",0x37,,,TC-18.8: Exit Upload - clears uploadInProgress,0x37,77,Success,,,33381493997.00
+132,"12/19/2024, 2:52:39 PM",0x37,,,TC-18.9: Attempt Exit again - Expect NRC 0x24 (both flags cleared),0x37,7F 37 24,NRC,0x24,Request Sequence Error,33381494125.00
+133,"12/19/2024, 2:52:40 PM",0x10,0x01,,TC-18.10: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381494336.00
+134,"12/19/2024, 2:52:50 PM",0x10,0x02,,TC-19: ECU Reset Aborts Active Transfer - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381485497.00
+135,"12/19/2024, 2:52:51 PM",0x27,0x01,,TC-19.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381485652.00
+136,"12/19/2024, 2:52:52 PM",0x27,0x02,B7 6E A6 77,TC-19.2: Security Key,0x27,67 02,Success,,,33381485855.00
+137,"12/19/2024, 2:52:53 PM",0x34,,00 44 00 10 00 00 00 00 08 00,TC-19.3: Request Download - start transfer,0x34,74 20 10 00,Success,,,33381486013.00
+138,"12/19/2024, 2:52:54 PM",0x36,,01 00,TC-19.4: Transfer Data Block 1,0x36,76 01,Success,,,33381486167.00
+139,"12/19/2024, 2:52:55 PM",0x11,0x01,,TC-19.5: ECU Hard Reset (0x11 0x01) - aborts transfer,0x11,51 01,Success,,,33381486519.00
+140,"12/19/2024, 2:52:56 PM",0x10,0x02,,TC-19.6: Re-enter PROGRAMMING after reset,0x10,50 02 00 32 01 F4,Success,,,33381486766.00
+141,"12/19/2024, 2:52:57 PM",0x27,0x01,,TC-19.7: Re-request Security Seed,0x27,67 01 12 34 56 78,Success,,,33381487009.00
+142,"12/19/2024, 2:52:58 PM",0x27,0x02,B7 6E A6 77,TC-19.8: Re-send Security Key,0x27,67 02,Success,,,33381487167.00
+143,"12/19/2024, 2:52:59 PM",0x37,,,TC-19.9: Transfer Exit - Expect NRC 0x24 (no active transfer after reset),0x37,7F 37 24,NRC,0x24,Request Sequence Error,33381487315.00
+144,"12/19/2024, 2:53:00 PM",0x10,0x01,,TC-19.10: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381487470.00
+145,"12/19/2024, 2:53:10 PM",0x10,0x02,,TC-20: Session Change Aborts Transfer - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381478624.00
+146,"12/19/2024, 2:53:11 PM",0x27,0x01,,TC-20.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381478775.00
+147,"12/19/2024, 2:53:12 PM",0x27,0x02,B7 6E A6 77,TC-20.2: Security Key,0x27,67 02,Success,,,33381478927.00
+148,"12/19/2024, 2:53:13 PM",0x34,,00 44 00 10 00 00 00 00 08 00,TC-20.3: Request Download - start transfer,0x34,74 20 10 00,Success,,,33381479077.00
+149,"12/19/2024, 2:53:14 PM",0x36,,01 00,TC-20.4: Transfer Data Block 1,0x36,76 01,Success,,,33381479228.00
+150,"12/19/2024, 2:53:15 PM",0x10,0x03,,TC-20.5: Switch to EXTENDED session - should abort transfer,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33381479376.00
+151,"12/19/2024, 2:53:16 PM",0x27,0x01,,TC-20.6: Security Seed (re-unlock in EXTENDED),0x27,67 01 00 00 00 00,Success,,,33381479551.00
+152,"12/19/2024, 2:53:17 PM",0x27,0x02,B7 6E A6 77,TC-20.7: Security Key,0x27,7F 27 22,NRC,0x22,Conditions Not Correct,33381479712.00
+153,"12/19/2024, 2:53:18 PM",0x37,,,TC-20.8: Transfer Exit - Expect NRC 0x24 or 0x70 (transfer aborted by session change),0x37,77,Success,,,33381479966.00
+154,"12/19/2024, 2:53:19 PM",0x10,0x01,,TC-20.9: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381480164.00
+155,"12/19/2024, 2:53:30 PM",0x10,0x02,,TC-21: Large Multi-Block Transfer - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381470343.00
+156,"12/19/2024, 2:53:31 PM",0x27,0x01,,TC-21.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381470512.00
+157,"12/19/2024, 2:53:32 PM",0x27,0x02,B7 6E A6 77,TC-21.2: Security Key,0x27,67 02,Success,,,33381470680.00
+158,"12/19/2024, 2:53:33 PM",0x34,,00 44 00 10 00 00 00 00 80 00,TC-21.3: Request Download - 128 bytes (simulating larger transfer),0x34,74 20 10 00,Success,,,33381470868.00
+159,"12/19/2024, 2:53:34 PM",0x36,,01 01 02 03 04 05 06 07 08,TC-21.4: Transfer Block 1,0x36,76 01,Success,,,33381471136.00
+160,"12/19/2024, 2:53:35 PM",0x36,,02 09 0A 0B 0C 0D 0E 0F 10,TC-21.5: Transfer Block 2,0x36,76 02,Success,,,33381471294.00
+161,"12/19/2024, 2:53:36 PM",0x36,,03 11 12 13 14 15 16 17 18,TC-21.6: Transfer Block 3,0x36,76 03,Success,,,33381471459.00
+162,"12/19/2024, 2:53:37 PM",0x36,,04 19 1A 1B 1C 1D 1E 1F 20,TC-21.7: Transfer Block 4,0x36,76 04,Success,,,33381471622.00
+163,"12/19/2024, 2:53:38 PM",0x36,,05 21 22 23 24 25 26 27 28,TC-21.8: Transfer Block 5,0x36,76 05,Success,,,33381471782.00
+164,"12/19/2024, 2:53:39 PM",0x36,,06 29 2A 2B 2C 2D 2E 2F 30,TC-21.9: Transfer Block 6,0x36,76 06,Success,,,33381471987.00
+165,"12/19/2024, 2:53:40 PM",0x36,,07 31 32 33 34 35 36 37 38,TC-21.10: Transfer Block 7,0x36,76 07,Success,,,33381472192.00
+166,"12/19/2024, 2:53:41 PM",0x36,,08 39 3A 3B 3C 3D 3E 3F 40,TC-21.11: Transfer Block 8 - Last Block,0x36,76 08,Success,,,33381472364.00
+167,"12/19/2024, 2:53:42 PM",0x37,,,TC-21.12: Transfer Exit - Expect Success (all 8 blocks transferred),0x37,77,Success,,,33381472621.00
+168,"12/19/2024, 2:53:43 PM",0x10,0x01,,TC-21.13: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381472878.00
+169,"12/19/2024, 2:53:50 PM",0x10,0x02,,TC-22: Transfer Exit After Successful Upload (Read) - Enter PROGRAMMING,0x10,50 02 00 32 01 F4,Success,,,33381467130.00
+170,"12/19/2024, 2:53:51 PM",0x27,0x01,,TC-22.1: Security Seed,0x27,67 01 12 34 56 78,Success,,,33381467303.00
+171,"12/19/2024, 2:53:52 PM",0x27,0x02,B7 6E A6 77,TC-22.2: Security Key,0x27,67 02,Success,,,33381467467.00
+172,"12/19/2024, 2:53:53 PM",0x35,,00 44 00 10 00 00 00 00 20 00,TC-22.3: Request Upload - 32 bytes from memory,0x35,75 20 10 00,Success,,,33381467639.00
+173,"12/19/2024, 2:53:54 PM",0x36,,01,TC-22.4: Transfer Data Block 1 (ECU sends data),0x36,76 01 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F,Success,,,33381467863.00
+174,"12/19/2024, 2:53:55 PM",0x36,,02,TC-22.5: Transfer Data Block 2,0x36,76 02 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F,Success,,,33381468092.00
+175,"12/19/2024, 2:53:56 PM",0x37,,,TC-22.6: Transfer Exit - Expect Success (upload complete),0x37,77,Success,,,33381468369.00
+176,"12/19/2024, 2:53:57 PM",0x10,0x01,,[FINAL] TC-22.7: Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33381468628.00

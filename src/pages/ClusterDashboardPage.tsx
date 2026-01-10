@@ -20,7 +20,7 @@ import Header from '../components/Header';
 import EnhancedBackground from '../components/EnhancedBackground';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
 import DTCManagementPanel from '../components/DTCManagementPanel';
-import { useUDS } from '../context/UDSContext';
+import { useUDS, type FaultTriggers } from '../context/UDSContext';
 
 // ========================================
 // TYPE DEFINITIONS
@@ -31,33 +31,7 @@ type GearPosition = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3';
 
 // Local interface for cluster display (ignition and battery from context)
 
-interface FaultTriggers {
-    powertrain: {
-        mafFault: boolean;
-        coolantTempSensorFault: boolean;
-        throttlePositionError: boolean;
-        misfireDetected: boolean;
-        fuelPressureLow: boolean;
-    };
-    brakes: {
-        wheelSpeedFLFault: boolean;
-        wheelSpeedFRFault: boolean;
-        brakePressureSensorFault: boolean;
-        absPumpMotorFailure: boolean;
-        yawRateSensorFault: boolean;
-    };
-    body: {
-        driverDoorSwitchStuck: boolean;
-        windowMotorFLStuck: boolean;
-        wiperMotorOverload: boolean;
-        centralLockControlFault: boolean;
-    };
-    network: {
-        canTimeoutEngineEcu: boolean;
-        canTimeoutAbs: boolean;
-        canBusOff: boolean;
-    };
-}
+// FaultTriggers is now imported from UDSContext
 
 // ========================================
 // PREMIUM CIRCULAR GAUGE
@@ -535,7 +509,7 @@ const FaultSection: React.FC<FaultSectionProps> = ({ title, activeCount, childre
 // ========================================
 
 export const ClusterDashboardPage: React.FC = () => {
-    // Get vehicle state and power management from UDS Context
+    // Get vehicle state, power management, and fault triggers from UDS Context
     const {
         vehicleState,
         updateVehicleState,
@@ -543,7 +517,10 @@ export const ClusterDashboardPage: React.FC = () => {
         setPowerState,
         voltage,
         simulateCranking,
-        updateDTCStatus
+        updateDTCStatus,
+        faultTriggers,
+        updateFault,
+        resetFaults
     } = useUDS();
 
     React.useEffect(() => {
@@ -589,19 +566,7 @@ export const ClusterDashboardPage: React.FC = () => {
         updateVehicleState(key, value);
     };
 
-    const [faultTriggers, setFaultTriggers] = useState<FaultTriggers>({
-        powertrain: { mafFault: false, coolantTempSensorFault: false, throttlePositionError: false, misfireDetected: false, fuelPressureLow: false },
-        brakes: { wheelSpeedFLFault: false, wheelSpeedFRFault: false, brakePressureSensorFault: false, absPumpMotorFailure: false, yawRateSensorFault: false },
-        body: { driverDoorSwitchStuck: false, windowMotorFLStuck: false, wiperMotorOverload: false, centralLockControlFault: false },
-        network: { canTimeoutEngineEcu: false, canTimeoutAbs: false, canBusOff: false }
-    });
-
-    const updateFault = (category: keyof FaultTriggers, fault: string, value: boolean) => {
-        setFaultTriggers(prev => ({
-            ...prev,
-            [category]: { ...prev[category], [fault]: value }
-        }));
-    };
+    // faultTriggers, updateFault, and resetFaults are now from context
 
     const countFaults = (category: keyof FaultTriggers) =>
         Object.values(faultTriggers[category]).filter(Boolean).length;
@@ -645,12 +610,7 @@ export const ClusterDashboardPage: React.FC = () => {
     };
 
     const handleResetFaults = () => {
-        setFaultTriggers({
-            powertrain: { mafFault: false, coolantTempSensorFault: false, throttlePositionError: false, misfireDetected: false, fuelPressureLow: false },
-            brakes: { wheelSpeedFLFault: false, wheelSpeedFRFault: false, brakePressureSensorFault: false, absPumpMotorFailure: false, yawRateSensorFault: false },
-            body: { driverDoorSwitchStuck: false, windowMotorFLStuck: false, wiperMotorOverload: false, centralLockControlFault: false },
-            network: { canTimeoutEngineEcu: false, canTimeoutAbs: false, canBusOff: false }
-        });
+        resetFaults();
     };
 
     // Use voltage from context for battery display and telltales

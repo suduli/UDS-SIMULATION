@@ -865,10 +865,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600102000,
             "description": "TC-15.2: Send Security Key"
@@ -948,10 +948,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600112000,
             "description": "TC-16.2: Security Key Response - Unlock ECU"
@@ -1129,10 +1129,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600132000,
             "description": "TC-17.2: Security Key"
@@ -1230,10 +1230,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600152000,
             "description": "TC-18.2: Security Key"
@@ -1332,10 +1332,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600172000,
             "description": "TC-19.2: Security Key"
@@ -1391,10 +1391,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600178000,
             "description": "TC-19.8: Re-send Security Key"
@@ -1430,10 +1430,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600192000,
             "description": "TC-20.2: Security Key"
@@ -1482,10 +1482,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600197000,
             "description": "TC-20.7: Security Key"
@@ -1521,10 +1521,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600212000,
             "description": "TC-21.2: Security Key"
@@ -1705,10 +1705,10 @@
             "sid": 39,
             "subFunction": 2,
             "data": [
-                17,
-                34,
-                51,
-                68
+                183,
+                110,
+                166,
+                119
             ],
             "timestamp": 1734600232000,
             "description": "TC-22.2: Security Key"

@@ -1,0 +1,171 @@
+﻿Report Information
+Report ID,terminal_report_1767950524748
+Report Name,"Terminal Output Report (1/9/2026, 2:52:04 PM)"
+Description,Generated from current terminal session with 141 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,141
+Total Responses,141
+Successful Responses,124
+Negative Responses (NRC),17
+Success Rate (%),87.94
+Test Duration,2m 20s
+Start Time,"12/17/2024, 9:10:00 PM"
+End Time,"12/17/2024, 9:12:20 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7F,Service Not Supported In Active Session,1,5.88
+0x22,Conditions Not Correct,2,11.76
+0x31,Request Out of Range,3,17.65
+0x12,Sub-Function Not Supported,4,23.53
+0x13,Incorrect Message Length,6,35.29
+0x33,Security Access Denied,1,5.88
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/17/2024, 9:10:00 PM",0x10,0x01,,TC-01.1: [SETUP] Ensure starting from Default Session,0x10,50 01 00 32 01 F4,Success,,,33498458969.00
+2,"12/17/2024, 9:10:01 PM",0x28,0x01,03,TC-01.2: Communication Control in DEFAULT Session - Expect NRC 0x7F (ServiceNotSupportedInActiveSession),0x28,7F 28 7F,NRC,0x7F,Service Not Supported In Active Session,33498458994.00
+3,"12/17/2024, 9:10:02 PM",0x10,0x03,,TC-01.3: Switch to EXTENDED Session (0x03),0x10,50 03 00 64 01 F4,Success,,,33498458999.00
+4,"12/17/2024, 9:10:03 PM",0x28,0x01,03,TC-01.4: Communication Control in EXTENDED Session - Expect Positive Response 0x68,0x28,68 01,Success,,,33498459001.00
+5,"12/17/2024, 9:10:04 PM",0x10,0x02,,TC-01.5: Switch to PROGRAMMING Session (0x02),0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33498459008.00
+6,"12/17/2024, 9:10:05 PM",0x28,0x01,03,TC-01.6: Communication Control in PROGRAMMING Session - Expect Positive Response 0x68,0x28,68 01,Success,,,33498459023.00
+7,"12/17/2024, 9:10:06 PM",0x10,0x01,,TC-01.7: Return to DEFAULT Session for next category,0x10,50 01 00 32 01 F4,Success,,,33498459043.00
+8,"12/17/2024, 9:10:07 PM",0x10,0x03,,TC-02.1: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498459068.00
+9,"12/17/2024, 9:10:08 PM",0x28,0x00,03,"TC-02.2: Control Type 0x00 (Enable RX, Disable TX) - Listen-only mode - Expect Success",0x28,68 00,Success,,,33498459086.00
+10,"12/17/2024, 9:10:09 PM",0x28,0x01,03,TC-02.3: Control Type 0x01 (Enable RX and TX) - Normal operation restored - Expect Success,0x28,68 01,Success,,,33498459100.00
+11,"12/17/2024, 9:10:10 PM",0x28,0x02,03,"TC-02.4: Control Type 0x02 (Disable RX, Enable TX) - Transmit-only mode - Expect Success",0x28,68 02,Success,,,33498459118.00
+12,"12/17/2024, 9:10:11 PM",0x27,0x01,,TC-02.5: [SECURITY] Request Seed for Control Type 0x03,0x27,67 01 12 34 56 78,Success,,,33498459139.00
+13,"12/17/2024, 9:10:12 PM",0x27,0x02,B7 6E A6 77,TC-02.6: [SECURITY] Send Key to unlock,0x27,67 02,Success,,,33498459153.00
+14,"12/17/2024, 9:10:13 PM",0x28,0x03,03,TC-02.7: Control Type 0x03 (Disable RX and TX) WITH Security - Complete isolation - Expect Success,0x28,68 03,Success,,,33498459171.00
+15,"12/17/2024, 9:10:14 PM",0x28,0x04,03,"TC-02.8: Control Type 0x04 (Enable RX, Disable TX - Enhanced Addressing) - Expect Success",0x28,68 04,Success,,,33498459180.00
+16,"12/17/2024, 9:10:15 PM",0x28,0x05,03,TC-02.9: Control Type 0x05 (Enable RX and TX - Enhanced Addressing) - Expect Success,0x28,68 05,Success,,,33498459201.00
+17,"12/17/2024, 9:10:16 PM",0x28,0x01,03,TC-02.10: Reset to normal communication state,0x28,68 01,Success,,,33498459232.00
+18,"12/17/2024, 9:10:17 PM",0x10,0x01,,TC-03.1: [SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33498459257.00
+19,"12/17/2024, 9:10:18 PM",0x10,0x03,,TC-03.2: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498459271.00
+20,"12/17/2024, 9:10:19 PM",0x28,0x01,01,TC-03.3: Communication Type 0x01 (Normal Communication Messages) - Expect Success,0x28,68 01,Success,,,33498459283.00
+21,"12/17/2024, 9:10:20 PM",0x28,0x01,02,TC-03.4: Communication Type 0x02 (Network Management Messages) - Expect Success,0x28,68 01,Success,,,33498459295.00
+22,"12/17/2024, 9:10:21 PM",0x28,0x01,03,TC-03.5: Communication Type 0x03 (Both Types) - Expect Success,0x28,68 01,Success,,,33498459321.00
+23,"12/17/2024, 9:10:22 PM",0x28,0x01,00,TC-03.6: Communication Type 0x00 (INVALID) - Expect NRC 0x31 (RequestOutOfRange),0x28,7F 28 31,NRC,0x31,Request Out of Range,33498459339.00
+24,"12/17/2024, 9:10:23 PM",0x28,0x01,04,TC-03.7: Communication Type 0x04 (INVALID) - Expect NRC 0x31,0x28,7F 28 31,NRC,0x31,Request Out of Range,33498459358.00
+25,"12/17/2024, 9:10:24 PM",0x28,0x01,FF,TC-03.8: Communication Type 0xFF (INVALID) - Expect NRC 0x31,0x28,7F 28 31,NRC,0x31,Request Out of Range,33498459388.00
+26,"12/17/2024, 9:10:25 PM",0x10,0x01,,TC-04.1: [SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33498459410.00
+27,"12/17/2024, 9:10:26 PM",0x10,0x03,,TC-04.2: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498459430.00
+28,"12/17/2024, 9:10:27 PM",0x28,0x06,03,TC-04.3: Control Type 0x06 (INVALID) - Expect NRC 0x12,0x28,7F 28 12,NRC,0x12,Sub-Function Not Supported,33498459467.00
+29,"12/17/2024, 9:10:28 PM",0x28,0x07,03,TC-04.4: Control Type 0x07 (INVALID) - Expect NRC 0x12,0x28,7F 28 12,NRC,0x12,Sub-Function Not Supported,33498459497.00
+30,"12/17/2024, 9:10:29 PM",0x28,0x7F,03,TC-04.5: Control Type 0x7F (INVALID - max non-suppress) - Expect NRC 0x12,0x28,7F 28 12,NRC,0x12,Sub-Function Not Supported,33498459526.00
+31,"12/17/2024, 9:10:30 PM",0x28,0xFF,03,TC-04.6: Control Type 0xFF (INVALID) - Expect NRC 0x12,0x28,7F 28 12,NRC,0x12,Sub-Function Not Supported,33498459545.00
+32,"12/17/2024, 9:10:31 PM",0x10,0x01,,TC-05.1: [SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33498459586.00
+33,"12/17/2024, 9:10:32 PM",0x10,0x03,,TC-05.2: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498459622.00
+34,"12/17/2024, 9:10:33 PM",0x28,0x01,,TC-05.3: Missing Communication Type (only SID + SubFunction) - Expect NRC 0x13,0x28,7F 28 13,NRC,0x13,Incorrect Message Length,33498459654.00
+35,"12/17/2024, 9:10:34 PM",0x28,,03,TC-05.4: Missing SubFunction (only SID + CommType) - Expect NRC 0x13,0x28,7F 28 13,NRC,0x13,Incorrect Message Length,33498459696.00
+36,"12/17/2024, 9:10:35 PM",0x28,0x01,03 F0,TC-05.5: Incomplete Node ID (1 byte instead of 2) - Length 4 - Expect NRC 0x13,0x28,7F 28 13,NRC,0x13,Incorrect Message Length,33498459735.00
+37,"12/17/2024, 9:10:36 PM",0x28,0x01,03 01 02 03 04,TC-05.6: Extra bytes (5 bytes data = Length 6) - Expect NRC 0x13,0x28,7F 28 13,NRC,0x13,Incorrect Message Length,33498459947.00
+38,"12/17/2024, 9:10:37 PM",0x28,0x01,03 F0 00 63,TC-05.7: Extra byte after Node ID (Length 6) - Expect NRC 0x13,0x28,7F 28 13,NRC,0x13,Incorrect Message Length,33498460941.00
+39,"12/17/2024, 9:10:38 PM",0x10,0x01,,TC-06.1: [SETUP] Reset to Default Session - Clears security state,0x10,50 01 00 32 01 F4,Success,,,33498462934.00
+40,"12/17/2024, 9:10:39 PM",0x10,0x03,,TC-06.2: [SETUP] Enter EXTENDED Session (security locked),0x10,50 03 00 64 01 F4,Success,,,33498463939.00
+41,"12/17/2024, 9:10:40 PM",0x28,0x03,03,TC-06.3: Control Type 0x03 WITHOUT Security - Expect NRC 0x33 (Complete disable requires security),0x28,7F 28 33,NRC,0x33,Security Access Denied,33498464833.00
+42,"12/17/2024, 9:10:41 PM",0x28,0x00,03,TC-06.4: Control Type 0x00 WITHOUT Security - Expect SUCCESS (Partial disable allowed),0x28,68 00,Success,,,33498464871.00
+43,"12/17/2024, 9:10:42 PM",0x28,0x01,03,TC-06.5: Control Type 0x01 WITHOUT Security - Expect SUCCESS (Enable always allowed),0x28,68 01,Success,,,33498464919.00
+44,"12/17/2024, 9:10:43 PM",0x28,0x02,03,TC-06.6: Control Type 0x02 WITHOUT Security - Expect SUCCESS (Partial disable allowed),0x28,68 02,Success,,,33498464966.00
+45,"12/17/2024, 9:10:44 PM",0x10,0x01,,TC-07.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498465010.00
+46,"12/17/2024, 9:10:45 PM",0x10,0x03,,TC-07.2: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498465052.00
+47,"12/17/2024, 9:10:46 PM",0x27,0x01,,TC-07.3: [SECURITY] Request Seed,0x27,67 01 12 34 56 78,Success,,,33498465096.00
+48,"12/17/2024, 9:10:47 PM",0x27,0x02,B7 6E A6 77,TC-07.4: [SECURITY] Send Key to unlock security,0x27,67 02,Success,,,33498465137.00
+49,"12/17/2024, 9:10:48 PM",0x28,0x03,03 F0 00,TC-07.5: Target Subnet 0xF000 (Powertrain CAN) - Disable only Powertrain - Expect Success,0x28,68 03,Success,,,33498465184.00
+50,"12/17/2024, 9:10:49 PM",0x28,0x01,03 F0 00,TC-07.6: Re-enable Subnet 0xF000 - Expect Success,0x28,68 01,Success,,,33498465231.00
+51,"12/17/2024, 9:10:50 PM",0x28,0x03,03 F0 10,TC-07.7: Target Specific Node 0xF010 (Engine ECU) - Disable only Engine ECU - Expect Success,0x28,68 03,Success,,,33498465279.00
+52,"12/17/2024, 9:10:51 PM",0x28,0x01,03 F0 10,TC-07.8: Re-enable Node 0xF010 - Expect Success,0x28,68 01,Success,,,33498465325.00
+53,"12/17/2024, 9:10:52 PM",0x28,0x03,03 F1 00,TC-07.9: Target Subnet 0xF100 (Chassis CAN) - Expect Success,0x28,68 03,Success,,,33498465372.00
+54,"12/17/2024, 9:10:53 PM",0x28,0x01,03,TC-07.10: Global Enable (no Node ID) - Re-enables ALL nodes/subnets - Expect Success,0x28,68 01,Success,,,33498465419.00
+55,"12/17/2024, 9:10:54 PM",0x10,0x01,,TC-08.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498465468.00
+56,"12/17/2024, 9:10:55 PM",0x10,0x03,,TC-08.2: [SETUP] Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498465516.00
+57,"12/17/2024, 9:10:56 PM",0x27,0x01,,TC-08.3: [SECURITY] Request Seed,0x27,67 01 12 34 56 78,Success,,,33498465562.00
+58,"12/17/2024, 9:10:57 PM",0x27,0x02,B7 6E A6 77,TC-08.4: [SECURITY] Send Key,0x27,67 02,Success,,,33498465608.00
+59,"12/17/2024, 9:10:58 PM",0x28,0x81,03,TC-08.5: Control 0x01 + Suppress (0x81) - Execute but NO response expected,0x28,,Success,,,33498465654.00
+60,"12/17/2024, 9:10:59 PM",0x28,0x83,03,TC-08.6: Control 0x03 + Suppress (0x83) - Execute but NO response expected,0x28,,Success,,,33498465707.00
+61,"12/17/2024, 9:11:00 PM",0x28,0x01,03,TC-08.7: Verify communication is now enabled (normal response expected),0x28,68 01,Success,,,33498465759.00
+62,"12/17/2024, 9:11:01 PM",0x10,0x01,,TC-09.1: [SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33498465816.00
+63,"12/17/2024, 9:11:02 PM",0x10,0x02,,TC-09.2: Enter PROGRAMMING Session for flash operations,0x10,50 02 00 32 01 F4,Success,,,33498465869.00
+64,"12/17/2024, 9:11:03 PM",0x27,0x01,,TC-09.3: Request Seed - Security required for flash,0x27,67 01 12 34 56 78,Success,,,33498465920.00
+65,"12/17/2024, 9:11:04 PM",0x27,0x02,B7 6E A6 77,TC-09.4: Send Key - Unlock security for flash operations,0x27,67 02,Success,,,33498465982.00
+66,"12/17/2024, 9:11:05 PM",0x28,0x03,03,TC-09.5: ISOLATE ECU - Disable all communication before flash - Critical Step,0x28,68 03,Success,,,33498466040.00
+67,"12/17/2024, 9:11:06 PM",0x3E,0x80,,TC-09.6: TesterPresent (suppress response) - Keep session alive during flash,0x3E,,Success,,,33498466093.00
+68,"12/17/2024, 9:11:07 PM",0x28,0x01,03,TC-09.7: RESTORE Communication after flash complete,0x28,68 01,Success,,,33498466147.00
+69,"12/17/2024, 9:11:08 PM",0x11,0x01,,TC-09.8: ECU Reset - Boot with new firmware,0x11,51 01,Success,,,33498466406.00
+70,"12/17/2024, 9:11:09 PM",0x10,0x01,,TC-10.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498466461.00
+71,"12/17/2024, 9:11:10 PM",0x10,0x03,,TC-10.2: Enter EXTENDED Session for configuration,0x10,50 03 00 64 01 F4,Success,,,33498466512.00
+72,"12/17/2024, 9:11:11 PM",0x27,0x01,,TC-10.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498466576.00
+73,"12/17/2024, 9:11:12 PM",0x27,0x02,B7 6E A6 77,TC-10.4: Send Key - Unlock for configuration,0x27,67 02,Success,,,33498466640.00
+74,"12/17/2024, 9:11:13 PM",0x28,0x00,01,"TC-10.5: Enable RX, Disable TX for Normal Messages - ECU listens but won't broadcast",0x28,68 00,Success,,,33498466691.00
+75,"12/17/2024, 9:11:14 PM",0x22,0xF1,90,TC-10.6: [SIMULATE] Read VIN to verify ECU identity,0x22,7F 22 13,NRC,0x13,Incorrect Message Length,33498466748.00
+76,"12/17/2024, 9:11:15 PM",0x28,0x01,01,TC-10.7: Re-enable TX for Normal Messages after config complete,0x28,68 01,Success,,,33498466808.00
+77,"12/17/2024, 9:11:16 PM",0x10,0x01,,TC-11.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498466871.00
+78,"12/17/2024, 9:11:17 PM",0x10,0x03,,TC-11.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498466933.00
+79,"12/17/2024, 9:11:18 PM",0x28,0x00,03,"TC-11.3: Enable RX, Disable TX for ALL - Quiet execution mode",0x28,68 00,Success,,,33498466991.00
+80,"12/17/2024, 9:11:19 PM",0x3E,0x80,,TC-11.4: TesterPresent - Keep session alive during routine,0x3E,,Success,,,33498467053.00
+81,"12/17/2024, 9:11:20 PM",0x28,0x01,03,TC-11.5: Restore communication after routine complete,0x28,68 01,Success,,,33498467122.00
+82,"12/17/2024, 9:11:21 PM",0x10,0x01,,TC-12.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498467181.00
+83,"12/17/2024, 9:11:22 PM",0x10,0x03,,TC-12.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498467238.00
+84,"12/17/2024, 9:11:23 PM",0x27,0x01,,TC-12.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498467301.00
+85,"12/17/2024, 9:11:24 PM",0x27,0x02,B7 6E A6 77,TC-12.4: Unlock Security,0x27,67 02,Success,,,33498467366.00
+86,"12/17/2024, 9:11:25 PM",0x28,0x03,03 F0 00,TC-12.5: Disable Subnet 0xF0 (Powertrain) - First subnet,0x28,68 03,Success,,,33498467437.00
+87,"12/17/2024, 9:11:26 PM",0x28,0x03,03 F1 00,TC-12.6: Disable Subnet 0xF1 (Chassis) - Second subnet,0x28,68 03,Success,,,33498467497.00
+88,"12/17/2024, 9:11:27 PM",0x28,0x03,03 F2 00,TC-12.7: Disable Subnet 0xF2 (Body) - Third subnet,0x28,68 03,Success,,,33498467559.00
+89,"12/17/2024, 9:11:28 PM",0x28,0x01,03 F0 00,TC-12.8: Re-enable Subnet 0xF0 (Powertrain),0x28,68 01,Success,,,33498467623.00
+90,"12/17/2024, 9:11:29 PM",0x28,0x01,03 F1 00,TC-12.9: Re-enable Subnet 0xF1 (Chassis),0x28,68 01,Success,,,33498467684.00
+91,"12/17/2024, 9:11:30 PM",0x28,0x01,03 F2 00,TC-12.10: Re-enable Subnet 0xF2 (Body),0x28,68 01,Success,,,33498467753.00
+92,"12/17/2024, 9:11:31 PM",0x10,0x01,,TC-13.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498467818.00
+93,"12/17/2024, 9:11:32 PM",0x10,0x03,,TC-13.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498467893.00
+94,"12/17/2024, 9:11:33 PM",0x28,0x00,03,TC-13.3: Disable TX (Listen-only mode),0x28,68 00,Success,,,33498467962.00
+95,"12/17/2024, 9:11:34 PM",0x10,0x01,,TC-13.4: Return to DEFAULT Session - Should auto-restore communication,0x10,50 01 00 32 01 F4,Success,,,33498468032.00
+96,"12/17/2024, 9:11:35 PM",0x10,0x03,,TC-13.5: Re-enter EXTENDED to verify communication state is normal,0x10,50 03 00 64 01 F4,Success,,,33498468107.00
+97,"12/17/2024, 9:11:36 PM",0x28,0x01,03,TC-13.6: Enable All - Should succeed (state was auto-restored),0x28,68 01,Success,,,33498468180.00
+98,"12/17/2024, 9:11:37 PM",0x10,0x01,,TC-14.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498468256.00
+99,"12/17/2024, 9:11:38 PM",0x10,0x03,,TC-14.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498468324.00
+100,"12/17/2024, 9:11:39 PM",0x27,0x01,,TC-14.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498468403.00
+101,"12/17/2024, 9:11:40 PM",0x27,0x02,B7 6E A6 77,TC-14.4: Unlock Security,0x27,67 02,Success,,,33498468473.00
+102,"12/17/2024, 9:11:41 PM",0x28,0x03,03,TC-14.5: Disable All Communication,0x28,68 03,Success,,,33498468556.00
+103,"12/17/2024, 9:11:42 PM",0x11,0x01,,TC-14.6: Hard Reset (SID 0x11 subFunction 0x01) - Auto-restores all communication,0x11,51 01,Success,,,33498468830.00
+104,"12/17/2024, 9:11:43 PM",0x10,0x01,,TC-15.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498468927.00
+105,"12/17/2024, 9:11:44 PM",0x10,0x03,,TC-15.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498469014.00
+106,"12/17/2024, 9:11:45 PM",0x28,0x01,03,TC-15.3: Baseline Enable All - Should succeed (normal conditions),0x28,68 01,Success,,,33498469102.00
+107,"12/17/2024, 9:11:46 PM",0x10,0x01,,TC-16.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498469180.00
+108,"12/17/2024, 9:11:47 PM",0x10,0x03,,TC-16.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498469263.00
+109,"12/17/2024, 9:11:48 PM",0x27,0x01,,TC-16.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498469344.00
+110,"12/17/2024, 9:11:49 PM",0x27,0x02,B7 6E A6 77,TC-16.4: Unlock Security,0x27,67 02,Success,,,33498469434.00
+111,"12/17/2024, 9:11:50 PM",0x28,0x03,03,TC-16.5: Disable All Communication - Complete isolation,0x28,68 03,Success,,,33498469514.00
+112,"12/17/2024, 9:11:51 PM",0x3E,0x00,,TC-16.6: TesterPresent WITHOUT suppress - SHOULD STILL WORK (diagnostics never disabled),0x3E,00,Success,,,33498469593.00
+113,"12/17/2024, 9:11:52 PM",0x3E,0x80,,TC-16.7: TesterPresent WITH suppress - No response expected but service active,0x3E,,Success,,,33498469677.00
+114,"12/17/2024, 9:11:53 PM",0x28,0x01,03,TC-16.8: Re-enable communication,0x28,68 01,Success,,,33498469758.00
+115,"12/17/2024, 9:11:54 PM",0x10,0x01,,TC-17.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498469842.00
+116,"12/17/2024, 9:11:55 PM",0x10,0x03,,TC-17.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498469927.00
+117,"12/17/2024, 9:11:56 PM",0x28,0x00,03,TC-17.3: Set Listen-only mode in EXTENDED,0x28,68 00,Success,,,33498470010.00
+118,"12/17/2024, 9:11:57 PM",0x10,0x02,,TC-17.4: Transition EXTENDED → PROGRAMMING,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33498470095.00
+119,"12/17/2024, 9:11:58 PM",0x28,0x01,03,TC-17.5: Re-enable in PROGRAMMING - Verifies state was preserved,0x28,68 01,Success,,,33498470184.00
+120,"12/17/2024, 9:11:59 PM",0x10,0x01,,TC-18.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498470279.00
+121,"12/17/2024, 9:12:00 PM",0x10,0x03,,TC-18.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498470366.00
+122,"12/17/2024, 9:12:01 PM",0x28,0x00,01,TC-18.3: Disable TX for Normal Messages ONLY (0x01),0x28,68 00,Success,,,33498470475.00
+123,"12/17/2024, 9:12:02 PM",0x28,0x00,02,TC-18.4: Disable TX for NM Messages ONLY (0x02),0x28,68 00,Success,,,33498470600.00
+124,"12/17/2024, 9:12:03 PM",0x28,0x01,01,TC-18.5: Re-enable Normal Messages TX (0x01),0x28,68 01,Success,,,33498470664.00
+125,"12/17/2024, 9:12:04 PM",0x28,0x01,02,TC-18.6: Re-enable NM Messages TX (0x02),0x28,68 01,Success,,,33498470747.00
+126,"12/17/2024, 9:12:05 PM",0x10,0x01,,TC-19.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498470842.00
+127,"12/17/2024, 9:12:06 PM",0x10,0x03,,TC-19.2: Enter EXTENDED Session for EOL,0x10,50 03 00 64 01 F4,Success,,,33498470950.00
+128,"12/17/2024, 9:12:07 PM",0x27,0x01,,TC-19.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498471046.00
+129,"12/17/2024, 9:12:08 PM",0x27,0x02,B7 6E A6 77,TC-19.4: Unlock Security for EOL operations,0x27,67 02,Success,,,33498471140.00
+130,"12/17/2024, 9:12:09 PM",0x28,0x03,03,TC-19.5: ISOLATE ECU for EOL testing - Complete isolation,0x28,68 03,Success,,,33498471245.00
+131,"12/17/2024, 9:12:10 PM",0x28,0x01,03,TC-19.6: RESTORE Communication - EOL complete,0x28,68 01,Success,,,33498471341.00
+132,"12/17/2024, 9:12:11 PM",0x10,0x01,,TC-19.7: Return to DEFAULT - ECU ready for vehicle assembly,0x10,50 01 00 32 01 F4,Success,,,33498471434.00
+133,"12/17/2024, 9:12:12 PM",0x10,0x01,,TC-20.1: [SETUP] Reset to Default,0x10,50 01 00 32 01 F4,Success,,,33498471532.00
+134,"12/17/2024, 9:12:13 PM",0x10,0x03,,TC-20.2: Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33498471638.00
+135,"12/17/2024, 9:12:14 PM",0x27,0x01,,TC-20.3: Request Seed,0x27,67 01 12 34 56 78,Success,,,33498471739.00
+136,"12/17/2024, 9:12:15 PM",0x27,0x02,B7 6E A6 77,TC-20.4: Unlock Security,0x27,67 02,Success,,,33498471835.00
+137,"12/17/2024, 9:12:16 PM",0x28,0x03,03,TC-20.5: Disable All Communication,0x28,68 03,Success,,,33498471928.00
+138,"12/17/2024, 9:12:17 PM",0x28,0x01,03,TC-20.6: ERROR RECOVERY: Re-enable with [28 01 03],0x28,68 01,Success,,,33498472023.00
+139,"12/17/2024, 9:12:18 PM",0x28,0x03,03,TC-20.7: Disable again for reset recovery test,0x28,68 03,Success,,,33498472115.00
+140,"12/17/2024, 9:12:19 PM",0x11,0x01,,TC-20.8: ERROR RECOVERY: ECU Hard Reset [11 01] - Forces restore,0x11,51 01,Success,,,33498472416.00
+141,"12/17/2024, 9:12:20 PM",0x10,0x01,,TC-20.9: [FINAL] Return to Default Session,0x10,50 01 00 32 01 F4,Success,,,33498472512.00

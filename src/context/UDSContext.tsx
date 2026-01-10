@@ -9,12 +9,12 @@ import React, { createContext, useContext, useState, useCallback, useRef } from 
 import type { ReactNode } from 'react';
 import { UDSSimulator } from '../services/UDSSimulator';
 import { parseNRC } from '../utils/nrcLookup';
-import { mockECUConfig } from '../services/mockECU';
+import { mockECUConfig, dtcTemplates } from '../services/mockECU';
 import { NegativeResponseCode as NegativeResponseCodeMap, ServiceId } from '../types/uds';
 import { testerPresentService } from '../services/TesterPresentService';
 import type { TesterPresentState, TesterPresentInterval, SendRequestOptions } from '../types/testerPresent';
 import { DEFAULT_TESTER_PRESENT_STATE } from '../types/testerPresent';
-import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode, ECUConfig } from '../types/uds';
+import type { UDSRequest, UDSResponse, ProtocolState, Scenario, NegativeResponseCode, ECUConfig, DTCInfo } from '../types/uds';
 import type { EnhancedScenario, ReplayState, ScenarioMetadata } from '../types/scenario';
 import type { LearningProgress } from '../types/learning';
 import type { Sequence, SequenceExecutionState, SequenceExecutionOptions } from '../types/sequence';
@@ -67,6 +67,42 @@ interface VehicleState {
   fuelLevel: number;
   oilPressure: number;
 }
+
+// Fault Triggers for Cluster Dashboard DTC Injection
+export interface FaultTriggers {
+  powertrain: {
+    mafFault: boolean;
+    coolantTempSensorFault: boolean;
+    throttlePositionError: boolean;
+    misfireDetected: boolean;
+    fuelPressureLow: boolean;
+  };
+  brakes: {
+    wheelSpeedFLFault: boolean;
+    wheelSpeedFRFault: boolean;
+    brakePressureSensorFault: boolean;
+    absPumpMotorFailure: boolean;
+    yawRateSensorFault: boolean;
+  };
+  body: {
+    driverDoorSwitchStuck: boolean;
+    windowMotorFLStuck: boolean;
+    wiperMotorOverload: boolean;
+    centralLockControlFault: boolean;
+  };
+  network: {
+    canTimeoutEngineEcu: boolean;
+    canTimeoutAbs: boolean;
+    canBusOff: boolean;
+  };
+}
+
+const DEFAULT_FAULT_TRIGGERS: FaultTriggers = {
+  powertrain: { mafFault: false, coolantTempSensorFault: false, throttlePositionError: false, misfireDetected: false, fuelPressureLow: false },
+  brakes: { wheelSpeedFLFault: false, wheelSpeedFRFault: false, brakePressureSensorFault: false, absPumpMotorFailure: false, yawRateSensorFault: false },
+  body: { driverDoorSwitchStuck: false, windowMotorFLStuck: false, wiperMotorOverload: false, centralLockControlFault: false },
+  network: { canTimeoutEngineEcu: false, canTimeoutAbs: false, canBusOff: false }
+};
 
 interface UDSContextType {
   simulator: UDSSimulator;
@@ -153,6 +189,11 @@ interface UDSContextType {
 
   // DTC Management for Fault Triggers
   updateDTCStatus: (dtcCode: number, isActive: boolean, vehicleState?: VehicleState) => void;
+
+  // Fault Injection State (persisted across navigation)
+  faultTriggers: FaultTriggers;
+  updateFault: (category: keyof FaultTriggers, fault: string, value: boolean) => void;
+  resetFaults: () => void;
 
   // Tester Present (0x3E) Keep-Alive
   testerPresentState: TesterPresentState;
@@ -309,6 +350,20 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     value: VehicleState[K]
   ) => {
     setVehicleStateInternal(prev => ({ ...prev, [key]: value }));
+  }, []);
+
+  // Fault Triggers State (persisted across navigation)
+  const [faultTriggers, setFaultTriggers] = useState<FaultTriggers>(DEFAULT_FAULT_TRIGGERS);
+
+  const updateFault = useCallback((category: keyof FaultTriggers, fault: string, value: boolean) => {
+    setFaultTriggers(prev => ({
+      ...prev,
+      [category]: { ...prev[category], [fault]: value }
+    }));
+  }, []);
+
+  const resetFaults = useCallback(() => {
+    setFaultTriggers(DEFAULT_FAULT_TRIGGERS);
   }, []);
 
   // Sync legacy ecuPower with powerState
@@ -588,8 +643,10 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       requestHistory.map(item => item.request.sid)
     ).size;
 
-    // Get active DTCs from simulator (you can enhance this later)
-    const activeDTCs = 5; // TODO: Get from mockECU state
+    // Get active DTCs from ECU config
+    const activeDTCs = mockECUConfig.dtcs.filter(
+      dtc => dtc.status.testFailed || dtc.status.confirmedDTC
+    ).length;
 
     setMetrics({
       requestsSent: totalRequests,
@@ -712,6 +769,20 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             message: `Response for service ${formatHexByte(request.sid)}`,
             description: `Received ${response.data.length} byte${response.data.length === 1 ? '' : 's'} from ECU.`,
             duration: 4500,
+          });
+        }
+      }
+
+      // Auto-enable Tester Present keep-alive when user manually sends 0x3E
+      // Per ISO 14229, once a Tester Present is sent, the session should be kept alive
+      if (!isAutoKeepAlive && request.sid === ServiceId.TESTER_PRESENT && !response.isNegative) {
+        if (!testerPresentState.isActive) {
+          testerPresentService.start();
+          emitToast({
+            type: 'info',
+            message: 'Keep-Alive Enabled',
+            description: 'Tester Present auto-send is now active (5s interval)',
+            duration: 3000,
           });
         }
       }
@@ -1362,16 +1433,73 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   // DTC Management for Fault Triggers
   const updateDTCStatus = useCallback((dtcCode: number, isActive: boolean, capturedState?: VehicleState) => {
-    const dtcIndex = mockECUConfig.dtcs.findIndex(d => d.code === dtcCode);
+    let dtcIndex = mockECUConfig.dtcs.findIndex(d => d.code === dtcCode);
+
     if (dtcIndex === -1) {
-      console.warn(`DTC 0x${dtcCode.toString(16).toUpperCase()} not found in ECU config`);
+      if (!isActive) {
+        // DTC doesn't exist and we're deactivating - nothing to do
+        return;
+      }
+
+      // DTC doesn't exist but we're activating - create from template
+      const template = dtcTemplates.find(t => t.code === dtcCode);
+      if (!template) {
+        console.warn(`No DTC template found for 0x${dtcCode.toString(16).toUpperCase()}`);
+        return;
+      }
+
+      // Deep clone the template to create a new DTC instance
+      const newDTC: DTCInfo = JSON.parse(JSON.stringify(template));
+
+      // Reset status to cleared state (will be activated below)
+      newDTC.status = {
+        testFailed: false,
+        testFailedThisOperationCycle: false,
+        pendingDTC: false,
+        confirmedDTC: false,
+        testNotCompletedSinceLastClear: false,
+        testFailedSinceLastClear: false,
+        testNotCompletedThisOperationCycle: false,
+        warningIndicatorRequested: false,
+      };
+      newDTC.occurrenceCounter = 0;
+      newDTC.agingCounter = 0;
+      newDTC.firstFailureTimestamp = undefined;
+      newDTC.mostRecentFailureTimestamp = undefined;
+
+      // Add to ECU config
+      mockECUConfig.dtcs.push(newDTC);
+
+      // Now activate it
+      activateDTC(newDTC, capturedState);
       return;
     }
 
     const dtc = mockECUConfig.dtcs[dtcIndex];
-    const currentTime = Date.now();
 
     if (isActive) {
+      activateDTC(dtc, capturedState);
+    } else {
+      // Deactivate DTC - clear testFailed but keep confirmed for history
+      dtc.status = {
+        ...dtc.status,
+        testFailed: false,
+        testFailedThisOperationCycle: false,
+        pendingDTC: false,
+      };
+
+      // Increment aging counter
+      if (dtc.agingCounter !== undefined) {
+        dtc.agingCounter++;
+      }
+
+      console.log(`DTC 0x${dtcCode.toString(16).toUpperCase()} DEACTIVATED - ${dtc.description}`);
+    }
+
+    // Helper function to activate a DTC
+    function activateDTC(dtc: DTCInfo, capturedState?: VehicleState) {
+      const currentTime = Date.now();
+
       // Activate DTC - set status bits
       dtc.status = {
         ...dtc.status,
@@ -1410,24 +1538,9 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         };
       }
 
-      console.log(`DTC 0x${dtcCode.toString(16).toUpperCase()} ACTIVATED - ${dtc.description}`);
-    } else {
-      // Deactivate DTC - clear testFailed but keep confirmed for history
-      dtc.status = {
-        ...dtc.status,
-        testFailed: false,
-        testFailedThisOperationCycle: false,
-        pendingDTC: false,
-      };
-
-      // Increment aging counter
-      if (dtc.agingCounter !== undefined) {
-        dtc.agingCounter++;
-      }
-
-      console.log(`DTC 0x${dtcCode.toString(16).toUpperCase()} DEACTIVATED - ${dtc.description}`);
+      console.log(`DTC 0x${dtc.code.toString(16).toUpperCase()} ACTIVATED - ${dtc.description}`);
     }
-  }, []);
+  }, [voltage]);
 
   return (
     <UDSContext.Provider
@@ -1512,6 +1625,11 @@ export const UDSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
         // DTC Management for Fault Triggers
         updateDTCStatus,
+
+        // Fault Injection State (persisted across navigation)
+        faultTriggers,
+        updateFault,
+        resetFaults,
 
         // Tester Present (0x3E) Keep-Alive
         testerPresentState,

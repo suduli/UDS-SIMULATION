@@ -120,7 +120,13 @@ const mockDataIdentifiers: DataIdentifier[] = [
   },
 ];
 
-const mockDTCs: DTCInfo[] = [
+/**
+ * DTC Templates Registry
+ * Contains all possible DTCs that can be activated via fault injection.
+ * DTCs are created dynamically from these templates when faults are triggered.
+ * Each template has pre-defined metadata but starts with cleared status.
+ */
+export const dtcTemplates: DTCInfo[] = [
   // =====================
   // POWERTRAIN DTCs (P-codes)
   // =====================
@@ -836,7 +842,7 @@ const mockRoutines: Routine[] = [
     description: 'Read ECU System Information',
     status: 'idle',
     results: [0x01, 0x00, 0x00],  // Version 1.0.0
-    requiredSession: DiagnosticSessionType.DEFAULT,
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED],
     requiredSecurity: 0,
   },
   {
@@ -845,7 +851,7 @@ const mockRoutines: Routine[] = [
     description: 'Get System Health Status',
     status: 'idle',
     results: [0x00],  // 0x00 = Healthy
-    requiredSession: DiagnosticSessionType.DEFAULT,
+    requiredSession: [DiagnosticSessionType.DEFAULT, DiagnosticSessionType.EXTENDED],
     requiredSecurity: 0,
   },
 
@@ -910,6 +916,16 @@ const mockRoutines: Routine[] = [
     requiredSession: DiagnosticSessionType.EXTENDED,
     requiredSecurity: 1,
     executionTime: 5000,  // 5 seconds
+  },
+  {
+    id: 0xF034,
+    name: 'throttleMotorTest',
+    description: 'Throttle Motor Actuator Test',
+    status: 'idle',
+    results: [0x01, 0x00],  // 0x01 = PASS
+    requiredSession: DiagnosticSessionType.EXTENDED,
+    requiredSecurity: 1,
+    executionTime: 4000,  // 4 seconds
   },
   {
     id: 0xABCD,
@@ -1091,7 +1107,7 @@ export const mockECUConfig: ECUConfig = {
     ServiceId.CONTROL_DTC_SETTING,
   ],
   dataIdentifiers: mockDataIdentifiers,
-  dtcs: mockDTCs,
+  dtcs: [], // Empty by default - DTCs are created dynamically via fault injection
   routines: mockRoutines,
   memoryMap: mockMemoryMap,
   securitySeed: [0x12, 0x34, 0x56, 0x78],

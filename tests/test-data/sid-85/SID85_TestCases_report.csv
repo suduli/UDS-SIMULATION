@@ -1,0 +1,114 @@
+﻿Report Information
+Report ID,terminal_report_1767950781182
+Report Name,"Terminal Output Report (1/9/2026, 2:56:21 PM)"
+Description,Generated from current terminal session with 86 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,86
+Total Responses,86
+Successful Responses,72
+Negative Responses (NRC),14
+Success Rate (%),83.72
+Test Duration,1m 26s
+Start Time,"12/18/2024, 1:50:00 PM"
+End Time,"12/18/2024, 1:51:26 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x7F,Service Not Supported In Active Session,2,14.29
+0x12,Sub-Function Not Supported,5,35.71
+0x31,Request Out of Range,5,35.71
+0x22,Conditions Not Correct,2,14.29
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/18/2024, 1:50:00 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33440679317.00
+2,"12/18/2024, 1:50:01 PM",0x85,0x01,,TC-01: Enable DTC in DEFAULT Session - Expect NRC 0x7F (Service Not Supported In Active Session),0x85,7F 85 7F,NRC,0x7F,Service Not Supported In Active Session,33440679332.00
+3,"12/18/2024, 1:50:02 PM",0x10,0x03,,[SETUP] Switch to EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33440679337.00
+4,"12/18/2024, 1:50:03 PM",0x85,0x01,,TC-02: Enable DTC Recording (0x01) - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679338.00
+5,"12/18/2024, 1:50:04 PM",0x85,0x02,,TC-03: Disable DTC Recording (0x02) - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679361.00
+6,"12/18/2024, 1:50:05 PM",0x85,0x01,,TC-04: Re-enable DTC Recording (0x01) - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679378.00
+7,"12/18/2024, 1:50:06 PM",0x85,0x00,,TC-05: Invalid Sub-function (0x00) - Expect NRC 0x12 (Sub-function Not Supported),0x85,7F 85 12,NRC,0x12,Sub-Function Not Supported,33440679392.00
+8,"12/18/2024, 1:50:07 PM",0x85,0x05,,TC-06: Invalid Sub-function (0x05) - Expect NRC 0x12 (Sub-function Not Supported),0x85,7F 85 12,NRC,0x12,Sub-Function Not Supported,33440679406.00
+9,"12/18/2024, 1:50:08 PM",0x85,0x82,,TC-07: Suppress Positive Response (0x82 = 0x02 + 0x80) - Expect Suppressed Response,0x85,,Success,,,33440679415.00
+10,"12/18/2024, 1:50:09 PM",0x85,0x02,00,TC-08: Disable All DTCs with DTCSettingType 0x00 - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679422.00
+11,"12/18/2024, 1:50:10 PM",0x85,0x02,01,TC-09: Disable Emissions DTCs with DTCSettingType 0x01 - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679432.00
+12,"12/18/2024, 1:50:11 PM",0x85,0x02,02,TC-10: Disable Safety DTCs with DTCSettingType 0x02 - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679442.00
+13,"12/18/2024, 1:50:12 PM",0x85,0x02,FF,TC-11: Invalid DTCSettingType (0xFF) - Expect NRC 0x31 (Request Out Of Range),0x85,7F 85 31,NRC,0x31,Request Out of Range,33440679459.00
+14,"12/18/2024, 1:50:13 PM",0x85,0x02,0A,TC-12: Unsupported DTCSettingType (0x0A) - Expect NRC 0x31 (Request Out Of Range),0x85,7F 85 31,NRC,0x31,Request Out of Range,33440679479.00
+15,"12/18/2024, 1:50:14 PM",0x10,0x02,,[SETUP] Switch to PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33440679500.00
+16,"12/18/2024, 1:50:15 PM",0x85,0x02,,TC-13: Disable DTC in PROGRAMMING Session - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679531.00
+17,"12/18/2024, 1:50:16 PM",0x10,0x01,,[FINAL] Reset to Default Session (DTC recording auto-resets to ON),0x10,50 01 00 32 01 F4,Success,,,33440679552.00
+18,"12/18/2024, 1:50:17 PM",0x10,0x03,,[SERVICE INTERACTION] TC-14: Setup - Enter EXTENDED Session for auto-reset test,0x10,50 03 00 64 01 F4,Success,,,33440679572.00
+19,"12/18/2024, 1:50:18 PM",0x85,0x02,,TC-14a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679595.00
+20,"12/18/2024, 1:50:19 PM",0x10,0x01,,TC-14b: Return to DEFAULT Session - DTC recording should auto-reset to ON,0x10,50 01 00 32 01 F4,Success,,,33440679610.00
+21,"12/18/2024, 1:50:20 PM",0x10,0x03,,[SERVICE INTERACTION] TC-15: Setup - Enter EXTENDED Session for Read DTC test,0x10,50 03 00 64 01 F4,Success,,,33440679627.00
+22,"12/18/2024, 1:50:21 PM",0x85,0x02,,TC-15a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679652.00
+23,"12/18/2024, 1:50:22 PM",0x19,0x02,FF,TC-15b: Read DTCs (0x19 0x02 0xFF) while recording disabled - Should still return existing DTCs,0x19,59 02 FF 01 01 01 AB 01 01 71 24 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 00 45 24 02 12 34 28 03 00 56 24 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 00 24 04 01 21 24 04 01 55 28,Success,,,33440679665.00
+24,"12/18/2024, 1:50:23 PM",0x85,0x01,,TC-15c: Re-enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679706.00
+25,"12/18/2024, 1:50:24 PM",0x10,0x03,,[SERVICE INTERACTION] TC-16: Setup - Enter EXTENDED Session for Clear DTC test,0x10,50 03 00 64 01 F4,Success,,,33440679741.00
+26,"12/18/2024, 1:50:25 PM",0x85,0x02,,TC-16a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679774.00
+27,"12/18/2024, 1:50:26 PM",0x14,0x00,FF FF FF,TC-16b: Clear DTCs (0x14 0xFF 0xFF 0xFF) while recording disabled - Should succeed,0x14,54,Success,,,33440679790.00
+28,"12/18/2024, 1:50:27 PM",0x85,0x01,,TC-16c: Re-enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679812.00
+29,"12/18/2024, 1:50:28 PM",0x10,0x03,,[SERVICE INTERACTION] TC-17: Setup - Enter EXTENDED Session for Routine Control test,0x10,50 03 00 64 01 F4,Success,,,33440679835.00
+30,"12/18/2024, 1:50:29 PM",0x85,0x02,,TC-17a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679873.00
+31,"12/18/2024, 1:50:30 PM",0x31,0x01,02 03,TC-17b: Start Routine (0x31 0x01 0x0203) with DTC disabled - Should succeed,0x31,71 01 02 03 00,Success,,,33440679897.00
+32,"12/18/2024, 1:50:31 PM",0x31,0x03,02 03,TC-17c: Get Routine Results (0x31 0x03 0x0203) - Should return results,0x31,71 03 02 03 01 00,Success,,,33440679921.00
+33,"12/18/2024, 1:50:32 PM",0x85,0x01,,TC-17d: Re-enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679964.00
+34,"12/18/2024, 1:50:33 PM",0x10,0x03,,[SERVICE INTERACTION] TC-18: Setup - Enter EXTENDED Session for Security test,0x10,50 03 00 64 01 F4,Success,,,33440680000.00
+35,"12/18/2024, 1:50:34 PM",0x27,0x01,,TC-18a: Request Security Seed (0x27 0x01) - Expect seed response,0x27,67 01 12 34 56 78,Success,,,33440680040.00
+36,"12/18/2024, 1:50:35 PM",0x85,0x02,,TC-18b: Disable DTC Recording after security request - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440680075.00
+37,"12/18/2024, 1:50:36 PM",0x85,0x01,,TC-18c: Re-enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440680118.00
+38,"12/18/2024, 1:50:37 PM",0x10,0x03,,[SERVICE INTERACTION] TC-19: Setup - Enter EXTENDED Session for Tester Present test,0x10,50 03 00 64 01 F4,Success,,,33440680158.00
+39,"12/18/2024, 1:50:38 PM",0x85,0x02,,TC-19a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440680205.00
+40,"12/18/2024, 1:50:39 PM",0x3E,0x80,,"TC-19b: Tester Present with suppress (0x3E 0x80) - Keeps session alive, suppressed response",0x3E,,Success,,,33440680240.00
+41,"12/18/2024, 1:50:40 PM",0x3E,0x00,,TC-19c: Tester Present (0x3E 0x00) - Expect Positive Response 0x7E 0x00,0x3E,00,Success,,,33440680296.00
+42,"12/18/2024, 1:50:41 PM",0x85,0x01,,TC-19d: Re-enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440680341.00
+43,"12/18/2024, 1:50:43 PM",0x10,0x03,,[IDEMPOTENT] TC-20: Setup - Enter EXTENDED Session for idempotent tests,0x10,50 03 00 64 01 F4,Success,,,33440679382.00
+44,"12/18/2024, 1:50:44 PM",0x85,0x01,,TC-20a: Enable DTC (first call) - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679429.00
+45,"12/18/2024, 1:50:45 PM",0x85,0x01,,TC-20b: Enable DTC (second call - idempotent) - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679468.00
+46,"12/18/2024, 1:50:46 PM",0x85,0x01,,TC-20c: Enable DTC (third call - idempotent) - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679510.00
+47,"12/18/2024, 1:50:47 PM",0x85,0x02,,TC-20d: Disable DTC (first call) - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679559.00
+48,"12/18/2024, 1:50:48 PM",0x85,0x02,,TC-20e: Disable DTC (second call - idempotent) - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679609.00
+49,"12/18/2024, 1:50:49 PM",0x85,0x02,,TC-20f: Disable DTC (third call - idempotent) - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440679651.00
+50,"12/18/2024, 1:50:50 PM",0x85,0x01,,TC-20g: Re-enable DTC - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440679696.00
+51,"12/18/2024, 1:50:51 PM",0x10,0x03,,[BOUNDARY] TC-21: Setup - Enter EXTENDED Session for boundary tests,0x10,50 03 00 64 01 F4,Success,,,33440679736.00
+52,"12/18/2024, 1:50:52 PM",0x85,0x03,,TC-21a: Sub-function 0x03 (boundary) - Expect NRC 0x12 (Sub-function Not Supported),0x85,7F 85 12,NRC,0x12,Sub-Function Not Supported,33440679782.00
+53,"12/18/2024, 1:50:53 PM",0x85,0x04,,TC-21b: Sub-function 0x04 (boundary) - Expect NRC 0x12 (Sub-function Not Supported),0x85,7F 85 12,NRC,0x12,Sub-Function Not Supported,33440679825.00
+54,"12/18/2024, 1:50:54 PM",0x85,0x7F,,TC-21c: Sub-function 0x7F (max without suppress) - Expect NRC 0x12 (Sub-function Not Supported),0x85,7F 85 12,NRC,0x12,Sub-Function Not Supported,33440679880.00
+55,"12/18/2024, 1:50:55 PM",0x85,0x02,03,TC-21d: DTCSettingType 0x03 (manufacturer range start) - Expect NRC 0x31 or Success (ECU dependent),0x85,7F 85 31,NRC,0x31,Request Out of Range,33440679921.00
+56,"12/18/2024, 1:50:56 PM",0x85,0x02,7F,TC-21e: DTCSettingType 0x7F (manufacturer range end) - Expect NRC 0x31 or Success,0x85,7F 85 31,NRC,0x31,Request Out of Range,33440679976.00
+57,"12/18/2024, 1:50:57 PM",0x85,0x02,80,TC-21f: DTCSettingType 0x80 (reserved boundary) - Expect NRC 0x31 (Request Out Of Range),0x85,7F 85 31,NRC,0x31,Request Out of Range,33440680022.00
+58,"12/18/2024, 1:50:58 PM",0x85,0x01,,TC-21g: Re-enable DTC - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440680068.00
+59,"12/18/2024, 1:50:59 PM",0x10,0x01,,[ERROR RECOVERY] TC-22: Setup - Reset to DEFAULT Session,0x10,50 01 00 32 01 F4,Success,,,33440680118.00
+60,"12/18/2024, 1:51:00 PM",0x85,0x02,,TC-22a: Try Disable in DEFAULT - Expect NRC 0x7F (simulates error condition),0x85,7F 85 7F,NRC,0x7F,Service Not Supported In Active Session,33440680167.00
+61,"12/18/2024, 1:51:01 PM",0x10,0x03,,TC-22b: Error Recovery - Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33440680217.00
+62,"12/18/2024, 1:51:02 PM",0x85,0x02,,TC-22c: Retry Disable DTC - Expect Positive Response 0xC5 0x02 (error recovery success),0x85,C5 02,Success,,,33440680271.00
+63,"12/18/2024, 1:51:03 PM",0x19,0x02,FF,TC-22d: Verify State - Read DTCs to confirm DTC operations work,0x19,59 02 FF,Success,,,33440680323.00
+64,"12/18/2024, 1:51:04 PM",0x85,0x01,,TC-22e: Complete Recovery - Re-enable DTC,0x85,C5 01,Success,,,33440680374.00
+65,"12/18/2024, 1:51:05 PM",0x10,0x03,,[SUPPRESS EXTENDED] TC-23: Setup - Enter EXTENDED Session,0x10,50 03 00 64 01 F4,Success,,,33440680422.00
+66,"12/18/2024, 1:51:06 PM",0x85,0x81,,TC-23a: Enable with suppress (0x81 = 0x01 + 0x80) - Expect Suppressed Response,0x85,,Success,,,33440680469.00
+67,"12/18/2024, 1:51:07 PM",0x19,0x02,FF,TC-23b: Verify DTC state - Read DTCs confirms recording is enabled,0x19,59 02 FF,Success,,,33440680520.00
+68,"12/18/2024, 1:51:08 PM",0x85,0x82,,TC-23c: Disable with suppress (0x82 = 0x02 + 0x80) - Expect Suppressed Response,0x85,,Success,,,33440680583.00
+69,"12/18/2024, 1:51:09 PM",0x19,0x02,FF,TC-23d: Verify DTC state - Read DTCs confirms operation worked,0x19,59 02 FF,Success,,,33440680634.00
+70,"12/18/2024, 1:51:10 PM",0x85,0x01,,TC-23e: Re-enable DTC - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440680687.00
+71,"12/18/2024, 1:51:11 PM",0x10,0x02,,[PROGRAMMING WORKFLOW] TC-24: Enter PROGRAMMING Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33440680746.00
+72,"12/18/2024, 1:51:12 PM",0x85,0x02,,TC-24a: Disable DTC in PROGRAMMING - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440680799.00
+73,"12/18/2024, 1:51:13 PM",0x27,0x01,,TC-24b: Request Security Seed (0x27 0x01) - Part of programming workflow,0x27,67 01 12 34 56 78,Success,,,33440680855.00
+74,"12/18/2024, 1:51:14 PM",0x3E,0x00,,TC-24c: Tester Present - Maintain session during programming,0x3E,00,Success,,,33440680920.00
+75,"12/18/2024, 1:51:15 PM",0x85,0x01,,TC-24d: Re-enable DTC before exit - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440680982.00
+76,"12/18/2024, 1:51:16 PM",0x10,0x01,,TC-24e: Exit to DEFAULT - DTC auto-reset verification,0x10,50 01 00 32 01 F4,Success,,,33440681045.00
+77,"12/18/2024, 1:51:17 PM",0x10,0x03,,[STATE VERIFY] TC-25: Enter EXTENDED Session for state verification,0x10,50 03 00 64 01 F4,Success,,,33440681098.00
+78,"12/18/2024, 1:51:18 PM",0x85,0x02,,TC-25a: Disable DTC Recording - Expect Positive Response 0xC5 0x02,0x85,C5 02,Success,,,33440681158.00
+79,"12/18/2024, 1:51:19 PM",0x19,0x02,FF,TC-25b: Read DTCs - Verify reading works while disabled,0x19,59 02 FF,Success,,,33440681214.00
+80,"12/18/2024, 1:51:20 PM",0x14,0x00,FF FF FF,TC-25c: Clear DTCs - Verify clearing works while disabled,0x14,54,Success,,,33440681284.00
+81,"12/18/2024, 1:51:21 PM",0x85,0x01,,TC-25d: Enable DTC Recording - Expect Positive Response 0xC5 0x01,0x85,C5 01,Success,,,33440681350.00
+82,"12/18/2024, 1:51:22 PM",0x19,0x02,FF,TC-25e: Read DTCs - Verify reading works when enabled,0x19,59 02 FF,Success,,,33440681411.00
+83,"12/18/2024, 1:51:23 PM",0x10,0x01,,TC-25f: Return to DEFAULT - Auto-reset final verification,0x10,50 01 00 32 01 F4,Success,,,33440681472.00
+84,"12/18/2024, 1:51:24 PM",0x10,0x03,,TC-25g: Re-enter EXTENDED - Verify DTC state was reset to enabled,0x10,50 03 00 64 01 F4,Success,,,33440681535.00
+85,"12/18/2024, 1:51:25 PM",0x85,0x01,,TC-25h: Enable DTC (should already be enabled after auto-reset) - Idempotent verification,0x85,C5 01,Success,,,33440681599.00
+86,"12/18/2024, 1:51:26 PM",0x10,0x01,,[CLEANUP] Final reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33440681667.00

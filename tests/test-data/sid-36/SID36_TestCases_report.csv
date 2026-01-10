@@ -1,6 +1,6 @@
 ﻿Report Information
-Report ID,terminal_report_1767947472587
-Report Name,"Terminal Output Report (1/9/2026, 2:01:12 PM)"
+Report ID,terminal_report_1767981164486
+Report Name,"Terminal Output Report (1/9/2026, 11:22:44 PM)"
 Description,Generated from current terminal session with 187 requests
 Version,1.0.0
 Author,UDS Simulator
@@ -9,209 +9,208 @@ Tags,"terminal, live-session"
 Summary Statistics
 Total Requests,187
 Total Responses,187
-Successful Responses,164
-Negative Responses (NRC),23
-Success Rate (%),87.70
+Successful Responses,175
+Negative Responses (NRC),12
+Success Rate (%),93.58
 Test Duration,3m 7s
 Start Time,"12/18/2024, 4:36:40 PM"
 End Time,"12/18/2024, 4:39:47 PM"
 
 NRC Breakdown
 NRC Code,Description,Count,Percentage (%)
-0x7F,Service Not Supported In Active Session,2,8.70
-0x33,Security Access Denied,2,8.70
-0x24,Request Sequence Error,7,30.43
-0x73,Wrong Block Sequence Counter,6,26.09
-0x13,Incorrect Message Length,2,8.70
-0x70,Upload/Download Not Accepted,4,17.39
+0x7F,Service Not Supported In Active Session,2,16.67
+0x33,Security Access Denied,2,16.67
+0x24,Request Sequence Error,3,25.00
+0x73,Wrong Block Sequence Counter,3,25.00
+0x13,Incorrect Message Length,2,16.67
 
 
 Test Log (Detailed Request/Response Data)
 Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
-1,"12/18/2024, 4:36:40 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33427200304.00
-2,"12/18/2024, 4:36:41 PM",0x36,,01 AA BB,TC-01: Transfer Data in DEFAULT session (no prior download) - Expect NRC 0x7F (Service Not Supported In Active Session),0x36,7F 36 7F,NRC,0x7F,Service Not Supported In Active Session,33427200319.00
-3,"12/18/2024, 4:36:42 PM",0x10,0x01,,[SETUP] Reset for TC-02,0x10,50 01 00 32 01 F4,Success,,,33427200331.00
-4,"12/18/2024, 4:36:43 PM",0x10,0x02,,TC-02.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427200333.00
-5,"12/18/2024, 4:36:44 PM",0x36,,01 AA BB,TC-02.2: Transfer Data without security unlock - Expect NRC 0x33 (Security Access Denied),0x36,7F 36 33,NRC,0x33,Security Access Denied,33427200365.00
-6,"12/18/2024, 4:36:45 PM",0x10,0x01,,[SETUP] Reset for TC-03,0x10,50 01 00 32 01 F4,Success,,,33427200398.00
-7,"12/18/2024, 4:36:46 PM",0x10,0x02,,TC-03.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427200436.00
-8,"12/18/2024, 4:36:47 PM",0x27,0x01,,TC-03.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427200478.00
-9,"12/18/2024, 4:36:48 PM",0x27,0x02,B7 6E A6 77,TC-03.3: Send key to unlock security,0x27,67 02,Success,,,33427200517.00
-10,"12/18/2024, 4:36:49 PM",0x36,,01 AA BB,TC-03.4: Transfer Data without Request Download - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427200564.00
-11,"12/18/2024, 4:36:50 PM",0x10,0x01,,[SETUP] Reset for TC-04,0x10,50 01 00 32 01 F4,Success,,,33427200606.00
-12,"12/18/2024, 4:36:51 PM",0x10,0x02,,TC-04.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427200647.00
-13,"12/18/2024, 4:36:52 PM",0x27,0x01,,TC-04.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427200693.00
-14,"12/18/2024, 4:36:53 PM",0x27,0x02,B7 6E A6 77,TC-04.3: Send key,0x27,67 02,Success,,,33427200740.00
-15,"12/18/2024, 4:36:54 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-04.4: Request Download: Addr=0x00100000, Size=0x1000",0x34,74 20 10 00,Success,,,33427200787.00
-16,"12/18/2024, 4:36:55 PM",0x36,,01 AA BB CC DD,TC-04.5: Transfer Block 1 (BSC=0x01) - Expect Success (0x76 0x01),0x36,76 01,Success,,,33427200834.00
-17,"12/18/2024, 4:36:56 PM",0x37,,,TC-04.6: Request Transfer Exit,0x37,77,Success,,,33427200889.00
-18,"12/18/2024, 4:36:57 PM",0x10,0x01,,[SETUP] Reset for TC-05,0x10,50 01 00 32 01 F4,Success,,,33427200938.00
-19,"12/18/2024, 4:36:58 PM",0x10,0x02,,TC-05.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427200992.00
-20,"12/18/2024, 4:36:59 PM",0x27,0x01,,TC-05.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427201046.00
-21,"12/18/2024, 4:37:00 PM",0x27,0x02,B7 6E A6 77,TC-05.3: Send key,0x27,67 02,Success,,,33427201104.00
-22,"12/18/2024, 4:37:01 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-05.4: Request Download,0x34,74 20 10 00,Success,,,33427201163.00
-23,"12/18/2024, 4:37:02 PM",0x36,,01 AA BB CC DD,TC-05.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33427201226.00
-24,"12/18/2024, 4:37:03 PM",0x36,,02 11 22 33 44,TC-05.6: Transfer Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33427201292.00
-25,"12/18/2024, 4:37:04 PM",0x36,,03 55 66 77 88,TC-05.7: Transfer Block 3 (BSC=0x03) - Success (Multiple Block Transfer),0x36,76 03,Success,,,33427201355.00
-26,"12/18/2024, 4:37:05 PM",0x37,,,TC-05.8: Request Transfer Exit,0x37,77,Success,,,33427201429.00
-27,"12/18/2024, 4:37:06 PM",0x10,0x01,,[SETUP] Reset for TC-06,0x10,50 01 00 32 01 F4,Success,,,33427201492.00
-28,"12/18/2024, 4:37:07 PM",0x10,0x02,,TC-06.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427201557.00
-29,"12/18/2024, 4:37:08 PM",0x27,0x01,,TC-06.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427201623.00
-30,"12/18/2024, 4:37:09 PM",0x27,0x02,B7 6E A6 77,TC-06.3: Send key,0x27,67 02,Success,,,33427201696.00
-31,"12/18/2024, 4:37:10 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-06.4: Request Download,0x34,74 20 10 00,Success,,,33427201776.00
-32,"12/18/2024, 4:37:11 PM",0x36,,01 AA BB,TC-06.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33427201854.00
-33,"12/18/2024, 4:37:12 PM",0x36,,03 CC DD,"TC-06.6: Skip BSC 2, send BSC 3 - Expect NRC 0x73 (Wrong Block Sequence Counter)",0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427201932.00
-34,"12/18/2024, 4:37:13 PM",0x37,,,TC-06.7: Request Transfer Exit (cleanup),0x37,77,Success,,,33427202014.00
-35,"12/18/2024, 4:37:14 PM",0x10,0x01,,[SETUP] Reset for TC-07,0x10,50 01 00 32 01 F4,Success,,,33427202093.00
-36,"12/18/2024, 4:37:15 PM",0x10,0x02,,TC-07.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427202168.00
-37,"12/18/2024, 4:37:16 PM",0x27,0x01,,TC-07.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427202257.00
-38,"12/18/2024, 4:37:17 PM",0x27,0x02,B7 6E A6 77,TC-07.3: Send key,0x27,67 02,Success,,,33427202338.00
-39,"12/18/2024, 4:37:18 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-07.4: Request Download,0x34,74 20 10 00,Success,,,33427202424.00
-40,"12/18/2024, 4:37:19 PM",0x36,,01 AA BB,TC-07.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33427202509.00
-41,"12/18/2024, 4:37:20 PM",0x36,,02 CC DD,TC-07.6: Transfer Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33427202599.00
-42,"12/18/2024, 4:37:21 PM",0x36,,02 EE FF,TC-07.7: Repeat BSC 2 - Expect NRC 0x73 (Wrong Block Sequence Counter),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427202691.00
-43,"12/18/2024, 4:37:22 PM",0x37,,,TC-07.8: Request Transfer Exit (cleanup),0x37,77,Success,,,33427202787.00
-44,"12/18/2024, 4:37:23 PM",0x10,0x01,,[SETUP] Reset for TC-08,0x10,50 01 00 32 01 F4,Success,,,33427202878.00
-45,"12/18/2024, 4:37:24 PM",0x10,0x02,,TC-08.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427203007.00
-46,"12/18/2024, 4:37:25 PM",0x27,0x01,,TC-08.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427203097.00
-47,"12/18/2024, 4:37:26 PM",0x27,0x02,B7 6E A6 77,TC-08.3: Send key,0x27,67 02,Success,,,33427203191.00
-48,"12/18/2024, 4:37:27 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-08.4: Request Download,0x34,74 20 10 00,Success,,,33427203285.00
-49,"12/18/2024, 4:37:28 PM",0x36,,,TC-08.5: Transfer Data without BSC (empty data) - Expect NRC 0x13 (Incorrect Message Length),0x36,7F 36 13,NRC,0x13,Incorrect Message Length,33427203382.00
-50,"12/18/2024, 4:37:29 PM",0x37,,,TC-08.6: Request Transfer Exit (cleanup),0x37,77,Success,,,33427203477.00
-51,"12/18/2024, 4:37:30 PM",0x10,0x01,,[SETUP] Reset for TC-09,0x10,50 01 00 32 01 F4,Success,,,33427203578.00
-52,"12/18/2024, 4:37:31 PM",0x10,0x02,,TC-09.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427203679.00
-53,"12/18/2024, 4:37:32 PM",0x27,0x01,,TC-09.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427203781.00
-54,"12/18/2024, 4:37:33 PM",0x27,0x02,B7 6E A6 77,TC-09.3: Send key,0x27,67 02,Success,,,33427203891.00
-55,"12/18/2024, 4:37:34 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-09.4: Request Download,0x34,74 20 10 00,Success,,,33427204016.00
-56,"12/18/2024, 4:37:35 PM",0x36,,01,TC-09.5: Transfer Data with BSC only (no data bytes) - Expect NRC 0x13 (Incorrect Message Length),0x36,7F 36 13,NRC,0x13,Incorrect Message Length,33427204126.00
-57,"12/18/2024, 4:37:36 PM",0x37,,,TC-09.6: Request Transfer Exit (cleanup),0x37,77,Success,,,33427204237.00
-58,"12/18/2024, 4:37:37 PM",0x10,0x01,,[SETUP] Reset for TC-10,0x10,50 01 00 32 01 F4,Success,,,33427204351.00
-59,"12/18/2024, 4:37:38 PM",0x10,0x03,,TC-10.1: Enter EXTENDED session (alternative to PROGRAMMING),0x10,50 03 00 64 01 F4,Success,,,33427204462.00
-60,"12/18/2024, 4:37:39 PM",0x27,0x01,,TC-10.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427204584.00
-61,"12/18/2024, 4:37:40 PM",0x27,0x02,B7 6E A6 77,TC-10.3: Send key,0x27,67 02,Success,,,33427204710.00
-62,"12/18/2024, 4:37:41 PM",0x35,,00 44 00 10 00 00 00 00 08 00,"TC-10.4: Request Upload: Addr=0x00100000, Size=0x0800",0x35,7F 35 70,NRC,0x70,Upload/Download Not Accepted,33427204830.00
-63,"12/18/2024, 4:37:42 PM",0x36,,01 00 00,TC-10.5: Transfer Data in EXTENDED session (after Request Upload) - Expect Success (0x76 0x01),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427205025.00
-64,"12/18/2024, 4:37:43 PM",0x37,,,TC-10.6: Request Transfer Exit,0x37,7F 37 70,NRC,0x70,Upload/Download Not Accepted,33427205153.00
-65,"12/18/2024, 4:37:44 PM",0x10,0x01,,[SETUP] Reset for TC-11,0x10,50 01 00 32 01 F4,Success,,,33427205268.00
-66,"12/18/2024, 4:37:45 PM",0x36,,01 AA BB,TC-11: Transfer Data in DEFAULT session - Expect NRC 0x7F (Service Not Supported In Active Session),0x36,7F 36 7F,NRC,0x7F,Service Not Supported In Active Session,33427205382.00
-67,"12/18/2024, 4:37:46 PM",0x10,0x01,,[SETUP] Reset for TC-12,0x10,50 01 00 32 01 F4,Success,,,33427205512.00
-68,"12/18/2024, 4:37:47 PM",0x10,0x02,,TC-12.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427205635.00
-69,"12/18/2024, 4:37:48 PM",0x27,0x01,,TC-12.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427205767.00
-70,"12/18/2024, 4:37:49 PM",0x27,0x02,B7 6E A6 77,TC-12.3: Send key,0x27,67 02,Success,,,33427205901.00
-71,"12/18/2024, 4:37:50 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-12.4: Request Download,0x34,74 20 10 00,Success,,,33427206030.00
-72,"12/18/2024, 4:37:51 PM",0x36,,01 AA BB,TC-12.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33427206162.00
-73,"12/18/2024, 4:37:52 PM",0x37,,,TC-12.6: Request Transfer Exit,0x37,77,Success,,,33427206277.00
-74,"12/18/2024, 4:37:53 PM",0x36,,01 CC DD,TC-12.7: Transfer Data after Transfer Exit - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427206395.00
-75,"12/18/2024, 4:37:54 PM",0x10,0x01,,[SETUP] Reset for TC-13,0x10,50 01 00 32 01 F4,Success,,,33427206508.00
-76,"12/18/2024, 4:37:55 PM",0x10,0x02,,TC-13.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427206623.00
-77,"12/18/2024, 4:37:56 PM",0x27,0x01,,TC-13.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427206756.00
-78,"12/18/2024, 4:37:57 PM",0x27,0x02,B7 6E A6 77,TC-13.3: Send key,0x27,67 02,Success,,,33427206894.00
-79,"12/18/2024, 4:37:58 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-13.4: Request Download,0x34,74 20 10 00,Success,,,33427207032.00
-80,"12/18/2024, 4:37:59 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66 77 88,TC-13.5: Transfer Block 1 with large payload (14 data bytes) - Success (tests block length validation),0x36,76 01,Success,,,33427207182.00
-81,"12/18/2024, 4:38:00 PM",0x37,,,TC-13.6: Request Transfer Exit,0x37,77,Success,,,33427207311.00
-82,"12/18/2024, 4:38:01 PM",0x10,0x01,,[SETUP] Reset for TC-14,0x10,50 01 00 32 01 F4,Success,,,33427207443.00
-83,"12/18/2024, 4:38:02 PM",0x10,0x02,,TC-14.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427207571.00
-84,"12/18/2024, 4:38:03 PM",0x27,0x01,,TC-14.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427207703.00
-85,"12/18/2024, 4:38:04 PM",0x27,0x02,B7 6E A6 77,TC-14.3: Send key,0x27,67 02,Success,,,33427207923.00
-86,"12/18/2024, 4:38:05 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-14.4: Request Download,0x34,74 20 10 00,Success,,,33427208383.00
-87,"12/18/2024, 4:38:06 PM",0x36,,01 AA BB CC DD,TC-14.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33427208934.00
-88,"12/18/2024, 4:38:07 PM",0x36,,02 11 22 33 44,TC-14.6: Transfer Block 2 - Success,0x36,76 02,Success,,,33427209939.00
-89,"12/18/2024, 4:38:08 PM",0x36,,03 55 66 77 88,TC-14.7: Transfer Block 3 - Success,0x36,76 03,Success,,,33427210925.00
-90,"12/18/2024, 4:38:09 PM",0x36,,04 99 AA BB CC,TC-14.8: Transfer Block 4 - Complete Download Workflow Test,0x36,76 04,Success,,,33427212926.00
-91,"12/18/2024, 4:38:10 PM",0x37,,,TC-14.9: Request Transfer Exit - Successful download complete,0x37,77,Success,,,33427214817.00
-92,"12/18/2024, 4:38:12 PM",0x10,0x01,,[SETUP] Reset for TC-15 (Voltage Too Low),0x10,50 01 00 32 01 F4,Success,,,33427214049.00
-93,"12/18/2024, 4:38:13 PM",0x10,0x02,,TC-15.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427214192.00
-94,"12/18/2024, 4:38:14 PM",0x27,0x01,,TC-15.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427214339.00
-95,"12/18/2024, 4:38:15 PM",0x27,0x02,B7 6E A6 77,TC-15.3: Send key to unlock security,0x27,67 02,Success,,,33427214495.00
-96,"12/18/2024, 4:38:16 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-15.4: Request Download: Addr=0x00100000, Size=0x1000",0x34,74 20 10 00,Success,,,33427214663.00
-97,"12/18/2024, 4:38:17 PM",0x36,,01 AA BB CC DD,TC-15.5: Transfer Data with LOW VOLTAGE (10.5V < 11.0V) - Expect NRC 0x93 (Voltage Too Low),0x36,76 01,Success,,,33427214821.00
-98,"12/18/2024, 4:38:18 PM",0x10,0x01,,[SETUP] Reset for TC-16 (Voltage Too High),0x10,50 01 00 32 01 F4,Success,,,33427215051.00
-99,"12/18/2024, 4:38:19 PM",0x10,0x02,,TC-16.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427215182.00
-100,"12/18/2024, 4:38:20 PM",0x27,0x01,,TC-16.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427215285.00
-101,"12/18/2024, 4:38:21 PM",0x27,0x02,B7 6E A6 77,TC-16.3: Send key to unlock security,0x27,67 02,Success,,,33427215451.00
-102,"12/18/2024, 4:38:22 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-16.4: Request Download,0x34,74 20 10 00,Success,,,33427215612.00
-103,"12/18/2024, 4:38:23 PM",0x36,,01 AA BB CC DD,TC-16.5: Transfer Data with HIGH VOLTAGE (16.5V > 15.5V) - Expect NRC 0x92 (Voltage Too High),0x36,76 01,Success,,,33427215783.00
-104,"12/18/2024, 4:38:24 PM",0x10,0x01,,[SETUP] Reset for TC-17 (Voltage Recovery),0x10,50 01 00 32 01 F4,Success,,,33427215932.00
-105,"12/18/2024, 4:38:25 PM",0x10,0x02,,TC-17.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427216098.00
-106,"12/18/2024, 4:38:26 PM",0x27,0x01,,TC-17.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427216230.00
-107,"12/18/2024, 4:38:27 PM",0x27,0x02,B7 6E A6 77,TC-17.3: Send key,0x27,67 02,Success,,,33427216360.00
-108,"12/18/2024, 4:38:28 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-17.4: Request Download,0x34,74 20 10 00,Success,,,33427216538.00
-109,"12/18/2024, 4:38:29 PM",0x36,,01 AA BB CC DD,TC-17.5: Transfer Block 1 at NORMAL VOLTAGE (12.5V) - Success,0x36,76 01,Success,,,33427216699.00
-110,"12/18/2024, 4:38:30 PM",0x36,,02 11 22 33 44,TC-17.6: Transfer Block 2 at LOW VOLTAGE (10.2V) - Expect NRC 0x93,0x36,76 02,Success,,,33427216891.00
-111,"12/18/2024, 4:38:31 PM",0x36,,02 11 22 33 44,TC-17.7: RETRY Block 2 after VOLTAGE RECOVERY (12.5V) - Expect Success (Recoverable Error Pattern),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427217061.00
-112,"12/18/2024, 4:38:32 PM",0x37,,,TC-17.8: Request Transfer Exit,0x37,77,Success,,,33427217177.00
-113,"12/18/2024, 4:38:33 PM",0x10,0x01,,[SETUP] Reset for TC-18 (BSC Wrap-Around),0x10,50 01 00 32 01 F4,Success,,,33427217297.00
-114,"12/18/2024, 4:38:34 PM",0x10,0x02,,TC-18.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427217478.00
-115,"12/18/2024, 4:38:35 PM",0x27,0x01,,TC-18.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427217676.00
-116,"12/18/2024, 4:38:36 PM",0x27,0x02,B7 6E A6 77,TC-18.3: Send key,0x27,67 02,Success,,,33427217867.00
-117,"12/18/2024, 4:38:37 PM",0x34,,00 44 00 10 00 00 00 01 00 00,TC-18.4: Request Download for LARGE transfer (0x10000 bytes = 256+ blocks for wrap test),0x34,74 20 10 00,Success,,,33427218061.00
-118,"12/18/2024, 4:38:38 PM",0x36,,FE AA BB CC DD,TC-18.5: Transfer Block with BSC=0xFE (254) - Success (Simulating near wrap),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427218209.00
-119,"12/18/2024, 4:38:39 PM",0x36,,FF 11 22 33 44,TC-18.6: Transfer Block with BSC=0xFF (255) - Success (Last before wrap),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427219110.00
-120,"12/18/2024, 4:38:40 PM",0x36,,01 55 66 77 88,TC-18.7: Transfer Block with BSC=0x01 AFTER WRAP (256th block) - Expect Success (BSC wraps 0xFF→0x01),0x36,76 01,Success,,,33427220066.00
-121,"12/18/2024, 4:38:41 PM",0x36,,00 99 AA BB CC,TC-18.8: INVALID BSC=0x00 (should NEVER be used) - Expect NRC 0x73 (Wrong BSC),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33427222494.00
-122,"12/18/2024, 4:38:42 PM",0x37,,,TC-18.9: Request Transfer Exit,0x37,77,Success,,,33427223924.00
-123,"12/18/2024, 4:38:43 PM",0x10,0x01,,[SETUP] Reset for TC-19 (Out of Range),0x10,50 01 00 32 01 F4,Success,,,33427225924.00
-124,"12/18/2024, 4:38:44 PM",0x10,0x02,,TC-19.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427228068.00
-125,"12/18/2024, 4:38:45 PM",0x27,0x01,,TC-19.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427230066.00
-126,"12/18/2024, 4:38:46 PM",0x27,0x02,B7 6E A6 77,TC-19.3: Send key,0x27,67 02,Success,,,33427231086.00
-127,"12/18/2024, 4:38:47 PM",0x34,,00 44 00 10 00 00 00 00 00 10,TC-19.4: Request Download for SMALL area (16 bytes only),0x34,74 20 10 00,Success,,,33427232923.00
-128,"12/18/2024, 4:38:48 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66 77 88 99 AA,TC-19.5: Transfer exactly 16 bytes in Block 1 - Success,0x36,76 01,Success,,,33427234133.00
-129,"12/18/2024, 4:38:49 PM",0x36,,02 BB CC DD EE,TC-19.6: Transfer Block 2 EXCEEDS requested memory size - Expect NRC 0x31 (Request Out Of Range),0x36,76 02,Success,,,33427235936.00
-130,"12/18/2024, 4:38:50 PM",0x37,,,TC-19.7: Request Transfer Exit,0x37,77,Success,,,33427236940.00
-131,"12/18/2024, 4:38:51 PM",0x10,0x01,,[SETUP] Reset for TC-20 (Upload Workflow),0x10,50 01 00 32 01 F4,Success,,,33427238094.00
-132,"12/18/2024, 4:38:52 PM",0x10,0x03,,TC-20.1: Enter EXTENDED session (Upload allowed in Extended),0x10,50 03 00 64 01 F4,Success,,,33427239166.00
-133,"12/18/2024, 4:38:53 PM",0x27,0x01,,TC-20.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427240101.00
-134,"12/18/2024, 4:38:54 PM",0x27,0x02,B7 6E A6 77,TC-20.3: Send key,0x27,67 02,Success,,,33427241934.00
-135,"12/18/2024, 4:38:55 PM",0x35,,00 44 00 10 00 00 00 00 10 00,TC-20.4: REQUEST UPLOAD (SID 0x35): Read 0x1000 bytes from Addr=0x00100000,0x35,7F 35 70,NRC,0x70,Upload/Download Not Accepted,33427243155.00
-136,"12/18/2024, 4:38:56 PM",0x36,,01,"TC-20.5: Transfer Data UPLOAD Block 1 (BSC only, ECU returns data) - Expect Success 0x76 01 + data",0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427244092.00
-137,"12/18/2024, 4:38:57 PM",0x36,,02,TC-20.6: Transfer Data UPLOAD Block 2 - Expect Success 0x76 02 + data,0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427245934.00
-138,"12/18/2024, 4:38:58 PM",0x36,,03,TC-20.7: Transfer Data UPLOAD Block 3 - Expect Success 0x76 03 + data,0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427247173.00
-139,"12/18/2024, 4:38:59 PM",0x37,,,TC-20.8: Request Transfer Exit - Upload Complete,0x37,7F 37 70,NRC,0x70,Upload/Download Not Accepted,33427248117.00
-140,"12/18/2024, 4:39:00 PM",0x10,0x01,,[SETUP] Reset for TC-21 (Multi-Region Flash),0x10,50 01 00 32 01 F4,Success,,,33427249222.00
-141,"12/18/2024, 4:39:01 PM",0x10,0x02,,TC-21.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427250135.00
-142,"12/18/2024, 4:39:02 PM",0x27,0x01,,TC-21.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427251245.00
-143,"12/18/2024, 4:39:03 PM",0x27,0x02,B7 6E A6 77,TC-21.3: Send key,0x27,67 02,Success,,,33427252106.00
-144,"12/18/2024, 4:39:04 PM",0x34,,00 44 00 10 00 00 00 00 08 00,"TC-21.4: Request Download REGION 1 (Application): Addr=0x00100000, Size=0x0800",0x34,74 20 10 00,Success,,,33427252936.00
-145,"12/18/2024, 4:39:05 PM",0x36,,01 AA BB CC DD,TC-21.5: REGION 1 Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33427253274.00
-146,"12/18/2024, 4:39:06 PM",0x36,,02 11 22 33 44,TC-21.6: REGION 1 Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33427253456.00
-147,"12/18/2024, 4:39:07 PM",0x37,,,TC-21.7: Request Transfer Exit - REGION 1 Complete,0x37,77,Success,,,33427253633.00
-148,"12/18/2024, 4:39:08 PM",0x34,,00 44 00 20 00 00 00 00 08 00,"TC-21.8: Request Download REGION 2 (Calibration): Addr=0x00200000, Size=0x0800",0x34,74 20 10 00,Success,,,33427253869.00
-149,"12/18/2024, 4:39:09 PM",0x36,,01 55 66 77 88,TC-21.9: REGION 2 Block 1 (BSC RESETS to 0x01) - Success (BSC restarts per region),0x36,76 01,Success,,,33427254085.00
-150,"12/18/2024, 4:39:10 PM",0x36,,02 99 AA BB CC,TC-21.10: REGION 2 Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33427254310.00
-151,"12/18/2024, 4:39:11 PM",0x37,,,TC-21.11: Request Transfer Exit - REGION 2 Complete (Multi-Region Flash Success),0x37,77,Success,,,33427254561.00
-152,"12/18/2024, 4:39:12 PM",0x10,0x01,,[SETUP] Reset for TC-22 (Tester Present),0x10,50 01 00 32 01 F4,Success,,,33427254787.00
-153,"12/18/2024, 4:39:13 PM",0x10,0x02,,TC-22.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427255091.00
-154,"12/18/2024, 4:39:14 PM",0x27,0x01,,TC-22.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427255244.00
-155,"12/18/2024, 4:39:15 PM",0x27,0x02,B7 6E A6 77,TC-22.3: Send key,0x27,67 02,Success,,,33427255403.00
-156,"12/18/2024, 4:39:16 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-22.4: Request Download,0x34,74 20 10 00,Success,,,33427255545.00
-157,"12/18/2024, 4:39:17 PM",0x36,,01 AA BB CC DD,TC-22.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33427255759.00
-158,"12/18/2024, 4:39:18 PM",0x3E,0x00,,TC-22.6: TESTER PRESENT (SID 0x3E) during long transfer - Keep session alive,0x3E,00,Success,,,33427256090.00
-159,"12/18/2024, 4:39:19 PM",0x36,,02 11 22 33 44,TC-22.7: Transfer Block 2 AFTER Tester Present - Success (Session maintained),0x36,76 02,Success,,,33427256327.00
-160,"12/18/2024, 4:39:20 PM",0x3E,0x00,,TC-22.8: TESTER PRESENT again - Keep session alive,0x3E,00,Success,,,33427256571.00
-161,"12/18/2024, 4:39:21 PM",0x36,,03 55 66 77 88,TC-22.9: Transfer Block 3 - Success,0x36,76 03,Success,,,33427256808.00
-162,"12/18/2024, 4:39:22 PM",0x37,,,TC-22.10: Request Transfer Exit - Long Transfer with Keep-Alive Complete,0x37,77,Success,,,33427257079.00
-163,"12/18/2024, 4:39:23 PM",0x10,0x01,,[SETUP] Reset for TC-23 (Partial Last Block),0x10,50 01 00 32 01 F4,Success,,,33427257256.00
-164,"12/18/2024, 4:39:24 PM",0x10,0x02,,TC-23.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427257483.00
-165,"12/18/2024, 4:39:25 PM",0x27,0x01,,TC-23.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427257736.00
-166,"12/18/2024, 4:39:26 PM",0x27,0x02,B7 6E A6 77,TC-23.3: Send key,0x27,67 02,Success,,,33427259149.00
-167,"12/18/2024, 4:39:27 PM",0x34,,00 44 00 10 00 00 00 00 00 0C,TC-23.4: Request Download for NON-ALIGNED size (12 bytes - not multiple of block),0x34,74 20 10 00,Success,,,33427260924.00
-168,"12/18/2024, 4:39:28 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66,TC-23.5: Transfer PARTIAL LAST BLOCK (12 bytes < max block size) - Expect Success,0x36,76 01,Success,,,33427261926.00
-169,"12/18/2024, 4:39:29 PM",0x37,,,TC-23.6: Request Transfer Exit - Partial Block Transfer Complete,0x37,77,Success,,,33427263128.00
-170,"12/18/2024, 4:39:30 PM",0x10,0x01,,[SETUP] Reset for TC-24 (Transfer After Exit Without New Request),0x10,50 01 00 32 01 F4,Success,,,33427264919.00
-171,"12/18/2024, 4:39:31 PM",0x10,0x02,,TC-24.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427265924.00
-172,"12/18/2024, 4:39:32 PM",0x27,0x01,,TC-24.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427266923.00
-173,"12/18/2024, 4:39:33 PM",0x27,0x02,B7 6E A6 77,TC-24.3: Send key,0x27,67 02,Success,,,33427268141.00
-174,"12/18/2024, 4:39:34 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-24.4: Request Download,0x34,74 20 10 00,Success,,,33427269919.00
-175,"12/18/2024, 4:39:35 PM",0x36,,01 AA BB CC DD,TC-24.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33427271932.00
-176,"12/18/2024, 4:39:36 PM",0x37,,,TC-24.6: Request Transfer Exit - Complete,0x37,77,Success,,,33427273177.00
-177,"12/18/2024, 4:39:37 PM",0x36,,01 AA BB CC DD,TC-24.7: Transfer Data WITHOUT new Request Download - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33427274156.00
-178,"12/18/2024, 4:39:38 PM",0x10,0x01,,[SETUP] Reset for TC-25 (Security Re-lock Edge Case),0x10,50 01 00 32 01 F4,Success,,,33427275179.00
-179,"12/18/2024, 4:39:39 PM",0x10,0x02,,TC-25.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33427276929.00
-180,"12/18/2024, 4:39:40 PM",0x27,0x01,,TC-25.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33427278929.00
-181,"12/18/2024, 4:39:41 PM",0x27,0x02,B7 6E A6 77,TC-25.3: Send key - Security unlocked,0x27,67 02,Success,,,33427280283.00
-182,"12/18/2024, 4:39:42 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-25.4: Request Download,0x34,74 20 10 00,Success,,,33427280930.00
-183,"12/18/2024, 4:39:43 PM",0x36,,01 AA BB CC DD,TC-25.5: Transfer Block 1 while security unlocked - Success,0x36,76 01,Success,,,33427281184.00
-184,"12/18/2024, 4:39:44 PM",0x10,0x01,,TC-25.6: SESSION RESET (causes security to RE-LOCK),0x10,50 01 00 32 01 F4,Success,,,33427281382.00
-185,"12/18/2024, 4:39:45 PM",0x10,0x02,,TC-25.7: Re-enter PROGRAMMING session (security now LOCKED),0x10,50 02 00 32 01 F4,Success,,,33427281563.00
-186,"12/18/2024, 4:39:46 PM",0x36,,02 11 22 33 44,TC-25.8: Transfer Data with SECURITY RE-LOCKED - Expect NRC 0x33 (Security Access Denied),0x36,7F 36 33,NRC,0x33,Security Access Denied,33427281834.00
-187,"12/18/2024, 4:39:47 PM",0x10,0x01,,[FINAL] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33427282088.00
+1,"12/18/2024, 4:36:40 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33460942747.00
+2,"12/18/2024, 4:36:41 PM",0x36,,01 AA BB,TC-01: Transfer Data in DEFAULT session (no prior download) - Expect NRC 0x7F (Service Not Supported In Active Session),0x36,7F 36 7F,NRC,0x7F,Service Not Supported In Active Session,33460942767.00
+3,"12/18/2024, 4:36:42 PM",0x10,0x01,,[SETUP] Reset for TC-02,0x10,50 01 00 32 01 F4,Success,,,33460942773.00
+4,"12/18/2024, 4:36:43 PM",0x10,0x02,,TC-02.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460942777.00
+5,"12/18/2024, 4:36:44 PM",0x36,,01 AA BB,TC-02.2: Transfer Data without security unlock - Expect NRC 0x33 (Security Access Denied),0x36,7F 36 33,NRC,0x33,Security Access Denied,33460942810.00
+6,"12/18/2024, 4:36:45 PM",0x10,0x01,,[SETUP] Reset for TC-03,0x10,50 01 00 32 01 F4,Success,,,33460942845.00
+7,"12/18/2024, 4:36:46 PM",0x10,0x02,,TC-03.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460942882.00
+8,"12/18/2024, 4:36:47 PM",0x27,0x01,,TC-03.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460942927.00
+9,"12/18/2024, 4:36:48 PM",0x27,0x02,B7 6E A6 77,TC-03.3: Send key to unlock security,0x27,67 02,Success,,,33460942967.00
+10,"12/18/2024, 4:36:49 PM",0x36,,01 AA BB,TC-03.4: Transfer Data without Request Download - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33460943007.00
+11,"12/18/2024, 4:36:50 PM",0x10,0x01,,[SETUP] Reset for TC-04,0x10,50 01 00 32 01 F4,Success,,,33460943047.00
+12,"12/18/2024, 4:36:51 PM",0x10,0x02,,TC-04.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460943096.00
+13,"12/18/2024, 4:36:52 PM",0x27,0x01,,TC-04.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460943144.00
+14,"12/18/2024, 4:36:53 PM",0x27,0x02,B7 6E A6 77,TC-04.3: Send key,0x27,67 02,Success,,,33460943191.00
+15,"12/18/2024, 4:36:54 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-04.4: Request Download: Addr=0x00100000, Size=0x1000",0x34,74 20 10 00,Success,,,33460943247.00
+16,"12/18/2024, 4:36:55 PM",0x36,,01 AA BB CC DD,TC-04.5: Transfer Block 1 (BSC=0x01) - Expect Success (0x76 0x01),0x36,76 01,Success,,,33460943297.00
+17,"12/18/2024, 4:36:56 PM",0x37,,,TC-04.6: Request Transfer Exit,0x37,77,Success,,,33460943349.00
+18,"12/18/2024, 4:36:57 PM",0x10,0x01,,[SETUP] Reset for TC-05,0x10,50 01 00 32 01 F4,Success,,,33460943399.00
+19,"12/18/2024, 4:36:58 PM",0x10,0x02,,TC-05.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460943461.00
+20,"12/18/2024, 4:36:59 PM",0x27,0x01,,TC-05.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460943546.00
+21,"12/18/2024, 4:37:00 PM",0x27,0x02,B7 6E A6 77,TC-05.3: Send key,0x27,67 02,Success,,,33460943609.00
+22,"12/18/2024, 4:37:01 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-05.4: Request Download,0x34,74 20 10 00,Success,,,33460943670.00
+23,"12/18/2024, 4:37:02 PM",0x36,,01 AA BB CC DD,TC-05.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33460943734.00
+24,"12/18/2024, 4:37:03 PM",0x36,,02 11 22 33 44,TC-05.6: Transfer Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33460943799.00
+25,"12/18/2024, 4:37:04 PM",0x36,,03 55 66 77 88,TC-05.7: Transfer Block 3 (BSC=0x03) - Success (Multiple Block Transfer),0x36,76 03,Success,,,33460943861.00
+26,"12/18/2024, 4:37:05 PM",0x37,,,TC-05.8: Request Transfer Exit,0x37,77,Success,,,33460943929.00
+27,"12/18/2024, 4:37:06 PM",0x10,0x01,,[SETUP] Reset for TC-06,0x10,50 01 00 32 01 F4,Success,,,33460943995.00
+28,"12/18/2024, 4:37:07 PM",0x10,0x02,,TC-06.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460944064.00
+29,"12/18/2024, 4:37:08 PM",0x27,0x01,,TC-06.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460944135.00
+30,"12/18/2024, 4:37:09 PM",0x27,0x02,B7 6E A6 77,TC-06.3: Send key,0x27,67 02,Success,,,33460944215.00
+31,"12/18/2024, 4:37:10 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-06.4: Request Download,0x34,74 20 10 00,Success,,,33460944294.00
+32,"12/18/2024, 4:37:11 PM",0x36,,01 AA BB,TC-06.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33460944367.00
+33,"12/18/2024, 4:37:12 PM",0x36,,03 CC DD,"TC-06.6: Skip BSC 2, send BSC 3 - Expect NRC 0x73 (Wrong Block Sequence Counter)",0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33460944442.00
+34,"12/18/2024, 4:37:13 PM",0x37,,,TC-06.7: Request Transfer Exit (cleanup),0x37,77,Success,,,33460944551.00
+35,"12/18/2024, 4:37:14 PM",0x10,0x01,,[SETUP] Reset for TC-07,0x10,50 01 00 32 01 F4,Success,,,33460944781.00
+36,"12/18/2024, 4:37:15 PM",0x10,0x02,,TC-07.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460944870.00
+37,"12/18/2024, 4:37:16 PM",0x27,0x01,,TC-07.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460944949.00
+38,"12/18/2024, 4:37:17 PM",0x27,0x02,B7 6E A6 77,TC-07.3: Send key,0x27,67 02,Success,,,33460945027.00
+39,"12/18/2024, 4:37:18 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-07.4: Request Download,0x34,74 20 10 00,Success,,,33460945113.00
+40,"12/18/2024, 4:37:19 PM",0x36,,01 AA BB,TC-07.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33460945193.00
+41,"12/18/2024, 4:37:20 PM",0x36,,02 CC DD,TC-07.6: Transfer Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33460945273.00
+42,"12/18/2024, 4:37:21 PM",0x36,,02 EE FF,TC-07.7: Repeat BSC 2 - Expect NRC 0x73 (Wrong Block Sequence Counter),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33460945360.00
+43,"12/18/2024, 4:37:22 PM",0x37,,,TC-07.8: Request Transfer Exit (cleanup),0x37,77,Success,,,33460945451.00
+44,"12/18/2024, 4:37:23 PM",0x10,0x01,,[SETUP] Reset for TC-08,0x10,50 01 00 32 01 F4,Success,,,33460945556.00
+45,"12/18/2024, 4:37:24 PM",0x10,0x02,,TC-08.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460945640.00
+46,"12/18/2024, 4:37:25 PM",0x27,0x01,,TC-08.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460945734.00
+47,"12/18/2024, 4:37:26 PM",0x27,0x02,B7 6E A6 77,TC-08.3: Send key,0x27,67 02,Success,,,33460945813.00
+48,"12/18/2024, 4:37:27 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-08.4: Request Download,0x34,74 20 10 00,Success,,,33460945898.00
+49,"12/18/2024, 4:37:28 PM",0x36,,,TC-08.5: Transfer Data without BSC (empty data) - Expect NRC 0x13 (Incorrect Message Length),0x36,7F 36 13,NRC,0x13,Incorrect Message Length,33460945991.00
+50,"12/18/2024, 4:37:29 PM",0x37,,,TC-08.6: Request Transfer Exit (cleanup),0x37,77,Success,,,33460946078.00
+51,"12/18/2024, 4:37:30 PM",0x10,0x01,,[SETUP] Reset for TC-09,0x10,50 01 00 32 01 F4,Success,,,33460946172.00
+52,"12/18/2024, 4:37:31 PM",0x10,0x02,,TC-09.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460946262.00
+53,"12/18/2024, 4:37:32 PM",0x27,0x01,,TC-09.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460946360.00
+54,"12/18/2024, 4:37:33 PM",0x27,0x02,B7 6E A6 77,TC-09.3: Send key,0x27,67 02,Success,,,33460946458.00
+55,"12/18/2024, 4:37:34 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-09.4: Request Download,0x34,74 20 10 00,Success,,,33460946561.00
+56,"12/18/2024, 4:37:35 PM",0x36,,01,TC-09.5: Transfer Data with BSC only (no data bytes) - Expect NRC 0x13 (Incorrect Message Length),0x36,7F 36 13,NRC,0x13,Incorrect Message Length,33460946644.00
+57,"12/18/2024, 4:37:36 PM",0x37,,,TC-09.6: Request Transfer Exit (cleanup),0x37,77,Success,,,33460946733.00
+58,"12/18/2024, 4:37:37 PM",0x10,0x01,,[SETUP] Reset for TC-10,0x10,50 01 00 32 01 F4,Success,,,33460946821.00
+59,"12/18/2024, 4:37:38 PM",0x10,0x02,,TC-10.1: Enter PROGRAMMING session (Upload requires PROGRAMMING),0x10,50 02 00 32 01 F4,Success,,,33460946908.00
+60,"12/18/2024, 4:37:39 PM",0x27,0x01,,TC-10.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460946995.00
+61,"12/18/2024, 4:37:40 PM",0x27,0x02,B7 6E A6 77,TC-10.3: Send key,0x27,67 02,Success,,,33460947099.00
+62,"12/18/2024, 4:37:41 PM",0x35,,00 44 00 10 00 00 00 00 08 00,"TC-10.4: Request Upload: Addr=0x00100000, Size=0x0800",0x35,75 20 10 00,Success,,,33460947205.00
+63,"12/18/2024, 4:37:42 PM",0x36,,01 00 00,TC-10.5: Transfer Data in EXTENDED session (after Request Upload) - Expect Success (0x76 0x01),0x36,76 01 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F,Success,,,33460947321.00
+64,"12/18/2024, 4:37:43 PM",0x37,,,TC-10.6: Request Transfer Exit,0x37,77,Success,,,33460947438.00
+65,"12/18/2024, 4:37:44 PM",0x10,0x01,,[SETUP] Reset for TC-11,0x10,50 01 00 32 01 F4,Success,,,33460947534.00
+66,"12/18/2024, 4:37:45 PM",0x36,,01 AA BB,TC-11: Transfer Data in DEFAULT session - Expect NRC 0x7F (Service Not Supported In Active Session),0x36,7F 36 7F,NRC,0x7F,Service Not Supported In Active Session,33460947616.00
+67,"12/18/2024, 4:37:46 PM",0x10,0x01,,[SETUP] Reset for TC-12,0x10,50 01 00 32 01 F4,Success,,,33460947703.00
+68,"12/18/2024, 4:37:47 PM",0x10,0x02,,TC-12.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460947777.00
+69,"12/18/2024, 4:37:48 PM",0x27,0x01,,TC-12.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460947859.00
+70,"12/18/2024, 4:37:49 PM",0x27,0x02,B7 6E A6 77,TC-12.3: Send key,0x27,67 02,Success,,,33460947942.00
+71,"12/18/2024, 4:37:50 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-12.4: Request Download,0x34,74 20 10 00,Success,,,33460948020.00
+72,"12/18/2024, 4:37:51 PM",0x36,,01 AA BB,TC-12.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33460948098.00
+73,"12/18/2024, 4:37:52 PM",0x37,,,TC-12.6: Request Transfer Exit,0x37,77,Success,,,33460948178.00
+74,"12/18/2024, 4:37:53 PM",0x36,,01 CC DD,TC-12.7: Transfer Data after Transfer Exit - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33460948259.00
+75,"12/18/2024, 4:37:54 PM",0x10,0x01,,[SETUP] Reset for TC-13,0x10,50 01 00 32 01 F4,Success,,,33460948347.00
+76,"12/18/2024, 4:37:55 PM",0x10,0x02,,TC-13.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460948437.00
+77,"12/18/2024, 4:37:56 PM",0x27,0x01,,TC-13.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460948536.00
+78,"12/18/2024, 4:37:57 PM",0x27,0x02,B7 6E A6 77,TC-13.3: Send key,0x27,67 02,Success,,,33460948629.00
+79,"12/18/2024, 4:37:58 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-13.4: Request Download,0x34,74 20 10 00,Success,,,33460948761.00
+80,"12/18/2024, 4:37:59 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66 77 88,TC-13.5: Transfer Block 1 with large payload (14 data bytes) - Success (tests block length validation),0x36,76 01,Success,,,33460948901.00
+81,"12/18/2024, 4:38:00 PM",0x37,,,TC-13.6: Request Transfer Exit,0x37,77,Success,,,33460949040.00
+82,"12/18/2024, 4:38:01 PM",0x10,0x01,,[SETUP] Reset for TC-14,0x10,50 01 00 32 01 F4,Success,,,33460949196.00
+83,"12/18/2024, 4:38:02 PM",0x10,0x02,,TC-14.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460949357.00
+84,"12/18/2024, 4:38:03 PM",0x27,0x01,,TC-14.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460949483.00
+85,"12/18/2024, 4:38:04 PM",0x27,0x02,B7 6E A6 77,TC-14.3: Send key,0x27,67 02,Success,,,33460949605.00
+86,"12/18/2024, 4:38:05 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-14.4: Request Download,0x34,74 20 10 00,Success,,,33460949717.00
+87,"12/18/2024, 4:38:06 PM",0x36,,01 AA BB CC DD,TC-14.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33460949836.00
+88,"12/18/2024, 4:38:07 PM",0x36,,02 11 22 33 44,TC-14.6: Transfer Block 2 - Success,0x36,76 02,Success,,,33460949936.00
+89,"12/18/2024, 4:38:08 PM",0x36,,03 55 66 77 88,TC-14.7: Transfer Block 3 - Success,0x36,76 03,Success,,,33460950325.00
+90,"12/18/2024, 4:38:09 PM",0x36,,04 99 AA BB CC,TC-14.8: Transfer Block 4 - Complete Download Workflow Test,0x36,76 04,Success,,,33460951969.00
+91,"12/18/2024, 4:38:10 PM",0x37,,,TC-14.9: Request Transfer Exit - Successful download complete,0x37,77,Success,,,33460952122.00
+92,"12/18/2024, 4:38:12 PM",0x10,0x01,,[SETUP] Reset for TC-15 (Voltage Too Low),0x10,50 01 00 32 01 F4,Success,,,33460951219.00
+93,"12/18/2024, 4:38:13 PM",0x10,0x02,,TC-15.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460951752.00
+94,"12/18/2024, 4:38:14 PM",0x27,0x01,,TC-15.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460952008.00
+95,"12/18/2024, 4:38:15 PM",0x27,0x02,B7 6E A6 77,TC-15.3: Send key to unlock security,0x27,67 02,Success,,,33460952167.00
+96,"12/18/2024, 4:38:16 PM",0x34,,00 44 00 10 00 00 00 00 10 00,"TC-15.4: Request Download: Addr=0x00100000, Size=0x1000",0x34,74 20 10 00,Success,,,33460952338.00
+97,"12/18/2024, 4:38:17 PM",0x36,,01 AA BB CC DD,TC-15.5: Transfer Data with LOW VOLTAGE (10.5V < 11.0V) - Expect NRC 0x93 (Voltage Too Low),0x36,76 01,Success,,,33460952461.00
+98,"12/18/2024, 4:38:18 PM",0x10,0x01,,[SETUP] Reset for TC-16 (Voltage Too High),0x10,50 01 00 32 01 F4,Success,,,33460952587.00
+99,"12/18/2024, 4:38:19 PM",0x10,0x02,,TC-16.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460952721.00
+100,"12/18/2024, 4:38:20 PM",0x27,0x01,,TC-16.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460952826.00
+101,"12/18/2024, 4:38:21 PM",0x27,0x02,B7 6E A6 77,TC-16.3: Send key to unlock security,0x27,67 02,Success,,,33460952934.00
+102,"12/18/2024, 4:38:22 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-16.4: Request Download,0x34,74 20 10 00,Success,,,33460953067.00
+103,"12/18/2024, 4:38:23 PM",0x36,,01 AA BB CC DD,TC-16.5: Transfer Data with HIGH VOLTAGE (16.5V > 15.5V) - Expect NRC 0x92 (Voltage Too High),0x36,76 01,Success,,,33460953203.00
+104,"12/18/2024, 4:38:24 PM",0x10,0x01,,[SETUP] Reset for TC-17 (Voltage Recovery),0x10,50 01 00 32 01 F4,Success,,,33460953372.00
+105,"12/18/2024, 4:38:25 PM",0x10,0x02,,TC-17.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460953490.00
+106,"12/18/2024, 4:38:26 PM",0x27,0x01,,TC-17.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460953617.00
+107,"12/18/2024, 4:38:27 PM",0x27,0x02,B7 6E A6 77,TC-17.3: Send key,0x27,67 02,Success,,,33460953708.00
+108,"12/18/2024, 4:38:28 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-17.4: Request Download,0x34,74 20 10 00,Success,,,33460953825.00
+109,"12/18/2024, 4:38:29 PM",0x36,,01 AA BB CC DD,TC-17.5: Transfer Block 1 at NORMAL VOLTAGE (12.5V) - Success,0x36,76 01,Success,,,33460953997.00
+110,"12/18/2024, 4:38:30 PM",0x36,,02 11 22 33 44,TC-17.6: Transfer Block 2 at LOW VOLTAGE (10.2V) - NOTE: Voltage check depends on test runner passing voltage parameter,0x36,76 02,Success,,,33460954252.00
+111,"12/18/2024, 4:38:31 PM",0x36,,03 11 22 33 44,TC-17.7: Transfer Block 3 at NORMAL VOLTAGE (12.5V) - Success (continues after TC-17.6),0x36,76 03,Success,,,33460954383.00
+112,"12/18/2024, 4:38:32 PM",0x37,,,TC-17.8: Request Transfer Exit,0x37,77,Success,,,33460954557.00
+113,"12/18/2024, 4:38:33 PM",0x10,0x01,,[SETUP] Reset for TC-18 (BSC Wrap-Around),0x10,50 01 00 32 01 F4,Success,,,33460954679.00
+114,"12/18/2024, 4:38:34 PM",0x10,0x02,,TC-18.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460954797.00
+115,"12/18/2024, 4:38:35 PM",0x27,0x01,,TC-18.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460954963.00
+116,"12/18/2024, 4:38:36 PM",0x27,0x02,B7 6E A6 77,TC-18.3: Send key,0x27,67 02,Success,,,33460955108.00
+117,"12/18/2024, 4:38:37 PM",0x34,,00 44 00 10 00 00 00 01 00 00,TC-18.4: Request Download for LARGE transfer (0x10000 bytes = 256+ blocks for wrap test),0x34,74 20 10 00,Success,,,33460955258.00
+118,"12/18/2024, 4:38:38 PM",0x36,,01 AA BB CC DD,TC-18.5: Transfer Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33460955379.00
+119,"12/18/2024, 4:38:39 PM",0x36,,02 11 22 33 44,TC-18.6: Transfer Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33460955549.00
+120,"12/18/2024, 4:38:40 PM",0x36,,03 55 66 77 88,TC-18.7: Transfer Block 3 (BSC=0x03) - Success,0x36,76 03,Success,,,33460955679.00
+121,"12/18/2024, 4:38:41 PM",0x36,,00 99 AA BB CC,TC-18.8: INVALID BSC=0x00 (should NEVER be used) - Expect NRC 0x73 (Wrong BSC),0x36,7F 36 73,NRC,0x73,Wrong Block Sequence Counter,33460955815.00
+122,"12/18/2024, 4:38:42 PM",0x37,,,TC-18.9: Request Transfer Exit,0x37,77,Success,,,33460955994.00
+123,"12/18/2024, 4:38:43 PM",0x10,0x01,,[SETUP] Reset for TC-19 (Out of Range),0x10,50 01 00 32 01 F4,Success,,,33460956180.00
+124,"12/18/2024, 4:38:44 PM",0x10,0x02,,TC-19.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460956334.00
+125,"12/18/2024, 4:38:45 PM",0x27,0x01,,TC-19.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460956457.00
+126,"12/18/2024, 4:38:46 PM",0x27,0x02,B7 6E A6 77,TC-19.3: Send key,0x27,67 02,Success,,,33460956579.00
+127,"12/18/2024, 4:38:47 PM",0x34,,00 44 00 10 00 00 00 00 00 10,TC-19.4: Request Download for SMALL area (16 bytes only),0x34,74 20 10 00,Success,,,33460956730.00
+128,"12/18/2024, 4:38:48 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66 77 88 99 AA,TC-19.5: Transfer exactly 16 bytes in Block 1 - Success,0x36,76 01,Success,,,33460956906.00
+129,"12/18/2024, 4:38:49 PM",0x36,,02 BB CC DD EE,TC-19.6: Transfer Block 2 EXCEEDS requested memory size - Expect NRC 0x31 (Request Out Of Range),0x36,76 02,Success,,,33460957049.00
+130,"12/18/2024, 4:38:50 PM",0x37,,,TC-19.7: Request Transfer Exit,0x37,77,Success,,,33460957187.00
+131,"12/18/2024, 4:38:51 PM",0x10,0x01,,[SETUP] Reset for TC-20 (Upload Workflow),0x10,50 01 00 32 01 F4,Success,,,33460957321.00
+132,"12/18/2024, 4:38:52 PM",0x10,0x02,,TC-20.1: Enter PROGRAMMING session (Upload requires PROGRAMMING),0x10,50 02 00 32 01 F4,Success,,,33460957566.00
+133,"12/18/2024, 4:38:53 PM",0x27,0x01,,TC-20.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460957743.00
+134,"12/18/2024, 4:38:54 PM",0x27,0x02,B7 6E A6 77,TC-20.3: Send key,0x27,67 02,Success,,,33460957902.00
+135,"12/18/2024, 4:38:55 PM",0x35,,00 44 00 10 00 00 00 00 10 00,TC-20.4: REQUEST UPLOAD (SID 0x35): Read 0x1000 bytes from Addr=0x00100000,0x35,75 20 10 00,Success,,,33460958033.00
+136,"12/18/2024, 4:38:56 PM",0x36,,01,"TC-20.5: Transfer Data UPLOAD Block 1 (BSC only, ECU returns data) - Expect Success 0x76 01 + data",0x36,76 01 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F,Success,,,33460958178.00
+137,"12/18/2024, 4:38:57 PM",0x36,,02,TC-20.6: Transfer Data UPLOAD Block 2 - Expect Success 0x76 02 + data,0x36,76 02 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 2F 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F,Success,,,33460958326.00
+138,"12/18/2024, 4:38:58 PM",0x36,,03,TC-20.7: Transfer Data UPLOAD Block 3 - Expect Success 0x76 03 + data,0x36,76 03 30 31 32 33 34 35 36 37 38 39 3A 3B 3C 3D 3E 3F 40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F 60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F,Success,,,33460958468.00
+139,"12/18/2024, 4:38:59 PM",0x37,,,TC-20.8: Request Transfer Exit - Upload Complete,0x37,77,Success,,,33460958626.00
+140,"12/18/2024, 4:39:00 PM",0x10,0x01,,[SETUP] Reset for TC-21 (Multi-Region Flash),0x10,50 01 00 32 01 F4,Success,,,33460958893.00
+141,"12/18/2024, 4:39:01 PM",0x10,0x02,,TC-21.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460959054.00
+142,"12/18/2024, 4:39:02 PM",0x27,0x01,,TC-21.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460959233.00
+143,"12/18/2024, 4:39:03 PM",0x27,0x02,B7 6E A6 77,TC-21.3: Send key,0x27,67 02,Success,,,33460959397.00
+144,"12/18/2024, 4:39:04 PM",0x34,,00 44 00 10 00 00 00 00 08 00,"TC-21.4: Request Download REGION 1 (Application): Addr=0x00100000, Size=0x0800",0x34,74 20 10 00,Success,,,33460959575.00
+145,"12/18/2024, 4:39:05 PM",0x36,,01 AA BB CC DD,TC-21.5: REGION 1 Block 1 (BSC=0x01) - Success,0x36,76 01,Success,,,33460959747.00
+146,"12/18/2024, 4:39:06 PM",0x36,,02 11 22 33 44,TC-21.6: REGION 1 Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33460959927.00
+147,"12/18/2024, 4:39:07 PM",0x37,,,TC-21.7: Request Transfer Exit - REGION 1 Complete,0x37,77,Success,,,33460960093.00
+148,"12/18/2024, 4:39:08 PM",0x34,,00 44 00 20 00 00 00 00 08 00,"TC-21.8: Request Download REGION 2 (Calibration): Addr=0x00200000, Size=0x0800",0x34,74 20 10 00,Success,,,33460960265.00
+149,"12/18/2024, 4:39:09 PM",0x36,,01 55 66 77 88,TC-21.9: REGION 2 Block 1 (BSC RESETS to 0x01) - Success (BSC restarts per region),0x36,76 01,Success,,,33460960571.00
+150,"12/18/2024, 4:39:10 PM",0x36,,02 99 AA BB CC,TC-21.10: REGION 2 Block 2 (BSC=0x02) - Success,0x36,76 02,Success,,,33460960769.00
+151,"12/18/2024, 4:39:11 PM",0x37,,,TC-21.11: Request Transfer Exit - REGION 2 Complete (Multi-Region Flash Success),0x37,77,Success,,,33460960953.00
+152,"12/18/2024, 4:39:12 PM",0x10,0x01,,[SETUP] Reset for TC-22 (Tester Present),0x10,50 01 00 32 01 F4,Success,,,33460961146.00
+153,"12/18/2024, 4:39:13 PM",0x10,0x02,,TC-22.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460961344.00
+154,"12/18/2024, 4:39:14 PM",0x27,0x01,,TC-22.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460961569.00
+155,"12/18/2024, 4:39:15 PM",0x27,0x02,B7 6E A6 77,TC-22.3: Send key,0x27,67 02,Success,,,33460961836.00
+156,"12/18/2024, 4:39:16 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-22.4: Request Download,0x34,74 20 10 00,Success,,,33460962092.00
+157,"12/18/2024, 4:39:17 PM",0x36,,01 AA BB CC DD,TC-22.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33460962264.00
+158,"12/18/2024, 4:39:18 PM",0x3E,0x00,,TC-22.6: TESTER PRESENT (SID 0x3E) during long transfer - Keep session alive,0x3E,00,Success,,,33460962431.00
+159,"12/18/2024, 4:39:19 PM",0x36,,02 11 22 33 44,TC-22.7: Transfer Block 2 AFTER Tester Present - Success (Session maintained),0x36,76 02,Success,,,33460962602.00
+160,"12/18/2024, 4:39:20 PM",0x3E,0x00,,TC-22.8: TESTER PRESENT again - Keep session alive,0x3E,00,Success,,,33460962817.00
+161,"12/18/2024, 4:39:21 PM",0x36,,03 55 66 77 88,TC-22.9: Transfer Block 3 - Success,0x36,76 03,Success,,,33460963025.00
+162,"12/18/2024, 4:39:22 PM",0x37,,,TC-22.10: Request Transfer Exit - Long Transfer with Keep-Alive Complete,0x37,77,Success,,,33460963200.00
+163,"12/18/2024, 4:39:23 PM",0x10,0x01,,[SETUP] Reset for TC-23 (Partial Last Block),0x10,50 01 00 32 01 F4,Success,,,33460963492.00
+164,"12/18/2024, 4:39:24 PM",0x10,0x02,,TC-23.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460963764.00
+165,"12/18/2024, 4:39:25 PM",0x27,0x01,,TC-23.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460963982.00
+166,"12/18/2024, 4:39:26 PM",0x27,0x02,B7 6E A6 77,TC-23.3: Send key,0x27,67 02,Success,,,33460964195.00
+167,"12/18/2024, 4:39:27 PM",0x34,,00 44 00 10 00 00 00 00 00 0C,TC-23.4: Request Download for NON-ALIGNED size (12 bytes - not multiple of block),0x34,74 20 10 00,Success,,,33460964382.00
+168,"12/18/2024, 4:39:28 PM",0x36,,01 AA BB CC DD EE FF 11 22 33 44 55 66,TC-23.5: Transfer PARTIAL LAST BLOCK (12 bytes < max block size) - Expect Success,0x36,76 01,Success,,,33460964662.00
+169,"12/18/2024, 4:39:29 PM",0x37,,,TC-23.6: Request Transfer Exit - Partial Block Transfer Complete,0x37,77,Success,,,33460964853.00
+170,"12/18/2024, 4:39:30 PM",0x10,0x01,,[SETUP] Reset for TC-24 (Transfer After Exit Without New Request),0x10,50 01 00 32 01 F4,Success,,,33460965046.00
+171,"12/18/2024, 4:39:31 PM",0x10,0x02,,TC-24.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460965231.00
+172,"12/18/2024, 4:39:32 PM",0x27,0x01,,TC-24.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460965414.00
+173,"12/18/2024, 4:39:33 PM",0x27,0x02,B7 6E A6 77,TC-24.3: Send key,0x27,67 02,Success,,,33460965600.00
+174,"12/18/2024, 4:39:34 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-24.4: Request Download,0x34,74 20 10 00,Success,,,33460965822.00
+175,"12/18/2024, 4:39:35 PM",0x36,,01 AA BB CC DD,TC-24.5: Transfer Block 1 - Success,0x36,76 01,Success,,,33460966005.00
+176,"12/18/2024, 4:39:36 PM",0x37,,,TC-24.6: Request Transfer Exit - Complete,0x37,77,Success,,,33460966274.00
+177,"12/18/2024, 4:39:37 PM",0x36,,01 AA BB CC DD,TC-24.7: Transfer Data WITHOUT new Request Download - Expect NRC 0x24 (Request Sequence Error),0x36,7F 36 24,NRC,0x24,Request Sequence Error,33460966581.00
+178,"12/18/2024, 4:39:38 PM",0x10,0x01,,[SETUP] Reset for TC-25 (Security Re-lock Edge Case),0x10,50 01 00 32 01 F4,Success,,,33460966783.00
+179,"12/18/2024, 4:39:39 PM",0x10,0x02,,TC-25.1: Enter PROGRAMMING session,0x10,50 02 00 32 01 F4,Success,,,33460966980.00
+180,"12/18/2024, 4:39:40 PM",0x27,0x01,,TC-25.2: Request seed,0x27,67 01 12 34 56 78,Success,,,33460967174.00
+181,"12/18/2024, 4:39:41 PM",0x27,0x02,B7 6E A6 77,TC-25.3: Send key - Security unlocked,0x27,67 02,Success,,,33460967374.00
+182,"12/18/2024, 4:39:42 PM",0x34,,00 44 00 10 00 00 00 00 10 00,TC-25.4: Request Download,0x34,74 20 10 00,Success,,,33460967576.00
+183,"12/18/2024, 4:39:43 PM",0x36,,01 AA BB CC DD,TC-25.5: Transfer Block 1 while security unlocked - Success,0x36,76 01,Success,,,33460967863.00
+184,"12/18/2024, 4:39:44 PM",0x10,0x01,,TC-25.6: SESSION RESET (causes security to RE-LOCK),0x10,50 01 00 32 01 F4,Success,,,33460968117.00
+185,"12/18/2024, 4:39:45 PM",0x10,0x02,,TC-25.7: Re-enter PROGRAMMING session (security now LOCKED),0x10,50 02 00 32 01 F4,Success,,,33460968332.00
+186,"12/18/2024, 4:39:46 PM",0x36,,02 11 22 33 44,TC-25.8: Transfer Data with SECURITY RE-LOCKED - Expect NRC 0x33 (Security Access Denied),0x36,7F 36 33,NRC,0x33,Security Access Denied,33460968582.00
+187,"12/18/2024, 4:39:47 PM",0x10,0x01,,[FINAL] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33460968800.00

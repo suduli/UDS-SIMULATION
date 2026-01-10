@@ -1,0 +1,164 @@
+{
+  "timestamp": "2026-01-09T18:24:22.408Z",
+  "duration": "90.3s",
+  "summary": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "total": 19
+  },
+  "results": [
+    {
+      "sid": "10",
+      "name": "Diagnostic Session Control",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 99,
+      "historyCount": 0
+    },
+    {
+      "sid": "11",
+      "name": "ECU Reset",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 104,
+      "historyCount": 0
+    },
+    {
+      "sid": "14",
+      "name": "Clear DTC Information",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 122,
+      "historyCount": 0
+    },
+    {
+      "sid": "19",
+      "name": "Read DTC Information",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 134,
+      "historyCount": 0
+    },
+    {
+      "sid": "22",
+      "name": "Read Data By Identifier",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 119,
+      "historyCount": 0
+    },
+    {
+      "sid": "23",
+      "name": "Read Memory By Address",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 135,
+      "historyCount": 0
+    },
+    {
+      "sid": "27",
+      "name": "Security Access",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 199,
+      "historyCount": 0
+    },
+    {
+      "sid": "28",
+      "name": "Communication Control",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 141,
+      "historyCount": 0
+    },
+    {
+      "sid": "2a",
+      "name": "Read Data By Periodic ID",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 96,
+      "historyCount": 0
+    },
+    {
+      "sid": "2e",
+      "name": "Write Data By Identifier",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 45,
+      "historyCount": 0
+    },
+    {
+      "sid": "31",
+      "name": "Routine Control",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 175,
+      "historyCount": 0
+    },
+    {
+      "sid": "34",
+      "name": "Request Download",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 165,
+      "historyCount": 0
+    },
+    {
+      "sid": "35",
+      "name": "Request Upload",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 191,
+      "historyCount": 0
+    },
+    {
+      "sid": "36",
+      "name": "Transfer Data",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 187,
+      "historyCount": 0
+    },
+    {
+      "sid": "37",
+      "name": "Request Transfer Exit",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 176,
+      "historyCount": 0
+    },
+    {
+      "sid": "3d",
+      "name": "Write Memory By Address",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 95,
+      "historyCount": 0
+    },
+    {
+      "sid": "3e",
+      "name": "Tester Present",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 39,
+      "historyCount": 0
+    },
+    {
+      "sid": "83",
+      "name": "Access Timing Parameters",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 49,
+      "historyCount": 0
+    },
+    {
+      "sid": "85",
+      "name": "Control DTC Setting",
+      "status": "PASSED",
+      "successRate": null,
+      "requestCount": 86,
+      "historyCount": 0
+    }
+  ]
+}

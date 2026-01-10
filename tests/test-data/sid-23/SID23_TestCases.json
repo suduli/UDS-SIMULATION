@@ -165,11 +165,10 @@
                 18,
                 16,
                 0,
-                0,
                 4
             ],
             "timestamp": 1734450013000,
-            "description": "TC-02.8: ALFID 0x12 (1-byte addr, 2-byte size) - Asymmetric format validation"
+            "description": "TC-02.8: ALFID 0x12 (1-byte addr, 2-byte size) - Read from 0x10, expect NRC 0x31 (out of range for 1-byte address)"
         },
         {
             "sid": 35,
@@ -336,7 +335,6 @@
                 0,
                 0,
                 0,
-                0,
                 16
             ],
             "timestamp": 1734450028000,
@@ -353,7 +351,6 @@
                 0,
                 0,
                 0,
-                0,
                 16
             ],
             "timestamp": 1734450029000,
@@ -365,7 +362,6 @@
                 68,
                 0,
                 48,
-                0,
                 0,
                 0,
                 0,
@@ -406,7 +402,6 @@
                 0,
                 0,
                 0,
-                0,
                 16
             ],
             "timestamp": 1734450033000,
@@ -423,7 +418,6 @@
                 0,
                 0,
                 0,
-                0,
                 32
             ],
             "timestamp": 1734450034000,
@@ -435,7 +429,6 @@
                 68,
                 0,
                 48,
-                0,
                 0,
                 0,
                 0,
@@ -467,7 +460,6 @@
                 0,
                 0,
                 16,
-                0,
                 0,
                 0,
                 0,
@@ -512,7 +504,7 @@
             "data": [
                 68,
                 0,
-                64,
+                80,
                 0,
                 0,
                 0,
@@ -521,7 +513,7 @@
                 16
             ],
             "timestamp": 1734450042000,
-            "description": "TC-06.4: Address 0x00400000 (beyond defined memory map) - Expect NRC 0x31"
+            "description": "TC-06.4: Address 0x00500000 (beyond defined memory map) - Expect NRC 0x31"
         },
         {
             "sid": 35,
@@ -844,7 +836,6 @@
                 0,
                 0,
                 16,
-                0,
                 0,
                 0,
                 0,

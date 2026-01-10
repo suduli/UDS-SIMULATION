@@ -1,0 +1,66 @@
+﻿Report Information
+Report ID,terminal_report_1767958498375
+Report Name,"Terminal Output Report (1/9/2026, 5:04:58 PM)"
+Description,Generated from current terminal session with 39 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,39
+Total Responses,39
+Successful Responses,27
+Negative Responses (NRC),12
+Success Rate (%),69.23
+Test Duration,1m 39s
+Start Time,"12/18/2024, 1:50:00 PM"
+End Time,"12/18/2024, 1:51:39 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x22,Conditions Not Correct,1,8.33
+0x12,Sub-Function Not Supported,7,58.33
+0x13,Incorrect Message Length,4,33.33
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/18/2024, 1:50:00 PM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33448402756.00
+2,"12/18/2024, 1:50:01 PM",0x3E,0x00,,TC-01: Normal Response in DEFAULT Session (3E 00) - Expect Positive Response (7E 00),0x3E,00,Success,,,33448402783.00
+3,"12/18/2024, 1:50:02 PM",0x3E,0x80,,TC-02: Suppressed Response in DEFAULT Session (3E 80) - Expect No Response,0x3E,,Success,,,33448402786.00
+4,"12/18/2024, 1:50:03 PM",0x10,0x03,,[SETUP] Enter EXTENDED Session for TC-03/04,0x10,50 03 00 64 01 F4,Success,,,33448402796.00
+5,"12/18/2024, 1:50:04 PM",0x3E,0x00,,TC-03: Normal Response in EXTENDED Session (3E 00) - Expect Positive Response (7E 00),0x3E,00,Success,,,33448402829.00
+6,"12/18/2024, 1:50:05 PM",0x3E,0x80,,TC-04: Suppressed Response in EXTENDED Session (3E 80) - Expect No Response,0x3E,,Success,,,33448402857.00
+7,"12/18/2024, 1:50:06 PM",0x10,0x02,,[SETUP] Enter PROGRAMMING Session for TC-05,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,33448402888.00
+8,"12/18/2024, 1:50:07 PM",0x3E,0x00,,TC-05: Normal Response in PROGRAMMING Session (3E 00) - Expect Positive Response (7E 00),0x3E,00,Success,,,33448402920.00
+9,"12/18/2024, 1:50:08 PM",0x10,0x01,,[SETUP] Reset to Default Session for NRC tests,0x10,50 01 00 32 01 F4,Success,,,33448402955.00
+10,"12/18/2024, 1:50:10 PM",0x3E,0x01,,TC-10: Invalid Sub-function 0x01 - Expect NRC 0x12 (Sub-function Not Supported),0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448401993.00
+11,"12/18/2024, 1:50:11 PM",0x3E,0x02,,TC-11: Invalid Sub-function 0x02 - Expect NRC 0x12 (Sub-function Not Supported),0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448402021.00
+12,"12/18/2024, 1:50:12 PM",0x3E,0x7F,,TC-12: Invalid Sub-function 0x7F (Max without suppress bit) - Expect NRC 0x12,0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448402058.00
+13,"12/18/2024, 1:50:13 PM",0x3E,0x40,,TC-13: Invalid Sub-function 0x40 (Mid-range) - Expect NRC 0x12,0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448402098.00
+14,"12/18/2024, 1:50:14 PM",0x3E,0x81,,TC-14: Invalid Sub-function 0x81 (Suppress + invalid) - Expect NRC 0x12,0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448402927.00
+15,"12/18/2024, 1:50:15 PM",0x3E,0xFF,,TC-15: Invalid Sub-function 0xFF (Max value) - Expect NRC 0x12,0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448403923.00
+16,"12/18/2024, 1:50:20 PM",0x3E,,,TC-20: Missing Sub-function (Only SID byte) - Expect NRC 0x13 (Incorrect Message Length),0x3E,7F 3E 13,NRC,0x13,Incorrect Message Length,33448400954.00
+17,"12/18/2024, 1:50:21 PM",0x3E,0x00,FF,TC-21: Extra Byte (3E 00 FF - 3 bytes) - Expect NRC 0x13 (Incorrect Message Length),0x3E,7F 3E 13,NRC,0x13,Incorrect Message Length,33448402924.00
+18,"12/18/2024, 1:50:22 PM",0x3E,0x00,AA BB,TC-22: Extra Bytes (3E 00 AA BB - 4 bytes) - Expect NRC 0x13 (Incorrect Message Length),0x3E,7F 3E 13,NRC,0x13,Incorrect Message Length,33448403963.00
+19,"12/18/2024, 1:50:30 PM",0x10,0x03,,[SETUP] TC-30: Enter EXTENDED Session - Session Timeout Prevention Test,0x10,50 03 00 64 01 F4,Success,,,33448398922.00
+20,"12/18/2024, 1:50:32 PM",0x3E,0x80,,TC-30.1: Tester Present at T+2s to reset session timer,0x3E,,Success,,,33448398956.00
+21,"12/18/2024, 1:50:34 PM",0x3E,0x80,,TC-30.2: Tester Present at T+4s to reset session timer,0x3E,,Success,,,33448399923.00
+22,"12/18/2024, 1:50:36 PM",0x3E,0x80,,TC-30.3: Tester Present at T+6s to reset session timer,0x3E,,Success,,,33448400931.00
+23,"12/18/2024, 1:50:38 PM",0x3E,0x80,,TC-30.4: Tester Present at T+8s to reset session timer,0x3E,,Success,,,33448400971.00
+24,"12/18/2024, 1:50:39 PM",0x22,,F1 86,TC-30.5: Verify Session Active (Read DID F186) - Expect Success (Session maintained for >8s with TP),0x22,62 F1 86 03,Success,,,33448401971.00
+25,"12/18/2024, 1:50:50 PM",0x10,0x03,,[SETUP] TC-50: Enter EXTENDED Session - Service Interaction Test,0x10,50 03 00 64 01 F4,Success,,,33448392962.00
+26,"12/18/2024, 1:50:51 PM",0x22,,F1 90,TC-50.1: Read VIN (0xF190),0x22,62 F1 90 33 54 34 52 59 35 57 35 4B 48 4D 58 34 59 4A 4E 4A,Success,,,33448393960.00
+27,"12/18/2024, 1:50:52 PM",0x3E,0x80,,TC-50.2: Tester Present between operations,0x3E,,Success,,,33448394974.00
+28,"12/18/2024, 1:50:53 PM",0x22,,F1 91,TC-50.3: Read ECU Hardware Number (0xF191),0x22,62 F1 91 48 57 31 32 33 34 35 36 37 38 39,Success,,,33448395966.00
+29,"12/18/2024, 1:50:54 PM",0x3E,0x80,,TC-50.4: Tester Present between operations,0x3E,,Success,,,33448396985.00
+30,"12/18/2024, 1:50:55 PM",0x22,,F1 94,TC-50.5: Read ECU Software Number (0xF194) - All reads should succeed,0x22,62 F1 94 53 57 39 38 37 36 35 34 33 32 31,Success,,,33448397969.00
+31,"12/18/2024, 1:51:00 PM",0x10,0x03,,[SETUP] TC-60: Enter EXTENDED Session - Error Recovery Test,0x10,50 03 00 64 01 F4,Success,,,33448394967.00
+32,"12/18/2024, 1:51:01 PM",0x3E,0x05,,TC-60.1: Send Invalid Sub-function (0x05) - Expect NRC 0x12,0x3E,7F 3E 12,NRC,0x12,Sub-Function Not Supported,33448395980.00
+33,"12/18/2024, 1:51:02 PM",0x3E,0x00,,TC-60.2: Send Valid Tester Present (0x00) - Expect Positive Response (Recovery works),0x3E,00,Success,,,33448396938.00
+34,"12/18/2024, 1:51:03 PM",0x22,,F1 86,TC-60.3: Verify Session Still Active (Read DID F186) - Session should be maintained,0x22,62 F1 86 03,Success,,,33448397979.00
+35,"12/18/2024, 1:51:10 PM",0x10,0x03,,[SETUP] TC-61: Enter EXTENDED Session - Length Error Recovery Test,0x10,50 03 00 64 01 F4,Success,,,33448392968.00
+36,"12/18/2024, 1:51:11 PM",0x3E,0x00,FF EE,TC-61.1: Send Extra Bytes (3E 00 FF EE) - Expect NRC 0x13,0x3E,7F 3E 13,NRC,0x13,Incorrect Message Length,33448393932.00
+37,"12/18/2024, 1:51:12 PM",0x3E,0x00,,TC-61.2: Send Valid Tester Present (3E 00) - Expect Positive Response (Recovery works),0x3E,00,Success,,,33448394982.00
+38,"12/18/2024, 1:51:13 PM",0x22,,F1 86,TC-61.3: Verify Session Still Active (Read DID F186) - Session should be maintained,0x22,62 F1 86 03,Success,,,33448395932.00
+39,"12/18/2024, 1:51:39 PM",0x10,0x01,,[FINAL] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,33448371991.00

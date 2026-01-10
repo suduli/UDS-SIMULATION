@@ -799,7 +799,7 @@ export class UDSSimulator {
     }
 
     // Extract suppress positive response bit and actual subfunction
-    // const suppressPositiveResponse = (request.subFunction & 0x80) !== 0; // Unused in this function
+    const suppressPositiveResponse = (request.subFunction & 0x80) !== 0;
     const subFunction = request.subFunction & 0x7F;
 
     // DTCStatusAvailabilityMask - indicates which status bits this ECU supports
@@ -1252,6 +1252,17 @@ export class UDSSimulator {
         );
     }
 
+    // ISO 14229-1: If suppress positive response bit is set, return no data
+    // NRCs are NEVER suppressed (only positive responses)
+    if (suppressPositiveResponse) {
+      return {
+        sid: request.sid,
+        data: [], // Empty response - suppressed
+        timestamp: Date.now(),
+        isNegative: false,
+      };
+    }
+
     return {
       sid: request.sid,
       data: responseData,
@@ -1441,6 +1452,13 @@ export class UDSSimulator {
     const alfidResult = parseALFID(request.data);
 
     if (!alfidResult.valid) {
+      // Debug logging for troubleshooting
+      console.log(`[SID23] ALFID Fail for SID 0x${request.sid.toString(16)}:`, {
+        data: request.data,
+        length: request.data?.length,
+        error: alfidResult.errorMessage
+      });
+
       // Return NRC 0x13 for ALFID parsing errors
       return this.createNegativeResponseObj(
         request.sid,
@@ -2427,9 +2445,9 @@ export class UDSSimulator {
    * - Integration with session timeout (auto-stop on session change)
    */
   private handleRoutineControl(request: UDSRequest): UDSResponse {
-    // ========== VALIDATION STEP 1: Message Length ==========
-    // Minimum: SID (1) + SubFunction (1) + RID_HI (1) + RID_LO (1) = 4 bytes
-    if (!request.subFunction || !request.data || request.data.length < 2) {
+    // ========== VALIDATION STEP 1: SubFunction Presence ==========
+    // SubFunction must be present (can be 0x00, so check for undefined explicitly)
+    if (request.subFunction === undefined || request.subFunction === null) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
@@ -2437,10 +2455,10 @@ export class UDSSimulator {
     }
 
     const controlType = request.subFunction as RoutineControlType;
-    const routineId = (request.data[0] << 8) | request.data[1];
 
     // ========== VALIDATION STEP 2: SubFunction Validation ==========
     // Only 0x01 (START), 0x02 (STOP), 0x03 (REQUEST_RESULTS) are valid
+    // This MUST come before message length check per ISO 14229-1 NRC priority
     const validSubFunctions = [
       RoutineControlType.START_ROUTINE,
       RoutineControlType.STOP_ROUTINE,
@@ -2453,7 +2471,18 @@ export class UDSSimulator {
       );
     }
 
-    // ========== VALIDATION STEP 3: RID Lookup ==========
+    // ========== VALIDATION STEP 3: Message Length ==========
+    // Minimum: SID (1) + SubFunction (1) + RID_HI (1) + RID_LO (1) = 4 bytes
+    if (!request.data || request.data.length < 2) {
+      return this.createNegativeResponseObj(
+        request.sid,
+        NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
+      );
+    }
+
+    const routineId = (request.data[0] << 8) | request.data[1];
+
+    // ========== VALIDATION STEP 4: RID Lookup ==========
     const routine = this.ecuConfig.routines.find(r => r.id === routineId);
     if (!routine) {
       return this.createNegativeResponseObj(
@@ -2462,7 +2491,7 @@ export class UDSSimulator {
       );
     }
 
-    // ========== VALIDATION STEP 4: SubFunction Support Check ==========
+    // ========== VALIDATION STEP 5: SubFunction Support Check ==========
     // Some routines may not support all subfunctions (e.g., no STOP for instant tests)
     if (routine.supportedSubFunctions && !routine.supportedSubFunctions.includes(controlType)) {
       return this.createNegativeResponseObj(
@@ -2471,7 +2500,7 @@ export class UDSSimulator {
       );
     }
 
-    // ========== VALIDATION STEP 5: Session Requirements ==========
+    // ========== VALIDATION STEP 6: Session Requirements ==========
     // Check if current session allows this routine
     if (routine.requiredSession) {
       const allowedSessions = Array.isArray(routine.requiredSession)
@@ -2486,7 +2515,7 @@ export class UDSSimulator {
       }
     }
 
-    // ========== VALIDATION STEP 6: Security Requirements ==========
+    // ========== VALIDATION STEP 7: Security Requirements ==========
     // Check if routine requires security unlock
     const requiresSecurity = routine.requiredSecurity && routine.requiredSecurity > 0;
     if (requiresSecurity && !this.state.securityUnlocked) {
@@ -3065,9 +3094,15 @@ export class UDSSimulator {
     }
 
     // ========== VALIDATION STEP 4: Message Length ==========
-    // Minimum: SID (already extracted) + BSC (1 byte) + Data (at least 1 byte) = 3 bytes total
-    // Format: [0x36] [BSC] [Data Byte 1] [Data Byte 2] ... [Data Byte N]
-    if (!request.data || request.data.length < 2) {
+    // For DOWNLOAD: Minimum = SID (already extracted) + BSC (1 byte) + Data (at least 1 byte) = 3 bytes total
+    //   Format: [0x36] [BSC] [Data Byte 1] [Data Byte 2] ... [Data Byte N]
+    // For UPLOAD: Minimum = SID (already extracted) + BSC (1 byte) = 2 bytes total
+    //   Format: [0x36] [BSC] - ECU returns [0x76] [BSC] [Data...]
+    // Per ISO 14229-1, during Upload the tester only sends BSC, ECU returns BSC + data
+    const isUpload = this.state.uploadInProgress;
+    const minLength = isUpload ? 1 : 2;  // Upload: BSC only, Download: BSC + at least 1 data byte
+
+    if (!request.data || request.data.length < minLength) {
       return this.createNegativeResponseObj(
         request.sid,
         NegativeResponseCode.INCORRECT_MESSAGE_LENGTH
@@ -3153,10 +3188,25 @@ export class UDSSimulator {
     // Response format per ISO 14229-1:
     // Byte 0: Response SID (0x76 = 0x36 + 0x40)
     // Byte 1: Block Sequence Counter (echo the BSC from request)
-    // Byte 2-N: Optional transfer response parameters (not commonly used)
+    // For DOWNLOAD: Byte 2-N: Optional transfer response parameters (not commonly used)
+    // For UPLOAD: Byte 2-N: Data read from ECU memory
+
+    // For upload, generate simulated data from ECU memory
+    const responseData: number[] = [0x76, blockCounter];
+
+    if (isUpload) {
+      // Upload: ECU returns memory data (simulated with sample bytes)
+      // In a real ECU, this would be actual memory content
+      const uploadDataSize = Math.min(this.ecuConfig.maxBlockLength || 4096, 64); // Limit response size
+      const simulatedData = Array.from({ length: uploadDataSize }, (_, i) =>
+        (blockCounter * 16 + i) & 0xFF  // Generate deterministic "memory" data
+      );
+      responseData.push(...simulatedData);
+    }
+
     return {
       sid: request.sid,
-      data: [0x76, blockCounter],
+      data: responseData,
       timestamp: Date.now(),
       isNegative: false,
     };

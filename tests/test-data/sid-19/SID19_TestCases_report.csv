@@ -1,6 +1,6 @@
 ﻿Report Information
-Report ID,terminal_report_1767896750939
-Report Name,"Terminal Output Report (1/8/2026, 11:55:50 PM)"
+Report ID,terminal_report_1767957835409
+Report Name,"Terminal Output Report (1/9/2026, 4:53:55 PM)"
 Description,Generated from current terminal session with 134 requests
 Version,1.0.0
 Author,UDS Simulator
@@ -9,154 +9,154 @@ Tags,"terminal, live-session"
 Summary Statistics
 Total Requests,134
 Total Responses,134
-Successful Responses,99
-Negative Responses (NRC),35
-Success Rate (%),73.88
+Successful Responses,107
+Negative Responses (NRC),27
+Success Rate (%),79.85
 Test Duration,1m 54s
 Start Time,"12/6/2024, 7:23:20 AM"
 End Time,"12/6/2024, 7:25:14 AM"
 
 NRC Breakdown
 NRC Code,Description,Count,Percentage (%)
-0x31,Request Out of Range,21,60.00
-0x22,Conditions Not Correct,3,8.57
-0x13,Incorrect Message Length,7,20.00
-0x12,Sub-Function Not Supported,4,11.43
+0x31,Request Out of Range,13,48.15
+0x22,Conditions Not Correct,3,11.11
+0x13,Incorrect Message Length,7,25.93
+0x12,Sub-Function Not Supported,4,14.81
 
 
 Test Log (Detailed Request/Response Data)
 Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
-1,"12/6/2024, 7:23:20 AM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,34446614192.00
-2,"12/6/2024, 7:23:21 AM",0x19,0x01,FF,TC-01.1: SF 0x01 - Count All DTCs (Status Mask 0xFF),0x19,59 01 FF 01 00 00,Success,,,34446614211.00
-3,"12/6/2024, 7:23:22 AM",0x19,0x01,08,TC-01.2: SF 0x01 - Count Confirmed DTCs Only (Status Mask 0x08),0x19,59 01 FF 01 00 00,Success,,,34446614221.00
-4,"12/6/2024, 7:23:23 AM",0x19,0x01,04,TC-01.3: SF 0x01 - Count Pending DTCs Only (Status Mask 0x04),0x19,59 01 FF 01 00 00,Success,,,34446614224.00
-5,"12/6/2024, 7:23:24 AM",0x19,0x01,01,TC-01.4: SF 0x01 - Count testFailed DTCs (Status Mask 0x01),0x19,59 01 FF 01 00 00,Success,,,34446614244.00
-6,"12/6/2024, 7:23:25 AM",0x19,0x01,80,TC-01.5: SF 0x01 - Count MIL Active DTCs (Status Mask 0x80),0x19,59 01 FF 01 00 00,Success,,,34446614282.00
-7,"12/6/2024, 7:23:26 AM",0x19,0x01,00,TC-01.6: SF 0x01 - Count with Zero Mask (Edge Case),0x19,59 01 FF 01 00 00,Success,,,34446614324.00
-8,"12/6/2024, 7:23:26 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-02,0x10,50 01 00 32 01 F4,Success,,,34446614357.00
-9,"12/6/2024, 7:23:27 AM",0x19,0x02,FF,TC-02.1: SF 0x02 - Read All DTCs by Status (Mask 0xFF),0x19,59 02 FF,Success,,,34446614894.00
-10,"12/6/2024, 7:23:28 AM",0x19,0x02,08,TC-02.2: SF 0x02 - Read Confirmed DTCs (Mask 0x08),0x19,59 02 FF,Success,,,34446614935.00
-11,"12/6/2024, 7:23:29 AM",0x19,0x02,04,TC-02.3: SF 0x02 - Read Pending DTCs (Mask 0x04),0x19,59 02 FF,Success,,,34446614972.00
-12,"12/6/2024, 7:23:30 AM",0x19,0x02,09,TC-02.4: SF 0x02 - Read Confirmed OR Failed (Mask 0x09),0x19,59 02 FF,Success,,,34446615017.00
-13,"12/6/2024, 7:23:31 AM",0x19,0x02,80,TC-02.5: SF 0x02 - Read MIL Active DTCs (Mask 0x80),0x19,59 02 FF,Success,,,34446615061.00
-14,"12/6/2024, 7:23:31 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-03,0x10,50 01 00 32 01 F4,Success,,,34446615101.00
-15,"12/6/2024, 7:23:32 AM",0x19,0x03,,TC-03.1: SF 0x03 - Report DTC Snapshot Identification,0x19,59 03 FF,Success,,,34446615686.00
-16,"12/6/2024, 7:23:32 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-04,0x10,50 01 00 32 01 F4,Success,,,34446615731.00
-17,"12/6/2024, 7:23:33 AM",0x19,0x04,01 01 01 01,"TC-04.1: SF 0x04 - Read Snapshot Record for DTC 0x010101, Record 1",0x19,7F 19 31,NRC,0x31,Request Out of Range,34446616284.00
-18,"12/6/2024, 7:23:34 AM",0x19,0x04,01 01 01 FF,TC-04.2: SF 0x04 - Read All Snapshot Records for DTC (Record 0xFF),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446616342.00
-19,"12/6/2024, 7:23:35 AM",0x19,0x04,01 03 00 01,TC-04.3: SF 0x04 - Read Snapshot for P0300 Misfire DTC,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446616394.00
-20,"12/6/2024, 7:23:36 AM",0x19,0x04,FF FF FF 01,TC-04.4: SF 0x04 - Invalid DTC 0xFFFFFF - Expect NRC 0x31,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446616447.00
-21,"12/6/2024, 7:23:36 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-05,0x10,50 01 00 32 01 F4,Success,,,34446616504.00
-22,"12/6/2024, 7:23:37 AM",0x19,0x06,01 01 01 01,TC-05.1: SF 0x06 - Read Extended Data Record 1 for DTC 0x010101,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446617056.00
-23,"12/6/2024, 7:23:38 AM",0x19,0x06,01 01 01 FF,TC-05.2: SF 0x06 - Read All Extended Data (Record 0xFF),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446617105.00
-24,"12/6/2024, 7:23:39 AM",0x19,0x06,01 03 00 01,TC-05.3: SF 0x06 - Read Extended Data for P0300,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446617161.00
-25,"12/6/2024, 7:23:39 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-06,0x10,50 01 00 32 01 F4,Success,,,34446617218.00
-26,"12/6/2024, 7:23:40 AM",0x19,0x07,60 FF,"TC-06.1: SF 0x07 - Count DTCs by Severity (High/0x60, All Status)",0x19,59 07 FF 01 00 00,Success,,,34446617774.00
-27,"12/6/2024, 7:23:41 AM",0x19,0x07,40 FF,TC-06.2: SF 0x07 - Count DTCs by Severity (Medium/0x40),0x19,59 07 FF 01 00 00,Success,,,34446617835.00
-28,"12/6/2024, 7:23:42 AM",0x19,0x07,20 FF,TC-06.3: SF 0x07 - Count DTCs by Severity (Low/0x20),0x19,59 07 FF 01 00 00,Success,,,34446617896.00
-29,"12/6/2024, 7:23:42 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-07,0x10,50 01 00 32 01 F4,Success,,,34446617966.00
-30,"12/6/2024, 7:23:43 AM",0x19,0x08,60 FF,TC-07.1: SF 0x08 - Read DTCs by Severity (High/0x60),0x19,59 08 FF,Success,,,34446618528.00
-31,"12/6/2024, 7:23:44 AM",0x19,0x08,40 08,"TC-07.2: SF 0x08 - Read Medium Severity + Confirmed (0x40, 0x08)",0x19,59 08 FF,Success,,,34446618597.00
-32,"12/6/2024, 7:23:44 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-08,0x10,50 01 00 32 01 F4,Success,,,34446618664.00
-33,"12/6/2024, 7:23:45 AM",0x19,0x09,01 01 01,TC-08.1: SF 0x09 - Report Severity Information for DTC 0x010101,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446619237.00
-34,"12/6/2024, 7:23:46 AM",0x19,0x09,01 03 00,TC-08.2: SF 0x09 - Report Severity for P0300,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446619309.00
-35,"12/6/2024, 7:23:46 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-09,0x10,50 01 00 32 01 F4,Success,,,34446619385.00
-36,"12/6/2024, 7:23:47 AM",0x19,0x0A,,TC-09.1: SF 0x0A - Report ALL Supported DTCs,0x19,59 0A FF,Success,,,34446619955.00
-37,"12/6/2024, 7:23:47 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-10,0x10,50 01 00 32 01 F4,Success,,,34446620028.00
-38,"12/6/2024, 7:23:48 AM",0x19,0x0B,,TC-10.1: SF 0x0B - Report First Test Failed DTC,0x19,59 0B FF,Success,,,34446620608.00
-39,"12/6/2024, 7:23:49 AM",0x19,0x0C,,TC-10.2: SF 0x0C - Report First Confirmed DTC,0x19,59 0C FF,Success,,,34446620681.00
-40,"12/6/2024, 7:23:50 AM",0x19,0x0D,,TC-10.3: SF 0x0D - Report Most Recent Test Failed DTC,0x19,59 0D FF,Success,,,34446620750.00
-41,"12/6/2024, 7:23:51 AM",0x19,0x0E,,TC-10.4: SF 0x0E - Report Most Recent Confirmed DTC,0x19,59 0E FF,Success,,,34446620832.00
-42,"12/6/2024, 7:23:51 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-11,0x10,50 01 00 32 01 F4,Success,,,34446620908.00
-43,"12/6/2024, 7:23:52 AM",0x10,0x03,,TC-11.1: Enter Extended Session for Mirror Memory Tests,0x10,50 03 00 64 01 F4,Success,,,34446621482.00
-44,"12/6/2024, 7:23:53 AM",0x19,0x0F,FF,TC-11.2: SF 0x0F - Report Mirror Memory DTC by Status (Extended Session),0x19,59 0F FF,Success,,,34446621574.00
-45,"12/6/2024, 7:23:53 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-12,0x10,50 01 00 32 01 F4,Success,,,34446621654.00
-46,"12/6/2024, 7:23:54 AM",0x19,0x0F,FF,TC-12.1: SF 0x0F - Mirror Memory in Default Session - Expect NRC 0x22,0x19,7F 19 22,NRC,0x22,Conditions Not Correct,34446622227.00
-47,"12/6/2024, 7:23:54 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-13 (Message Length),0x10,50 01 00 32 01 F4,Success,,,34446622315.00
-48,"12/6/2024, 7:23:55 AM",0x19,0x01,,TC-13.1: SF 0x01 - Missing Status Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446622902.00
-49,"12/6/2024, 7:23:56 AM",0x19,0x02,,TC-13.2: SF 0x02 - Missing Status Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446622986.00
-50,"12/6/2024, 7:23:57 AM",0x19,0x04,01 01,TC-13.3: SF 0x04 - Incomplete DTC (only 2 bytes) - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446623074.00
-51,"12/6/2024, 7:23:58 AM",0x19,0x04,01 01 01,TC-13.4: SF 0x04 - Missing Record Number - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446623161.00
-52,"12/6/2024, 7:23:59 AM",0x19,0x06,01 01,TC-13.5: SF 0x06 - Incomplete DTC - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446623258.00
-53,"12/6/2024, 7:23:59 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-14 (Invalid Subfunctions),0x10,50 01 00 32 01 F4,Success,,,34446623355.00
-54,"12/6/2024, 7:24:00 AM",0x19,0x00,FF,TC-14.1: Invalid Subfunction 0x00 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34446623917.00
-55,"12/6/2024, 7:24:01 AM",0x19,0x20,FF,TC-14.2: Invalid Subfunction 0x20 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34446624027.00
-56,"12/6/2024, 7:24:02 AM",0x19,0xFF,FF,TC-14.3: Invalid Subfunction 0xFF - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34446624129.00
-57,"12/6/2024, 7:24:03 AM",0x19,0x63,FF,TC-14.4: Invalid Subfunction 0x63 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34446624234.00
-58,"12/6/2024, 7:24:03 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-15 (Session Tests),0x10,50 01 00 32 01 F4,Success,,,34446624329.00
-59,"12/6/2024, 7:24:04 AM",0x19,0x01,FF,TC-15.1: Read DTC Count in Default Session - Valid,0x19,59 01 FF 01 00 00,Success,,,34446624925.00
-60,"12/6/2024, 7:24:05 AM",0x10,0x03,,TC-15.2: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34446625057.00
-61,"12/6/2024, 7:24:06 AM",0x19,0x01,FF,TC-15.3: Read DTC Count in Extended Session - Valid,0x19,59 01 FF 01 00 00,Success,,,34446625167.00
-62,"12/6/2024, 7:24:07 AM",0x10,0x02,,TC-15.4: Enter Programming Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,34446625274.00
-63,"12/6/2024, 7:24:08 AM",0x19,0x01,FF,TC-15.5: Read DTC Count in Programming Session - May be restricted,0x19,59 01 FF 01 00 00,Success,,,34446625389.00
-64,"12/6/2024, 7:24:08 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-16,0x10,50 01 00 32 01 F4,Success,,,34446625508.00
-65,"12/6/2024, 7:24:09 AM",0x19,0x01,FF,TC-16.1: Count All DTCs Before Clear,0x19,59 01 FF 01 00 00,Success,,,34446626073.00
-66,"12/6/2024, 7:24:10 AM",0x14,0x00,FF FF FF,TC-16.2: Clear All DTCs (SID 0x14),0x14,54,Success,,,34446626177.00
-67,"12/6/2024, 7:24:11 AM",0x19,0x01,FF,TC-16.3: Count All DTCs After Clear - Expect 0,0x19,59 01 FF 01 00 00,Success,,,34446626289.00
-68,"12/6/2024, 7:24:12 AM",0x19,0x02,FF,TC-16.4: Read All DTCs After Clear - Expect Empty,0x19,59 02 FF,Success,,,34446625896.00
-69,"12/6/2024, 7:24:12 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-17,0x10,50 01 00 32 01 F4,Success,,,34446626513.00
-70,"12/6/2024, 7:24:13 AM",0x19,0x81,FF,TC-17.1: SF 0x01 with Suppress Positive Response (0x81),0x19,59 01 FF 01 00 00,Success,,,34446626219.00
-71,"12/6/2024, 7:24:14 AM",0x19,0x82,FF,TC-17.2: SF 0x02 with Suppress Positive Response (0x82),0x19,59 02 FF,Success,,,34446625400.00
-72,"12/6/2024, 7:24:15 AM",0x19,0x8A,,TC-17.3: SF 0x0A with Suppress Positive Response (0x8A),0x19,59 0A FF,Success,,,34446624579.00
-73,"12/6/2024, 7:24:15 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-18 (Stress Tests),0x10,50 01 00 32 01 F4,Success,,,34446624658.00
-74,"12/6/2024, 7:24:16 AM",0x19,0x01,FF,TC-18.1: Rapid Request 1 - Count DTCs,0x19,59 01 FF 01 00 00,Success,,,34446625279.00
-75,"12/6/2024, 7:24:16 AM",0x19,0x01,FF,TC-18.2: Rapid Request 2 - Count DTCs (100ms),0x19,59 01 FF 01 00 00,Success,,,34446626295.00
-76,"12/6/2024, 7:24:16 AM",0x19,0x02,FF,TC-18.3: Rapid Request 3 - Read DTCs (100ms),0x19,59 02 FF,Success,,,34446627312.00
-77,"12/6/2024, 7:24:16 AM",0x19,0x0A,,TC-18.4: Rapid Request 4 - Supported DTCs (100ms),0x19,59 0A FF,Success,,,34446628402.00
-78,"12/6/2024, 7:24:17 AM",0x10,0x01,,=== NEW AUTOMOTIVE-GRADE TESTS ===,0x10,50 01 00 32 01 F4,Success,,,34446628821.00
-79,"12/6/2024, 7:24:18 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-19 (Error Recovery),0x10,50 01 00 32 01 F4,Success,,,34446628954.00
-80,"12/6/2024, 7:24:19 AM",0x19,0x0F,FF,TC-19.1: Trigger NRC 0x22 (Mirror Memory in Default),0x19,7F 19 22,NRC,0x22,Conditions Not Correct,34446629080.00
-81,"12/6/2024, 7:24:20 AM",0x10,0x03,,TC-19.2: Switch to Extended Session (Error Recovery),0x10,50 03 00 64 01 F4,Success,,,34446629219.00
-82,"12/6/2024, 7:24:21 AM",0x19,0x0F,FF,TC-19.3: Retry Request After Session Change - Should Pass,0x19,59 0F FF,Success,,,34446630351.00
-83,"12/6/2024, 7:24:22 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-20 (Session Timeout Recovery),0x10,50 01 00 32 01 F4,Success,,,34446630486.00
-84,"12/6/2024, 7:24:23 AM",0x10,0x03,,TC-20.1: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34446630623.00
-85,"12/6/2024, 7:24:24 AM",0x3E,0x00,,TC-20.2: Tester Present (SID 0x3E) - Keep Session Alive,0x3E,00,Success,,,34446630752.00
-86,"12/6/2024, 7:24:25 AM",0x19,0x0F,FF,TC-20.3: Read Mirror Memory After Tester Present,0x19,59 0F FF,Success,,,34446630884.00
-87,"12/6/2024, 7:24:26 AM",0x3E,0x00,,TC-20.4: Tester Present Again (Session Maintenance),0x3E,00,Success,,,34446631011.00
-88,"12/6/2024, 7:24:27 AM",0x19,0x01,FF,TC-20.5: Count DTCs After Multiple Tester Present,0x19,59 01 FF 01 00 00,Success,,,34446631148.00
-89,"12/6/2024, 7:24:28 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-21 (Extended Workflow),0x10,50 01 00 32 01 F4,Success,,,34446631280.00
-90,"12/6/2024, 7:24:29 AM",0x10,0x03,,TC-21.1: WORKFLOW Step 1 - Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34446631413.00
-91,"12/6/2024, 7:24:30 AM",0x19,0x01,FF,TC-21.2: WORKFLOW Step 2 - Count All DTCs,0x19,59 01 FF 01 00 00,Success,,,34446631557.00
-92,"12/6/2024, 7:24:31 AM",0x19,0x02,08,TC-21.3: WORKFLOW Step 3 - Read Confirmed DTCs,0x19,59 02 FF,Success,,,34446631718.00
-93,"12/6/2024, 7:24:32 AM",0x19,0x04,01 01 01 FF,TC-21.4: WORKFLOW Step 4 - Get Snapshot Data,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446631834.00
-94,"12/6/2024, 7:24:33 AM",0x19,0x06,01 01 01 FF,TC-21.5: WORKFLOW Step 5 - Get Extended Data,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446631947.00
-95,"12/6/2024, 7:24:34 AM",0x14,0x00,FF FF FF,TC-21.6: WORKFLOW Step 6 - Clear All DTCs,0x14,54,Success,,,34446632056.00
-96,"12/6/2024, 7:24:36 AM",0x19,0x01,FF,TC-21.7: WORKFLOW Step 7 - Verify Clear (Count=0),0x19,59 01 FF 01 00 00,Success,,,34446631165.00
-97,"12/6/2024, 7:24:37 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-22 (DTC Lifecycle),0x10,50 01 00 32 01 F4,Success,,,34446631295.00
-98,"12/6/2024, 7:24:38 AM",0x19,0x02,04,TC-22.1: LIFECYCLE - Read Pending DTCs (Status 0x04),0x19,59 02 FF,Success,,,34446631398.00
-99,"12/6/2024, 7:24:39 AM",0x19,0x02,08,TC-22.2: LIFECYCLE - Read Confirmed DTCs (Status 0x08),0x19,59 02 FF,Success,,,34446631542.00
-100,"12/6/2024, 7:24:40 AM",0x19,0x02,0C,TC-22.3: LIFECYCLE - Read Pending OR Confirmed (Status 0x0C),0x19,59 02 FF,Success,,,34446631705.00
-101,"12/6/2024, 7:24:41 AM",0x19,0x02,40,TC-22.4: LIFECYCLE - Read Test Failed This Cycle (Status 0x40),0x19,59 02 FF,Success,,,34446631860.00
-102,"12/6/2024, 7:24:42 AM",0x19,0x02,02,TC-22.5: LIFECYCLE - Read Test Not Complete This Cycle (Status 0x02),0x19,59 02 FF,Success,,,34446632009.00
-103,"12/6/2024, 7:24:43 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-23 (Boundary Cases),0x10,50 01 00 32 01 F4,Success,,,34446632164.00
-104,"12/6/2024, 7:24:44 AM",0x19,0x04,01 01 01 00,TC-23.1: BOUNDARY - Snapshot Record 0 (First Record),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446632328.00
-105,"12/6/2024, 7:24:45 AM",0x19,0x04,01 01 01 FE,TC-23.2: BOUNDARY - Snapshot Record 0xFE (Invalid),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446632489.00
-106,"12/6/2024, 7:24:46 AM",0x19,0x06,01 01 01 00,TC-23.3: BOUNDARY - Extended Data Record 0,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446632721.00
-107,"12/6/2024, 7:24:47 AM",0x19,0x07,00 FF,TC-23.4: BOUNDARY - Severity Mask 0x00 (No Severity Filter),0x19,59 07 FF 01 00 00,Success,,,34446632849.00
-108,"12/6/2024, 7:24:48 AM",0x19,0x07,E0 FF,TC-23.5: BOUNDARY - All Severity Levels (0xE0),0x19,59 07 FF 01 00 00,Success,,,34446632970.00
-109,"12/6/2024, 7:24:49 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-24 (Cross-Validation),0x10,50 01 00 32 01 F4,Success,,,34446633105.00
-110,"12/6/2024, 7:24:50 AM",0x19,0x01,FF,TC-24.1: CROSS-VAL - Count All DTCs (Reference),0x19,59 01 FF 01 00 00,Success,,,34446633260.00
-111,"12/6/2024, 7:24:51 AM",0x19,0x02,FF,TC-24.2: CROSS-VAL - Read All DTCs (Verify Count Match),0x19,59 02 FF,Success,,,34446633420.00
-112,"12/6/2024, 7:24:52 AM",0x19,0x0A,,TC-24.3: CROSS-VAL - Get Supported DTCs (Capability),0x19,59 0A FF,Success,,,34446633593.00
-113,"12/6/2024, 7:24:53 AM",0x19,0x0B,,TC-24.4: CROSS-VAL - First Test Failed (Should Be In List),0x19,59 0B FF,Success,,,34446633763.00
-114,"12/6/2024, 7:24:54 AM",0x19,0x0D,,TC-24.5: CROSS-VAL - Most Recent Failed (Ordering Check),0x19,59 0D FF,Success,,,34446633880.00
-115,"12/6/2024, 7:24:55 AM",0x19,0x0C,,TC-24.6: CROSS-VAL - First Confirmed DTC,0x19,59 0C FF,Success,,,34446634063.00
-116,"12/6/2024, 7:24:56 AM",0x19,0x0E,,TC-24.7: CROSS-VAL - Most Recent Confirmed (Compare),0x19,59 0E FF,Success,,,34446634227.00
-117,"12/6/2024, 7:24:57 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-25 (Status Mask Combos),0x10,50 01 00 32 01 F4,Success,,,34446634392.00
-118,"12/6/2024, 7:24:58 AM",0x19,0x01,49,TC-25.1: COMBO - Status 0x49 (TF + TFTOC + Confirmed),0x19,59 01 FF 01 00 00,Success,,,34446634563.00
-119,"12/6/2024, 7:24:59 AM",0x19,0x01,19,TC-25.2: COMBO - Status 0x19 (TF + Confirmed + WIR),0x19,59 01 FF 01 00 00,Success,,,34446634739.00
-120,"12/6/2024, 7:25:00 AM",0x19,0x01,24,TC-25.3: COMBO - Status 0x24 (Pending + TFSLC),0x19,59 01 FF 01 00 00,Success,,,34446634875.00
-121,"12/6/2024, 7:25:01 AM",0x19,0x02,49,TC-25.4: COMBO - Read with Status 0x49,0x19,59 02 FF,Success,,,34446635049.00
-122,"12/6/2024, 7:25:02 AM",0x19,0x02,19,TC-25.5: COMBO - Read with Status 0x19,0x19,59 02 FF,Success,,,34446635222.00
-123,"12/6/2024, 7:25:03 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-26 (Additional NRC Tests),0x10,50 01 00 32 01 F4,Success,,,34446635400.00
-124,"12/6/2024, 7:25:04 AM",0x19,0x04,00 00 00 01,TC-26.1: NRC - Snapshot for DTC 0x000000 (Invalid),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446635584.00
-125,"12/6/2024, 7:25:05 AM",0x19,0x06,FE FE FE 01,TC-26.2: NRC - Extended Data for Invalid DTC 0xFEFEFE,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446635782.00
-126,"12/6/2024, 7:25:06 AM",0x19,0x09,FF FF FF,TC-26.3: NRC - Severity Info for Invalid DTC,0x19,7F 19 31,NRC,0x31,Request Out of Range,34446635925.00
-127,"12/6/2024, 7:25:07 AM",0x19,0x07,,TC-26.4: NRC - Missing Severity Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446636063.00
-128,"12/6/2024, 7:25:08 AM",0x19,0x08,60,TC-26.5: NRC - Missing Status Mask in SF 0x08 - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34446636202.00
-129,"12/6/2024, 7:25:09 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-27 (Multi-DTC Snapshot),0x10,50 01 00 32 01 F4,Success,,,34446635425.00
-130,"12/6/2024, 7:25:10 AM",0x19,0x04,01 01 71 FF,TC-27.1: MULTI-DTC - P0171 Snapshot (All Records),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446634717.00
-131,"12/6/2024, 7:25:11 AM",0x19,0x04,01 05 62 FF,TC-27.2: MULTI-DTC - P0562 Snapshot (All Records),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446634044.00
-132,"12/6/2024, 7:25:12 AM",0x19,0x04,02 00 35 FF,TC-27.3: MULTI-DTC - C0035 Snapshot (Chassis Code),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446633285.00
-133,"12/6/2024, 7:25:13 AM",0x19,0x04,04 01 00 FF,TC-27.4: MULTI-DTC - U0100 Snapshot (Network Code),0x19,7F 19 31,NRC,0x31,Request Out of Range,34446632521.00
-134,"12/6/2024, 7:25:14 AM",0x10,0x01,,[FINAL CLEANUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,34446631785.00
+1,"12/6/2024, 7:23:20 AM",0x10,0x01,,[SETUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,34507680109.00
+2,"12/6/2024, 7:23:21 AM",0x19,0x01,FF,TC-01.1: SF 0x01 - Count All DTCs (Status Mask 0xFF),0x19,59 01 FF 01 00 0F,Success,,,34507680145.00
+3,"12/6/2024, 7:23:22 AM",0x19,0x01,08,TC-01.2: SF 0x01 - Count Confirmed DTCs Only (Status Mask 0x08),0x19,59 01 FF 01 00 0A,Success,,,34507680926.00
+4,"12/6/2024, 7:23:23 AM",0x19,0x01,04,TC-01.3: SF 0x01 - Count Pending DTCs Only (Status Mask 0x04),0x19,59 01 FF 01 00 05,Success,,,34507680952.00
+5,"12/6/2024, 7:23:24 AM",0x19,0x01,01,TC-01.4: SF 0x01 - Count testFailed DTCs (Status Mask 0x01),0x19,59 01 FF 01 00 07,Success,,,34507681926.00
+6,"12/6/2024, 7:23:25 AM",0x19,0x01,80,TC-01.5: SF 0x01 - Count MIL Active DTCs (Status Mask 0x80),0x19,59 01 FF 01 00 07,Success,,,34507682962.00
+7,"12/6/2024, 7:23:26 AM",0x19,0x01,00,TC-01.6: SF 0x01 - Count with Zero Mask (Edge Case),0x19,59 01 FF 01 00 0F,Success,,,34507684928.00
+8,"12/6/2024, 7:23:26 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-02,0x10,50 01 00 32 01 F4,Success,,,34507686421.00
+9,"12/6/2024, 7:23:27 AM",0x19,0x02,FF,TC-02.1: SF 0x02 - Read All DTCs by Status (Mask 0xFF),0x19,59 02 FF 01 01 01 AB 01 01 71 24 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 00 45 24 02 12 34 28 03 00 56 24 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 00 24 04 01 21 24 04 01 55 28,Success,,,34507688924.00
+10,"12/6/2024, 7:23:28 AM",0x19,0x02,08,TC-02.2: SF 0x02 - Read Confirmed DTCs (Mask 0x08),0x19,59 02 FF 01 01 01 AB 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 12 34 28 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 55 28,Success,,,34507690925.00
+11,"12/6/2024, 7:23:29 AM",0x19,0x02,04,TC-02.3: SF 0x02 - Read Pending DTCs (Mask 0x04),0x19,59 02 FF 01 01 71 24 02 00 45 24 03 00 56 24 04 01 00 24 04 01 21 24,Success,,,34507691928.00
+12,"12/6/2024, 7:23:30 AM",0x19,0x02,09,TC-02.4: SF 0x02 - Read Confirmed OR Failed (Mask 0x09),0x19,59 02 FF 01 01 01 AB 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 12 34 28 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 55 28,Success,,,34507691996.00
+13,"12/6/2024, 7:23:31 AM",0x19,0x02,80,TC-02.5: SF 0x02 - Read MIL Active DTCs (Mask 0x80),0x19,59 02 FF 01 01 01 AB 01 03 00 AB 01 04 20 A9 02 00 35 AB 03 10 01 AB 03 18 01 AB 04 00 01 AB,Success,,,34507692071.00
+14,"12/6/2024, 7:23:31 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-03,0x10,50 01 00 32 01 F4,Success,,,34507692167.00
+15,"12/6/2024, 7:23:32 AM",0x19,0x03,,TC-03.1: SF 0x03 - Report DTC Snapshot Identification,0x19,59 03 FF 01 01 01 01 01 01 71 01 01 03 00 01 01 04 20 01 01 05 62 01 02 00 35 01 02 00 45 01 02 12 34 01 03 00 56 01 03 10 01 01 03 18 01 01 04 00 01 01 04 01 00 01 04 01 21 01 04 01 55 01,Success,,,34507692719.00
+16,"12/6/2024, 7:23:32 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-04,0x10,50 01 00 32 01 F4,Success,,,34507692823.00
+17,"12/6/2024, 7:23:33 AM",0x19,0x04,01 01 01 01,"TC-04.1: SF 0x04 - Read Snapshot Record for DTC 0x010101, Record 1",0x19,59 04 01 01 01 AB 01 0A 01 0D 41 01 0C 09 C4 01 05 84 01 11 73 01 2F 99 01 42 8E 01 04 8C 01 0F 44 F4 01 01 5E 01 46 3E,Success,,,34507693420.00
+18,"12/6/2024, 7:23:34 AM",0x19,0x04,01 01 01 FF,TC-04.2: SF 0x04 - Read All Snapshot Records for DTC (Record 0xFF),0x19,59 04 01 01 01 AB 01 0A 01 0D 41 01 0C 09 C4 01 05 84 01 11 73 01 2F 99 01 42 8E 01 04 8C 01 0F 44 F4 01 01 5E 01 46 3E,Success,,,34507693525.00
+19,"12/6/2024, 7:23:35 AM",0x19,0x04,01 03 00 01,TC-04.3: SF 0x04 - Read Snapshot for P0300 Misfire DTC,0x19,59 04 01 03 00 AB 01 0A 01 0D 50 01 0C 0C 80 01 05 87 01 11 99 01 2F 8C 01 42 8D 01 04 B3 01 0F 48 F4 01 01 7C 01 46 41,Success,,,34507693652.00
+20,"12/6/2024, 7:23:36 AM",0x19,0x04,FF FF FF 01,TC-04.4: SF 0x04 - Invalid DTC 0xFFFFFF - Expect NRC 0x31,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507693782.00
+21,"12/6/2024, 7:23:36 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-05,0x10,50 01 00 32 01 F4,Success,,,34507693899.00
+22,"12/6/2024, 7:23:37 AM",0x19,0x06,01 01 01 01,TC-05.1: SF 0x06 - Read Extended Data Record 1 for DTC 0x010101,0x19,59 06 01 01 01 AB 01 05 00 00 00 01 00,Success,,,34507694462.00
+23,"12/6/2024, 7:23:38 AM",0x19,0x06,01 01 01 FF,TC-05.2: SF 0x06 - Read All Extended Data (Record 0xFF),0x19,59 06 01 01 01 AB 01 05 00 00 00 01 00,Success,,,34507694528.00
+24,"12/6/2024, 7:23:39 AM",0x19,0x06,01 03 00 01,TC-05.3: SF 0x06 - Read Extended Data for P0300,0x19,59 06 01 03 00 AB 01 0C 00 00 00 01 00,Success,,,34507694594.00
+25,"12/6/2024, 7:23:39 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-06,0x10,50 01 00 32 01 F4,Success,,,34507694679.00
+26,"12/6/2024, 7:23:40 AM",0x19,0x07,60 FF,"TC-06.1: SF 0x07 - Count DTCs by Severity (High/0x60, All Status)",0x19,59 07 FF 01 00 0F,Success,,,34507695341.00
+27,"12/6/2024, 7:23:41 AM",0x19,0x07,40 FF,TC-06.2: SF 0x07 - Count DTCs by Severity (Medium/0x40),0x19,59 07 FF 01 00 0D,Success,,,34507695424.00
+28,"12/6/2024, 7:23:42 AM",0x19,0x07,20 FF,TC-06.3: SF 0x07 - Count DTCs by Severity (Low/0x20),0x19,59 07 FF 01 00 0A,Success,,,34507695501.00
+29,"12/6/2024, 7:23:42 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-07,0x10,50 01 00 32 01 F4,Success,,,34507695578.00
+30,"12/6/2024, 7:23:43 AM",0x19,0x08,60 FF,TC-07.1: SF 0x08 - Read DTCs by Severity (High/0x60),0x19,59 08 FF 60 00 01 01 01 AB 40 00 01 01 71 24 60 00 01 03 00 AB 40 00 01 04 20 A9 20 00 01 05 62 28 60 00 02 00 35 AB 60 00 02 00 45 24 40 00 02 12 34 28 20 00 03 00 56 24 40 00 03 10 01 AB 60 00 03 18 01 AB 60 00 04 00 01 AB 60 00 04 01 00 24 60 00 04 01 21 24 40 00 04 01 55 28,Success,,,34507696157.00
+31,"12/6/2024, 7:23:44 AM",0x19,0x08,40 08,"TC-07.2: SF 0x08 - Read Medium Severity + Confirmed (0x40, 0x08)",0x19,59 08 FF 60 00 01 01 01 AB 60 00 01 03 00 AB 40 00 01 04 20 A9 60 00 02 00 35 AB 40 00 02 12 34 28 40 00 03 10 01 AB 60 00 03 18 01 AB 60 00 04 00 01 AB 40 00 04 01 55 28,Success,,,34507696248.00
+32,"12/6/2024, 7:23:44 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-08,0x10,50 01 00 32 01 F4,Success,,,34507696344.00
+33,"12/6/2024, 7:23:45 AM",0x19,0x09,01 01 01,TC-08.1: SF 0x09 - Report Severity Information for DTC 0x010101,0x19,59 09 FF 60 00 01 01 01 AB,Success,,,34507696938.00
+34,"12/6/2024, 7:23:46 AM",0x19,0x09,01 03 00,TC-08.2: SF 0x09 - Report Severity for P0300,0x19,59 09 FF 60 00 01 03 00 AB,Success,,,34507697070.00
+35,"12/6/2024, 7:23:46 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-09,0x10,50 01 00 32 01 F4,Success,,,34507697204.00
+36,"12/6/2024, 7:23:47 AM",0x19,0x0A,,TC-09.1: SF 0x0A - Report ALL Supported DTCs,0x19,59 0A FF 01 01 01 AB 01 01 71 24 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 00 45 24 02 12 34 28 03 00 56 24 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 00 24 04 01 21 24 04 01 55 28,Success,,,34507697800.00
+37,"12/6/2024, 7:23:47 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-10,0x10,50 01 00 32 01 F4,Success,,,34507697903.00
+38,"12/6/2024, 7:23:48 AM",0x19,0x0B,,TC-10.1: SF 0x0B - Report First Test Failed DTC,0x19,59 0B FF 01 04 20 A9,Success,,,34507698506.00
+39,"12/6/2024, 7:23:49 AM",0x19,0x0C,,TC-10.2: SF 0x0C - Report First Confirmed DTC,0x19,59 0C FF 01 04 20 A9,Success,,,34507698618.00
+40,"12/6/2024, 7:23:50 AM",0x19,0x0D,,TC-10.3: SF 0x0D - Report Most Recent Test Failed DTC,0x19,59 0D FF 04 00 01 AB,Success,,,34507698749.00
+41,"12/6/2024, 7:23:51 AM",0x19,0x0E,,TC-10.4: SF 0x0E - Report Most Recent Confirmed DTC,0x19,59 0E FF 04 00 01 AB,Success,,,34507698850.00
+42,"12/6/2024, 7:23:51 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-11,0x10,50 01 00 32 01 F4,Success,,,34507699044.00
+43,"12/6/2024, 7:23:52 AM",0x10,0x03,,TC-11.1: Enter Extended Session for Mirror Memory Tests,0x10,50 03 00 64 01 F4,Success,,,34507699677.00
+44,"12/6/2024, 7:23:53 AM",0x19,0x0F,FF,TC-11.2: SF 0x0F - Report Mirror Memory DTC by Status (Extended Session),0x19,59 0F FF 01 01 01 AB 01 01 71 24 01 03 00 AB 01 04 20 A9 01 05 62 28 02 00 35 AB 02 00 45 24 02 12 34 28 03 00 56 24 03 10 01 AB 03 18 01 AB 04 00 01 AB 04 01 00 24 04 01 21 24 04 01 55 28,Success,,,34507699820.00
+45,"12/6/2024, 7:23:53 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-12,0x10,50 01 00 32 01 F4,Success,,,34507699951.00
+46,"12/6/2024, 7:23:54 AM",0x19,0x0F,FF,TC-12.1: SF 0x0F - Mirror Memory in Default Session - Expect NRC 0x22,0x19,7F 19 22,NRC,0x22,Conditions Not Correct,34507700672.00
+47,"12/6/2024, 7:23:54 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-13 (Message Length),0x10,50 01 00 32 01 F4,Success,,,34507700889.00
+48,"12/6/2024, 7:23:55 AM",0x19,0x01,,TC-13.1: SF 0x01 - Missing Status Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507701508.00
+49,"12/6/2024, 7:23:56 AM",0x19,0x02,,TC-13.2: SF 0x02 - Missing Status Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507701627.00
+50,"12/6/2024, 7:23:57 AM",0x19,0x04,01 01,TC-13.3: SF 0x04 - Incomplete DTC (only 2 bytes) - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507701756.00
+51,"12/6/2024, 7:23:58 AM",0x19,0x04,01 01 01,TC-13.4: SF 0x04 - Missing Record Number - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507701880.00
+52,"12/6/2024, 7:23:59 AM",0x19,0x06,01 01,TC-13.5: SF 0x06 - Incomplete DTC - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507702070.00
+53,"12/6/2024, 7:23:59 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-14 (Invalid Subfunctions),0x10,50 01 00 32 01 F4,Success,,,34507702196.00
+54,"12/6/2024, 7:24:00 AM",0x19,0x00,FF,TC-14.1: Invalid Subfunction 0x00 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34507702825.00
+55,"12/6/2024, 7:24:01 AM",0x19,0x20,FF,TC-14.2: Invalid Subfunction 0x20 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34507702958.00
+56,"12/6/2024, 7:24:02 AM",0x19,0xFF,FF,TC-14.3: Invalid Subfunction 0xFF - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34507703173.00
+57,"12/6/2024, 7:24:03 AM",0x19,0x63,FF,TC-14.4: Invalid Subfunction 0x63 - Expect NRC 0x12,0x19,7F 19 12,NRC,0x12,Sub-Function Not Supported,34507703395.00
+58,"12/6/2024, 7:24:03 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-15 (Session Tests),0x10,50 01 00 32 01 F4,Success,,,34507703520.00
+59,"12/6/2024, 7:24:04 AM",0x19,0x01,FF,TC-15.1: Read DTC Count in Default Session - Valid,0x19,59 01 FF 01 00 0F,Success,,,34507704145.00
+60,"12/6/2024, 7:24:05 AM",0x10,0x03,,TC-15.2: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34507704304.00
+61,"12/6/2024, 7:24:06 AM",0x19,0x01,FF,TC-15.3: Read DTC Count in Extended Session - Valid,0x19,59 01 FF 01 00 0F,Success,,,34507704404.00
+62,"12/6/2024, 7:24:07 AM",0x10,0x02,,TC-15.4: Enter Programming Session,0x10,7F 10 22,NRC,0x22,Conditions Not Correct,34507704529.00
+63,"12/6/2024, 7:24:08 AM",0x19,0x01,FF,TC-15.5: Read DTC Count in Programming Session - May be restricted,0x19,59 01 FF 01 00 0F,Success,,,34507704693.00
+64,"12/6/2024, 7:24:08 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-16,0x10,50 01 00 32 01 F4,Success,,,34507704903.00
+65,"12/6/2024, 7:24:09 AM",0x19,0x01,FF,TC-16.1: Count All DTCs Before Clear,0x19,59 01 FF 01 00 0F,Success,,,34507705537.00
+66,"12/6/2024, 7:24:10 AM",0x14,0x00,FF FF FF,TC-16.2: Clear All DTCs (SID 0x14),0x14,54,Success,,,34507705670.00
+67,"12/6/2024, 7:24:11 AM",0x19,0x01,FF,TC-16.3: Count All DTCs After Clear - Expect 0,0x19,59 01 FF 01 00 00,Success,,,34507705809.00
+68,"12/6/2024, 7:24:12 AM",0x19,0x02,FF,TC-16.4: Read All DTCs After Clear - Expect Empty,0x19,59 02 FF,Success,,,34507705447.00
+69,"12/6/2024, 7:24:12 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-17,0x10,50 01 00 32 01 F4,Success,,,34507706098.00
+70,"12/6/2024, 7:24:13 AM",0x19,0x81,FF,TC-17.1: SF 0x01 with Suppress Positive Response (0x81),0x19,,Success,,,34507705835.00
+71,"12/6/2024, 7:24:14 AM",0x19,0x82,FF,TC-17.2: SF 0x02 with Suppress Positive Response (0x82),0x19,,Success,,,34507705108.00
+72,"12/6/2024, 7:24:15 AM",0x19,0x8A,,TC-17.3: SF 0x0A with Suppress Positive Response (0x8A),0x19,,Success,,,34507704464.00
+73,"12/6/2024, 7:24:15 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-18 (Stress Tests),0x10,50 01 00 32 01 F4,Success,,,34507704640.00
+74,"12/6/2024, 7:24:16 AM",0x19,0x01,FF,TC-18.1: Rapid Request 1 - Count DTCs,0x19,59 01 FF 01 00 00,Success,,,34507705285.00
+75,"12/6/2024, 7:24:16 AM",0x19,0x01,FF,TC-18.2: Rapid Request 2 - Count DTCs (100ms),0x19,59 01 FF 01 00 00,Success,,,34507706334.00
+76,"12/6/2024, 7:24:16 AM",0x19,0x02,FF,TC-18.3: Rapid Request 3 - Read DTCs (100ms),0x19,59 02 FF,Success,,,34507707474.00
+77,"12/6/2024, 7:24:16 AM",0x19,0x0A,,TC-18.4: Rapid Request 4 - Supported DTCs (100ms),0x19,59 0A FF,Success,,,34507708650.00
+78,"12/6/2024, 7:24:17 AM",0x10,0x01,,=== NEW AUTOMOTIVE-GRADE TESTS ===,0x10,50 01 00 32 01 F4,Success,,,34507709135.00
+79,"12/6/2024, 7:24:18 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-19 (Error Recovery),0x10,50 01 00 32 01 F4,Success,,,34507709313.00
+80,"12/6/2024, 7:24:19 AM",0x19,0x0F,FF,TC-19.1: Trigger NRC 0x22 (Mirror Memory in Default),0x19,7F 19 22,NRC,0x22,Conditions Not Correct,34507709471.00
+81,"12/6/2024, 7:24:20 AM",0x10,0x03,,TC-19.2: Switch to Extended Session (Error Recovery),0x10,50 03 00 64 01 F4,Success,,,34507709614.00
+82,"12/6/2024, 7:24:21 AM",0x19,0x0F,FF,TC-19.3: Retry Request After Session Change - Should Pass,0x19,59 0F FF,Success,,,34507710773.00
+83,"12/6/2024, 7:24:22 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-20 (Session Timeout Recovery),0x10,50 01 00 32 01 F4,Success,,,34507710954.00
+84,"12/6/2024, 7:24:23 AM",0x10,0x03,,TC-20.1: Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34507711108.00
+85,"12/6/2024, 7:24:24 AM",0x3E,0x00,,TC-20.2: Tester Present (SID 0x3E) - Keep Session Alive,0x3E,00,Success,,,34507711394.00
+86,"12/6/2024, 7:24:25 AM",0x19,0x0F,FF,TC-20.3: Read Mirror Memory After Tester Present,0x19,59 0F FF,Success,,,34507711551.00
+87,"12/6/2024, 7:24:26 AM",0x3E,0x00,,TC-20.4: Tester Present Again (Session Maintenance),0x3E,00,Success,,,34507711718.00
+88,"12/6/2024, 7:24:27 AM",0x19,0x01,FF,TC-20.5: Count DTCs After Multiple Tester Present,0x19,59 01 FF 01 00 00,Success,,,34507711878.00
+89,"12/6/2024, 7:24:28 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-21 (Extended Workflow),0x10,50 01 00 32 01 F4,Success,,,34507712040.00
+90,"12/6/2024, 7:24:29 AM",0x10,0x03,,TC-21.1: WORKFLOW Step 1 - Enter Extended Session,0x10,50 03 00 64 01 F4,Success,,,34507712206.00
+91,"12/6/2024, 7:24:30 AM",0x19,0x01,FF,TC-21.2: WORKFLOW Step 2 - Count All DTCs,0x19,59 01 FF 01 00 00,Success,,,34507712355.00
+92,"12/6/2024, 7:24:31 AM",0x19,0x02,08,TC-21.3: WORKFLOW Step 3 - Read Confirmed DTCs,0x19,59 02 FF,Success,,,34507712591.00
+93,"12/6/2024, 7:24:32 AM",0x19,0x04,01 01 01 FF,TC-21.4: WORKFLOW Step 4 - Get Snapshot Data,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507712740.00
+94,"12/6/2024, 7:24:33 AM",0x19,0x06,01 01 01 FF,TC-21.5: WORKFLOW Step 5 - Get Extended Data,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507712902.00
+95,"12/6/2024, 7:24:34 AM",0x14,0x00,FF FF FF,TC-21.6: WORKFLOW Step 6 - Clear All DTCs,0x14,54,Success,,,34507713067.00
+96,"12/6/2024, 7:24:36 AM",0x19,0x01,FF,TC-21.7: WORKFLOW Step 7 - Verify Clear (Count=0),0x19,59 01 FF 01 00 00,Success,,,34507712241.00
+97,"12/6/2024, 7:24:37 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-22 (DTC Lifecycle),0x10,50 01 00 32 01 F4,Success,,,34507712398.00
+98,"12/6/2024, 7:24:38 AM",0x19,0x02,04,TC-22.1: LIFECYCLE - Read Pending DTCs (Status 0x04),0x19,59 02 FF,Success,,,34507712568.00
+99,"12/6/2024, 7:24:39 AM",0x19,0x02,08,TC-22.2: LIFECYCLE - Read Confirmed DTCs (Status 0x08),0x19,59 02 FF,Success,,,34507712730.00
+100,"12/6/2024, 7:24:40 AM",0x19,0x02,0C,TC-22.3: LIFECYCLE - Read Pending OR Confirmed (Status 0x0C),0x19,59 02 FF,Success,,,34507712892.00
+101,"12/6/2024, 7:24:41 AM",0x19,0x02,40,TC-22.4: LIFECYCLE - Read Test Failed This Cycle (Status 0x40),0x19,59 02 FF,Success,,,34507713054.00
+102,"12/6/2024, 7:24:42 AM",0x19,0x02,02,TC-22.5: LIFECYCLE - Read Test Not Complete This Cycle (Status 0x02),0x19,59 02 FF,Success,,,34507713209.00
+103,"12/6/2024, 7:24:43 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-23 (Boundary Cases),0x10,50 01 00 32 01 F4,Success,,,34507713386.00
+104,"12/6/2024, 7:24:44 AM",0x19,0x04,01 01 01 00,TC-23.1: BOUNDARY - Snapshot Record 0 (First Record),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507713636.00
+105,"12/6/2024, 7:24:45 AM",0x19,0x04,01 01 01 FE,TC-23.2: BOUNDARY - Snapshot Record 0xFE (Invalid),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507713794.00
+106,"12/6/2024, 7:24:46 AM",0x19,0x06,01 01 01 00,TC-23.3: BOUNDARY - Extended Data Record 0,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507713975.00
+107,"12/6/2024, 7:24:47 AM",0x19,0x07,00 FF,TC-23.4: BOUNDARY - Severity Mask 0x00 (No Severity Filter),0x19,59 07 FF 01 00 00,Success,,,34507714149.00
+108,"12/6/2024, 7:24:48 AM",0x19,0x07,E0 FF,TC-23.5: BOUNDARY - All Severity Levels (0xE0),0x19,59 07 FF 01 00 00,Success,,,34507714329.00
+109,"12/6/2024, 7:24:49 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-24 (Cross-Validation),0x10,50 01 00 32 01 F4,Success,,,34507714522.00
+110,"12/6/2024, 7:24:50 AM",0x19,0x01,FF,TC-24.1: CROSS-VAL - Count All DTCs (Reference),0x19,59 01 FF 01 00 00,Success,,,34507714707.00
+111,"12/6/2024, 7:24:51 AM",0x19,0x02,FF,TC-24.2: CROSS-VAL - Read All DTCs (Verify Count Match),0x19,59 02 FF,Success,,,34507714887.00
+112,"12/6/2024, 7:24:52 AM",0x19,0x0A,,TC-24.3: CROSS-VAL - Get Supported DTCs (Capability),0x19,59 0A FF,Success,,,34507715051.00
+113,"12/6/2024, 7:24:53 AM",0x19,0x0B,,TC-24.4: CROSS-VAL - First Test Failed (Should Be In List),0x19,59 0B FF,Success,,,34507715232.00
+114,"12/6/2024, 7:24:54 AM",0x19,0x0D,,TC-24.5: CROSS-VAL - Most Recent Failed (Ordering Check),0x19,59 0D FF,Success,,,34507715413.00
+115,"12/6/2024, 7:24:55 AM",0x19,0x0C,,TC-24.6: CROSS-VAL - First Confirmed DTC,0x19,59 0C FF,Success,,,34507715697.00
+116,"12/6/2024, 7:24:56 AM",0x19,0x0E,,TC-24.7: CROSS-VAL - Most Recent Confirmed (Compare),0x19,59 0E FF,Success,,,34507715958.00
+117,"12/6/2024, 7:24:57 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-25 (Status Mask Combos),0x10,50 01 00 32 01 F4,Success,,,34507716220.00
+118,"12/6/2024, 7:24:58 AM",0x19,0x01,49,TC-25.1: COMBO - Status 0x49 (TF + TFTOC + Confirmed),0x19,59 01 FF 01 00 00,Success,,,34507716487.00
+119,"12/6/2024, 7:24:59 AM",0x19,0x01,19,TC-25.2: COMBO - Status 0x19 (TF + Confirmed + WIR),0x19,59 01 FF 01 00 00,Success,,,34507716694.00
+120,"12/6/2024, 7:25:00 AM",0x19,0x01,24,TC-25.3: COMBO - Status 0x24 (Pending + TFSLC),0x19,59 01 FF 01 00 00,Success,,,34507716874.00
+121,"12/6/2024, 7:25:01 AM",0x19,0x02,49,TC-25.4: COMBO - Read with Status 0x49,0x19,59 02 FF,Success,,,34507717049.00
+122,"12/6/2024, 7:25:02 AM",0x19,0x02,19,TC-25.5: COMBO - Read with Status 0x19,0x19,59 02 FF,Success,,,34507717240.00
+123,"12/6/2024, 7:25:03 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-26 (Additional NRC Tests),0x10,50 01 00 32 01 F4,Success,,,34507717419.00
+124,"12/6/2024, 7:25:04 AM",0x19,0x04,00 00 00 01,TC-26.1: NRC - Snapshot for DTC 0x000000 (Invalid),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507717628.00
+125,"12/6/2024, 7:25:05 AM",0x19,0x06,FE FE FE 01,TC-26.2: NRC - Extended Data for Invalid DTC 0xFEFEFE,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507717807.00
+126,"12/6/2024, 7:25:06 AM",0x19,0x09,FF FF FF,TC-26.3: NRC - Severity Info for Invalid DTC,0x19,7F 19 31,NRC,0x31,Request Out of Range,34507717989.00
+127,"12/6/2024, 7:25:07 AM",0x19,0x07,,TC-26.4: NRC - Missing Severity Mask - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507718264.00
+128,"12/6/2024, 7:25:08 AM",0x19,0x08,60,TC-26.5: NRC - Missing Status Mask in SF 0x08 - Expect NRC 0x13,0x19,7F 19 13,NRC,0x13,Incorrect Message Length,34507718552.00
+129,"12/6/2024, 7:25:09 AM",0x10,0x01,,[SETUP] Reset to Default Session for TC-27 (Multi-DTC Snapshot),0x10,50 01 00 32 01 F4,Success,,,34507717921.00
+130,"12/6/2024, 7:25:10 AM",0x19,0x04,01 01 71 FF,TC-27.1: MULTI-DTC - P0171 Snapshot (All Records),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507717227.00
+131,"12/6/2024, 7:25:11 AM",0x19,0x04,01 05 62 FF,TC-27.2: MULTI-DTC - P0562 Snapshot (All Records),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507716593.00
+132,"12/6/2024, 7:25:12 AM",0x19,0x04,02 00 35 FF,TC-27.3: MULTI-DTC - C0035 Snapshot (Chassis Code),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507715906.00
+133,"12/6/2024, 7:25:13 AM",0x19,0x04,04 01 00 FF,TC-27.4: MULTI-DTC - U0100 Snapshot (Network Code),0x19,7F 19 31,NRC,0x31,Request Out of Range,34507715229.00
+134,"12/6/2024, 7:25:14 AM",0x10,0x01,,[FINAL CLEANUP] Reset to Default Session,0x10,50 01 00 32 01 F4,Success,,,34507714584.00

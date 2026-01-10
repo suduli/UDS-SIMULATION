@@ -1,0 +1,76 @@
+﻿Report Information
+Report ID,terminal_report_1767950976785
+Report Name,"Terminal Output Report (1/9/2026, 2:59:36 PM)"
+Description,Generated from current terminal session with 49 requests
+Version,1.0.0
+Author,UDS Simulator
+Tags,"terminal, live-session"
+
+Summary Statistics
+Total Requests,49
+Total Responses,49
+Successful Responses,33
+Negative Responses (NRC),16
+Success Rate (%),67.35
+Test Duration,48.00s
+Start Time,"12/18/2024, 1:50:00 PM"
+End Time,"12/18/2024, 1:50:48 PM"
+
+NRC Breakdown
+NRC Code,Description,Count,Percentage (%)
+0x12,Sub-Function Not Supported,4,25.00
+0x13,Incorrect Message Length,6,37.50
+0x31,Request Out of Range,6,37.50
+
+
+Test Log (Detailed Request/Response Data)
+Index,Timestamp,Request SID,Request SubFunction,Request Data,Request Description,Response SID,Response Data,Response Status,NRC Code,NRC Description,Duration (ms)
+1,"12/18/2024, 1:50:00 PM",0x10,0x01,,[SETUP] TC-00: Reset to Default Session - Clean slate for testing,0x10,50 01 00 32 01 F4,Success,,,33440842622.00
+2,"12/18/2024, 1:50:01 PM",0x83,0x03,,"[BASELINE] TC-01: Read Currently Active Timing in DEFAULT Session - Expect C3 03 01 00 32 13 88 (P2=50ms, P2*=5000ms)",0x83,C3 03 01 00 32 13 88 13 88,Success,,,33440842634.00
+3,"12/18/2024, 1:50:02 PM",0x83,0x01,,[BASELINE] TC-02: Read Extended Timing Parameter Set - Query ECU timing capabilities - Expect C3 01 01 with P2_max/P2*_max values,0x83,C3 01 01 00 32 13 88 EA 60,Success,,,33440842646.00
+4,"12/18/2024, 1:50:03 PM",0x83,0x02,01 00 C8 27 10,"[CORE] TC-03: Set Valid Timing P2=200ms (0x00C8), P2*=10000ms (0x2710) - Expect Positive Response C3 02",0x83,C3 02,Success,,,33440842925.00
+5,"12/18/2024, 1:50:04 PM",0x83,0x03,,"[CORE] TC-04: Verify Set Timing Persistence - Read Current should return P2=200ms, P2*=10000ms exactly",0x83,C3 03 01 00 C8 27 10 13 88,Success,,,33440843922.00
+6,"12/18/2024, 1:50:05 PM",0x83,0x02,01 00 19 03 E8,"[PRODUCTION] TC-05: Set Fast ECU Timing P2=25ms (0x0019), P2*=1000ms (0x03E8) - Production line optimization",0x83,C3 02,Success,,,33440844924.00
+7,"12/18/2024, 1:50:06 PM",0x83,0x03,,"[PRODUCTION] TC-06: Verify Fast Timing Applied - Read Current should return P2=25ms, P2*=1000ms",0x83,C3 03 01 00 19 03 E8 13 88,Success,,,33440845927.00
+8,"12/18/2024, 1:50:07 PM",0x83,0x02,01 01 F4 75 30,"[FLASH PREP] TC-07: Set Flash Programming Timing P2=500ms (0x01F4), P2*=30000ms (0x7530) - Required for ECU flashing",0x83,C3 02,Success,,,33440846923.00
+9,"12/18/2024, 1:50:08 PM",0x83,0x03,,"[FLASH PREP] TC-08: Verify Flash Programming Timing - Read Current should return P2=500ms, P2*=30000ms",0x83,C3 03 01 01 F4 75 30 13 88,Success,,,33440847926.00
+10,"12/18/2024, 1:50:09 PM",0x83,0x02,01 00 64 13 88,"[SLOW ECU] TC-09: Set Slow ECU Timing P2=100ms (0x0064), P2*=5000ms (0x1388) - For ECUs that frequently return NRC 0x78",0x83,C3 02,Success,,,33440848926.00
+11,"12/18/2024, 1:50:10 PM",0x83,0x03,,"[SLOW ECU] TC-10: Verify Slow ECU Timing - Expect P2=100ms, P2*=5000ms",0x83,C3 03 01 00 64 13 88 13 88,Success,,,33440849923.00
+12,"12/18/2024, 1:50:11 PM",0x83,0x04,,[NRC 0x12] TC-11: Invalid Sub-function 0x04 - Expect NRC 0x12 (Sub-function Not Supported),0x83,7F 83 12,NRC,0x12,Sub-Function Not Supported,33440850920.00
+13,"12/18/2024, 1:50:12 PM",0x83,0x00,,[NRC 0x12] TC-12: Invalid Sub-function 0x00 - Expect NRC 0x12 (Sub-function Not Supported),0x83,7F 83 12,NRC,0x12,Sub-Function Not Supported,33440851932.00
+14,"12/18/2024, 1:50:13 PM",0x83,0x7F,,[NRC 0x12] TC-13: Invalid Sub-function 0x7F (max before suppress bit) - Expect NRC 0x12,0x83,7F 83 12,NRC,0x12,Sub-Function Not Supported,33440852934.00
+15,"12/18/2024, 1:50:14 PM",0x83,0x05,,[NRC 0x12] TC-14: Invalid Sub-function 0x05 - Expect NRC 0x12,0x83,7F 83 12,NRC,0x12,Sub-Function Not Supported,33440853928.00
+16,"12/18/2024, 1:50:15 PM",0x83,0x02,01,[NRC 0x13] TC-15: Incorrect Message Length for Set - Only 1 data byte (needs 5) - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440854924.00
+17,"12/18/2024, 1:50:16 PM",0x83,0x02,01 00 32,[NRC 0x13] TC-16: Incorrect Message Length for Set - Only 3 data bytes (needs 5) - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440856920.00
+18,"12/18/2024, 1:50:17 PM",0x83,0x02,01 00 32 13,[NRC 0x13] TC-17: Incorrect Message Length for Set - Only 4 data bytes (needs 5) - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440858935.00
+19,"12/18/2024, 1:50:18 PM",0x83,0x03,FF,[NRC 0x13] TC-18: Incorrect Message Length for Read Current - Extra data byte - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440859934.00
+20,"12/18/2024, 1:50:19 PM",0x83,0x01,01 02 03,[NRC 0x13] TC-19: Incorrect Message Length for Read Extended - Extra data bytes - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440860930.00
+21,"12/18/2024, 1:50:20 PM",0x83,0x02,,[NRC 0x13] TC-20: Incorrect Message Length for Set - Zero data bytes - Expect NRC 0x13,0x83,7F 83 13,NRC,0x13,Incorrect Message Length,33440862933.00
+22,"12/18/2024, 1:50:21 PM",0x83,0x02,01 00 00 00 01,[NRC 0x31] TC-21: Out of Range - P2=0ms (below minimum 1ms) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440863932.00
+23,"12/18/2024, 1:50:22 PM",0x83,0x02,01 FF FF 00 01,[NRC 0x31] TC-22: Out of Range - P2=65535ms (above maximum 5000ms) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440864930.00
+24,"12/18/2024, 1:50:23 PM",0x83,0x02,01 13 89 00 01,[NRC 0x31] TC-23: Out of Range - P2=5001ms (just above max 5000ms) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440866924.00
+25,"12/18/2024, 1:50:24 PM",0x83,0x02,01 00 01 00 31,[NRC 0x31] TC-24: Out of Range - P2*=49ms (below minimum 50ms) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440867928.00
+26,"12/18/2024, 1:50:25 PM",0x83,0x02,01 00 64 00 32,[NRC 0x31] TC-25: Out of Range - P2*=50ms < P2=100ms (P2* must be >= P2) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440868927.00
+27,"12/18/2024, 1:50:26 PM",0x83,0x02,01 00 64 00 63,[NRC 0x31] TC-26: Out of Range - P2*=99ms < P2=100ms (boundary test) - Expect NRC 0x31,0x83,7F 83 31,NRC,0x31,Request Out of Range,33440869934.00
+28,"12/18/2024, 1:50:27 PM",0x83,0x02,01 00 64 00 64,"[BOUNDARY] TC-27: Valid Boundary - P2=100ms, P2*=100ms (P2* equals P2) - Expect Positive Response C3 02",0x83,C3 02,Success,,,33440871922.00
+29,"12/18/2024, 1:50:28 PM",0x83,0x03,,"[BOUNDARY] TC-28: Verify Boundary Values Applied - P2=100ms, P2*=100ms",0x83,C3 03 01 00 64 00 64 13 88,Success,,,33440873927.00
+30,"12/18/2024, 1:50:29 PM",0x83,0x02,01 00 01 00 32,"[BOUNDARY] TC-29: Valid Minimum - P2=1ms (absolute min), P2*=50ms (min) - Expect Positive Response",0x83,C3 02,Success,,,33440875931.00
+31,"12/18/2024, 1:50:30 PM",0x83,0x03,,"[BOUNDARY] TC-30: Verify Minimum Values Applied - P2=1ms, P2*=50ms",0x83,C3 03 01 00 01 00 32 13 88,Success,,,33440883690.00
+32,"12/18/2024, 1:50:31 PM",0x83,0x02,01 13 88 FF FF,"[BOUNDARY] TC-31: Valid Maximum - P2=5000ms (max), P2*=65535ms (max) - Expect Positive Response",0x83,C3 02,Success,,,33440883733.00
+33,"12/18/2024, 1:50:32 PM",0x83,0x03,,"[BOUNDARY] TC-32: Verify Maximum Values Applied - P2=5000ms, P2*=65535ms",0x83,C3 03 01 13 88 FF FF 13 88,Success,,,33440883783.00
+34,"12/18/2024, 1:50:33 PM",0x83,0x02,01 00 32 13 88,"[RECOVERY] TC-33: Restore Default Timing P2=50ms, P2*=5000ms after boundary tests",0x83,C3 02,Success,,,33440883824.00
+35,"12/18/2024, 1:50:34 PM",0x83,0x03,,"[RECOVERY] TC-34: Confirm Default Timing Restored - P2=50ms (0x0032), P2*=5000ms (0x1388)",0x83,C3 03 01 00 32 13 88 13 88,Success,,,33440883866.00
+36,"12/18/2024, 1:50:35 PM",0x10,0x03,,[SESSION] TC-35: Enter Extended Diagnostic Session 0x03 - Test timing across sessions,0x10,50 03 00 64 01 F4,Success,,,33440883928.00
+37,"12/18/2024, 1:50:36 PM",0x83,0x02,01 00 C8 27 10,"[SESSION] TC-36: Set Custom Timing P2=200ms, P2*=10000ms in EXTENDED Session",0x83,C3 02,Success,,,33440884326.00
+38,"12/18/2024, 1:50:37 PM",0x83,0x03,,"[SESSION] TC-37: Verify Custom Timing in EXTENDED Session - P2=200ms, P2*=10000ms",0x83,C3 03 01 00 C8 27 10 13 88,Success,,,33440884360.00
+39,"12/18/2024, 1:50:38 PM",0x10,0x01,,[SESSION CHANGE] TC-38: Switch back to DEFAULT Session - ISO 14229 states timing may reset on session change,0x10,50 01 00 32 01 F4,Success,,,33440884411.00
+40,"12/18/2024, 1:50:39 PM",0x83,0x03,,"[SESSION CHANGE] TC-39: Read Timing After Session Change - Per ISO, timing should reset to default (P2=50ms, P2*=5000ms)",0x83,C3 03 01 00 C8 27 10 13 88,Success,,,33440884434.00
+41,"12/18/2024, 1:50:40 PM",0x3E,0x00,,[TESTER PRESENT] TC-40: Send Tester Present 0x3E 0x00 - Session timeout coordination test,0x3E,00,Success,,,33440884475.00
+42,"12/18/2024, 1:50:41 PM",0x83,0x03,,[TESTER PRESENT] TC-41: Verify Timing After Tester Present - Should remain unchanged,0x83,C3 03 01 00 C8 27 10 13 88,Success,,,33440884512.00
+43,"12/18/2024, 1:50:42 PM",0x83,0x81,,[SUPPRESS] TC-42: Suppress Positive Response (0x81) for Read Extended - Expect No Response (bit 7 set),0x83,,Success,,,33440884555.00
+44,"12/18/2024, 1:50:43 PM",0x83,0x82,01 00 4B 07 D0,"[SUPPRESS] TC-43: Suppress Positive Response (0x82) for Set P2=75ms, P2*=2000ms - Expect No Response",0x83,,Success,,,33440884580.00
+45,"12/18/2024, 1:50:44 PM",0x83,0x03,,"[SUPPRESS] TC-44: Verify Suppressed Set Was Still Applied - P2=75ms, P2*=2000ms should be active",0x83,C3 03 01 00 4B 07 D0 13 88,Success,,,33440884634.00
+46,"12/18/2024, 1:50:45 PM",0x83,0x83,,[SUPPRESS] TC-45: Suppress Positive Response (0x83) for Read Current - Expect No Response,0x83,,Success,,,33440884676.00
+47,"12/18/2024, 1:50:46 PM",0x83,0x02,01 00 32 13 88,"[FINAL RECOVERY] TC-46: Final Restore to Default Timing P2=50ms, P2*=5000ms",0x83,C3 02,Success,,,33440884718.00
+48,"12/18/2024, 1:50:47 PM",0x83,0x03,,[FINAL RECOVERY] TC-47: Final Verification of Default Timing,0x83,C3 03 01 00 32 13 88 13 88,Success,,,33440884748.00
+49,"12/18/2024, 1:50:48 PM",0x10,0x01,,[CLEANUP] TC-48: Final Reset to Default Session - Suite complete,0x10,50 01 00 32 01 F4,Success,,,33440884801.00
