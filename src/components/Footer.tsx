@@ -126,6 +126,17 @@ const Footer: React.FC = () => {
                 {/* Bottom Bar */}
                 <div className="mt-12 pt-8 border-t border-dark-700/50 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
                     <p>© {currentYear} Suduli. All rights reserved.</p>
+
+                    {/* Visitor Counter */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-gray-500">Visitors:</span>
+                        <img
+                            src="https://visitor-badge.laobi.icu/badge?page_id=suduli.UDS-SIMULATION"
+                            alt="Visitor Count"
+                            className="h-5"
+                        />
+                    </div>
+
                     <p>Built with React, TypeScript & Tailwind</p>
                 </div>
             </div>

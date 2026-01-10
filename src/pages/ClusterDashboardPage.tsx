@@ -21,6 +21,7 @@ import EnhancedBackground from '../components/EnhancedBackground';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
 import DTCManagementPanel from '../components/DTCManagementPanel';
 import { useUDS, type FaultTriggers } from '../context/UDSContext';
+import Footer from '../components/Footer';
 
 // ========================================
 // TYPE DEFINITIONS
@@ -907,6 +908,9 @@ export const ClusterDashboardPage: React.FC = () => {
                         <DTCManagementPanel />
                     </div>
                 </main>
+
+                {/* Footer Section */}
+                <Footer />
             </div>
         </div>
     );

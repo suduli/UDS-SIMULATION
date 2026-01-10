@@ -15,6 +15,7 @@ import { reportAnalyzer } from '../services/ReportAnalyzer';
 import { htmlReportExporter } from '../services/HTMLReportExporter';
 import { csvExporter } from '../services/CSVExporter';
 import type { TestReport, TestAnalysisResult } from '../types/uds';
+import Footer from '../components/Footer';
 
 export const ReportAnalysisPage: React.FC = () => {
     const location = useLocation();
@@ -278,6 +279,9 @@ export const ReportAnalysisPage: React.FC = () => {
                         </div>
                     )}
                 </main>
+
+                {/* Footer Section */}
+                <Footer />
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import RequestBuilder from '../components/RequestBuilder';
 import ResponseVisualizer from '../components/ResponseVisualizer';
 import ProtocolStateDashboard from '../components/ProtocolStateDashboard';
 import { PowerSupplyDashboard } from '../components/PowerSupplyDashboard';
+import Footer from '../components/Footer';
 
 export const LearningPage: React.FC = () => {
     return (
@@ -48,6 +49,9 @@ export const LearningPage: React.FC = () => {
                         <PowerSupplyDashboard />
                     </div>
                 </main>
+
+                {/* Footer Section */}
+                <Footer />
             </div>
         </div>
     );
